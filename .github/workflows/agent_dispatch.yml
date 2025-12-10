@@ -1,0 +1,204 @@
+name: Agent Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      agent_command:
+        description: 'Agent command to execute'
+        required: true
+        default: 'healthcheck'
+        type: choice
+        options:
+          - healthcheck
+          - validate
+          - deploy
+          - rollback
+      approval_override:
+        description: 'Override approval requirement (deploy/rollback only)'
+        required: false
+        type: boolean
+        default: false
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'app/**'
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  checks: write
+
+jobs:
+  dispatch:
+    name: Execute Agent Command
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    outputs:
+      status: ${{ steps.execute.outputs.status }}
+      logs: ${{ steps.execute.outputs.logs }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Restore Dependencies
+        run: npm ci --legacy-peer-deps
+        continue-on-error: true
+
+      - name: Validate Agent Environment
+        id: validate
+        run: bash .agent/scripts/healthcheck.sh
+        continue-on-error: true
+
+      - name: Determine Command
+        id: command
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            CMD="${{ github.event.inputs.agent_command }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            CMD="deploy"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            CMD="validate"
+          else
+            CMD="healthcheck"
+          fi
+          echo "cmd=$CMD" >> $GITHUB_OUTPUT
+          echo "[Agent] Resolved command: $CMD"
+
+      - name: Check Approval Requirement
+        id: approval
+        run: |
+          CMD="${{ steps.command.outputs.cmd }}"
+          OVERRIDE="${{ github.event.inputs.approval_override }}"
+          
+          if [[ "$CMD" =~ ^(rollback|deploy)$ ]] && [ "$OVERRIDE" != "true" ]; then
+            echo "requires_approval=true" >> $GITHUB_OUTPUT
+            echo "⚠️  Command '$CMD' requires approval. This step will block until approved."
+          else
+            echo "requires_approval=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Manual Approval Gate (if required)
+        if: steps.approval.outputs.requires_approval == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const moment = require('moment');
+            
+            console.log('🔒 APPROVAL GATE ACTIVATED');
+            console.log(`Command: ${{ steps.command.outputs.cmd }}`);
+            console.log(`Requested by: ${{ github.actor }}`);
+            console.log(`Timestamp: ${new Date().toISOString()}`);
+            console.log('');
+            console.log('To proceed, a team lead must approve this workflow run in the GitHub UI.');
+
+      - name: Execute Agent Command
+        id: execute
+        run: |
+          set -e
+          CMD="${{ steps.command.outputs.cmd }}"
+          echo "[Agent] ========== COMMAND: $CMD =========="
+          
+          if [ -x ".agent/scripts/$CMD.sh" ]; then
+            bash ".agent/scripts/$CMD.sh" 2>&1 | tee ".agent/logs/$CMD.log" || RESULT=$?
+          else
+            echo "[ERROR] Script .agent/scripts/$CMD.sh not found or not executable."
+            exit 1
+          fi
+          
+          echo "status=success" >> $GITHUB_OUTPUT
+          echo "logs=$(cat .agent/logs/$CMD.log | head -50)" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Publish Execution Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-execution-logs-${{ github.run_id }}
+          path: .agent/logs/
+          retention-days: 30
+
+      - name: Update Deployment Status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const status = '${{ steps.execute.outcome }}';
+            const command = '${{ steps.command.outputs.cmd }}';
+            
+            let statusEmoji = status === 'success' ? '✅' : '❌';
+            let message = `${statusEmoji} Agent command **${command}** ${status === 'success' ? 'completed' : 'failed'}`;
+            
+            if (context.eventName === 'pull_request') {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            }
+
+      - name: Publish SLA Report (Weekly)
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.agent_command == 'sla-report')
+        run: |
+          if [ -f .agent/configs/sla.md ]; then
+            echo "📊 Publishing SLA Report..."
+            WEEK=$(date +%V)
+            YEAR=$(date +%Y)
+            
+            # Replace placeholders in SLA template
+            sed -i "s/\[AUTO-FILLED\]/Week $WEEK, $YEAR - $(date -u +%Y-%m-%d)/g" .agent/configs/sla.md
+            
+            echo "SLA Report published to .agent/configs/sla.md"
+            cat .agent/configs/sla.md
+          fi
+
+      - name: Emergency Notification (on Failure)
+        if: failure() && steps.command.outputs.cmd == 'deploy'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('🚨 DEPLOYMENT FAILURE DETECTED');
+            console.log('Emergency rollback may be required.');
+            console.log('');
+            console.log('To trigger rollback:');
+            console.log('  FORCE_ROLLBACK=true bash emergency/rollback.sh');
+
+  summary:
+    name: Agent Execution Summary
+    runs-on: ubuntu-latest
+    needs: dispatch
+    if: always()
+    steps:
+      - name: Print Summary
+        run: |
+          echo "## Agent Execution Summary"
+          echo ""
+          echo "**Status:** ${{ needs.dispatch.outputs.status }}"
+          echo ""
+          echo "**Workflow Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          echo ""
+          echo "**Triggered by:** ${{ github.event_name }}"
+          echo "**Actor:** ${{ github.actor }}"
+          echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
