@@ -47,7 +47,7 @@ export const PiAuthButton: React.FC = () => {
         onClick={login}
         className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 gap-2"
       >
-        <img src="/pi-logo.svg" alt="Pi" className="h-5 w-5" />
+        <span className="text-xl">π</span>
         Connect with Pi Network
       </Button>
       {error && (

@@ -3,7 +3,7 @@ import type { PiAuthResult, PiPayment, PiPaymentData, PiPaymentCallbacks } from 
 // Pi SDK Configuration
 const PI_CONFIG = {
   version: "2.0",
-  sandbox: process.env.NEXT_PUBLIC_PI_SANDBOX === 'true', // true for testnet, false for mainnet
+  sandbox: process.env.NEXT_PUBLIC_PI_SANDBOX === 'true' || false, // true for testnet, false for mainnet
 };
 
 // Initialize Pi SDK

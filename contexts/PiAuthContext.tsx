@@ -41,22 +41,25 @@ export const PiAuthProvider = ({ children }: { children: ReactNode }) => {
     const init = async () => {
       try {
         await initializePiSDK();
-        // Check for existing session
-        const storedToken = localStorage.getItem('oinio_jwt');
-        const storedUser = localStorage.getItem('oinio_user');
         
-        if (storedToken && storedUser) {
-          // Verify token is still valid
-          const isValid = await verifyToken(storedToken);
-          if (isValid) {
-            setAuthState({
-              isAuthenticated: true,
-              isLoading: false,
-              user: JSON.parse(storedUser),
-              jwtToken: storedToken,
-              error: null,
-            });
-            return;
+        // Check for existing session (client-side only)
+        if (typeof window !== 'undefined') {
+          const storedToken = localStorage.getItem('oinio_jwt');
+          const storedUser = localStorage.getItem('oinio_user');
+          
+          if (storedToken && storedUser) {
+            // Verify token is still valid
+            const isValid = await verifyToken(storedToken);
+            if (isValid) {
+              setAuthState({
+                isAuthenticated: true,
+                isLoading: false,
+                user: JSON.parse(storedUser),
+                jwtToken: storedToken,
+                error: null,
+              });
+              return;
+            }
           }
         }
         
@@ -126,9 +129,11 @@ export const PiAuthProvider = ({ children }: { children: ReactNode }) => {
 
       const { jwtToken, user } = await response.json();
 
-      // Step 3: Store credentials
-      localStorage.setItem('oinio_jwt', jwtToken);
-      localStorage.setItem('oinio_user', JSON.stringify(user));
+      // Step 3: Store credentials (client-side only)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('oinio_jwt', jwtToken);
+        localStorage.setItem('oinio_user', JSON.stringify(user));
+      }
 
       setAuthState({
         isAuthenticated: true,
@@ -154,8 +159,10 @@ export const PiAuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('oinio_jwt');
-    localStorage.removeItem('oinio_user');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('oinio_jwt');
+      localStorage.removeItem('oinio_user');
+    }
     
     setAuthState({
       isAuthenticated: false,

@@ -3,8 +3,8 @@ import { PiAuthProvider } from '@/contexts/PiAuthContext'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Quantum Pi Forge',
-  description: 'Pi Network Integration with Secure Authentication',
+  title: 'Quantum Pi Forge - Pi Network to Ethereum Bridge Authentication',
+  description: 'Secure Pi Network authentication system enabling users to link Pi identities to Ethereum addresses on the OINIO sovereign economy',
   icons: {
     icon: '/icon.svg',
   },
