@@ -2,27 +2,31 @@
   "name": "quantum-pi-forge-v2",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "main": "src/index.js",
-  "dependencies": {
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.454.0",
-    "react": "^18.0.0",
-    "react-dom": "latest",
-    "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
-    "next": "^13.4.10"
-  },
-  "devDependencies": {
-    "@types/node": "^22",
-    "postcss": "^8.5",
-    "typescript": "^5"
-  },
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
     "export": "next export",
     "start": "next start"
   },
-  "type": "module"
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "ethers": "^6.16.0",
+    "lucide-react": "^0.454.0",
+    "next": "^14.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "19.2.7",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5"
+  }
 }
