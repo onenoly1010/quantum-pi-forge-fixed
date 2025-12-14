@@ -1,1 +1,27 @@
-node_modules
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Environment files (SENSITIVE - NEVER COMMIT)
+.env.launch
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tsbuildinfo
