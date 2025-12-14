@@ -62,7 +62,7 @@ check_system_status() {
     
     # Check RPC connectivity
     local rpc_status
-    rpc_status=$(curl -s -m 2 -X POST "$0G_RPC_URL" \
+    rpc_status=$(curl -s -m 2 -X POST "$ZERO_G_RPC_URL" \
         -H "Content-Type: application/json" \
         -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' | grep -o '"result"' || echo "failed")
     
@@ -87,11 +87,11 @@ check_grant() {
     echo ""
     echo -e "${CYAN}🎖️  GRANT STATUS${NC}"
     echo "─────────────────────────────────────────────────────────────"
-    echo "Grant ID: $0G_GRANT_ID"
+    echo "Grant ID: $ZERO_G_GRANT_ID"
     
     # Try to get actual status
     local status
-    status=$(curl -s -m 5 -X GET "https://api.guild.0g.ai/grants/$0G_GRANT_ID" \
+    status=$(curl -s -m 5 -X GET "https://api.guild.0g.ai/grants/$ZERO_G_GRANT_ID" \
         -H "Authorization: Bearer $GUILD_API_KEY" 2>/dev/null | grep -o '"status":"[^"]*"' | cut -d'"' -f4 || echo "unknown")
     
     case "$status" in
@@ -123,9 +123,9 @@ check_configuration() {
     # Check required vars
     local required_vars=(
         "GUILD_API_KEY"
-        "0G_GRANT_ID"
+        "ZERO_G_GRANT_ID"
         "DEPLOYER_PRIVATE_KEY"
-        "0G_RPC_URL"
+        "ZERO_G_RPC_URL"
     )
     
     for var in "${required_vars[@]}"; do
@@ -198,7 +198,7 @@ display_actions() {
 
 2. Check Grant Status:
    curl -H "Authorization: Bearer $GUILD_API_KEY" \
-     "https://api.guild.0g.ai/grants/$0G_GRANT_ID"
+     "https://api.guild.0g.ai/grants/$ZERO_G_GRANT_ID"
 
 3. View Logs:
    tail -f logs/launch.log
@@ -207,7 +207,7 @@ display_actions() {
    bash scripts/deploy.sh
 
 5. Test RPC Connection:
-   curl -X POST "$0G_RPC_URL" \
+   curl -X POST "$ZERO_G_RPC_URL" \
      -H "Content-Type: application/json" \
      -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
 EOF

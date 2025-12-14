@@ -45,7 +45,7 @@ verify_config() {
     local required_vars=(
         "DEPLOYER_PRIVATE_KEY"
         "DEPLOYER_ADDRESS"
-        "0G_RPC_URL"
+        "ZERO_G_RPC_URL"
         "DEX_ROUTER_ADDRESS"
     )
     
@@ -157,7 +157,7 @@ verify_launch() {
     
     # Check RPC connectivity
     local chain_id
-    chain_id=$(curl -s -X POST "$0G_RPC_URL" \
+    chain_id=$(curl -s -X POST "$ZERO_G_RPC_URL" \
         -H "Content-Type: application/json" \
         -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' \
         | grep -o '"result":"0x[^"]*"' | cut -d'"' -f4 || echo "")
