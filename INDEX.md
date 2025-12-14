@@ -8,11 +8,28 @@
 3. **Configure:** Edit `.env.launch` with your values
 
 ### 📖 Documentation
+- **[FINAL_SPRINT_STATUS.md](FINAL_SPRINT_STATUS.md)** ⭐ **READ THIS FIRST**
+  - Current status: 95% ready
+  - Blocker: DEX router address
+  - Complete system scorecard
+  - Timeline to launch
+
 - **[LAUNCH_SETUP.md](LAUNCH_SETUP.md)** - Complete setup guide (9.7 KB)
   - Configuration steps
   - Troubleshooting
   - Security best practices
   - Pre-launch checklist
+
+- **[LAUNCH_ANNOUNCEMENTS.md](LAUNCH_ANNOUNCEMENTS.md)** - Ready-to-use templates
+  - Twitter/X threads
+  - Discord announcements
+  - Email campaigns
+  - Brand messaging guidelines
+
+- **[DISCORD_QUERY.md](DISCORD_QUERY.md)** - Community support template
+  - Pre-written message for 0G Discord
+  - DEX router inquiry
+  - Waiting for response strategy
 
 - **[SETUP_COMPLETE.md](SETUP_COMPLETE.md)** - Project status summary
   - What's been configured
@@ -35,9 +52,18 @@
   - GitHub OAuth and backend settings
 
 ### 🚀 Executable Scripts
+
+**Critical Path (Run First)**
+- **[scripts/deploy-dex.sh](scripts/deploy-dex.sh)** ⭐ **START HERE**
+  - Detects or deploys Uniswap V2 Router on 0G Aristotle
+  - Automatically updates .env.launch with router address
+  - BLOCKER RESOLUTION script
+  - Usage: `bash scripts/deploy-dex.sh`
+
+**Monitoring & Automation**
 - **[scripts/monitor-grant.sh](scripts/monitor-grant.sh)**
   - Continuous grant status monitoring
-  - Automatic deployment trigger
+  - Automatic deployment trigger on approval
   - Discord notifications
   - Usage: `bash scripts/monitor-grant.sh &`
 
@@ -47,29 +73,36 @@
   - Configuration verification
   - Usage: `bash scripts/launch-dashboard.sh`
 
+**Deployment**
 - **[scripts/deploy.sh](scripts/deploy.sh)**
-  - Flash deployment executor
+  - Flash deployment executor (3-phase)
   - Token contract deployment
   - Liquidity pool creation
-  - Usage: `bash scripts/deploy.sh`
+  - Usage: `bash scripts/deploy.sh` (auto-triggered on grant approval)
 
-## 🎯 Getting Started (5 Minutes)
+## 🎯 Getting Started (5 Minutes to Ready)
 
 ```bash
 # 1. Navigate to project
 cd /workspaces/quantum-pi-forge-fixed
 
-# 2. View quick start
-bash QUICK_START.sh
+# 2. Read current status
+cat FINAL_SPRINT_STATUS.md
 
-# 3. Edit configuration
-nano .env.launch
+# 3. Resolve DEX router (CRITICAL BLOCKER)
+bash scripts/deploy-dex.sh
 
-# 4. Start monitoring
+# 4. If router found, update configuration
 source .env.launch
+nano .env.launch  # Add remaining parameters
+
+# 5. Deploy to Vercel
+git add . && git commit -m "Ready for launch" && git push
+
+# 6. Monitor grant
 bash scripts/monitor-grant.sh &
 
-# 5. View dashboard
+# 7. View status dashboard
 bash scripts/launch-dashboard.sh
 ```
 
