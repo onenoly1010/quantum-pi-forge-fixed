@@ -53,7 +53,7 @@ check_prerequisites() {
         exit 1
     fi
     
-    if [ -z "$0G_GRANT_ID" ]; then
+    if [ -z "$ZERO_G_GRANT_ID" ]; then
         log_error "0G_GRANT_ID not set"
         exit 1
     fi
@@ -69,10 +69,10 @@ check_prerequisites() {
 
 # Check grant status from 0G Guild API
 check_grant_status() {
-    log_info "Checking grant status for ID: $0G_GRANT_ID"
+    log_info "Checking grant status for ID: $ZERO_G_GRANT_ID"
     
     local response
-    response=$(curl -s -X GET "https://api.guild.0g.ai/grants/$0G_GRANT_ID" \
+    response=$(curl -s -X GET "https://api.guild.0g.ai/grants/$ZERO_G_GRANT_ID" \
         -H "Authorization: Bearer $GUILD_API_KEY" \
         -H "Content-Type: application/json")
     
@@ -210,7 +210,7 @@ main() {
     log_info "OINIO Grant Monitoring Script"
     log_info "======================================"
     log_info "Start time: $(date)"
-    log_info "Grant ID: $0G_GRANT_ID"
+    log_info "Grant ID: $ZERO_G_GRANT_ID"
     log_info ""
     
     check_prerequisites
