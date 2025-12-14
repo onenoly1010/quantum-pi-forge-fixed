@@ -1,7 +1,7 @@
 "use client"
 
-import  from "../src/index"
+import nextConfig from "../next.config"
 
 export default function SyntheticV0PageForDeployment() {
-  return < />
+  return <nextConfig />
 }
