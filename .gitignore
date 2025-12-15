@@ -1,1 +1,33 @@
-node_modules
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Package manager files - keep only npm
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Misc
+.DS_Store
+*.pem
+.env*.local
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
