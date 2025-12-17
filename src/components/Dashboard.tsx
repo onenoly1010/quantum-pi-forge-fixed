@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import LaunchCountdown from './LaunchCountdown';
 
 interface DashboardProps {
   userAddress?: string;
@@ -90,11 +91,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">
-          Quantum Pi Forge Dashboard
+  return (">
+      <LaunchCountdown />
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-white mb-8 text-center">
+            Quantum Pi Forge Dashboard
+            Quantum Pi Forge Dashboard
         </h1>
 
         {error && (
@@ -189,6 +192,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
                 No gas fees required - transactions sponsored by Quantum Pi Forge
               </p>
             </div>
+      </div>
           </div>
         </div>
       </div>
