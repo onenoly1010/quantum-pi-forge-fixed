@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Pi Forge - Genesis Launch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen">
+  
+  <!-- Countdown Banner -->
+  <div class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-4 text-center">
+    <h2 class="text-2xl font-bold text-white mb-2">🚀 GENESIS LAUNCH COUNTDOWN</h2>
+    <div id="countdown" class="flex justify-center items-center space-x-8">
+      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
+        <div id="hours" class="text-4xl font-bold text-white">00</div>
+        <div class="text-sm text-white/80 uppercase">Hours</div>
+      </div>
+      <div class="text-3xl text-white font-bold">:</div>
+      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
+        <div id="minutes" class="text-4xl font-bold text-white">00</div>
+        <div class="text-sm text-white/80 uppercase">Minutes</div>
+      </div>
+      <div class="text-3xl text-white font-bold">:</div>
+      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
+        <div id="seconds" class="text-4xl font-bold text-white">00</div>
+        <div class="text-sm text-white/80 uppercase">Seconds</div>
+      </div>
+    </div>
+    <p class="text-white/90 mt-3">OINIO Token Launch • December 17, 2025 • 23:59:59 UTC</p>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="p-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-white mb-8 text-center">
+        Quantum Pi Forge Dashboard
+      </h1>
+
+      <div id="error" class="hidden mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200"></div>
+      <div id="success" class="hidden mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-200"></div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Wallet Connection -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <h2 class="text-2xl font-semibold text-white mb-4">Wallet Connection</h2>
+          <button id="connectBtn" onclick="connectWallet()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+            Connect MetaMask
+          </button>
+          <div id="walletInfo" class="hidden text-green-400">
+            <p class="text-lg">✅ Connected</p>
+            <p id="address" class="text-sm opacity-75 break-all"></p>
+          </div>
+        </div>
+
+        <!-- Balance -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <h2 class="text-2xl font-semibold text-white mb-4">OINIO Balance</h2>
+          <p id="balance" class="text-3xl font-bold text-yellow-400">0 OINIO</p>
+          <p class="text-sm text-white/70 mt-2">Real-time balance</p>
+        </div>
+
+        <!-- Staking -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 md:col-span-2">
+          <h2 class="text-2xl font-semibold text-white mb-4">Stake OINIO Tokens</h2>
+          <input type="number" id="stakeAmount" placeholder="Enter amount" min="0.01" max="10000" step="0.01" 
+                 class="w-full p-3 mb-4 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button onclick="stake()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+            Stake with Gasless Transaction
+          </button>
+          <p class="text-white/60 text-sm text-center mt-4">No gas fees required</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Countdown Timer
+    function updateCountdown() {
+      const target = new Date('2025-12-17T23:59:59Z');
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff > 0) {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      } else {
+        document.getElementById('countdown').innerHTML = '<div class="text-3xl text-white font-bold animate-pulse">🎉 GENESIS LAUNCH IS LIVE! 🎉</div>';
+      }
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Wallet Connection
+    let userAddress = null;
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          userAddress = accounts[0];
+          document.getElementById('connectBtn').classList.add('hidden');
+          document.getElementById('walletInfo').classList.remove('hidden');
+          document.getElementById('address').textContent = userAddress;
+          showSuccess('Wallet connected successfully!');
+        } catch (error) {
+          showError('Failed to connect wallet: ' + error.message);
+        }
+      } else {
+        showError('MetaMask not detected. Please install MetaMask.');
+      }
+    }
+
+    async function stake() {
+      const amount = document.getElementById('stakeAmount').value;
+      if (!userAddress) {
+        showError('Please connect your wallet first.');
+        return;
+      }
+      if (!amount || amount <= 0) {
+        showError('Please enter a valid amount.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/sponsor-transaction', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount, userAddress })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          showSuccess(`Staking successful! TX: ${data.txHash}`);
+          document.getElementById('stakeAmount').value = '';
+        } else {
+          showError(data.error || 'Staking failed.');
+        }
+      } catch (error) {
+        showError('Network error: ' + error.message);
+      }
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 5000);
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('success');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 5000);
+    }
+
+    // Auto-connect if previously connected
+    if (typeof window.ethereum !== 'undefined') {
+      window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+        if (accounts.length > 0) {
+          userAddress = accounts[0];
+          document.getElementById('connectBtn').classList.add('hidden');
+          document.getElementById('walletInfo').classList.remove('hidden');
+          document.getElementById('address').textContent = userAddress;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
