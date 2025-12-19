@@ -25,7 +25,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
   const checkConnection = async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' }) as string[];
         if (accounts.length > 0) {
           setIsConnected(true);
           setUserAddress(accounts[0]);
@@ -40,7 +40,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
   const connectWallet = async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
         setIsConnected(true);
         setUserAddress(accounts[0]);
         setError('');
