@@ -1,4 +1,4 @@
-// File: /workspaces/quantum-pi-forge-fixed/app/page.tsx
+// File: /home/runner/work/quantum-pi-forge-fixed/quantum-pi-forge-fixed/app/page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
