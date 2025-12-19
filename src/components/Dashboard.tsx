@@ -26,7 +26,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length > 0) {
+        if (accounts && Array.isArray(accounts) && accounts.length > 0) {
           setIsConnected(true);
           setUserAddress(accounts[0]);
           setBalance(propBalance || '0');
@@ -41,9 +41,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        setIsConnected(true);
-        setUserAddress(accounts[0]);
-        setError('');
+        if (accounts && Array.isArray(accounts) && accounts.length > 0) {
+          setIsConnected(true);
+          setUserAddress(accounts[0]);
+          setError('');
+        }
       } catch (error) {
         console.error('Error connecting wallet:', error);
         setError('Failed to connect wallet. Please try again.');
