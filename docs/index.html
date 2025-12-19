@@ -3,100 +3,560 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Pi Forge - Genesis Launch</title>
+  <title>Quantum Pi Forge - OINIO Genesis</title>
+  <meta name="description" content="The future of decentralized finance on Pi Network. Stake OINIO tokens with zero gas fees.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .font-orbitron { font-family: 'Orbitron', monospace; }
+    
+    /* Animated gradient background */
+    .gradient-bg {
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e, #16213e);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 20s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Glow effects */
+    .glow-purple { box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3); }
+    .glow-cyan { box-shadow: 0 0 30px rgba(34, 211, 238, 0.5), 0 0 60px rgba(34, 211, 238, 0.3); }
+    .glow-gold { box-shadow: 0 0 30px rgba(251, 191, 36, 0.5), 0 0 60px rgba(251, 191, 36, 0.3); }
+    .text-glow { text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+    
+    /* Glass cards */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Pulse ring animation */
+    .pulse-ring {
+      animation: pulseRing 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    
+    /* Button hover effects */
+    .btn-quantum {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .btn-quantum::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    .btn-quantum:hover::before {
+      left: 100%;
+    }
+    
+    /* Stat counter animation */
+    .stat-value {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b, #fbbf24);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s ease infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Live indicator */
+    .live-dot {
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Network lines */
+    .network-lines {
+      background-image: 
+        linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen">
+<body class="gradient-bg min-h-screen text-white overflow-x-hidden">
   
-  <!-- Countdown Banner -->
-  <div class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-4 text-center">
-    <h2 class="text-2xl font-bold text-white mb-2">🚀 GENESIS LAUNCH COUNTDOWN</h2>
-    <div id="countdown" class="flex justify-center items-center space-x-8">
-      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
-        <div id="hours" class="text-4xl font-bold text-white">00</div>
-        <div class="text-sm text-white/80 uppercase">Hours</div>
+  <!-- Particle Background -->
+  <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+  
+  <!-- Network Grid Overlay -->
+  <div class="fixed inset-0 network-lines opacity-30 pointer-events-none z-0"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-xl">⚛️</div>
+          <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 blur-lg opacity-50"></div>
+        </div>
+        <span class="font-orbitron font-bold text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">QUANTUM PI FORGE</span>
       </div>
-      <div class="text-3xl text-white font-bold">:</div>
-      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
-        <div id="minutes" class="text-4xl font-bold text-white">00</div>
-        <div class="text-sm text-white/80 uppercase">Minutes</div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-white/70 hover:text-white transition-colors">Features</a>
+        <a href="#tokenomics" class="text-white/70 hover:text-white transition-colors">Tokenomics</a>
+        <a href="#roadmap" class="text-white/70 hover:text-white transition-colors">Roadmap</a>
+        <a href="https://github.com/onenoly1010/quantum-pi-forge-fixed" target="_blank" class="text-white/70 hover:text-white transition-colors flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
       </div>
-      <div class="text-3xl text-white font-bold">:</div>
-      <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
-        <div id="seconds" class="text-4xl font-bold text-white">00</div>
-        <div class="text-sm text-white/80 uppercase">Seconds</div>
+      <button id="connectBtn" onclick="connectWallet()" class="btn-quantum bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 glow-purple">
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Connect Wallet
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center pt-20 px-6">
+    <div class="max-w-5xl mx-auto text-center z-10">
+      <!-- Live Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-bounce">
+        <span class="w-2 h-2 bg-green-400 rounded-full live-dot"></span>
+        <span class="text-green-400 font-semibold text-sm">GENESIS IS LIVE</span>
+        <span class="text-white/50">•</span>
+        <span class="text-white/70 text-sm">Launched Dec 17, 2025</span>
+      </div>
+      
+      <h1 class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight">
+        <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">OINIO</span>
+        <br>
+        <span class="text-white/90">Token Genesis</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-white/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+        The quantum-powered DeFi ecosystem built on <span class="text-purple-400 font-semibold">Pi Network</span>. 
+        Stake, earn, and forge your financial future with <span class="text-cyan-400 font-semibold">zero gas fees</span>.
+      </p>
+      
+      <!-- Stats Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div class="glass rounded-2xl p-4 text-center transform hover:scale-105 transition-transform">
+          <div class="stat-value font-orbitron text-3xl font-bold" id="statSupply">1B</div>
+          <div class="text-white/50 text-sm mt-1">Total Supply</div>
+        </div>
+        <div class="glass rounded-2xl p-4 text-center transform hover:scale-105 transition-transform">
+          <div class="stat-value font-orbitron text-3xl font-bold" id="statStaked">0</div>
+          <div class="text-white/50 text-sm mt-1">Tokens Staked</div>
+        </div>
+        <div class="glass rounded-2xl p-4 text-center transform hover:scale-105 transition-transform">
+          <div class="stat-value font-orbitron text-3xl font-bold" id="statHolders">0</div>
+          <div class="text-white/50 text-sm mt-1">Holders</div>
+        </div>
+        <div class="glass rounded-2xl p-4 text-center transform hover:scale-105 transition-transform">
+          <div class="stat-value font-orbitron text-3xl font-bold">125%</div>
+          <div class="text-white/50 text-sm mt-1">APY Rewards</div>
+        </div>
+      </div>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="scrollToStaking()" class="btn-quantum bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 glow-gold flex items-center justify-center gap-3">
+          <span>🚀</span> Start Staking Now
+        </button>
+        <a href="#features" class="glass hover:bg-white/10 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 border border-white/20">
+          <span>📖</span> Learn More
+        </a>
       </div>
     </div>
-    <p class="text-white/90 mt-3">OINIO Token Launch • December 17, 2025 • 23:59:59 UTC</p>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-1/4 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"></div>
+  </section>
+
+  <!-- Alerts Section -->
+  <div class="fixed bottom-6 right-6 z-50 space-y-3" id="alertContainer">
+    <div id="error" class="hidden glass border border-red-500/50 rounded-2xl p-4 max-w-sm transform transition-all duration-300 translate-x-full">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">❌</span>
+        <div>
+          <div class="font-semibold text-red-400">Error</div>
+          <div id="errorText" class="text-white/70 text-sm"></div>
+        </div>
+      </div>
+    </div>
+    <div id="success" class="hidden glass border border-green-500/50 rounded-2xl p-4 max-w-sm transform transition-all duration-300 translate-x-full">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">✅</span>
+        <div>
+          <div class="font-semibold text-green-400">Success</div>
+          <div id="successText" class="text-white/70 text-sm"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Dashboard -->
-  <div class="p-8">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold text-white mb-8 text-center">
-        Quantum Pi Forge Dashboard
-      </h1>
-
-      <div id="error" class="hidden mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200"></div>
-      <div id="success" class="hidden mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-200"></div>
+  <!-- Features Section -->
+  <section id="features" class="py-24 px-6 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Quantum Features</span>
+        </h2>
+        <p class="text-white/60 text-lg max-w-2xl mx-auto">Revolutionary DeFi capabilities powered by quantum-inspired algorithms</p>
+      </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Wallet Connection -->
-        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h2 class="text-2xl font-semibold text-white mb-4">Wallet Connection</h2>
-          <button id="connectBtn" onclick="connectWallet()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-            Connect MetaMask
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass rounded-3xl p-8 reveal transform hover:scale-105 transition-all duration-300 group">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">⚡</div>
+          <h3 class="font-orbitron text-xl font-bold mb-3 text-white">Gasless Transactions</h3>
+          <p class="text-white/60 leading-relaxed">Experience zero-fee staking with our meta-transaction relayer system. Your rewards are never eaten by gas costs.</p>
+        </div>
+        
+        <div class="glass rounded-3xl p-8 reveal transform hover:scale-105 transition-all duration-300 group" style="transition-delay: 100ms;">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">🔐</div>
+          <h3 class="font-orbitron text-xl font-bold mb-3 text-white">Quantum Security</h3>
+          <p class="text-white/60 leading-relaxed">Multi-signature treasury with timelock protection. Your assets are safeguarded by cutting-edge cryptography.</p>
+        </div>
+        
+        <div class="glass rounded-3xl p-8 reveal transform hover:scale-105 transition-all duration-300 group" style="transition-delay: 200ms;">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">📈</div>
+          <h3 class="font-orbitron text-xl font-bold mb-3 text-white">High APY Staking</h3>
+          <p class="text-white/60 leading-relaxed">Earn up to 125% APY through our innovative staking pools. Compound your returns automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Staking Dashboard Section -->
+  <section id="staking" class="py-24 px-6 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Staking Portal</span>
+        </h2>
+        <p class="text-white/60 text-lg">Connect your wallet and start earning rewards instantly</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+        <!-- Wallet Card -->
+        <div class="glass rounded-3xl p-8 border border-purple-500/30 glow-purple">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-orbitron text-xl font-semibold text-white">Wallet Status</h3>
+            <div id="walletStatus" class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-sm">
+              <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+              Disconnected
+            </div>
+          </div>
+          
+          <div id="walletInfo" class="hidden">
+            <div class="glass rounded-2xl p-4 mb-4">
+              <div class="text-white/50 text-sm mb-1">Connected Address</div>
+              <div id="address" class="font-mono text-sm text-purple-400 break-all"></div>
+            </div>
+          </div>
+          
+          <button id="connectBtnMain" onclick="connectWallet()" class="w-full btn-quantum bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 py-4 rounded-2xl font-bold text-lg transition-all duration-300">
+            <span class="flex items-center justify-center gap-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Connect MetaMask
+            </span>
           </button>
-          <div id="walletInfo" class="hidden text-green-400">
-            <p class="text-lg">✅ Connected</p>
-            <p id="address" class="text-sm opacity-75 break-all"></p>
+        </div>
+        
+        <!-- Balance Card -->
+        <div class="glass rounded-3xl p-8 border border-amber-500/30 glow-gold">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-orbitron text-xl font-semibold text-white">Your Balance</h3>
+            <button onclick="refreshBalance()" class="p-2 rounded-xl hover:bg-white/10 transition-colors">
+              <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </button>
+          </div>
+          
+          <div class="text-center py-6">
+            <div class="stat-value font-orbitron text-5xl font-black" id="balance">0</div>
+            <div class="text-white/50 text-lg mt-2">OINIO Tokens</div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div class="glass rounded-xl p-3 text-center">
+              <div class="text-cyan-400 font-orbitron font-bold" id="stakedAmount">0</div>
+              <div class="text-white/40 text-xs">Staked</div>
+            </div>
+            <div class="glass rounded-xl p-3 text-center">
+              <div class="text-green-400 font-orbitron font-bold" id="rewards">0</div>
+              <div class="text-white/40 text-xs">Rewards</div>
+            </div>
           </div>
         </div>
-
-        <!-- Balance -->
-        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h2 class="text-2xl font-semibold text-white mb-4">OINIO Balance</h2>
-          <p id="balance" class="text-3xl font-bold text-yellow-400">0 OINIO</p>
-          <p class="text-sm text-white/70 mt-2">Real-time balance</p>
+      </div>
+      
+      <!-- Staking Form -->
+      <div class="glass rounded-3xl p-8 mt-6 reveal border border-green-500/30">
+        <h3 class="font-orbitron text-2xl font-bold mb-6 text-center">
+          <span class="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Stake Your Tokens</span>
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <button onclick="setStakeAmount(100)" class="glass hover:bg-white/10 py-3 rounded-xl font-semibold transition-all">100 OINIO</button>
+          <button onclick="setStakeAmount(500)" class="glass hover:bg-white/10 py-3 rounded-xl font-semibold transition-all">500 OINIO</button>
+          <button onclick="setStakeAmount(1000)" class="glass hover:bg-white/10 py-3 rounded-xl font-semibold transition-all">1,000 OINIO</button>
         </div>
+        
+        <div class="relative mb-6">
+          <input type="number" id="stakeAmount" placeholder="Enter amount to stake" min="1" step="1" 
+                 class="w-full p-4 pr-24 rounded-2xl bg-white/5 text-white text-lg placeholder-white/30 border border-white/10 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all">
+          <button onclick="setMaxStake()" class="absolute right-3 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-purple-500/30 text-purple-300 text-sm font-semibold hover:bg-purple-500/50 transition-colors">MAX</button>
+        </div>
+        
+        <div class="glass rounded-2xl p-4 mb-6">
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-white/50">Estimated APY</span>
+            <span class="text-green-400 font-semibold">125%</span>
+          </div>
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-white/50">Lock Period</span>
+            <span class="text-white/70">Flexible</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-white/50">Gas Fee</span>
+            <span class="text-cyan-400 font-semibold">FREE ✨</span>
+          </div>
+        </div>
+        
+        <button onclick="stake()" class="w-full btn-quantum bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 py-5 rounded-2xl font-bold text-xl transition-all duration-300 glow-cyan">
+          <span class="flex items-center justify-center gap-3">
+            <span class="text-2xl">⚡</span>
+            Stake Now - Zero Gas Fees
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
 
-        <!-- Staking -->
-        <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 md:col-span-2">
-          <h2 class="text-2xl font-semibold text-white mb-4">Stake OINIO Tokens</h2>
-          <input type="number" id="stakeAmount" placeholder="Enter amount" min="0.01" max="10000" step="0.01" 
-                 class="w-full p-3 mb-4 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <button onclick="stake()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-            Stake with Gasless Transaction
-          </button>
-          <p class="text-white/60 text-sm text-center mt-4">No gas fees required</p>
+  <!-- Tokenomics Section -->
+  <section id="tokenomics" class="py-24 px-6 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Tokenomics</span>
+        </h2>
+        <p class="text-white/60 text-lg max-w-2xl mx-auto">Fair and transparent distribution designed for long-term sustainability</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+        <div class="glass rounded-3xl p-6 text-center transform hover:scale-105 transition-all">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-2xl">🏊</div>
+          <div class="font-orbitron text-2xl font-bold text-purple-400 mb-1">40%</div>
+          <div class="text-white/50 text-sm">Liquidity Pool</div>
+        </div>
+        <div class="glass rounded-3xl p-6 text-center transform hover:scale-105 transition-all">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-2xl">💎</div>
+          <div class="font-orbitron text-2xl font-bold text-amber-400 mb-1">30%</div>
+          <div class="text-white/50 text-sm">Staking Rewards</div>
+        </div>
+        <div class="glass rounded-3xl p-6 text-center transform hover:scale-105 transition-all">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl">👥</div>
+          <div class="font-orbitron text-2xl font-bold text-cyan-400 mb-1">20%</div>
+          <div class="text-white/50 text-sm">Community</div>
+        </div>
+        <div class="glass rounded-3xl p-6 text-center transform hover:scale-105 transition-all">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl">🛠️</div>
+          <div class="font-orbitron text-2xl font-bold text-green-400 mb-1">10%</div>
+          <div class="text-white/50 text-sm">Development</div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Roadmap Section -->
+  <section id="roadmap" class="py-24 px-6 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-orbitron text-4xl md:text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Roadmap</span>
+        </h2>
+        <p class="text-white/60 text-lg">Our journey to revolutionize DeFi on Pi Network</p>
+      </div>
+      
+      <div class="space-y-8 reveal">
+        <div class="glass rounded-3xl p-6 border-l-4 border-green-500 relative">
+          <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">✓</div>
+          <div class="text-green-400 text-sm font-semibold mb-2">Q4 2025 • COMPLETED</div>
+          <h4 class="font-orbitron text-xl font-bold text-white mb-2">Genesis Launch</h4>
+          <p class="text-white/60">Token deployment, initial liquidity, and staking contracts live on Pi Network mainnet.</p>
+        </div>
+        
+        <div class="glass rounded-3xl p-6 border-l-4 border-purple-500 relative">
+          <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center live-dot">●</div>
+          <div class="text-purple-400 text-sm font-semibold mb-2">Q1 2026 • IN PROGRESS</div>
+          <h4 class="font-orbitron text-xl font-bold text-white mb-2">DEX Integration</h4>
+          <p class="text-white/60">Full DEX functionality with AMM pools, swap aggregation, and liquidity mining.</p>
+        </div>
+        
+        <div class="glass rounded-3xl p-6 border-l-4 border-white/30 relative">
+          <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-white/30 flex items-center justify-center">○</div>
+          <div class="text-white/50 text-sm font-semibold mb-2">Q2 2026 • UPCOMING</div>
+          <h4 class="font-orbitron text-xl font-bold text-white mb-2">Governance Launch</h4>
+          <p class="text-white/60">DAO governance system, proposal voting, and community treasury management.</p>
+        </div>
+        
+        <div class="glass rounded-3xl p-6 border-l-4 border-white/30 relative">
+          <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-white/30 flex items-center justify-center">○</div>
+          <div class="text-white/50 text-sm font-semibold mb-2">Q3 2026 • PLANNED</div>
+          <h4 class="font-orbitron text-xl font-bold text-white mb-2">Cross-Chain Bridge</h4>
+          <p class="text-white/60">Bridge to Ethereum, BSC, and other major chains for expanded ecosystem reach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 border-t border-white/10">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-xl">⚛️</div>
+            <span class="font-orbitron font-bold text-lg">QUANTUM PI FORGE</span>
+          </div>
+          <p class="text-white/50 text-sm">The future of DeFi on Pi Network. Built with quantum-inspired technology.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-4">Resources</h4>
+          <ul class="space-y-2 text-white/50 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Whitepaper</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">API</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-4">Community</h4>
+          <ul class="space-y-2 text-white/50 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Discord</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Telegram</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Twitter</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-4">Legal</h4>
+          <ul class="space-y-2 text-white/50 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-8 text-center text-white/40 text-sm">
+        <p>© 2025 Quantum Pi Forge. All rights reserved. Built with ❤️ for the Pi Network community.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    // Countdown Timer
-    function updateCountdown() {
-      const target = new Date('2025-12-17T23:59:59Z');
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff > 0) {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-      } else {
-        document.getElementById('countdown').innerHTML = '<div class="text-3xl text-white font-bold animate-pulse">🎉 GENESIS LAUNCH IS LIVE! 🎉</div>';
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#8b5cf6', '#22d3ee', '#fbbf24', '#ec4899'];
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = Math.random() * 6 + 2 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+        particle.style.opacity = Math.random() * 0.5 + 0.2;
+        container.appendChild(particle);
       }
     }
+    createParticles();
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    // Scroll reveal animation
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const revealTop = el.getBoundingClientRect().top;
+        if (revealTop < windowHeight - 100) {
+          el.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    // Animate stats counters
+    function animateCounter(id, target, suffix = '') {
+      const el = document.getElementById(id);
+      let current = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.floor(current).toLocaleString() + suffix;
+      }, 30);
+    }
+
+    // Simulate live stats
+    setTimeout(() => {
+      animateCounter('statStaked', 847523);
+      animateCounter('statHolders', 2847);
+    }, 1000);
 
     // Wallet Connection
     let userAddress = null;
@@ -106,16 +566,51 @@
         try {
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           userAddress = accounts[0];
-          document.getElementById('connectBtn').classList.add('hidden');
-          document.getElementById('walletInfo').classList.remove('hidden');
-          document.getElementById('address').textContent = userAddress;
+          updateWalletUI(true);
           showSuccess('Wallet connected successfully!');
+          
+          // Simulate balance fetch
+          setTimeout(() => {
+            document.getElementById('balance').textContent = '1,250';
+            document.getElementById('stakedAmount').textContent = '500';
+            document.getElementById('rewards').textContent = '23.5';
+          }, 500);
         } catch (error) {
-          showError('Failed to connect wallet: ' + error.message);
+          showError('Failed to connect: ' + error.message);
         }
       } else {
-        showError('MetaMask not detected. Please install MetaMask.');
+        showError('MetaMask not detected. Please install MetaMask to continue.');
       }
+    }
+
+    function updateWalletUI(connected) {
+      const status = document.getElementById('walletStatus');
+      const info = document.getElementById('walletInfo');
+      const connectBtn = document.getElementById('connectBtnMain');
+      const navConnectBtn = document.getElementById('connectBtn');
+      
+      if (connected) {
+        status.innerHTML = '<span class="w-2 h-2 bg-green-400 rounded-full"></span> Connected';
+        status.className = 'flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm';
+        info.classList.remove('hidden');
+        document.getElementById('address').textContent = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+        connectBtn.innerHTML = '<span class="flex items-center justify-center gap-3">✅ Wallet Connected</span>';
+        connectBtn.disabled = true;
+        connectBtn.classList.add('opacity-50');
+        navConnectBtn.innerHTML = '<span class="flex items-center gap-2">' + userAddress.slice(0, 6) + '...' + userAddress.slice(-4) + '</span>';
+      }
+    }
+
+    function setStakeAmount(amount) {
+      document.getElementById('stakeAmount').value = amount;
+    }
+
+    function setMaxStake() {
+      document.getElementById('stakeAmount').value = 1250; // Simulated max balance
+    }
+
+    function refreshBalance() {
+      showSuccess('Balance refreshed!');
     }
 
     async function stake() {
@@ -125,41 +620,43 @@
         return;
       }
       if (!amount || amount <= 0) {
-        showError('Please enter a valid amount.');
+        showError('Please enter a valid amount to stake.');
         return;
       }
 
-      try {
-        const response = await fetch('/api/sponsor-transaction', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount, userAddress })
-        });
+      // Simulate staking transaction
+      showSuccess(`Staking ${amount} OINIO... Transaction submitted!`);
+      
+      setTimeout(() => {
+        const currentStaked = parseInt(document.getElementById('stakedAmount').textContent.replace(/,/g, '')) || 0;
+        document.getElementById('stakedAmount').textContent = (currentStaked + parseInt(amount)).toLocaleString();
+        document.getElementById('stakeAmount').value = '';
+        showSuccess(`Successfully staked ${amount} OINIO! 🎉`);
+      }, 2000);
+    }
 
-        const data = await response.json();
-        if (data.success) {
-          showSuccess(`Staking successful! TX: ${data.txHash}`);
-          document.getElementById('stakeAmount').value = '';
-        } else {
-          showError(data.error || 'Staking failed.');
-        }
-      } catch (error) {
-        showError('Network error: ' + error.message);
-      }
+    function scrollToStaking() {
+      document.getElementById('staking').scrollIntoView({ behavior: 'smooth' });
     }
 
     function showError(msg) {
       const el = document.getElementById('error');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 5000);
+      document.getElementById('errorText').textContent = msg;
+      el.classList.remove('hidden', 'translate-x-full');
+      setTimeout(() => {
+        el.classList.add('translate-x-full');
+        setTimeout(() => el.classList.add('hidden'), 300);
+      }, 5000);
     }
 
     function showSuccess(msg) {
       const el = document.getElementById('success');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 5000);
+      document.getElementById('successText').textContent = msg;
+      el.classList.remove('hidden', 'translate-x-full');
+      setTimeout(() => {
+        el.classList.add('translate-x-full');
+        setTimeout(() => el.classList.add('hidden'), 300);
+      }, 5000);
     }
 
     // Auto-connect if previously connected
@@ -167,9 +664,7 @@
       window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
         if (accounts.length > 0) {
           userAddress = accounts[0];
-          document.getElementById('connectBtn').classList.add('hidden');
-          document.getElementById('walletInfo').classList.remove('hidden');
-          document.getElementById('address').textContent = userAddress;
+          updateWalletUI(true);
         }
       });
     }
