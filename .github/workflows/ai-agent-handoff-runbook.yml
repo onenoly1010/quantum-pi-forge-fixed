@@ -112,7 +112,12 @@ jobs:
       - name: Install Dependencies
         run: |
           echo "📦 Installing dependencies..."
-          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          if [ -f "package-lock.json" ]; then
+            npm ci --legacy-peer-deps
+          else
+            echo "⚠️ No package-lock.json found, using npm install"
+            npm install --legacy-peer-deps
+          fi
         continue-on-error: true
 
       - name: Build Application
@@ -183,8 +188,16 @@ jobs:
           
           TAG="deployment-$(date +%Y%m%d-%H%M%S)"
           git tag -a "$TAG" -m "Deployment at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git push origin "$TAG" || echo "⚠️ Could not push tag (may not have permissions)"
-          echo "📌 Tagged as: $TAG"
+          
+          if ! git push origin "$TAG"; then
+            echo "⚠️ Could not push tag. This may be due to:"
+            echo "  - Missing write permissions on the repository"
+            echo "  - GITHUB_TOKEN not having sufficient permissions"
+            echo "  - Protected tags configuration"
+            echo "  Tag created locally: $TAG"
+          else
+            echo "📌 Tagged as: $TAG"
+          fi
 
   monitoring:
     name: 📊 Monitoring
@@ -205,18 +218,24 @@ jobs:
         run: |
           echo "🔍 Checking service health..."
           
-          # Simulate health checks (replace with actual health check logic)
-          # In production, these would be actual HTTP requests to the services
+          # TODO: Implement actual HTTP health checks to service endpoints
+          # Example for production:
+          # FASTAPI_STATUS=$(curl -f -s http://service-url:8000/health && echo "healthy" || echo "down")
+          # FLASK_STATUS=$(curl -f -s http://service-url:5000/health && echo "healthy" || echo "down")
+          # GRADIO_STATUS=$(curl -f -s http://service-url:7860/health && echo "healthy" || echo "down")
           
-          # For now, simulate based on previous deployment status
+          # For now, simulate health checks based on deployment status
+          # This should be replaced with actual health check endpoints in production
           if [ "${{ needs.ci-pipeline.outputs.build_status }}" = "success" ]; then
             FASTAPI_STATUS="healthy"
             FLASK_STATUS="healthy"
             GRADIO_STATUS="healthy"
+            echo "ℹ️ Simulated health check: All services marked as healthy based on successful build"
           else
             FASTAPI_STATUS="degraded"
             FLASK_STATUS="degraded"
             GRADIO_STATUS="degraded"
+            echo "⚠️ Simulated health check: Services marked as degraded due to build issues"
           fi
           
           echo "fastapi=$FASTAPI_STATUS" >> $GITHUB_OUTPUT
@@ -510,8 +529,10 @@ jobs:
             MESSAGE="⚠️ *Warning* - System status: $STATUS"
           fi
           
-          echo "Would send to Slack: $MESSAGE"
-          # curl -X POST ${{ vars.SLACK_WEBHOOK_URL }} -H 'Content-Type: application/json' -d "{\"text\":\"$MESSAGE\"}"
+          echo "📢 Notification prepared: $MESSAGE"
+          # TODO: Enable Slack notifications by uncommenting and setting SLACK_WEBHOOK_URL variable
+          # Uncomment the line below when webhook URL is configured:
+          # curl -X POST "${{ vars.SLACK_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d "{\"text\":\"$MESSAGE\"}"
 
       - name: Discord Notification
         if: vars.DISCORD_WEBHOOK_URL != ''
@@ -527,5 +548,7 @@ jobs:
             MESSAGE="⚠️ **Warning** - System status: $STATUS"
           fi
           
-          echo "Would send to Discord: $MESSAGE"
-          # curl -X POST ${{ vars.DISCORD_WEBHOOK_URL }} -H 'Content-Type: application/json' -d "{\"content\":\"$MESSAGE\"}"
+          echo "📢 Notification prepared: $MESSAGE"
+          # TODO: Enable Discord notifications by uncommenting and setting DISCORD_WEBHOOK_URL variable
+          # Uncomment the line below when webhook URL is configured:
+          # curl -X POST "${{ vars.DISCORD_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d "{\"content\":\"$MESSAGE\"}"
