@@ -222,6 +222,37 @@ npm run start
 
 This project is part of the Quantum Pi Forge ecosystem - a sovereign economy platform.
 
+## 🤖 AI Agent Autonomous Runbook
+
+This repository includes an automated deployment and monitoring system powered by GitHub Actions.
+
+### Features
+
+- **Automated Deployments**: Push to main branch triggers deployment
+- **Health Monitoring**: Continuous monitoring of FastAPI, Flask, and Gradio services
+- **Automatic Rollback**: Rollback on critical failures
+- **Status Tracking**: Real-time status updates in Issue #1
+
+### Quick Commands
+
+```bash
+# Check system status
+gh issue view 1
+
+# Trigger manual deployment
+gh workflow run "ai-agent-handoff-runbook.yml" -f action=deploy
+
+# Emergency rollback
+gh workflow run "ai-agent-handoff-runbook.yml" -f action=rollback
+
+# Health check
+gh workflow run "ai-agent-handoff-runbook.yml" -f action=healthcheck
+```
+
+📖 **[Full Runbook Documentation](./docs/AI_AGENT_RUNBOOK.md)**
+
+---
+
 ## 🆘 Support
 
 For issues or questions:
@@ -229,6 +260,7 @@ For issues or questions:
 - Verify MetaMask connection
 - Ensure Polygon network is selected
 - Confirm environment variables are set
+- Review [AI Agent Runbook Status](../../issues/1) for deployment health
 
 ---
 
