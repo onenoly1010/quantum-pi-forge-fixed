@@ -487,14 +487,20 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 labels: 'ai-agent,automated,runbook',
-                state: 'open'
+                state: 'open',
+                sort: 'created',
+                direction: 'asc'
               });
               
-              let statusIssue;
               if (existingIssues && existingIssues.length > 0) {
-                // Found existing status issue, use the first one
-                statusIssue = existingIssues[0];
+                // Found existing status issue(s), use the oldest one
+                const statusIssue = existingIssues[0];
                 console.log(`Found existing status issue #${statusIssue.number}`);
+                
+                // If multiple status issues exist, log a warning
+                if (existingIssues.length > 1) {
+                  console.warn(`⚠️ Found ${existingIssues.length} status issues. Using the oldest (#${statusIssue.number}). Consider closing duplicate issues.`);
+                }
                 
                 // Update the existing issue
                 await github.rest.issues.update({
