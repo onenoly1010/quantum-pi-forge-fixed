@@ -42,7 +42,6 @@ permissions:
   checks: read
 
 env:
-  STATUS_ISSUE_NUMBER: 1
   FASTAPI_PORT: 8000
   FLASK_PORT: 5000
   GRADIO_PORT: 7860
@@ -381,8 +380,6 @@ jobs:
 
       - name: Update Status Issue
         uses: actions/github-script@v7
-        env:
-          STATUS_ISSUE_NUMBER: ${{ env.STATUS_ISSUE_NUMBER }}
         with:
           script: |
             const timestamp = new Date().toISOString();
@@ -484,28 +481,45 @@ jobs:
             *Workflow: <a href="${runUrl}">AI Agent Handoff &amp; Autonomous Runbook</a>*`;
 
             try {
-              // Try to update existing issue
-              await github.rest.issues.update({
+              // Search for existing status issue by label
+              console.log('Searching for existing status issue...');
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: parseInt(process.env.STATUS_ISSUE_NUMBER, 10),
-                body: issueBody
+                labels: 'ai-agent,automated,runbook',
+                state: 'open'
               });
-              console.log('✅ Status issue updated successfully');
-            } catch (error) {
-              if (error.status === 404) {
-                // Issue doesn't exist, create it
-                await github.rest.issues.create({
+              
+              let statusIssue;
+              if (existingIssues && existingIssues.length > 0) {
+                // Found existing status issue, use the first one
+                statusIssue = existingIssues[0];
+                console.log(`Found existing status issue #${statusIssue.number}`);
+                
+                // Update the existing issue
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: statusIssue.number,
+                  body: issueBody
+                });
+                console.log('✅ Status issue updated successfully');
+              } else {
+                // No existing status issue found, create a new one
+                console.log('No status issue found, creating new one...');
+                const { data: newIssue } = await github.rest.issues.create({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   title: '🤖 AI Agent Autonomous Runbook Status',
                   body: issueBody,
                   labels: ['ai-agent', 'automated', 'runbook']
                 });
-                console.log('✅ Status issue created successfully');
-              } else {
-                throw error;
+                console.log(`✅ Status issue created successfully as #${newIssue.number}`);
               }
+            } catch (error) {
+              console.error('❌ Error updating/creating status issue:', error.message);
+              console.error('Error details:', error);
+              throw error;
             }
 
   notify:
