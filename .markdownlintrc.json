@@ -1,0 +1,12 @@
+{
+  "extends": "default",
+  "rules": {
+    "MD022": false,
+    "MD031": false,
+    "MD032": false,
+    "MD034": false,
+    "MD040": false,
+    "line-length": false,
+    "no-bare-urls": false
+  }
+}
