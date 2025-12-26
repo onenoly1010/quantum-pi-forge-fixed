@@ -41,11 +41,26 @@ done
 echo ""
 echo "Checking for project-related processes..."
 
-# Look for common process patterns
-pkill -f "next.*dev" 2>/dev/null && echo "✓ Stopped Next.js dev server" || echo "No Next.js dev server running"
-pkill -f "fastapi" 2>/dev/null && echo "✓ Stopped FastAPI services" || echo "No FastAPI services running"
-pkill -f "flask.*run" 2>/dev/null && echo "✓ Stopped Flask services" || echo "No Flask services running"
-pkill -f "gradio" 2>/dev/null && echo "✓ Stopped Gradio services" || echo "No Gradio services running"
+# Get the repository name or project identifier
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+REPO_NAME="$(basename "$REPO_DIR")"
+
+# Look for processes running from this repository directory
+# This is safer than broad pattern matching
+echo "Searching for processes in $REPO_DIR..."
+
+# Find and stop Next.js processes for this project
+if pgrep -f "node.*next.*$REPO_NAME" > /dev/null 2>&1; then
+    pkill -f "node.*next.*$REPO_NAME" 2>/dev/null && echo "✓ Stopped Next.js dev server" || echo "Failed to stop Next.js"
+else
+    echo "No Next.js dev server running for this project"
+fi
+
+# Note: More specific patterns should be used in production
+# For now, we'll warn instead of blindly killing processes
+echo ""
+echo "⚠️  For production use, configure specific service identifiers"
+echo "⚠️  Current implementation targets only processes in: $REPO_NAME"
 
 echo ""
 echo -e "${GREEN}✅ Emergency stop completed${NC}"

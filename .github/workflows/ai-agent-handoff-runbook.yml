@@ -88,8 +88,11 @@ jobs:
       - name: Build Project
         id: build
         run: |
-          npm run build || echo "status=failure" >> $GITHUB_OUTPUT
-          echo "status=success" >> $GITHUB_OUTPUT
+          if npm run build; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
         continue-on-error: true
 
   deployment:

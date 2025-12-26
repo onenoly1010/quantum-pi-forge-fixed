@@ -33,6 +33,15 @@ check_service() {
     fi
 }
 
+# Check all services
+check_all_services() {
+    local exit_code=0
+    check_service "FastAPI Quantum Conduit (Port 8000)" "$FASTAPI_URL" || exit_code=1
+    check_service "Flask Glyph Weaver (Port 5000)" "$FLASK_URL" || exit_code=1
+    check_service "Gradio Truth Mirror (Port 7860)" "$GRADIO_URL" "/" || exit_code=1
+    return $exit_code
+}
+
 # Main health check logic
 main() {
     local service="${1:-all}"
@@ -54,9 +63,7 @@ main() {
             check_service "Gradio Truth Mirror (Port 7860)" "$GRADIO_URL" "/" || exit_code=1
             ;;
         all|*)
-            check_service "FastAPI Quantum Conduit (Port 8000)" "$FASTAPI_URL" || exit_code=1
-            check_service "Flask Glyph Weaver (Port 5000)" "$FLASK_URL" || exit_code=1
-            check_service "Gradio Truth Mirror (Port 7860)" "$GRADIO_URL" "/" || exit_code=1
+            check_all_services || exit_code=1
             ;;
     esac
     
