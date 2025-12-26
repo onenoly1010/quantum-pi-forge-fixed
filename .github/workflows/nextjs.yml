@@ -75,6 +75,18 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: 'notify vercel'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        with:
+          name: "Vercel - quantum-pi-forge-fixed: lint"
+      - name: 'notify vercel monitoring'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        with:
+          name: "Vercel - quantum-pi-forge-fixed: Monitoring"
+      - name: 'notify vercel update status issue'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        with:
+          name: "Vercel - quantum-pi-forge-fixed: Update Status Issue"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

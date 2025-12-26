@@ -1,29 +1,34 @@
 # 🔗 MASTER URL DIRECTORY
-**Genesis Launch - December 17, 2025**
+
+> Genesis Launch - December 17, 2025
 
 ## 🎯 PRIMARY ENDPOINTS
 
 ### User-Facing
-- **Main Dashboard**: https://quantum-pi-forge-fixed.vercel.app/dashboard
-- **Landing Page**: https://onenoly1010.github.io/quantum-pi-forge-site/
+
+- **Main Dashboard**: <https://quantum-pi-forge-fixed.vercel.app/dashboard>
+- **Landing Page**: <https://onenoly1010.github.io/quantum-pi-forge-site/>
 - **Countdown Timer**: [Pending - Copilot Agent PR]
 - **Staking Interface**: Integrated in dashboard
 - **Leaderboard**: Integrated in dashboard
 
 ### Blockchain
-- **0G Aristotle RPC**: https://evmrpc.0g.ai
-- **0G Scan Explorer**: https://scan.0g.ai
+
+- **0G Aristotle RPC**: <https://evmrpc.0g.ai>
+- **0G Chain Explorer**: <https://chainscan.0g.ai>
 - **Chain ID**: 16661
 - **OINIO Token**: 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7
 
 ## 📊 ADMIN/MONITORING
 
 ### Deployment Platforms
-- **Vercel**: https://vercel.com/onenoly1010/quantum-pi-forge-fixed
-- **GitHub Repo**: https://github.com/onenoly1010/quantum-pi-forge-fixed
-- **GitHub Actions**: https://github.com/onenoly1010/quantum-pi-forge-fixed/actions
+
+- **Vercel**: <https://vercel.com/onenoly1010/quantum-pi-forge-fixed>
+- **GitHub Repo**: <https://github.com/onenoly1010/quantum-pi-forge-fixed>
+- **GitHub Actions**: <https://github.com/onenoly1010/quantum-pi-forge-fixed/actions>
 
 ### API Endpoints
+
 - **Sponsor Transaction**: /api/sponsor-transaction (POST)
 - **Health Check**: /api/health (GET)
 - **Leaderboard**: /api/leaderboard (GET)
@@ -31,6 +36,7 @@
 ## 🧪 TESTING URLS
 
 ### Quick Checks
+
 ```bash
 # Dashboard (should return 200 when live)
 curl -I https://quantum-pi-forge-fixed.vercel.app/dashboard
@@ -56,4 +62,5 @@ curl -X POST https://evmrpc.0g.ai -H "Content-Type: application/json" -d '{"json
 **Business**: [Primary contact]
 
 ---
-**Status**: 🟡 Dashboard deploying • ✅ Checklist ready • ⚠️ DEX pending
+
+**Status**: ❌ Dashboard 404 • ✅ Landing OK • ✅ RPC OK • ⚠️ DEX pending funding

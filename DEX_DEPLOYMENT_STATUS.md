@@ -2,10 +2,10 @@
 
 ## Current State
 
-```
+```text
 ❌ DEX Factory:    NOT DEPLOYED (placeholder: 0x...)
 ❌ DEX Router:     NOT DEPLOYED (placeholder: 0x...)
-⚠️  RPC Status:     INTERMITTENT (may need fallback testing)
+✅ RPC Status:     VERIFIED (https://evmrpc.0g.ai)
 ```
 
 ## What Needs to Happen
@@ -28,7 +28,7 @@ curl -s -X POST https://rpc-backup.0g.ai \
   --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'
 ```
 
-If both fail, check: https://docs.0g.ai for current RPC endpoints.
+If both fail, check: <https://docs.0g.ai> for current RPC endpoints.
 
 ### 2. **Verify Prerequisites**
 
@@ -37,6 +37,7 @@ bash QUICKSTART_DEX.sh
 ```
 
 This will check:
+
 - ✅ `.env.launch` configuration
 - ✅ Required environment variables
 - ✅ RPC connectivity (with retries)
@@ -44,7 +45,8 @@ This will check:
 
 ### 3. **Choose Your Deployment Method**
 
-**Option A: Hardhat (Recommended)**
+#### Option A: Hardhat (Recommended)
+
 ```bash
 npm install -D hardhat @nomicfoundation/hardhat-ethers
 npm install @uniswap/v2-core @uniswap/v2-periphery ethers
@@ -52,9 +54,9 @@ cp hardhat.config.template.ts hardhat.config.ts
 npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle
 ```
 
-**Option B: MetaMask GUI** (See SOVEREIGN_DEX_DEPLOYMENT.md)
+#### Option B: MetaMask GUI (See SOVEREIGN_DEX_DEPLOYMENT.md)
 
-**Option C: TypeScript Direct** (See DEX_DEPLOYMENT_EXECUTION.md)
+#### Option C: TypeScript Direct (See DEX_DEPLOYMENT_EXECUTION.md)
 
 ### 4. **Verify Deployment**
 
@@ -66,7 +68,8 @@ cat .env.launch | grep DEX_
 ```
 
 Should show:
-```
+
+```text
 ✅ Factory deployed: 0x<address>
 ✅ Router deployed: 0x<address>
 ```
@@ -75,23 +78,23 @@ Should show:
 
 ## 📋 Checklist Before Deployment
 
-- [ ] Run `bash QUICKSTART_DEX.sh` and verify all checks pass
-- [ ] `.env.launch` has DEPLOYER_PRIVATE_KEY and DEPLOYER_ADDRESS
+- [x] Run `bash QUICKSTART_DEX.sh` and verify all checks pass
+- [x] `.env.launch` has DEPLOYER_PRIVATE_KEY and DEPLOYER_ADDRESS
 - [ ] Deployer wallet has 5-10 0G tokens for gas
-- [ ] Choose deployment method (Hardhat recommended)
-- [ ] For Hardhat: `npm install` completed
-- [ ] For Hardhat: `cp hardhat.config.template.ts hardhat.config.ts`
+- [x] Choose deployment method (Hardhat recommended)
+- [x] For Hardhat: `npm install` completed
+- [x] For Hardhat: `cp hardhat.config.template.ts hardhat.config.ts`
 
 ---
 
 ## 📊 Deployment Statistics
 
 | Item | Status |
-|------|--------|
+| --- | --- |
 | Deployment Scripts | ✅ Ready |
 | Documentation | ✅ Ready |
 | Configuration | ✅ Ready |
-| RPC Connectivity | ⚠️ Needs Testing |
+| RPC Connectivity | ✅ Verified |
 | Deployment Execution | 🔴 Not Started |
 
 ---
@@ -103,18 +106,18 @@ Should show:
 3. **Execute**: Run deployment script
 4. **Verify**: Check addresses saved to `.env.launch`
 
-**Total time to completion: ~15 minutes**
+Total time to completion: **~15 minutes**
 
 ---
 
 ## ⏰ Timeline
 
 | Phase | Status | Duration |
-|-------|--------|----------|
+| --- | --- | --- |
 | Environment Setup | ✅ Done | - |
 | Script Creation | ✅ Done | - |
 | Documentation | ✅ Done | - |
-| RPC Testing | 🔴 Pending | 2 min |
+| RPC Testing | ✅ Done | 2 min |
 | Deployment | 🔴 Pending | 10-15 min |
 | Verification | 🔴 Pending | 2 min |
 
@@ -129,6 +132,6 @@ Should show:
 
 ---
 
-**Status**: 🟡 READY FOR DEPLOYMENT (RPC testing recommended first)
+**Status**: � READY FOR DEPLOYMENT (Waiting for funds)
 
-Generated: December 15, 2025
+Generated: December 24, 2025

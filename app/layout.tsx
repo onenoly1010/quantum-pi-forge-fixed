@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import TracingProvider from './tracing-provider'
 
 export const metadata: Metadata = {
   title: 'Quantum Pi Forge',
@@ -17,6 +18,7 @@ export default function RootLayout({
         <script src="https://sdk.minepi.com/pi-sdk.js" async></script>
       </head>
       <body className="font-sans antialiased">
+        <TracingProvider />
         {children}
       </body>
     </html>

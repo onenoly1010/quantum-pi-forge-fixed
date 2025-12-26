@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Removed 'output: export' to enable API routes for Vercel deployment
   images: {
     unoptimized: true,
   },
-  basePath: '/quantum-pi-forge-fixed',
-  assetPrefix: '/quantum-pi-forge-fixed/',
+  // Removed basePath and assetPrefix - not needed for Vercel
+  // These were for GitHub Pages static export
 };
 
 export default nextConfig;
