@@ -214,9 +214,9 @@ jobs:
               exit 1
             fi
 
-            # Validate rollback_version format (allow optional 'v' prefix and semantic version, commit hash, or tag)
-            if ! echo "$ROLLBACK_VERSION" | grep -Eq '^v?[0-9a-zA-Z._/-]+$'; then
-              echo "Error: Invalid rollback_version format: '$ROLLBACK_VERSION'."
+            # Validate rollback_version format (semantic version with optional 'v', commit hash, or tag - no path traversal)
+            if ! echo "$ROLLBACK_VERSION" | grep -Eq '^v?[0-9a-zA-Z._-]+$'; then
+              echo "Error: Invalid rollback_version format: '$ROLLBACK_VERSION'. Only alphanumeric, dots, underscores, and hyphens allowed."
               exit 1
             fi
 
