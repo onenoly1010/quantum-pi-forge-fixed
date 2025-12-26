@@ -22,9 +22,16 @@ check_service() {
     local url="$2"
     local endpoint="${3:-/health}"
     
-    echo -n "Checking $name at $url$endpoint... "
+    # Remove trailing slash from URL and leading slash from endpoint if both exist
+    url="${url%/}"
+    endpoint="${endpoint#/}"
     
-    if curl -sf -m "$TIMEOUT" "$url$endpoint" > /dev/null 2>&1; then
+    # Construct full URL
+    local full_url="${url}/${endpoint}"
+    
+    echo -n "Checking $name at $full_url... "
+    
+    if curl -sf -m "$TIMEOUT" "$full_url" > /dev/null 2>&1; then
         echo -e "${GREEN}✅ healthy${NC}"
         return 0
     else

@@ -21,17 +21,21 @@ echo -e "${YELLOW}Stopping services...${NC}"
 
 # Check and stop processes on specific ports
 for port in 8000 5000 7860; do
-    pid=$(lsof -ti:$port 2>/dev/null || echo "")
-    if [ -n "$pid" ]; then
-        echo "Stopping service on port $port (PID: $pid)..."
-        kill -TERM $pid 2>/dev/null || true
-        sleep 2
-        # Force kill if still running
-        if ps -p $pid > /dev/null 2>&1; then
-            echo "Force stopping PID $pid..."
-            kill -KILL $pid 2>/dev/null || true
-        fi
-        echo "✓ Service on port $port stopped"
+    pids=$(lsof -ti:$port 2>/dev/null || echo "")
+    if [ -n "$pids" ]; then
+        echo "Stopping service(s) on port $port..."
+        # Iterate over each PID
+        for pid in $pids; do
+            echo "  Stopping PID: $pid..."
+            kill -TERM $pid 2>/dev/null || true
+            sleep 1
+            # Force kill if still running
+            if ps -p $pid > /dev/null 2>&1; then
+                echo "  Force stopping PID $pid..."
+                kill -KILL $pid 2>/dev/null || true
+            fi
+        done
+        echo "✓ Service(s) on port $port stopped"
     else
         echo "No service running on port $port"
     fi

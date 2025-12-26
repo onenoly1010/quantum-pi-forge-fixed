@@ -400,14 +400,5 @@ jobs:
         run: |
           echo "📢 Status update completed"
           echo "Issue: https://github.com/${{ github.repository }}/issues/${{ steps.find-issue.outputs.issue_number }}"
-          
-          # Add webhook notifications here if secrets are configured
-          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
-            echo "Sending Slack notification..."
-            # curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} -H 'Content-Type: application/json' -d '{"text":"Status updated"}'
-          fi
-          
-          if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
-            echo "Sending Discord notification..."
-            # curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} -H 'Content-Type: application/json' -d '{"content":"Status updated"}'
-          fi
+          echo ""
+          echo "Note: To enable Slack/Discord notifications, configure webhook secrets and implement notification logic"

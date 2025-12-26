@@ -15,7 +15,15 @@ VERSION="${1}"
 if [ -z "$VERSION" ]; then
     echo -e "${RED}Error: Version parameter is required${NC}"
     echo "Usage: $0 <version>"
-    echo "Example: $0 v1.2.3"
+    echo "Example: $0 v1.2.3 or $0 abc1234"
+    exit 1
+fi
+
+# Validate version format - must be a tag, branch, or commit hash
+# This prevents injection attacks
+if ! [[ "$VERSION" =~ ^[a-zA-Z0-9._/-]+$ ]]; then
+    echo -e "${RED}Error: Invalid version format${NC}"
+    echo "Version must contain only alphanumeric characters, dots, underscores, slashes, and hyphens"
     exit 1
 fi
 
