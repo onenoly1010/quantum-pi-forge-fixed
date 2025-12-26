@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Rollback script for AI Agent Autonomous Runbook
 # Usage: ./rollback.sh [version]
 
@@ -23,7 +23,7 @@ fi
 # This prevents injection attacks
 if ! [[ "$VERSION" =~ ^[a-zA-Z0-9._/-]+$ ]]; then
     echo -e "${RED}Error: Invalid version format${NC}"
-    echo "Version must contain only alphanumeric characters, dots, underscores, slashes, and hyphens"
+    echo 'Version must contain only alphanumeric characters, dots, underscores, slashes, and hyphens'
     exit 1
 fi
 
@@ -45,9 +45,19 @@ echo "Current commit: $(git rev-parse --short HEAD)"
 echo ""
 
 # Check if we're in a clean state
-if ! git diff-index --quiet HEAD --; then
-    echo -e "${RED}Error: Working directory is not clean. Please commit or stash changes first.${NC}"
-    exit 1
+# Handle edge cases where HEAD may not exist (e.g., initial commit)
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    # Normal case: compare working tree against HEAD
+    if ! git diff-index --quiet HEAD --; then
+        echo -e "${RED}Error: Working directory is not clean. Please commit or stash changes first.${NC}"
+        exit 1
+    fi
+else
+    # No commits yet; fall back to status-based check
+    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+        echo -e "${RED}Error: Working directory is not clean. Please commit or stash changes first.${NC}"
+        exit 1
+    fi
 fi
 
 # Perform rollback

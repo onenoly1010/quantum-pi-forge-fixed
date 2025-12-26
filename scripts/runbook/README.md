@@ -69,7 +69,7 @@ Emergency stop script to immediately halt all services.
 
 **What it does:**
 - Stops services on ports 8000, 5000, and 7860
-- Terminates Node.js, FastAPI, Flask, and Gradio processes
+- Terminates related Node.js/Next.js processes associated with these services
 - Provides status report of stopped services
 
 ## Integration with GitHub Actions

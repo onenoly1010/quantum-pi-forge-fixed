@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Health check script for monitoring services
 # Usage: ./health-check.sh [service_name] or ./health-check.sh all
 

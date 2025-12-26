@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Component update script for AI Agent Autonomous Runbook
 # Usage: ./update-component.sh [component_name]
 

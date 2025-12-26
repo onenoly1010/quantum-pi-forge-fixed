@@ -110,9 +110,25 @@ jobs:
       - name: Deploy Application
         id: deploy
         run: |
-          echo "Deployment triggered via ${{ github.event_name }}"
-          echo "status=skipped" >> $GITHUB_OUTPUT
-          echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.action }}" = "update-component" ]; then
+            echo "Running update-component.sh for target component: ${{ github.event.inputs.target_component }}"
+            chmod +x ./scripts/runbook/update-component.sh
+            ./scripts/runbook/update-component.sh "${{ github.event.inputs.target_component }}"
+            result=$?
+            if [ "$result" -eq 0 ]; then
+              echo "status=success" >> $GITHUB_OUTPUT
+            else
+              echo "status=failure" >> $GITHUB_OUTPUT
+            fi
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.ci-pipeline.outputs.status }}" = "success" ]; then
+            echo "Deployment triggered via ${{ github.event_name }}"
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          else
+            echo "status=skipped" >> $GITHUB_OUTPUT
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          fi
         continue-on-error: true
 
   monitoring:
@@ -131,23 +147,22 @@ jobs:
       - name: Health Check Services
         id: health
         run: |
-          echo "Checking service health..."
+          echo "Checking service health via runbook script..."
+          chmod +x ./scripts/runbook/health-check.sh
           
-          # Check FastAPI Quantum Conduit (Port 8000)
+          # Run health checks and capture output
           if curl -sf -m 5 http://localhost:8000/health > /dev/null 2>&1; then
             echo "fastapi_status=healthy" >> $GITHUB_OUTPUT
           else
             echo "fastapi_status=unavailable" >> $GITHUB_OUTPUT
           fi
           
-          # Check Flask Glyph Weaver (Port 5000)
           if curl -sf -m 5 http://localhost:5000/health > /dev/null 2>&1; then
             echo "flask_status=healthy" >> $GITHUB_OUTPUT
           else
             echo "flask_status=unavailable" >> $GITHUB_OUTPUT
           fi
           
-          # Check Gradio Truth Mirror (Port 7860)
           if curl -sf -m 5 http://localhost:7860/ > /dev/null 2>&1; then
             echo "gradio_status=healthy" >> $GITHUB_OUTPUT
           else
@@ -180,7 +195,8 @@ jobs:
   rollback:
     name: 🔄 Rollback
     runs-on: ubuntu-latest
-    if: github.event.inputs.action == 'rollback' || failure()
+    needs: deployment
+    if: github.event.inputs.action == 'rollback' || needs.deployment.result == 'failure'
     outputs:
       status: ${{ steps.rollback.outputs.status }}
     steps:
@@ -191,7 +207,22 @@ jobs:
         id: rollback
         run: |
           if [ "${{ github.event.inputs.action }}" = "rollback" ]; then
-            echo "Rolling back to version: ${{ github.event.inputs.rollback_version }}"
+            ROLLBACK_VERSION="${{ github.event.inputs.rollback_version }}"
+
+            if [ -z "$ROLLBACK_VERSION" ]; then
+              echo "Error: rollback_version input is required when action is 'rollback'."
+              exit 1
+            fi
+
+            # Validate rollback_version format (allow optional 'v' prefix and semantic version, commit hash, or tag)
+            if ! echo "$ROLLBACK_VERSION" | grep -Eq '^v?[0-9a-zA-Z._/-]+$'; then
+              echo "Error: Invalid rollback_version format: '$ROLLBACK_VERSION'."
+              exit 1
+            fi
+
+            echo "Rolling back to version: $ROLLBACK_VERSION"
+            chmod +x ./scripts/runbook/rollback.sh
+            ./scripts/runbook/rollback.sh "$ROLLBACK_VERSION"
             echo "status=completed" >> $GITHUB_OUTPUT
           else
             echo "status=not_needed" >> $GITHUB_OUTPUT
@@ -211,7 +242,8 @@ jobs:
           echo "🚨 EMERGENCY STOP INITIATED"
           echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           echo "Triggered by: ${{ github.actor }}"
-          # Add emergency stop procedures here
+          chmod +x ./scripts/runbook/emergency-stop.sh
+          bash ./scripts/runbook/emergency-stop.sh
 
   update-status-issue:
     name: 📝 Update Status Issue

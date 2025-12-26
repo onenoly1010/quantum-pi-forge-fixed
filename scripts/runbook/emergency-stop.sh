@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Emergency stop script for AI Agent Autonomous Runbook
 # Usage: ./emergency-stop.sh
 
@@ -24,17 +24,18 @@ for port in 8000 5000 7860; do
     pids=$(lsof -ti:$port 2>/dev/null || echo "")
     if [ -n "$pids" ]; then
         echo "Stopping service(s) on port $port..."
-        # Iterate over each PID
-        for pid in $pids; do
+        # Iterate over each PID using while read for robustness
+        while IFS= read -r pid; do
+            [ -z "$pid" ] && continue
             echo "  Stopping PID: $pid..."
-            kill -TERM $pid 2>/dev/null || true
+            kill -TERM "$pid" 2>/dev/null || true
             sleep 1
             # Force kill if still running
-            if ps -p $pid > /dev/null 2>&1; then
+            if ps -p "$pid" > /dev/null 2>&1; then
                 echo "  Force stopping PID $pid..."
-                kill -KILL $pid 2>/dev/null || true
+                kill -KILL "$pid" 2>/dev/null || true
             fi
-        done
+        done <<< "$pids"
         echo "✓ Service(s) on port $port stopped"
     else
         echo "No service running on port $port"
@@ -54,8 +55,8 @@ REPO_NAME="$(basename "$REPO_DIR")"
 echo "Searching for processes in $REPO_DIR..."
 
 # Find and stop Next.js processes for this project
-if pgrep -f "node.*next.*$REPO_NAME" > /dev/null 2>&1; then
-    pkill -f "node.*next.*$REPO_NAME" 2>/dev/null && echo "✓ Stopped Next.js dev server" || echo "Failed to stop Next.js"
+if pgrep -f "node.*next.*$REPO_DIR" > /dev/null 2>&1; then
+    pkill -f "node.*next.*$REPO_DIR" 2>/dev/null && echo "✓ Stopped Next.js dev server" || echo "Failed to stop Next.js"
 else
     echo "No Next.js dev server running for this project"
 fi
