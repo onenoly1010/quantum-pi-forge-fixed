@@ -326,11 +326,11 @@ jobs:
             
             const statusEmoji = (status) => {
               if (!status || status === 'skipped') return '⏭️ Skipped';
-              if (status === 'healthy') return '✅ healthy';
+              if (status === 'healthy') return '✅ Healthy';
               if (status === 'success') return '✅ Success';
               if (status === 'not_needed') return 'ℹ️ Not needed';
               if (status === 'completed') return '✅ Completed';
-              if (status === 'unavailable') return '⚠️ unavailable';
+              if (status === 'unavailable') return '⚠️ Unavailable';
               if (status === 'failure') return '❌ Failed';
               return '❌ Failed';
             };
