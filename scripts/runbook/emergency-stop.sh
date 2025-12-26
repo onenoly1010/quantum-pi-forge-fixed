@@ -27,7 +27,8 @@ for port in 8000 5000 7860; do
         # Iterate over each PID using while read for robustness
         while IFS= read -r pid; do
             # Skip empty lines and non-numeric PIDs
-            [[ -z "$pid" || ! "$pid" =~ ^[0-9]+$ ]] && continue
+            [[ -z "$pid" ]] && continue
+            [[ ! "$pid" =~ ^[0-9]+$ ]] && continue
             echo "  Stopping PID: $pid..."
             kill -TERM "$pid" 2>/dev/null || true
             sleep 1

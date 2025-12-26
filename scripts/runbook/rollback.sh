@@ -21,9 +21,9 @@ fi
 
 # Validate version format - must be a tag, branch, or commit hash
 # This prevents injection attacks - no slashes to prevent path traversal
-if ! [[ "$VERSION" =~ ^[a-zA-Z0-9._-]+$ ]]; then
+if ! [[ "$VERSION" =~ ^v?[0-9a-zA-Z._-]+$ ]]; then
     echo -e "${RED}Error: Invalid version format${NC}"
-    echo 'Version must contain only alphanumeric characters, dots, underscores, and hyphens'
+    echo 'Version must contain only alphanumeric characters, dots, underscores, and hyphens (optional v prefix)'
     exit 1
 fi
 
