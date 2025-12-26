@@ -325,11 +325,13 @@ jobs:
             const gradioStatus = '${{ needs.monitoring.outputs.gradio_status || 'unavailable' }}';
             
             const statusEmoji = (status) => {
+              if (!status || status === 'skipped' || status === '') return '⏭️ Skipped';
               if (status === 'healthy') return '✅ healthy';
               if (status === 'success') return '✅ Success';
-              if (status === 'skipped') return '⏭️ Skipped';
               if (status === 'not_needed') return 'Not needed';
+              if (status === 'completed') return '✅ Completed';
               if (status === 'unavailable') return '⚠️ unavailable';
+              if (status === 'failure') return '❌ Failed';
               return '❌ Failed';
             };
             
