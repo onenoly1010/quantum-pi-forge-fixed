@@ -69,6 +69,13 @@ npx hardhat compile  # Compile Solidity contracts
 npx hardhat test     # Run contract tests
 ```
 
+### Linting
+
+**Note**: No linting tools (ESLint, Prettier) are currently configured in this project. 
+- Code quality is maintained through manual code review
+- TypeScript's strict mode provides compile-time checks
+- Consider adding ESLint if implementing new linting rules
+
 ## Coding Standards
 
 ### TypeScript/JavaScript
@@ -170,13 +177,18 @@ const provider = new ethers.BrowserProvider(window.ethereum);
 
 ## Testing Considerations
 
-- No automated test suite is currently configured
+- No automated test suite is currently configured for the frontend
+- Hardhat test directory structure exists (`./test`) but no tests are implemented yet
 - Manual testing is required for:
   - MetaMask wallet connection
   - Gasless staking transactions
   - Balance display accuracy
   - Responsive design on mobile
   - Error handling scenarios
+- When adding tests, follow these guidelines:
+  - Frontend tests: Consider adding Jest + React Testing Library
+  - Smart contract tests: Use Hardhat test framework with Ethers.js
+  - Test files should match the pattern: `*.test.ts` or `*.spec.ts`
 
 ## Deployment
 
@@ -184,6 +196,29 @@ const provider = new ethers.BrowserProvider(window.ethereum);
 - **Build Command**: `npm run build`
 - **Output Directory**: `.next`
 - **Environment**: Set all required env vars in Vercel dashboard
+
+### CI/CD Workflows
+
+The project uses GitHub Actions for automated deployments:
+
+1. **Next.js Build Workflow** (`.github/workflows/nextjs.yml`)
+   - Triggers on push to `main` branch
+   - Builds Next.js application
+   - Uploads artifact for GitHub Pages
+   - Notifies Vercel of deployment status
+
+2. **Pages Deployment** (`.github/workflows/pages.yml`)
+   - Deploys documentation from `./docs` directory
+   - Requires GitHub Pages to be enabled
+
+### Deployment Checklist
+
+Before deploying to production:
+1. Test build locally: `npm run build`
+2. Verify all environment variables are set in Vercel
+3. Ensure sponsor wallet has sufficient MATIC and OINIO tokens
+4. Test API endpoints on staging if available
+5. Verify MetaMask integration works on target network
 
 ## Important Notes
 
@@ -202,3 +237,157 @@ This project is built around the "Truth Movement" and "OINIO Soul System" concep
 - Spiritual/consciousness frameworks
 
 These are integral to the project's identity and should be respected in any changes.
+
+## Dependency Management
+
+### Adding New Dependencies
+
+1. **Always check for security vulnerabilities** before adding packages
+2. Use exact versions for production dependencies when possible
+3. Test thoroughly after adding new packages
+4. Update this documentation if the new dependency changes development workflow
+
+```bash
+# Add production dependency
+npm install <package-name>
+
+# Add dev dependency
+npm install -D <package-name>
+
+# Update all dependencies (use with caution)
+npm update
+```
+
+### Key Dependency Notes
+
+- `ethers@6.16.0` - Must remain on v6 for compatibility with current code
+- `next@^14.0.0` - Using App Router (not Pages Router)
+- `@radix-ui/*` - UI component library, part of shadcn/ui system
+- Do not upgrade major versions without thorough testing
+
+## Git Workflow
+
+### Branch Naming
+
+- Feature branches: `feature/description`
+- Bug fixes: `fix/description`
+- Documentation: `docs/description`
+- Copilot branches: `copilot/task-description`
+
+### Commit Messages
+
+Follow conventional commit format:
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
+
+Example: `feat: add gasless staking API endpoint`
+
+### What Not to Commit
+
+See `.gitignore` for excluded files:
+- `node_modules/` - Dependencies (install via npm)
+- `.next/`, `out/`, `dist/`, `build/` - Build artifacts
+- `.env.launch`, `.env.local`, `.env.*.local` - Environment variables (SENSITIVE)
+- `logs/`, `*.log` - Log files
+- IDE and OS-specific files
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. Build Failures
+
+**Symptom**: `npm run build` fails
+**Solutions**:
+- Clear Next.js cache: `rm -rf .next`
+- Reinstall dependencies: `rm -rf node_modules package-lock.json && npm install`
+- Check TypeScript errors: `npx tsc --noEmit`
+- Verify environment variables are set
+
+**Known Issue**: OpenTelemetry tracing dependencies may be missing in some branches. 
+If you see errors about `@opentelemetry/*` packages, they can be safely ignored if tracing is not required, 
+or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-http @opentelemetry/resources @opentelemetry/semantic-conventions @opentelemetry/instrumentation @opentelemetry/instrumentation-document-load @opentelemetry/instrumentation-fetch @opentelemetry/instrumentation-user-interaction @opentelemetry/instrumentation-xml-http-request @opentelemetry/context-zone`
+
+#### 2. MetaMask Connection Issues
+
+**Symptom**: Wallet won't connect or shows wrong network
+**Solutions**:
+- Ensure MetaMask is installed and unlocked
+- Verify Polygon Mainnet is added to MetaMask (Chain ID: 137)
+- Check that user is on the correct network
+- Clear browser cache and cookies
+- Check browser console for Web3 errors
+
+#### 3. Gasless Transaction Failures
+
+**Symptom**: Staking transactions fail with "insufficient funds" or timeout
+**Solutions**:
+- Verify sponsor wallet has MATIC for gas fees
+- Verify sponsor wallet has OINIO tokens to transfer
+- Check POLYGON_RPC_URL is accessible
+- Verify OINIO_TOKEN_ADDRESS is correct
+- Check amount is within limits (0.01 - 10000 OINIO)
+- Inspect API logs in Vercel dashboard
+
+#### 4. Smart Contract Compilation Issues
+
+**Symptom**: `npx hardhat compile` fails
+**Solutions**:
+- Check Solidity version compatibility (0.5.16, 0.6.6, 0.8.20)
+- Clear Hardhat cache: `rm -rf cache artifacts`
+- Verify contract imports are correct
+- Check `hardhat.config.ts` is properly configured
+
+#### 5. Environment Variable Issues
+
+**Symptom**: "Missing environment variable" errors
+**Solutions**:
+- For local development: Create `.env.local` file (never commit!)
+- For Vercel: Set variables in Vercel dashboard (Settings → Environment Variables)
+- Verify variable names match exactly (case-sensitive)
+- Required variables:
+  - `SPONSOR_PRIVATE_KEY` (Vercel only)
+  - `POLYGON_RPC_URL` (Vercel only)
+  - `OINIO_TOKEN_ADDRESS` (Vercel only)
+
+#### 6. Type Errors in Mixed Codebase
+
+**Symptom**: TypeScript errors when importing JavaScript modules
+**Solutions**:
+- Check that `allowJs: true` is set in `tsconfig.json`
+- Add `.d.ts` type declaration files if needed
+- Use `// @ts-ignore` sparingly for legacy code
+- Consider migrating JavaScript files to TypeScript gradually
+
+### Getting Help
+
+If you encounter issues not covered here:
+1. Check browser console for client-side errors
+2. Check Vercel deployment logs for server-side errors
+3. Verify all environment variables are correctly set
+4. Review recent git commits for breaking changes
+5. Check that dependencies are properly installed
+
+## Best Practices Summary
+
+✅ **DO**:
+- Use TypeScript for new files in `app/` and `components/`
+- Follow existing code patterns and conventions
+- Test locally before pushing (`npm run build`)
+- Use shadcn/ui components for consistency
+- Validate user input on both client and server
+- Keep private keys in environment variables only
+- Document significant changes
+
+❌ **DON'T**:
+- Don't commit `.env.local` or private keys
+- Don't remove or modify working code unnecessarily
+- Don't change major dependency versions without testing
+- Don't bypass security validations
+- Don't hardcode sensitive values
+- Don't mix styling approaches (stick to Tailwind)
