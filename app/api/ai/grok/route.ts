@@ -22,13 +22,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = streamText({
+    const result = await streamText({
       model: getXAIModel(model),
       system: systemPrompt || SYSTEM_PROMPTS.GENERAL,
       prompt,
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error('xAI API error:', error);
     return Response.json(

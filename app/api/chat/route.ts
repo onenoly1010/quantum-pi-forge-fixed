@@ -20,13 +20,13 @@ Your expertise includes:
 
 Be helpful, clear, and aligned with the Truth Movement values. Maintain a tone that is both technically precise and spiritually aware.`;
 
-    const result = streamText({
+    const result = await streamText({
       model: openai('gpt-4o'),
       system: systemPrompt || defaultSystemPrompt,
       messages,
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error('AI Chat Error:', error);
     return new Response(

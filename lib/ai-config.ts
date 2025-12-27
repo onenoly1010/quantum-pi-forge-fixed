@@ -1,10 +1,12 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { xai } from '@ai-sdk/xai';
+import { traceAICall } from './server-tracing';
 
 /**
  * AI Provider Configuration for Quantum Pi Forge
  * 
  * Supports OpenAI, xAI (Grok), and Vercel AI Gateway
+ * Includes OpenTelemetry tracing integration
  */
 
 // Direct OpenAI provider

@@ -4,9 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Exclude submodules and non-Next.js directories from TypeScript checking
+  // TypeScript configuration
   typescript: {
-    // Skip type checking for submodule files
     ignoreBuildErrors: false,
   },
   eslint: {
@@ -22,18 +21,6 @@ const nextConfig = {
   webpack: (config) => {
     config.watchOptions = {
       ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**'],
-    };
-    return config;
-  },
-    ignoreBuildErrors: false,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  // Exclude pi-forge-quantum-genesis submodule from compilation
-  webpack: (config) => {
-    config.watchOptions = {
-      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**'],
     };
     return config;
   },
