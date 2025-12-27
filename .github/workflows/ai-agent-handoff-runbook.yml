@@ -325,13 +325,15 @@ jobs:
             const gradioStatus = '${{ needs.monitoring.outputs.gradio_status || 'unavailable' }}';
             
             const statusEmoji = (status) => {
-              if (status === 'healthy') return '✅ healthy';
+              if (!status || status === 'skipped') return '⏭️ Skipped';
+              if (status === 'healthy') return '✅ Healthy';
               if (status === 'success') return '✅ Success';
-              if (status === 'skipped') return '⏭️ Skipped';
-              if (status === 'not_needed') return 'Not needed';
-              if (status === 'unavailable') return '⚠️ unavailable';
+              if (status === 'not_needed') return 'ℹ️ Not needed';
+              if (status === 'completed') return '✅ Completed';
+              if (status === 'unavailable') return '⚠️ Unavailable';
               return '❌ Failed';
             };
+            
             
             const body = `# ${{ steps.statuses.outputs.operational_status }}
 
