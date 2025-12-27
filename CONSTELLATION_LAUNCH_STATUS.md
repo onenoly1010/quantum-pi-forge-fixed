@@ -1,22 +1,23 @@
 # 🌌 Quantum Pi Forge Constellation - Full Launch Status
 
 **Generated:** December 27, 2025  
-**Status:** **9/10 repos LAUNCH-READY** | **1 pending wallet funding**
+**Last Updated:** December 27, 2025 22:15 UTC  
+**Status:** **7/8 services LIVE** | **1 pending wallet funding** ✅
 
 ---
 
-## 🚀 Live Deployments (8/10)
+## 🚀 Live Deployments (7/8)
 
 | # | Repository | Deployment | URL | Status |
 |---|-----------|------------|-----|--------|
-| 1 | `pi-forge-quantum-genesis` | Render | https://pi-forge-quantum-genesis-1.onrender.com | ✅ LIVE |
+| 1 | `quantum-pi-forge-site` | Vercel + Custom Domain | https://quantumpiforge.com | ✅ LIVE |
 | 2 | `quantum-pi-forge-fixed` | Vercel | https://quantum-pi-forge-fixed.vercel.app | ✅ LIVE |
-| 3 | `quantum-resonance-clean` | Vercel | https://quantum-resonance-clean.vercel.app | ✅ LIVE |
-| 4 | `quantum-pi-forge-site` | Vercel + Custom Domain | https://quantumpiforge.com | ✅ LIVE |
-| 5 | `oinio-soul-system` | CLI Tool | Local execution | ✅ READY |
-| 6 | `quantum-pi-forge-ignited` | Netlify | Needs redeployment | ⏳ PENDING |
-| 7 | `countdown` | GitHub Pages | https://onenoly1010.github.io/countdown | ✅ LIVE |
-| 8 | `mainnetstatus` | Documentation | GitHub repo | 📝 DOCS |
+| 3 | `pi-forge-quantum-genesis` | Render | https://pi-forge-quantum-genesis-1.onrender.com | ✅ LIVE |
+| 4 | `quantum-resonance-clean` | Vercel | https://quantum-resonance-clean.vercel.app | ⚠️ LIVE (429) |
+| 5 | `Ai-forge-` | GitHub Pages | https://onenoly1010.github.io/Ai-forge-/ | ✅ LIVE 🆕 |
+| 6 | `pi-forge-quantum-genesis-OPEN` | Render | Deploying... | ⏳ PROPAGATING |
+| 7 | `quantum-pi-forge-ignited` | Netlify | Deploying... | ⏳ PROPAGATING |
+| 8 | `countdown` | GitHub Pages | https://onenoly1010.github.io/countdown | ✅ LIVE |
 
 ---
 
