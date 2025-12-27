@@ -331,9 +331,9 @@ jobs:
               if (status === 'not_needed') return 'ℹ️ Not needed';
               if (status === 'completed') return '✅ Completed';
               if (status === 'unavailable') return '⚠️ Unavailable';
-              if (status === 'failure') return '❌ Failed';
               return '❌ Failed';
             };
+            
             
             const body = `# ${{ steps.statuses.outputs.operational_status }}
 
