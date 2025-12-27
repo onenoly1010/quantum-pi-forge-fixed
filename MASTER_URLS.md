@@ -1,22 +1,22 @@
 # 🔗 MASTER URL DIRECTORY
 
-> Genesis Launch - December 17, 2025
+> Genesis Launch - December 30, 2025 (Updated Dec 27)
 
 ## 🎯 PRIMARY ENDPOINTS
 
 ### User-Facing
 
-- **Main Dashboard**: <https://quantum-pi-forge-fixed.vercel.app/dashboard>
-- **Landing Page**: <https://onenoly1010.github.io/quantum-pi-forge-site/>
-- **Countdown Timer**: [Pending - Copilot Agent PR]
-- **Staking Interface**: Integrated in dashboard
-- **Leaderboard**: Integrated in dashboard
+- **Main Dashboard**: <https://quantum-pi-forge-fixed.vercel.app/dashboard> ✅ LIVE
+- **Landing Page**: <https://onenoly1010.github.io/quantum-pi-forge-site/> ✅ LIVE
+- **Health API**: <https://quantum-pi-forge-fixed.vercel.app/api/health> ✅ LIVE
+- **Staking Interface**: Integrated in dashboard ✅
+- **Leaderboard**: Integrated in dashboard ✅
 
 ### Blockchain
 
-- **0G Aristotle RPC**: <https://evmrpc.0g.ai>
+- **0G Aristotle RPC**: <https://evmrpc.0g.ai> ✅ VERIFIED
 - **0G Chain Explorer**: <https://chainscan.0g.ai>
-- **Chain ID**: 16661
+- **Chain ID**: 16661 (0x4115)
 - **OINIO Token**: 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7
 
 ## 📊 ADMIN/MONITORING
@@ -63,4 +63,4 @@ curl -X POST https://evmrpc.0g.ai -H "Content-Type: application/json" -d '{"json
 
 ---
 
-**Status**: ❌ Dashboard 404 • ✅ Landing OK • ✅ RPC OK • ⚠️ DEX pending funding
+**Status**: ✅ Dashboard LIVE • ✅ Landing LIVE • ✅ Health API LIVE • ✅ RPC OK • ⏳ DEX pending Dec 30
