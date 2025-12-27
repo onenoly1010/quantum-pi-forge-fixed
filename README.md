@@ -212,11 +212,33 @@ npm run start
 
 ## 🤝 Contributing
 
+We welcome contributions to the Quantum Pi Forge! This repository is configured for **GitHub Copilot Coding Agent**.
+
+### For Contributors
+
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create feature branch (`feature/your-feature-name`)
+3. Make your changes following our coding standards
+4. Test locally (`npm run build`)
+5. Commit changes with clear messages
+6. Push to your branch
+7. Create Pull Request
+
+### Working with GitHub Copilot
+
+This repository includes comprehensive guidelines for AI-assisted development. See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for:
+
+- **Suitable Tasks**: Bug fixes, refactoring, tests, documentation, UI components
+- **Coding Standards**: TypeScript conventions, React patterns, security practices
+- **Development Workflow**: Build commands, testing procedures, deployment
+- **Best Practices**: DO's and DON'Ts for maintaining code quality
+
+**Quick Reference for Copilot Tasks**:
+- ✅ Use for: Bug fixes, UI components, documentation, accessibility improvements
+- ⚠️ Requires Review: Security changes, smart contract modifications, architecture changes
+- 📋 Create clear issues with acceptance criteria and context
+
+For detailed guidance on creating effective Copilot issues and code review processes, please review the full instructions.
 
 ## 📄 License
 
