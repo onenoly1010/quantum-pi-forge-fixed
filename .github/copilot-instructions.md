@@ -246,6 +246,298 @@ The project uses GitHub Actions for automated deployments:
    - Deploys documentation from `./docs` directory
    - Requires GitHub Pages to be enabled
 
+3. **AI Agent Autonomous Runbook** (`.github/workflows/ai-agent-handoff-runbook.yml`)
+   - Automated monitoring and operations workflow
+   - Triggers: schedule (every 6 hours), push to main, workflow completion, manual dispatch
+   - Maintains a live status issue: "🤖 AI Agent Autonomous Runbook Status"
+   - Provides AI agents with operational context and deployment status
+
+### AI Agent Autonomous Runbook
+
+The AI Agent Autonomous Runbook is an automated workflow that provides continuous monitoring, deployment tracking, and operational control for the Quantum Pi Forge system.
+
+#### Workflow Overview
+
+**Location**: `.github/workflows/ai-agent-handoff-runbook.yml`
+
+**Triggers**:
+- **Schedule**: Every 6 hours (cron: `0 */6 * * *`)
+- **Push**: To `main` branch on paths: `app/**`, `src/**`, `.github/workflows/**`
+- **Workflow Completion**: After "Deploy Next.js site to Pages" or "Agent Dispatch" workflows complete
+- **Manual Dispatch**: Via GitHub Actions UI with custom actions
+
+**Permissions Required**:
+- `contents: write` - For repository operations
+- `issues: write` - For status issue updates
+- `actions: read` - For workflow monitoring
+- `checks: read` - For check status
+
+#### Jobs and Workflow Steps
+
+1. **🛡️ Safety Gate** - Runs safety checks before proceeding
+   - Validates repository state
+   - Outputs: `status` (success/failure)
+
+2. **🔧 CI Pipeline** - Builds and validates the application
+   - Sets up Node.js 20
+   - Installs dependencies with `npm ci --legacy-peer-deps`
+   - Runs `npm run build`
+   - Outputs: `status` (success/failure)
+
+3. **🚀 Deployment** - Deploys application (conditional)
+   - Runs only on push to main or manual `update-component` action
+   - Executes component-specific updates via `scripts/runbook/update-component.sh`
+   - Outputs: `status`, `deployment_url`
+
+4. **📊 Monitoring** - Health checks for all services
+   - Checks FastAPI Quantum Conduit (Port 8000)
+   - Checks Flask Glyph Weaver (Port 5000)
+   - Checks Gradio Truth Mirror (Port 7860)
+   - Generates monitoring report artifact
+   - Outputs: `status`, `fastapi_status`, `flask_status`, `gradio_status`
+
+5. **🔄 Rollback** - Reverts to previous version (conditional)
+   - Triggers on deployment failure or manual rollback action
+   - Uses `scripts/runbook/rollback.sh` with version parameter
+   - Validates version format for security
+   - Outputs: `status` (completed/not_needed)
+
+6. **🚨 Emergency Stop** - Immediate service halt (manual trigger only)
+   - Triggers only via manual dispatch with `action=emergency-stop`
+   - Stops all services on ports 8000, 5000, 7860
+   - Terminates related Node.js/Next.js processes
+   - Uses `scripts/runbook/emergency-stop.sh`
+
+7. **📝 Update Status Issue** - Maintains live status tracking
+   - Always runs after all jobs complete
+   - Finds or creates issue: "🤖 AI Agent Autonomous Runbook Status"
+   - Updates issue with latest job statuses and system health
+   - Provides AI agent instructions for monitoring and operations
+
+#### Manual Workflow Dispatch Actions
+
+The workflow supports manual triggering via GitHub Actions UI with these actions:
+
+```bash
+# Update status (default action)
+gh workflow run "ai-agent-handoff-runbook.yml" -f action=update-status
+
+# Rollback to specific version
+gh workflow run "ai-agent-handoff-runbook.yml" \
+  -f action=rollback \
+  -f rollback_version="v1.2.3"
+
+# Update specific component
+gh workflow run "ai-agent-handoff-runbook.yml" \
+  -f action=update-component \
+  -f target_component=fastapi
+
+# Emergency stop all services
+gh workflow run "ai-agent-handoff-runbook.yml" -f action=emergency-stop
+```
+
+**Available Components for Update**:
+- `fastapi` - FastAPI Quantum Conduit
+- `flask` - Flask Glyph Weaver
+- `gradio` - Gradio Truth Mirror
+- `all` - All components
+
+#### Runbook Scripts
+
+All operational scripts are located in `scripts/runbook/`:
+
+##### health-check.sh
+
+Health monitoring for all services.
+
+**Usage**:
+```bash
+# Check all services
+./scripts/runbook/health-check.sh all
+
+# Check specific service
+./scripts/runbook/health-check.sh fastapi
+./scripts/runbook/health-check.sh flask
+./scripts/runbook/health-check.sh gradio
+```
+
+**Environment Variables**:
+- `FASTAPI_URL` - FastAPI service URL (default: http://localhost:8000)
+- `FLASK_URL` - Flask service URL (default: http://localhost:5000)
+- `GRADIO_URL` - Gradio service URL (default: http://localhost:7860)
+- `HEALTH_CHECK_TIMEOUT` - Timeout in seconds (default: 5)
+
+**Exit Codes**:
+- `0` - All checked services are healthy
+- `1` - One or more services are unavailable
+
+##### update-component.sh
+
+Updates specific system components.
+
+**Usage**:
+```bash
+# Update all components
+./scripts/runbook/update-component.sh all
+
+# Update specific component
+./scripts/runbook/update-component.sh fastapi
+./scripts/runbook/update-component.sh flask
+./scripts/runbook/update-component.sh gradio
+```
+
+**What it does**:
+- Pulls latest component configuration
+- Restarts the specified service(s)
+- Validates service health after update
+
+##### rollback.sh
+
+Reverts to a previous deployment version.
+
+**Usage**:
+```bash
+# Rollback to semantic version
+./scripts/runbook/rollback.sh v1.2.3
+
+# Rollback to commit hash
+./scripts/runbook/rollback.sh abc1234
+
+# Rollback to tag
+./scripts/runbook/rollback.sh release-2024-01
+```
+
+**What it does**:
+- Validates rollback version format (alphanumeric, dots, hyphens, underscores only)
+- Creates a rollback branch
+- Checks out the specified version
+- Does NOT automatically push changes (manual verification required)
+
+**Requirements**:
+- Clean working directory
+- Valid version identifier
+- No path traversal characters allowed (security measure)
+
+##### emergency-stop.sh
+
+Immediately halts all services.
+
+**Usage**:
+```bash
+./scripts/runbook/emergency-stop.sh
+```
+
+**What it does**:
+- Stops processes on ports 8000 (FastAPI), 5000 (Flask), 7860 (Gradio)
+- Uses SIGTERM first, then SIGKILL if needed
+- Stops Next.js dev server if running for this project
+- Provides detailed stop report
+
+**When to use**:
+- Critical security incident
+- Service malfunction causing system instability
+- Emergency maintenance required
+- Deployment rollback needed immediately
+
+**⚠️ Warning**: This stops all services immediately. Use only when necessary.
+
+#### Status Issue
+
+The runbook maintains a live GitHub issue titled "🤖 AI Agent Autonomous Runbook Status" with:
+
+**Metadata**:
+- Labels: `ai-agent`, `automated`, `runbook`
+- Auto-updated every 6 hours or on deployment
+- Contains latest workflow run ID and timestamp
+
+**Sections**:
+1. **Operational Status** - Overall system health (✅ OPERATIONAL, ⚠️ DEGRADED, 🔴 CRITICAL)
+2. **Job Status Summary** - Table of all workflow jobs and their results
+3. **System Health** - Individual service health status
+4. **AI Agent Instructions** - Commands for monitoring, rollback, and updates
+5. **Configuration** - Workflow behavior and auto-update schedule
+6. **Emergency Procedures** - Critical action commands
+7. **Monitoring Alerts** - Webhook notification setup instructions
+
+**For AI Agents**: This issue provides all necessary context for operational decisions, deployment status, and available actions.
+
+#### Monitoring Reports
+
+Each workflow run generates monitoring artifacts:
+
+**Download Monitoring Report**:
+```bash
+# Get report from specific run
+gh run download <run_id> -n monitoring-report
+
+# View latest run
+gh run view --repo onenoly1010/quantum-pi-forge-fixed
+```
+
+**Report Contents**:
+- `health-check.json` - Service health status with timestamp
+- Format: JSON with service statuses (healthy/unavailable)
+- Retention: 30 days
+
+#### Best Practices for Runbook Usage
+
+**For AI Agents**:
+1. Always check the status issue before making deployment decisions
+2. Use monitoring reports to verify service health
+3. Prefer `update-component` over manual deployments
+4. Document all emergency stop actions in issue comments
+5. Verify rollback success before closing incidents
+
+**For Developers**:
+1. Test runbook scripts locally before deploying workflow changes
+2. Keep script paths relative to repository root
+3. Ensure all scripts have proper error handling
+4. Update status issue manually if workflow fails
+5. Never commit sensitive data to runbook scripts
+
+**Security Considerations**:
+- Rollback version validation prevents path traversal attacks
+- Emergency stop targets only project-specific processes
+- All script inputs are validated
+- Workflow permissions are minimal (least privilege)
+- Webhook URLs for notifications should be stored as secrets
+
+#### Troubleshooting Runbook Issues
+
+**Workflow doesn't trigger**:
+- Check workflow is enabled in Actions settings
+- Verify trigger conditions are met (branch, paths)
+- Ensure required permissions are granted
+
+**Health checks fail**:
+- Services may not be running (expected on GitHub Actions runners)
+- Check service URLs in environment variables
+- Verify firewall/network access to services
+
+**Rollback fails**:
+- Ensure rollback_version is provided and valid
+- Check that version/tag/commit exists in repository
+- Verify working directory is clean
+
+**Status issue not updating**:
+- Check `issues: write` permission is granted
+- Verify issue labels are correct
+- Check GitHub API rate limits
+
+**Emergency stop doesn't work**:
+- Services may not be running
+- Check port numbers match actual services
+- Verify process identification patterns
+
+#### Integration with Other Workflows
+
+The AI Agent Runbook integrates with:
+- **Next.js Build Workflow** - Triggered on completion
+- **Agent Dispatch** - Triggered on completion
+- **Vercel Deployments** - Referenced in deployment URL
+
+This provides comprehensive coverage of the entire deployment pipeline.
+
 ### Deployment Checklist
 
 Before deploying to production:
