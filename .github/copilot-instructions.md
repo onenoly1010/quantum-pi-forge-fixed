@@ -1,5 +1,40 @@
 # Copilot Instructions for Quantum Pi Forge
 
+## Working with GitHub Copilot
+
+This repository is configured for GitHub Copilot Coding Agent. When working with Copilot:
+
+### Suitable Tasks
+Copilot excels at **low-to-medium complexity** tasks such as:
+- 🐛 Bug fixes and error handling improvements
+- 🔧 Refactoring existing code
+- ✅ Adding or improving tests
+- 📝 Documentation updates
+- ♿ Accessibility improvements
+- 🧹 Technical debt cleanup
+- 🎨 UI component development
+- 🔐 Security vulnerability fixes
+
+**Avoid assigning** tasks that require:
+- Deep domain expertise in blockchain/smart contracts
+- Large-scale architecture changes
+- Complex business logic decisions
+- Critical security-sensitive operations without review
+
+### Iteration Process
+1. **Clear Issues**: Write detailed issues with acceptance criteria
+2. **Review PRs**: Treat Copilot PRs like human contributions - review carefully
+3. **Provide Feedback**: Use PR comments and mention `@copilot` for iterations
+4. **Incremental Changes**: Prefer small, focused changes over large refactors
+5. **Test Thoroughly**: Always validate changes with builds and tests
+
+### Security Expectations
+- Copilot works in sandboxed environments with restricted permissions
+- All changes require human review before merging
+- Private keys and sensitive data must never be committed
+- Environment variables are validated before use
+- Code changes are audited for security vulnerabilities
+
 ## Project Overview
 
 The Quantum Pi Forge (OINIO Soul System) is a decentralized application built for the Truth Movement, combining Web3 technology with a spiritual/consciousness framework. It features:
@@ -391,3 +426,96 @@ If you encounter issues not covered here:
 - Don't bypass security validations
 - Don't hardcode sensitive values
 - Don't mix styling approaches (stick to Tailwind)
+
+## Creating Effective Issues for Copilot
+
+When creating issues to assign to `@copilot`, follow these guidelines for best results:
+
+### Issue Structure
+
+**Title**: Clear, concise description of the task
+```
+✨ Add loading state to staking button
+🐛 Fix MetaMask connection timeout
+📝 Update API documentation for sponsor-transaction endpoint
+```
+
+**Description Should Include**:
+1. **Problem Statement**: What needs to be done and why
+2. **Acceptance Criteria**: Clear checklist of requirements
+3. **Context**: Relevant files, components, or systems involved
+4. **Constraints**: Any specific requirements or limitations
+5. **Testing**: How to verify the changes work
+
+### Example Issue Template
+
+```markdown
+## Problem
+The staking button doesn't show a loading state, causing user confusion during transaction processing.
+
+## Acceptance Criteria
+- [ ] Button shows loading spinner when transaction is in progress
+- [ ] Button is disabled during loading to prevent double-submission
+- [ ] Loading text changes to "Processing..."
+- [ ] Error states are handled appropriately
+- [ ] Success state shows confirmation message
+
+## Files to Modify
+- `app/dashboard/page.tsx` - Add loading state logic
+- `components/ui/button.tsx` - May need loading variant
+
+## Testing
+1. Connect MetaMask wallet
+2. Enter staking amount
+3. Click "Stake with Gasless Transaction"
+4. Verify loading state appears immediately
+5. Verify button re-enables after completion
+```
+
+### Labels to Use
+- `copilot` - For tasks suitable for Copilot
+- `bug` - For bug fixes
+- `enhancement` - For new features
+- `documentation` - For docs updates
+- `good first issue` - For simple, well-defined tasks
+
+### Tips for Better Results
+- **Be Specific**: Instead of "improve UI", say "add loading spinner to submit button"
+- **One Task per Issue**: Break large tasks into smaller, focused issues
+- **Include Examples**: Reference similar patterns in the codebase
+- **Set Boundaries**: Specify what should NOT be changed
+- **Link Resources**: Include relevant documentation or screenshots
+
+## Code Review Guidelines
+
+When reviewing Copilot PRs:
+
+### What to Check
+1. **Correctness**: Does the code solve the stated problem?
+2. **Style Consistency**: Does it match existing code patterns?
+3. **Security**: Are there any security implications?
+4. **Tests**: Are changes adequately tested?
+5. **Documentation**: Is documentation updated if needed?
+6. **Dependencies**: Are new dependencies necessary and secure?
+
+### Providing Feedback
+- Use inline comments for specific issues
+- Mention `@copilot` in comments for clarification
+- Request changes clearly with actionable feedback
+- Approve when ready, but review as carefully as human PRs
+
+### Iteration Cycle
+1. Copilot creates initial PR
+2. You review and leave comments
+3. Copilot addresses feedback in new commits
+4. Repeat until satisfied
+5. Merge when all criteria are met
+
+## Additional Resources
+
+- [GitHub Copilot Best Practices](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results)
+- [GitHub Copilot Coding Agent 101](https://github.blog/ai-and-ml/github-copilot/github-copilot-coding-agent-101-getting-started-with-agentic-workflows-on-github/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Ethers.js v6 Documentation](https://docs.ethers.org/v6/)
+- [Hardhat Documentation](https://hardhat.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
