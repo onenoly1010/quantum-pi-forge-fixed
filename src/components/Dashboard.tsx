@@ -381,12 +381,12 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
                 <span className="text-white font-bold">Ω</span>
               </div>
-              <span className="text-white/60 text-sm">Quantum Pi Forge • Sovereign Economy Protocol</span>
+              <span className="text-white/60 text-sm">OINIO • Sovereign Staking Protocol</span>
             </div>
             <div className="flex items-center space-x-6 text-white/40 text-sm">
               <span>Frequency: 1010 Hz</span>
               <span>•</span>
-              <span>Truth Movement</span>
+              <span>Built for the Truth Movement</span>
             </div>
           </div>
         </div>
