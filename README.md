@@ -62,7 +62,7 @@ We lead with transparency because Truth has nothing to hide.
 
 ## 🌐 Live Dashboard
 
-**Dashboard**: https://quantum-pi-forge-fixed.vercel.app/dashboard
+**Dashboard**: https://quantumpiforge.com
 
 ---
 
