@@ -1,5 +1,26 @@
 # Copilot Instructions for Quantum Pi Forge
 
+> **🔮 IDENTITY REFERENCE**: For a complete project identity overview, see [IDENTITY.md](/IDENTITY.md)
+
+## ⚠️ IMPORTANT: Project Identity Clarification
+
+**This is the PRIMARY repository**: `onenoly1010/quantum-pi-forge-fixed`
+
+| Fact | Value |
+|------|-------|
+| **Project Name** | Quantum Pi Forge (OINIO Soul System) |
+| **What It Is** | Gasless staking platform for OINIO token on Polygon |
+| **Main Branch** | `main` |
+| **Deploy Target** | Vercel |
+| **Token Address** | `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7` |
+
+**DO NOT CONFUSE**:
+- ❌ `pi-forge-quantum-genesis/` subdirectory is legacy/archived code
+- ❌ Old markdown files with "LAUNCH" or "DEPLOYMENT" in names are historical
+- ✅ This repo (`quantum-pi-forge-fixed`) is the active codebase
+
+---
+
 ## Working with GitHub Copilot
 
 This repository is configured for GitHub Copilot Coding Agent. When working with Copilot:

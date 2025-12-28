@@ -1,12 +1,67 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+import os
+
+# Import rate limiting middleware
+try:
+    from middleware.rate_limit import RateLimitMiddleware, create_rate_limiter, get_rate_limit_status
+    RATE_LIMITING_ENABLED = True
+except ImportError:
+    RATE_LIMITING_ENABLED = False
+    print("Warning: Rate limiting middleware not available")
 
 
 app = FastAPI(
-    title="Vercel + FastAPI",
-    description="Vercel + FastAPI",
-    version="1.0.0",
+    title="Quantum Pi Forge API",
+    description="Backend API for Quantum Pi Forge - Sovereign Staking Protocol",
+    version="2.0.0",
 )
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, restrict to specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Rate limiting middleware
+rate_limiter = None
+if RATE_LIMITING_ENABLED:
+    rate_limiter = create_rate_limiter()
+    app.add_middleware(RateLimitMiddleware, rate_limiter=rate_limiter)
+
+
+# ==================== HEALTH & STATUS ENDPOINTS ====================
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint for monitoring."""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "version": "2.0.0",
+        "rate_limiting": RATE_LIMITING_ENABLED,
+    }
+
+
+@app.get("/api/rate-limit-status")
+async def rate_limit_status(request: Request):
+    """Get current rate limit status for the requesting client."""
+    if not RATE_LIMITING_ENABLED or not rate_limiter:
+        return {"rate_limiting": False, "message": "Rate limiting is not enabled"}
+    
+    status = get_rate_limit_status(rate_limiter, request)
+    return {
+        "rate_limiting": True,
+        **status,
+    }
+
+
+# ==================== DATA ENDPOINTS ====================
 
 
 @app.get("/api/data")
