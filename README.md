@@ -1,5 +1,9 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
+![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
+![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
+![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
+
 **"Where Consciousness Meets the Ledger of Truth."**
 
 The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.

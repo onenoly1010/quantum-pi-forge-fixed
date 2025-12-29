@@ -48,6 +48,23 @@ def health_check():
     }
 
 
+@app.get("/api/health-shields")
+def health_shields():
+    """
+    Shields.io compatible endpoint for dynamic status badge.
+    The Living Sigil - shows the world the Forge is breathing.
+    """
+    return {
+        "schemaVersion": 1,
+        "label": "Forge Status",
+        "message": "SOVEREIGN",
+        "color": "7D3FFF",
+        "style": "for-the-badge",
+        "namedLogo": "ethereum",
+        "logoColor": "white"
+    }
+
+
 @app.get("/api/rate-limit-status")
 async def rate_limit_status(request: Request):
     """Get current rate limit status for the requesting client."""
