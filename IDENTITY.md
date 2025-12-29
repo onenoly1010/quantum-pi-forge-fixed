@@ -168,23 +168,24 @@ All PRs must include this affirmation. Every merge is resonance.
 
 ---
 
-## �️ HISTORICAL CONTEXT
+## 🗃️ HISTORICAL CONTEXT
 
 Quantum Pi Forge originated with Pi Network integration during early development (2024-2025). The project evolved from a Pi Network app to a sovereign OINIO staking platform.
 
 | Era | Focus | Status |
 |-----|-------|--------|
 | **Genesis** (2024) | Pi Network integration | Archived |
+| **Transcendence** (Dec 29, 2025) | Pi SDK removed, sovereignty declared | Complete |
 | **Current** (2025) | OINIO gasless staking on Polygon | **Active** |
 
 **Current Focus:** OINIO token gasless staking on Polygon  
-**Historical:** Pi Network integration docs preserved in `pi-forge-quantum-genesis/docs/`
+**Historical:** Pi Network integration docs archived in `docs/archive/legacy-pi/`
 
-The Pi SDK remains loaded for potential future cross-chain features but is not part of the current user experience.
+The Pi SDK has been removed. The Forge stands sovereign.
 
 ---
 
-## �📚 KEY DOCUMENTATION
+## 📚 KEY DOCUMENTATION
 
 | Document | Purpose |
 |----------|---------|
