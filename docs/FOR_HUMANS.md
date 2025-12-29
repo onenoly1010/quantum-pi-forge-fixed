@@ -156,6 +156,20 @@ You're participating in the evolution of how humans organize digitally.
 
 ---
 
+## 🏛️ Historical Note
+
+The Quantum Pi Forge began as a Pi Network integration project during its early development phase (2024). Today, it focuses on **OINIO token staking on Polygon**, while preserving its historical roots in the archives.
+
+| Then | Now |
+|------|-----|
+| Pi Network app integration | OINIO Soul System |
+| Multiple chain exploration | Polygon Mainnet focus |
+| Experimental features | Production-ready gasless staking |
+
+The name "Quantum Pi Forge" honors these origins while the system has evolved into something sovereign and focused.
+
+---
+
 ## 🤝 How to Get Help
 
 ### **Community Support**
