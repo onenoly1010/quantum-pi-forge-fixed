@@ -4,6 +4,27 @@
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
 
+---
+
+## 🚀 Official Quantum Pi Forge Platform
+
+**As of December 28, 2025, all OINIO gasless staking, onboarding, and project information is now available exclusively at:**
+
+**https://quantum-pi-forge-fixed.vercel.app/**
+
+---
+- **Zero-Gas Staking:** Instantly and non-custodially stake OINIO on Polygon Mainnet—with wallet connect, no KYC, and all transaction gas sponsored
+- **Min/Max Staking:** 0.01 to 10,000 OINIO per transaction
+- **Fully Responsive & Modern UI:** Fast, self-sovereign, error-resilient onboarding and dashboard
+- **Production Ready:** Actively maintained, core platform for all ecosystem activity
+
+---
+> **Legacy Notice:**  
+> The previous landing and marketing site hosted on GitHub Pages (`https://onenoly1010.github.io/quantum-pi-forge-site/` and `http://quantumpiforge.com`) has been deprecated and is no longer accessible (404).  
+>  
+> All onboarding, live dashboards, and documentation are now hosted on the main application linked above.
+---
+
 **"Where Consciousness Meets the Ledger of Truth."**
 
 The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
