@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import TracingProvider from './tracing-provider'
+import { PiAuthProvider } from '@/contexts/PiAuthContext'
 
 export const metadata: Metadata = {
   title: 'OINIO - Sovereign Staking',
@@ -19,7 +20,9 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <TracingProvider />
-        {children}
+        <PiAuthProvider>
+          {children}
+        </PiAuthProvider>
       </body>
     </html>
   )

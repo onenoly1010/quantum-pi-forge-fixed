@@ -1,6 +1,7 @@
 "use client"
 
 import Link from 'next/link'
+import PiAuthButton from '@/components/PiAuthButton'
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
               <Link href="/for-humans" className="text-white/70 hover:text-white text-sm hidden sm:block">
                 How It Works
               </Link>
+              <PiAuthButton className="text-sm" />
               <Link 
                 href="/dashboard" 
                 className="px-5 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-medium text-sm hover:opacity-90"
