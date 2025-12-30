@@ -5,8 +5,8 @@
  */
 
 export interface PiUser {
-  uid: string;
-  username: string;
+  uid?: string;
+  username?: string;
   name?: string;
   [key: string]: any;
 }

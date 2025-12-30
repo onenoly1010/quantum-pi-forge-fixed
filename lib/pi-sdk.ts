@@ -59,12 +59,12 @@ class PiSdk {
       const user = PiSdkBase.get_user();
       const accessToken = PiSdkBase.accessToken;
 
-      if (!user) {
-        throw new Error('Authentication failed - no user returned');
+      if (!user || !user.uid) {
+        throw new Error('Authentication failed - no valid user returned');
       }
 
       return {
-        uid: user.uid || '',
+        uid: user.uid,
         username: user.username || user.name || '',
         name: user.name,
         ...user,
@@ -80,12 +80,17 @@ class PiSdk {
    */
   getCurrentUser(): PiUser | null {
     const user = PiSdkBase.get_user();
-    return user ? {
-      uid: user.uid || '',
+    
+    if (!user || !user.uid) {
+      return null;
+    }
+    
+    return {
+      uid: user.uid,
       username: user.username || user.name || '',
       name: user.name,
       ...user,
-    } : null;
+    };
   }
 
   /**
@@ -114,11 +119,31 @@ class PiSdk {
       throw new Error('Not authenticated - please authenticate first');
     }
 
+    // Validate payment data
+    if (typeof paymentData.amount !== 'number' || paymentData.amount <= 0) {
+      throw new Error('Invalid amount - must be a positive number');
+    }
+
+    if (paymentData.amount > 1000000) {
+      throw new Error('Amount exceeds maximum limit');
+    }
+
+    if (!paymentData.memo || typeof paymentData.memo !== 'string') {
+      throw new Error('Memo is required and must be a string');
+    }
+
+    if (paymentData.memo.length > 1000) {
+      throw new Error('Memo exceeds maximum length of 1000 characters');
+    }
+
+    // Sanitize memo to prevent injection
+    const sanitizedMemo = paymentData.memo.replace(/[<>]/g, '');
+
     try {
       const piPaymentData: PiPaymentData = {
         amount: paymentData.amount,
-        memo: paymentData.memo,
-        metadata: paymentData.metadata,
+        memo: sanitizedMemo,
+        metadata: paymentData.metadata || {},
       };
 
       this.sdk.createPayment(piPaymentData);
