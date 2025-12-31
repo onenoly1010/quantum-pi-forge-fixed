@@ -8,7 +8,8 @@
 ## 🎯 Current State Analysis
 
 ### ✅ What's Live & Working
-- **Domain**: quantumpiforge.com (Vercel, deployed Dec 12)
+- **Canonical Platform**: quantum-pi-forge-fixed.vercel.app (Vercel, OFFICIAL)
+- **Domain**: ~~quantumpiforge.com~~ (DEPRECATED - see CANONICAL_PLATFORM_DECLARATION.md)
 - **Frontend**: Next.js dashboard (static export ready)
 - **GitHub**: Full automation with guardians
 - **Social**: All channels active (Discord, Telegram, X, etc.)
@@ -38,7 +39,7 @@
 ```
 ┌─────────────────── USER EXPERIENCE ───────────────────┐
 │                                                        │
-│  quantumpiforge.com (Vercel)                          │
+│  quantum-pi-forge-fixed.vercel.app (CANONICAL)        │
 │  ├─ Next.js Frontend                                  │
 │  ├─ MetaMask Integration                              │
 │  └─ Pi Network SDK                                    │

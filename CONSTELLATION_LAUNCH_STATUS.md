@@ -10,8 +10,8 @@
 
 | # | Repository | Deployment | URL | Status |
 |---|-----------|------------|-----|--------|
-| 1 | `quantum-pi-forge-site` | Vercel + Custom Domain | https://quantumpiforge.com | ✅ LIVE |
-| 2 | `quantum-pi-forge-fixed` | Vercel | https://quantum-pi-forge-fixed.vercel.app | ✅ LIVE |
+| 1 | `quantum-pi-forge-site` | Vercel + Custom Domain | ~~https://quantumpiforge.com~~ (DEPRECATED) | ⚠️ Redirects to canonical |
+| 2 | `quantum-pi-forge-fixed` | Vercel | https://quantum-pi-forge-fixed.vercel.app | ✅ LIVE (CANONICAL) |
 | 3 | `pi-forge-quantum-genesis` | Render | https://pi-forge-quantum-genesis-1.onrender.com | ✅ LIVE |
 | 4 | `quantum-resonance-clean` | Vercel | https://quantum-resonance-clean.vercel.app | ⚠️ LIVE (429) |
 | 5 | `Ai-forge-` | GitHub Pages | https://onenoly1010.github.io/Ai-forge-/ | ✅ LIVE 🆕 |

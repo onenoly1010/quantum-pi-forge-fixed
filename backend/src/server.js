@@ -71,9 +71,10 @@ const corsOptions = {
   origin: process.env.ALLOWED_ORIGINS?.split(',') || [
     'http://localhost:3000',
     'http://localhost:3001',
+    'https://quantum-pi-forge-fixed.vercel.app', // CANONICAL PLATFORM
+    // Deprecated (for backwards compatibility only):
     'https://quantumpiforge.com',
     'https://www.quantumpiforge.com',
-    'https://quantum-pi-forge-fixed.vercel.app',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

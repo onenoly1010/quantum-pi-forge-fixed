@@ -115,7 +115,6 @@ cat << 'EOF'
    Join the sovereign AI economy.
 
 🔗 https://quantum-pi-forge-fixed.vercel.app/dashboard
-🌐 https://onenoly1010.github.io/quantum-pi-forge-site/
 EOF
 echo "----------------------------------------"
 echo ""
@@ -137,7 +136,6 @@ The future of creator royalties is here.
 🎁 Whitelist Bonuses: Early adopters get 2x multiplier
 
 → Start Here: https://quantum-pi-forge-fixed.vercel.app/dashboard
-→ Landing Page: https://onenoly1010.github.io/quantum-pi-forge-site/
 → Block Explorer: https://chainscan.0g.ai
 
 Questions? Ask in #oinio-support
@@ -172,7 +170,6 @@ echo "=========================================="
 echo ""
 echo "📊 LIVE URLS:"
 echo "   Dashboard: https://quantum-pi-forge-fixed.vercel.app/dashboard"
-echo "   Landing:   https://onenoly1010.github.io/quantum-pi-forge-site/"
 echo "   Health:    https://quantum-pi-forge-fixed.vercel.app/api/health"
 echo ""
 echo "🔗 BLOCKCHAIN:"

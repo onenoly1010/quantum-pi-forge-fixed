@@ -35,9 +35,9 @@
   - Current Status: 404 (building)
   - Expected: Live within 5 minutes
   
-- **Landing Page**: https://onenoly1010.github.io/quantum-pi-forge-site/
-  - Status: Assumed live (GitHub Pages)
-  - Verify: Check after Vercel deployment
+- **Landing Page**: (Deprecated - use Dashboard instead)
+  - Former URL: `onenoly1010.github.io/quantum-pi-forge-site/`
+  - Status: Archived - redirects to canonical platform
 
 - **Countdown Timer**: Copilot Agent PR in progress
   - Repo: onenoly1010/countdown
