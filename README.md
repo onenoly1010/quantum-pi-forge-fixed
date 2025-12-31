@@ -6,6 +6,19 @@
 
 **"Where Consciousness Meets the Ledger of Truth."**
 
+---
+
+# ⚠️ CANONICAL PLATFORM DECLARATION
+
+**There is ONE official platform for Quantum Pi Forge:**  
+👉 **https://quantum-pi-forge-fixed.vercel.app/**
+
+All staking, wallet connections, and ecosystem integrations occur exclusively here.
+
+📜 **Full Declaration:** [CANONICAL_PLATFORM_DECLARATION.md](./CANONICAL_PLATFORM_DECLARATION.md)
+
+---
+
 The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
 
 ---
@@ -66,7 +79,9 @@ We lead with transparency because Truth has nothing to hide.
 
 ## 🌐 Live Dashboard
 
-**Dashboard**: https://quantumpiforge.com
+**Dashboard**: https://quantum-pi-forge-fixed.vercel.app/dashboard
+
+> **Note:** The URL `quantumpiforge.com` is deprecated. Please use the canonical platform URL above.
 
 ---
 

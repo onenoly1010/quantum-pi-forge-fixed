@@ -6,11 +6,16 @@
 
 ### User-Facing
 
-- **Main Dashboard**: <https://quantum-pi-forge-fixed.vercel.app/dashboard> ✅ LIVE
-- **Landing Page**: <https://onenoly1010.github.io/quantum-pi-forge-site/> ✅ LIVE
+- **🌐 CANONICAL PLATFORM**: <https://quantum-pi-forge-fixed.vercel.app/> ✅ OFFICIAL
+  - Main Dashboard: `/dashboard`
+  - Staking Interface: Integrated in dashboard
+  - Leaderboard: Integrated in dashboard
+  
+- **⚠️ DEPRECATED**: 
+  - ~~quantumpiforge.com~~ (Redirect notice displayed)
+  - ~~onenoly1010.github.io/quantum-pi-forge-site/~~ (Archived)
+
 - **Health API**: <https://quantum-pi-forge-fixed.vercel.app/api/health> ✅ LIVE
-- **Staking Interface**: Integrated in dashboard ✅
-- **Leaderboard**: Integrated in dashboard ✅
 
 ### Blockchain
 

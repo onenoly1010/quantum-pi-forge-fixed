@@ -1,5 +1,8 @@
 # OINIO Project - Complete Setup Index
 
+> **⚠️ Canonical Platform:** All URLs in this document reference the official platform at https://quantum-pi-forge-fixed.vercel.app/  
+> See [CANONICAL_PLATFORM_DECLARATION.md](./CANONICAL_PLATFORM_DECLARATION.md) for full context.
+
 ## 📌 Quick Navigation
 
 ### 🚀 For First-Time Users

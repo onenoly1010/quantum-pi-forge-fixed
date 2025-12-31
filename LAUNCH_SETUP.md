@@ -1,5 +1,8 @@
 # 🚀 OINIO Launch Setup & Configuration Guide
 
+> **⚠️ Canonical Platform:** All URLs in this document reference the official platform at https://quantum-pi-forge-fixed.vercel.app/  
+> See [CANONICAL_PLATFORM_DECLARATION.md](./CANONICAL_PLATFORM_DECLARATION.md) for full context.
+
 ## Overview
 
 This document guides you through the complete setup process for OINIO launch monitoring and deployment. The system monitors the 0G Guild for grant approval and automatically executes the flash launch when approved.
