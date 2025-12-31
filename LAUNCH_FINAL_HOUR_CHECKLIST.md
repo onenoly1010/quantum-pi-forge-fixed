@@ -120,8 +120,6 @@ npx hardhat run scripts/pause-staking.js --network 0g
 
 ### Production Endpoints
 - **Main Dashboard**: https://quantum-pi-forge-fixed.vercel.app/dashboard
-- **Landing Page**: https://onenoly1010.github.io/quantum-pi-forge-site/
-- **Countdown Timer**: [Copilot Agent PR pending]
 - **0G Explorer**: https://scan.0g.ai
 - **Documentation**: https://github.com/onenoly1010/quantum-pi-forge-fixed#readme
 

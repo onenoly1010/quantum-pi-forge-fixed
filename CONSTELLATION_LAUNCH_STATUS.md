@@ -82,7 +82,7 @@ cd pi-mr-nft-contracts
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   🌐 PUBLIC LAYER                                                │
-│   ├── quantumpiforge.com (Landing Portal)                        │
+│   ├── quantum-pi-forge-fixed.vercel.app (CANONICAL PLATFORM)     │
 │   ├── quantum-pi-forge-v6.netlify.app (Active Operations)        │
 │   └── Ai-forge- (Ethical AI Builder) ⏳                          │
 │                                                                  │
@@ -113,7 +113,7 @@ cd pi-mr-nft-contracts
 ### Live Services Health Check
 ```bash
 # Run all health checks
-curl -s -o /dev/null -w "%{http_code}" https://quantumpiforge.com
+curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-fixed.vercel.app
 curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-fixed.vercel.app
 curl -s -o /dev/null -w "%{http_code}" https://pi-forge-quantum-genesis-1.onrender.com
 curl -s -o /dev/null -w "%{http_code}" https://quantum-resonance-clean.vercel.app

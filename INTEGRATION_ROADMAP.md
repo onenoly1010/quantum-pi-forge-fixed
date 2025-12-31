@@ -215,7 +215,7 @@ async function fetchLeaderboard() {
 }
 ```
 
-**Deliverable**: Live leaderboard data on quantumpiforge.com
+**Deliverable**: Live leaderboard data on canonical platform (quantum-pi-forge-fixed.vercel.app)
 
 ---
 
@@ -340,7 +340,7 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 ## 📊 Success Metrics
 
 **Integration Complete When**:
-- [ ] quantumpiforge.com loads real leaderboard data
+- [ ] Canonical platform (quantum-pi-forge-fixed.vercel.app) loads real leaderboard data
 - [ ] Users can stake OINIO through dashboard
 - [ ] Backend health endpoint returns 200
 - [ ] Supabase tables populated with test data

@@ -166,7 +166,6 @@ See you there!
 | Item | Placeholder | Status |
 |------|-------------|--------|
 | Dashboard URL | https://quantum-pi-forge-fixed.vercel.app/dashboard | ✅ LIVE |
-| Landing Page | https://onenoly1010.github.io/quantum-pi-forge-site/ | ✅ LIVE |
 | Health API | https://quantum-pi-forge-fixed.vercel.app/api/health | ✅ LIVE |
 | DEX Link | `[DEX_LINK]` | ⏳ Pending Dec 30 |
 | Leaderboard | https://quantum-pi-forge-fixed.vercel.app/dashboard#leaderboard | ✅ Built |
