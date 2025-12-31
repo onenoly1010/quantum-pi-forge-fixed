@@ -1,3 +1,10 @@
+---
+description: "Global GitHub Copilot instructions for Quantum Pi Forge (OINIO Soul System)"
+applyTo: "**/*"
+version: "1.0.0"
+lastUpdated: "2025-12-31"
+---
+
 # Copilot Instructions for Quantum Pi Forge
 
 > **🔮 IDENTITY REFERENCE**: For a complete project identity overview, see [IDENTITY.md](/IDENTITY.md)
@@ -18,6 +25,47 @@
 - ❌ `pi-forge-quantum-genesis/` subdirectory is legacy/archived code
 - ❌ Old markdown files with "LAUNCH" or "DEPLOYMENT" in names are historical
 - ✅ This repo (`quantum-pi-forge-fixed`) is the active codebase
+
+---
+
+## Quick Reference
+
+### ✅ DO
+- Use TypeScript for new files in `app/` and `components/` directories
+- Follow functional components with React hooks pattern
+- Validate all user inputs on both client and server
+- Test locally with `npm run build` before pushing
+- Use shadcn/ui components for UI consistency
+- Keep private keys in environment variables only
+- Write clear, conventional commit messages
+- Create focused, single-purpose issues
+
+### ❌ DON'T
+- Never commit `.env.local`, private keys, or secrets
+- Don't remove working code without clear justification
+- Don't change major dependency versions without testing
+- Don't bypass security validations
+- Don't hardcode sensitive values
+- Don't mix styling approaches (stick to Tailwind CSS)
+- Don't make large-scale refactors without discussion
+- Don't ignore existing test failures unrelated to your changes
+
+### 🚀 Common Commands
+```bash
+# Development
+npm run dev                    # Start dev server (localhost:3000)
+npm run build                  # Build production bundle
+npm run start                  # Start production server
+
+# Smart Contracts
+npx hardhat compile            # Compile Solidity contracts
+npx hardhat test               # Run contract tests
+
+# Git Workflow
+git status                     # Check repository status
+git add .                      # Stage changes (done by report_progress)
+git commit -m "message"        # Commit (done by report_progress)
+```
 
 ---
 
@@ -832,3 +880,84 @@ When reviewing Copilot PRs:
 - [Ethers.js v6 Documentation](https://docs.ethers.org/v6/)
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+## Advanced Features
+
+### Custom Agents and MCP Servers
+
+GitHub Copilot can be extended with custom agents and Model Context Protocol (MCP) servers for specialized tasks.
+
+#### When to Use Custom Agents
+- **Complex domain-specific tasks**: Smart contract auditing, blockchain interactions
+- **Specialized workflows**: Database migrations, API integrations
+- **Repetitive patterns**: Code generation with consistent style
+- **Integration with external tools**: CI/CD, monitoring systems
+
+#### MCP Server Integration
+Model Context Protocol servers provide additional context and capabilities to Copilot:
+
+```markdown
+# Example MCP Server Configuration (.github/mcp-config.json)
+{
+  "mcpServers": {
+    "blockchain-tools": {
+      "command": "npx",
+      "args": ["blockchain-mcp-server"],
+      "env": {
+        "POLYGON_RPC_URL": "${POLYGON_RPC_URL}"
+      }
+    }
+  }
+}
+```
+
+**Benefits**:
+- Access to real-time blockchain data
+- Integration with external APIs
+- Custom tool definitions for specialized tasks
+- Enhanced context for code generation
+
+**Setup**:
+1. Define MCP servers in `.github/mcp-config.json`
+2. Ensure required dependencies are installed
+3. Configure environment variables for server authentication
+4. Test server connectivity before relying on it
+
+#### Granular Instructions
+
+For file-type or directory-specific instructions, create files in `.github/instructions/`:
+
+```yaml
+---
+description: "TypeScript React component guidelines"
+applyTo: "**/*.{ts,tsx}"
+---
+
+# React Component Guidelines
+
+- Always use functional components with hooks
+- Export components as named exports
+- Include PropTypes or TypeScript interfaces
+- Follow the project's component structure pattern
+```
+
+This approach allows fine-grained control over Copilot behavior in different parts of the codebase.
+
+## Feedback and Continuous Improvement
+
+### Updating Instructions
+This instruction file is a living document. As the project evolves:
+
+1. **Document new patterns**: When establishing new conventions, add them here
+2. **Remove outdated guidance**: Keep instructions current with the codebase
+3. **Add examples**: Include code snippets for clarity
+4. **Get team feedback**: Review instructions with contributors regularly
+
+### Measuring Effectiveness
+- Monitor Copilot PR quality and iteration count
+- Track time saved on common tasks
+- Collect feedback from developers using Copilot
+- Update instructions based on common mistakes or confusion
+
+### Version History
+- **v1.0.0** (2025-12-31): Initial comprehensive instructions with YAML frontmatter, quick reference, and best practices
