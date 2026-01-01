@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import AgentStatusWidget from '../../app/dashboard/components/AgentStatusWidget';
 
 // ==================== TYPES ====================
 interface DashboardProps {
@@ -767,6 +768,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Agent Status Widget */}
+          <div className="mt-6">
+            <AgentStatusWidget />
           </div>
 
           {/* Info Cards */}
