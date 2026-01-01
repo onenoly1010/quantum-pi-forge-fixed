@@ -606,8 +606,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
           <div className="relative max-w-7xl mx-auto px-6 py-8">
             <nav className="flex items-center justify-between mb-12">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">Ω</span>
+                <div className="w-10 h-10 flex items-center justify-center">
+                  <img src="/oinio-logo.svg" alt="OINIO Logo - Quantum Pi Forge" className="w-full h-full object-contain" />
                 </div>
                 <span className="text-white font-semibold text-xl tracking-tight">OINIO</span>
               </div>
@@ -830,8 +830,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                  <span className="text-white font-bold">Ω</span>
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <img src="/oinio-logo.svg" alt="OINIO Logo - Quantum Pi Forge" className="w-full h-full object-contain" />
                 </div>
                 <span className="text-white/60 text-sm">OINIO • Sovereign Staking Protocol</span>
               </div>
