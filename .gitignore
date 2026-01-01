@@ -26,6 +26,7 @@ Thumbs.db
 # Build artifacts
 *.tsbuildinfo
 
-# User uploaded files (keep folder structure with .gitkeep)
+# User uploaded files (keep folder structure with .gitkeep and documentation)
 public/logos/*
 !public/logos/.gitkeep
+!public/logos/README.md
