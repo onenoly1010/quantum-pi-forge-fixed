@@ -8,8 +8,8 @@ echo "🔍 Quantum Pi Forge - Deployment Verification"
 echo "=============================================="
 echo ""
 
-# Configuration
-PRODUCTION_URL="https://quantum-pi-forge-fixed.vercel.app"
+# Configuration - Can be overridden by environment variables
+PRODUCTION_URL="${PRODUCTION_URL:-https://quantum-pi-forge-fixed.vercel.app}"
 DASHBOARD_URL="${PRODUCTION_URL}/dashboard"
 API_HEALTH_URL="${PRODUCTION_URL}/api/health"
 API_SHIELDS_URL="${PRODUCTION_URL}/api/health-shields"

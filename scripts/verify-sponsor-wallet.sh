@@ -115,7 +115,7 @@ echo "🔍 Checking wallet balances..."
 echo ""
 
 # Execute Node.js script and capture output
-output=$(cd /home/runner/work/quantum-pi-forge-fixed/quantum-pi-forge-fixed && node "$BALANCE_CHECK_SCRIPT" 2>&1)
+output=$(cd "$PROJECT_ROOT" && node "$BALANCE_CHECK_SCRIPT" 2>&1)
 
 echo "$output"
 echo ""
@@ -135,12 +135,12 @@ if echo "$output" | grep -q "---JSON---"; then
     echo "Wallet: ${wallet_address}"
     echo ""
     
-    # Check MATIC balance
+    # Check MATIC balance (using awk instead of bc for portability)
     echo -n "MATIC Balance: ${matic_balance} MATIC - "
-    matic_check=$(echo "$matic_balance >= $MIN_MATIC" | bc -l 2>/dev/null || echo "0")
+    matic_check=$(awk -v bal="$matic_balance" -v min="$MIN_MATIC" 'BEGIN {exit !(bal >= min)}' && echo "1" || echo "0")
     if [ "$matic_check" = "1" ]; then
         echo -e "${GREEN}✅ SUFFICIENT${NC}"
-        if (( $(echo "$matic_balance >= $RECOMMENDED_MATIC" | bc -l) )); then
+        if awk -v bal="$matic_balance" -v rec="$RECOMMENDED_MATIC" 'BEGIN {exit !(bal >= rec)}'; then
             echo "   (Above recommended minimum of ${RECOMMENDED_MATIC} MATIC)"
         else
             echo -e "   ${YELLOW}⚠️  Below recommended ${RECOMMENDED_MATIC} MATIC${NC}"
@@ -151,12 +151,12 @@ if echo "$output" | grep -q "---JSON---"; then
     fi
     echo ""
     
-    # Check OINIO balance
+    # Check OINIO balance (using awk instead of bc for portability)
     echo -n "OINIO Balance: ${oinio_balance} OINIO - "
-    oinio_check=$(echo "$oinio_balance >= $MIN_OINIO" | bc -l 2>/dev/null || echo "0")
+    oinio_check=$(awk -v bal="$oinio_balance" -v min="$MIN_OINIO" 'BEGIN {exit !(bal >= min)}' && echo "1" || echo "0")
     if [ "$oinio_check" = "1" ]; then
         echo -e "${GREEN}✅ SUFFICIENT${NC}"
-        if (( $(echo "$oinio_balance >= $RECOMMENDED_OINIO" | bc -l) )); then
+        if awk -v bal="$oinio_balance" -v rec="$RECOMMENDED_OINIO" 'BEGIN {exit !(bal >= rec)}'; then
             echo "   (Above recommended minimum of ${RECOMMENDED_OINIO} OINIO)"
         else
             echo -e "   ${YELLOW}⚠️  Below recommended ${RECOMMENDED_OINIO} OINIO${NC}"

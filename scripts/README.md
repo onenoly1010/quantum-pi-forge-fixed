@@ -33,9 +33,20 @@ bash scripts/phase1-status.sh
 ### verify-deployment.sh
 **Purpose**: Verify Vercel production deployment is live and functional
 
+**Prerequisites**:
+- Internet connection to test URLs
+- `curl` command available
+
+**Environment Variables** (optional):
+- `PRODUCTION_URL` - Override default URL (default: https://quantum-pi-forge-fixed.vercel.app)
+
 **Usage**:
 ```bash
+# Use default URL
 bash scripts/verify-deployment.sh
+
+# Use custom URL
+PRODUCTION_URL=https://your-custom-domain.com bash scripts/verify-deployment.sh
 ```
 
 **Tests performed**:

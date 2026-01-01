@@ -20,6 +20,14 @@ COMPLETED=0
 PENDING=0
 BLOCKED=0
 
+# Determine project root and log directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+LOG_DIR="$PROJECT_ROOT/.logs"
+
+# Create log directory if it doesn't exist
+mkdir -p "$LOG_DIR"
+
 echo "Checking Phase 1 completion criteria..."
 echo ""
 
@@ -39,12 +47,12 @@ fi
 
 # Test build
 echo -n "   Testing build... "
-if npm run build > /tmp/build-test.log 2>&1; then
+if npm run build > "$LOG_DIR/build-test.log" 2>&1; then
     echo -e "${GREEN}✅ Passes${NC}"
     COMPLETED=$((COMPLETED + 1))
 else
     echo -e "${RED}❌ Fails${NC}"
-    echo "   Check /tmp/build-test.log for errors"
+    echo "   Check $LOG_DIR/build-test.log for errors"
     BLOCKED=$((BLOCKED + 1))
 fi
 echo ""
@@ -94,12 +102,12 @@ if [ -n "$SPONSOR_PRIVATE_KEY" ]; then
     # Try to check balance if script exists
     if [ -f "scripts/verify-sponsor-wallet.sh" ]; then
         echo "   Running balance check..."
-        if bash scripts/verify-sponsor-wallet.sh > /tmp/wallet-check.log 2>&1; then
+        if bash scripts/verify-sponsor-wallet.sh > "$LOG_DIR/wallet-check.log" 2>&1; then
             echo -e "   Wallet balance: ${GREEN}✅ Sufficient${NC}"
             COMPLETED=$((COMPLETED + 2))
         else
             echo -e "   Wallet balance: ${RED}❌ Insufficient${NC}"
-            echo "   Check /tmp/wallet-check.log for details"
+            echo "   Check $LOG_DIR/wallet-check.log for details"
             BLOCKED=$((BLOCKED + 1))
         fi
     else
