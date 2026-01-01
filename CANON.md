@@ -2,6 +2,7 @@
 
 **Last Updated**: December 28, 2025  
 **Status**: ACTIVE  
+**New Contributors**: See [START_HERE.md](START_HERE.md)  
 **Authority**: This file supersedes all other documentation when conflicts arise.
 
 ---

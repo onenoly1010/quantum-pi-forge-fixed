@@ -1,5 +1,7 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
+> **👉 NEW HERE? [START HERE](START_HERE.md) 👈**
+
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
