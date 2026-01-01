@@ -31,6 +31,10 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
  * Fetch with timeout support
+ * @param url - The URL to fetch
+ * @param timeout - Timeout in milliseconds (default: 5000ms)
+ * @returns Promise resolving to the Response object
+ * @throws Error if request times out or fails
  */
 const fetchWithTimeout = async (url: string, timeout: number = REQUEST_TIMEOUT): Promise<Response> => {
   const controller = new AbortController();
@@ -53,6 +57,8 @@ const fetchWithTimeout = async (url: string, timeout: number = REQUEST_TIMEOUT):
 
 /**
  * Check health of a single agent service
+ * @param service - The agent service configuration to check
+ * @returns Promise resolving to AgentHealthStatus with current service state
  */
 const checkAgentHealth = async (service: AgentService): Promise<AgentHealthStatus> => {
   const startTime = Date.now();
