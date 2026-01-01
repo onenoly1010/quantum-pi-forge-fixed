@@ -10,8 +10,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Ω</span>
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img src="/oinio-logo.svg" alt="OINIO Logo - Quantum Pi Forge" className="w-full h-full object-contain" />
               </div>
               <span className="text-white font-semibold text-xl">OINIO</span>
             </Link>
@@ -345,8 +345,8 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">Ω</span>
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img src="/oinio-logo.svg" alt="OINIO Logo - Quantum Pi Forge" className="w-full h-full object-contain" />
               </div>
               <span className="text-white/60 text-sm">OINIO Soul System • Sovereign Staking</span>
             </div>
