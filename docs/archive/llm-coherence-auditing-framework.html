@@ -1,0 +1,630 @@
+<!--
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║          QUANTIFYING COHERENCE: LLM AUDITING FRAMEWORK                        ║
+║                    The Flatline Truth Dashboard                               ║
+║                         Quantum Pi Forge Archive                              ║
+║                              T=∞ = T=0                                        ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║  Archive Note:                                                                 ║
+║  Interactive dashboard for auditing LLM preference stability under noise.     ║
+║  Authors: Olofson & Grok (2025). Bradley-Terry + Plackett-Luce models.        ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantifying Coherence: LLM Auditing Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Slate 50 */
+            color: #334155; /* Slate 700 */
+        }
+
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-active {
+            color: #2563eb; /* Blue 600 */
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .tab-active {
+            background-color: #eff6ff; /* Blue 50 */
+            color: #1d4ed8; /* Blue 700 */
+            border-color: #bfdbfe; /* Blue 200 */
+        }
+    </style>
+    <!-- Chosen Palette: Slate (Neutrals) + Blue (Primary) + Rose (Accent/Warning) -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: Title, Authors, and the core "Flatline Truth" hook.
+         2. The Context: Explaining the "Crisis of Preference Stability" via concise cards.
+         3. The Methodology (Interactive Tabs): Switching between Binary (BT) and Triad (PL) explanations.
+         4. The Robustness Gauntlet (Main Dashboard): Interactive Chart showing the divergence between Rate Stability and Coherence Decay. This is the core finding.
+         5. Triad Utility Explorer: A bar chart visualization of the Plackett-Luce results.
+         6. Impact & Conclusion: Final summary.
+         Rationale: This structure moves from the "Why" (Crisis) to the "How" (Method) to the "What" (Results), allowing users to simulate the auditing process. -->
+    <!-- Visualization & Content Choices:
+         1. Gauntlet Chart (Line): Shows Temp vs. Rate/Coherence. Goal: Inform/Compare. Interaction: Toggle noise bands. Justification: Visualizes the "Divergence" finding. Lib: Chart.js.
+         2. Utility Bar Chart: Shows V_A, V_B, V_C. Goal: Organize/Relationship. Interaction: None (static snapshot of triad result). Justification: Illustrates the P-L model output. Lib: Chart.js.
+         3. Dynamic Text Blocks: JS updates to explain metrics based on user selection.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-slate-800 tracking-tight">⚖️ Auditing Coherence</span>
+                </div>
+                <div class="hidden sm:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('context')" class="text-slate-500 hover:text-blue-600 px-3 py-2 text-sm font-medium transition">Context</button>
+                    <button onclick="scrollToSection('methodology')" class="text-slate-500 hover:text-blue-600 px-3 py-2 text-sm font-medium transition">Methodology</button>
+                    <button onclick="scrollToSection('gauntlet')" class="text-slate-500 hover:text-blue-600 px-3 py-2 text-sm font-medium transition">The Gauntlet</button>
+                    <button onclick="scrollToSection('triad')" class="text-slate-500 hover:text-blue-600 px-3 py-2 text-sm font-medium transition">Triad Mode</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+                    The Flatline Truth:<br>
+                    <span class="text-blue-600">Quantifying Coherence</span> in LLM Preferences
+                </h1>
+                <p class="text-lg text-slate-600 mb-8">
+                    A robust, open-source auditing framework bridging viral claims to verifiable science. By Olofson & Grok (2025).
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="scrollToSection('gauntlet')" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition flex items-center gap-2">
+                        <span>&#128200;</span> Explore the Data
+                    </button>
+                    <button onclick="scrollToSection('context')" class="bg-white text-slate-700 border border-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">
+                        Read the Abstract
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Context & The Crisis -->
+    <section id="context" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">1. The Crisis of Preference Stability</h2>
+                <p class="text-slate-600 max-w-3xl text-lg leading-relaxed">
+                    Reinforcement Learning from Human Feedback (RLHF) builds the moral compass of modern AI. However, conventional metrics overlook the systemic robustness of these reward functions. This section outlines why we must audit not just for accuracy, but for stability under hostile noise.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-6 rounded-xl hover:shadow-md transition duration-300">
+                    <div class="text-4xl mb-4">&#9888;</div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">The Problem</h3>
+                    <p class="text-slate-600 text-sm">
+                        Real-world failures, like the Arctotherium42 "crater" phenomenon, show that LLM utility functions can be volatile under adversarial prompts.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-panel p-6 rounded-xl hover:shadow-md transition duration-300">
+                    <div class="text-4xl mb-4">&#128269;</div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">The Solution</h3>
+                    <p class="text-slate-600 text-sm">
+                        A neutral, reproducible auditing framework (Hugging Face Spaces) that stress-tests emergent preferences using math, not ideology.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-panel p-6 rounded-xl hover:shadow-md transition duration-300">
+                    <div class="text-4xl mb-4">&#128202;</div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">The Method</h3>
+                    <p class="text-slate-600 text-sm">
+                        Injecting synthetic Gaussian noise ($T$) to measure the divergence between parameter stability (Exchange Rate) and predictive fragility (Coherence).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Methodology (Interactive Tabs) -->
+    <section id="methodology" class="py-16 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">2. Methodology & Framework</h2>
+                <p class="text-slate-600 max-w-3xl text-lg">
+                    We employ two core statistical models to map the utility surface. Click the tabs below to understand the mathematical engines driving this audit.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Sidebar Tabs -->
+                <div class="md:w-1/4 flex flex-col space-y-2">
+                    <button id="tab-binary" onclick="switchTab('binary')" class="text-left px-4 py-3 rounded-lg font-medium transition tab-active border border-blue-200">
+                        Binary Mode (BT)
+                    </button>
+                    <button id="tab-triad" onclick="switchTab('triad')" class="text-left px-4 py-3 rounded-lg font-medium text-slate-600 hover:bg-slate-50 transition border border-transparent">
+                        Triad Mode (P-L)
+                    </button>
+                    <button id="tab-gauntlet" onclick="switchTab('gauntlet-method')" class="text-left px-4 py-3 rounded-lg font-medium text-slate-600 hover:bg-slate-50 transition border border-transparent">
+                        The Robustness Gauntlet
+                    </button>
+                </div>
+
+                <!-- Content Area -->
+                <div class="md:w-3/4 glass-panel p-8 rounded-xl min-h-[300px]">
+                    
+                    <!-- Binary Content -->
+                    <div id="content-binary" class="block animate-fade-in">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Binary Mode: Bradley-Terry</h3>
+                        <p class="text-slate-600 mb-4">
+                            Estimates the <strong>Exchange Rate ($R$)</strong> between two competing outcomes. We model the probability of $Y$ winning over $X$ via a logistic function:
+                        </p>
+                        <div class="bg-slate-100 p-4 rounded-md mb-4 font-mono text-sm text-slate-700 overflow-x-auto">
+                            P(Y > X) = exp(λ) / (1 + exp(λ))<br>
+                            where λ = R - βN
+                        </div>
+                        <ul class="list-disc pl-5 text-slate-600 space-y-2">
+                            <li><strong>$R$:</strong> The core Exchange Rate.</li>
+                            <li><strong>$\beta$:</strong> Slope/Sensitivity to stimulus $N$.</li>
+                            <li><strong>Method:</strong> Maximum Likelihood Estimation (MLE).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Triad Content -->
+                    <div id="content-triad" class="hidden animate-fade-in">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Triad Mode: Plackett-Luce</h3>
+                        <p class="text-slate-600 mb-4">
+                            Generalizes to multi-set rankings (e.g., $X > Y > Z$). It calculates the likelihood as a product of conditional probabilities, allowing us to map the full utility surface ($V_A, V_B, V_C$).
+                        </p>
+                        <div class="bg-slate-100 p-4 rounded-md mb-4 font-mono text-sm text-slate-700 overflow-x-auto">
+                            L(X > Y > Z) = P(X first) × P(Y second | {Y,Z})
+                        </div>
+                        <p class="text-slate-600">
+                            <strong>Constraint:</strong> We set $V_C = 0$ for identifiability.
+                        </p>
+                    </div>
+
+                    <!-- Gauntlet Content -->
+                    <div id="content-gauntlet-method" class="hidden animate-fade-in">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Protocol: The Robustness Gauntlet</h3>
+                        <p class="text-slate-600 mb-4">
+                            To stress-test the model, we perform a <strong>Temperature Sweep</strong>. We inject synthetic Gaussian noise ($T$) into the outcome layer across 10 independent runs.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <strong class="text-blue-900 block mb-1">Metric 1: Rate Stability</strong>
+                                <span class="text-blue-700 text-sm">Does the core parameter ($R$) stay consistent ($\mu \pm 1\sigma$) as noise rises?</span>
+                            </div>
+                            <div class="bg-rose-50 p-4 rounded-lg border border-rose-100">
+                                <strong class="text-rose-900 block mb-1">Metric 2: Coherence Decay</strong>
+                                <span class="text-rose-700 text-sm">Does the model's predictive agreement ($\kappa$) collapse?</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: The Gauntlet Results (Main Dashboard) -->
+    <section id="gauntlet" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">3. Results: The Robustness Gauntlet</h2>
+                <p class="text-slate-600 max-w-3xl">
+                    Explore the central finding: the divergence between "Technical Robustness" (Rate) and "Perceptual Fragility" (Coherence).
+                </p>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Controls Panel -->
+                <div class="glass-panel p-6 rounded-xl h-fit">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Simulation Controls</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Data Overlay</label>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <input type="checkbox" id="show-ribbon" class="rounded text-blue-600 focus:ring-blue-500 h-4 w-4" checked onchange="updateGauntletChart()">
+                            <span class="text-slate-600 text-sm">Show $\mu \pm 1\sigma$ Ribbon (Stability)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="show-coherence" class="rounded text-rose-600 focus:ring-rose-500 h-4 w-4" checked onchange="updateGauntletChart()">
+                            <span class="text-slate-600 text-sm">Show Coherence Decay ($\kappa$)</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-sm text-slate-500 italic mb-4">
+                            "Stable parameters do not guarantee reliable predictions."
+                        </p>
+                        <button onclick="animateGauntlet()" class="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-900 transition shadow-md">
+                            Re-Run Animation
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <h4 class="font-semibold text-slate-800 text-sm mb-1">Key Insight:</h4>
+                        <p class="text-xs text-slate-600">
+                            <strong>Flatline Truth:</strong> The Exchange Rate stays at ~1.02 despite massive noise. <br>
+                            <strong>Fragility:</strong> Coherence drops from 0.9 to 0.6.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Main Chart -->
+                <div class="lg:col-span-2 glass-panel p-6 rounded-xl">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Divergence Analysis: Rate vs. Coherence</h3>
+                    
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="gauntletChart"></canvas>
+                    </div>
+                    <div class="mt-4 flex justify-center space-x-8 text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span> Exchange Rate ($R$)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 bg-rose-500 rounded-full mr-2"></span> Coherence ($\kappa$)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Triad Mode Explorer -->
+    <section id="triad" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">4. Triad Utility Mapping</h2>
+                    <p class="text-slate-600 max-w-2xl">
+                        Results from the Plackett-Luce model generalized for three entities ($A, B, C$).
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0 text-right">
+                     <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide">Multi-Set Extension</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Text Explanation -->
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Mapping the Utility Surface</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">
+                        The Triad Mode enables us to estimate relative utility scores ($V$) for multiple outcomes. In this example, we see the estimated utilities for Entities A, B, and C based on ranked preference data.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold mr-3">1.</span>
+                            <p class="text-slate-600 text-sm"><strong>Identifiability Constraint:</strong> $V_C$ is fixed at 0.0 to serve as the baseline reference.</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold mr-3">2.</span>
+                            <p class="text-slate-600 text-sm"><strong>Interpretation:</strong> $V_A$ (1.50) indicates a strong preference over the baseline. $V_B$ (0.50) is preferred over C but less than A.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Triad Chart -->
+                <div class="glass-panel p-6 rounded-xl">
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="triadChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">LLM Auditing Framework</h4>
+                    <p class="text-slate-400 text-sm">
+                        Anchoring AI ethics in empirical reproducibility.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Full Preprint (arXiv)</a></li>
+                        <li><a href="#" class="hover:text-white transition">Hugging Face Space</a></li>
+                        <li><a href="#" class="hover:text-white transition">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Authors</h4>
+                    <p class="text-slate-400 text-sm">
+                        Kris Olofson (Independent Researcher)<br>
+                        Grok (AI Systems Collaborative)
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
+                &copy; 2025. Released under CC-BY-4.0.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Navigation Logic ---
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // --- Tab Logic ---
+        function switchTab(tabName) {
+            // Update Tab Styling
+            ['binary', 'triad', 'gauntlet-method'].forEach(t => {
+                const btn = document.getElementById(`tab-${t === 'gauntlet-method' ? 'gauntlet' : t}`);
+                if (t === tabName || (t === 'gauntlet-method' && tabName === 'gauntlet-method')) {
+                    btn.classList.add('tab-active', 'border-blue-200');
+                    btn.classList.remove('border-transparent', 'hover:bg-slate-50');
+                } else {
+                    btn.classList.remove('tab-active', 'border-blue-200');
+                    btn.classList.add('border-transparent', 'hover:bg-slate-50');
+                }
+            });
+
+            // Update Content Visibility
+            ['binary', 'triad', 'gauntlet-method'].forEach(t => {
+                const content = document.getElementById(`content-${t}`);
+                if (t === tabName) {
+                    content.classList.remove('hidden');
+                    content.classList.add('block');
+                } else {
+                    content.classList.add('hidden');
+                    content.classList.remove('block');
+                }
+            });
+        }
+
+        // --- Chart 1: The Robustness Gauntlet ---
+        const gauntletCtx = document.getElementById('gauntletChart').getContext('2d');
+        
+        // Data derived from report findings
+        const noiseLevels = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+        // Exchange Rate: Stable at ~1.02
+        const rateMean = Array(9).fill(1.02);
+        // Ribbon: Simulated Standard Deviation
+        const rateUpper = rateMean.map(r => r + 0.03); 
+        const rateLower = rateMean.map(r => r - 0.03);
+        
+        // Coherence: Decaying from 0.9 to 0.6
+        const coherenceMean = [0.92, 0.88, 0.84, 0.79, 0.75, 0.70, 0.66, 0.63, 0.60];
+
+        let gauntletChart = new Chart(gauntletCtx, {
+            type: 'line',
+            data: {
+                labels: noiseLevels,
+                datasets: [
+                    {
+                        label: 'Exchange Rate (R)',
+                        data: rateMean,
+                        borderColor: '#3b82f6', // Blue 500
+                        backgroundColor: '#3b82f6',
+                        yAxisID: 'y-rate',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Rate Upper Bound (+1σ)',
+                        data: rateUpper,
+                        borderColor: 'transparent',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)', // Light Blue Fill
+                        fill: '+1', // Fill to next dataset (Lower)
+                        yAxisID: 'y-rate',
+                        pointRadius: 0,
+                        borderWidth: 0
+                    },
+                    {
+                        label: 'Rate Lower Bound (-1σ)',
+                        data: rateLower,
+                        borderColor: 'transparent',
+                        backgroundColor: 'transparent',
+                        yAxisID: 'y-rate',
+                        pointRadius: 0,
+                        borderWidth: 0
+                    },
+                    {
+                        label: 'Coherence (κ)',
+                        data: coherenceMean,
+                        borderColor: '#f43f5e', // Rose 500
+                        backgroundColor: '#f43f5e',
+                        yAxisID: 'y-coherence',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        pointStyle: 'rectRot',
+                        pointRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(2);
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false // Using custom legend
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Temperature / Noise Injection (T)'
+                        },
+                        grid: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    'y-rate': {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Exchange Rate (R)',
+                            color: '#3b82f6'
+                        },
+                        min: 0.8,
+                        max: 1.2,
+                        grid: {
+                            color: '#e2e8f0'
+                        }
+                    },
+                    'y-coherence': {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Coherence (Kappa)',
+                            color: '#f43f5e'
+                        },
+                        min: 0,
+                        max: 1,
+                        grid: {
+                            drawOnChartArea: false // Avoid grid clutter
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateGauntletChart() {
+            const showRibbon = document.getElementById('show-ribbon').checked;
+            const showCoherence = document.getElementById('show-coherence').checked;
+
+            // Toggle Ribbon datasets (Index 1 and 2)
+            gauntletChart.getDatasetMeta(1).hidden = !showRibbon;
+            gauntletChart.getDatasetMeta(2).hidden = !showRibbon;
+            
+            // Toggle Coherence dataset (Index 3)
+            gauntletChart.getDatasetMeta(3).hidden = !showCoherence;
+            gauntletChart.scales['y-coherence'].display = showCoherence; // Hide axis if data hidden
+
+            gauntletChart.update();
+        }
+
+        function animateGauntlet() {
+            // Simple re-render animation
+            gauntletChart.reset();
+            gauntletChart.update();
+        }
+
+
+        // --- Chart 2: Triad Utility (Static Bar) ---
+        const triadCtx = document.getElementById('triadChart').getContext('2d');
+        
+        new Chart(triadCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Entity A', 'Entity B', 'Entity C'],
+                datasets: [{
+                    label: 'Estimated Utility (V)',
+                    data: [1.50, 0.50, 0.00],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)', // Blue
+                        'rgba(99, 102, 241, 0.8)', // Indigo
+                        'rgba(148, 163, 184, 0.8)'  // Slate (Baseline)
+                    ],
+                    borderColor: [
+                        '#3b82f6',
+                        '#6366f1',
+                        '#94a3b8'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Utility Score'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            footer: function(tooltipItems) {
+                                if(tooltipItems[0].label === 'Entity C') {
+                                    return 'Baseline (Fixed at 0)';
+                                }
+                                return '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
