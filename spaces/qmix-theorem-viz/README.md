@@ -2,9 +2,9 @@
 title: QMIX 3-Agent Theorem Visualization
 emoji: 🎮
 colorFrom: blue
-colorTo: purple
+colorTo: indigo
 sdk: gradio
-sdk_version: 4.44.0
+sdk_version: 4.0.0
 app_file: app.py
 pinned: false
 license: cc-by-4.0

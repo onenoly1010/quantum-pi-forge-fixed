@@ -2,9 +2,9 @@
 title: LLM Coherence Auditing Framework
 emoji: ⚖️
 colorFrom: blue
-colorTo: slate
+colorTo: gray
 sdk: gradio
-sdk_version: 4.44.0
+sdk_version: 4.0.0
 app_file: app.py
 pinned: false
 license: cc-by-4.0

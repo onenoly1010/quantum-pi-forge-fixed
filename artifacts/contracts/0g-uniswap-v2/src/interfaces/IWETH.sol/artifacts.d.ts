@@ -15,7 +15,7 @@ export interface IWETH$Type {
   readonly deployedLinkReferences: {};
   readonly immutableReferences: {};
   readonly inputSourceName: "project/contracts/0g-uniswap-v2/src/interfaces/IWETH.sol";
-  readonly buildInfoId: "solc-0_8_20-8197378ab970add4fd86455bc3ca3a37f891afb8";
+  readonly buildInfoId: "solc-0_8_24-2fe1d8c6e7b45055dc308041115240ebf6853dc4";
 };
 
 import "hardhat/types/artifacts";
