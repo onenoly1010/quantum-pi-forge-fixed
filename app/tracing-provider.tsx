@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
-import { initTracing } from './tracing';
 
 export default function TracingProvider() {
   useEffect(() => {
-    initTracing();
+    // OpenTelemetry tracing is optional
+    // To enable, install required packages and rename app/tracing.ts.optional to app/tracing.ts
+    console.log('Tracing provider loaded (OpenTelemetry disabled)');
   }, []);
 
   return null;
