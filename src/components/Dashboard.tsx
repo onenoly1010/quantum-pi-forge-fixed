@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import LaunchCountdown from './LaunchCountdown';
+import AgentStatusWidget from '../../components/AgentStatusWidget';
 
 interface DashboardProps {
   userAddress?: string;
@@ -188,6 +189,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
                   No gas fees required - transactions sponsored by Quantum Pi Forge
                 </p>
               </div>
+            </div>
+
+            <div className="md:col-span-2">
+              <AgentStatusWidget />
             </div>
           </div>
         </div>
