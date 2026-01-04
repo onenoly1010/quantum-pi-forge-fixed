@@ -54,7 +54,7 @@ function useAgentHealth(refreshInterval: number = 30000) {
     fetchHealth();
     const interval = setInterval(fetchHealth, refreshInterval);
     return () => clearInterval(interval);
-  }, [refreshInterval]);
+  }, [refreshInterval]); // Added refreshInterval to dependency array
 
   return { data, isLoading, error, refetch: fetchHealth };
 }

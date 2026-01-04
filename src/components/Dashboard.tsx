@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import LaunchCountdown from './LaunchCountdown';
-import AgentStatusWidget from '../../components/AgentStatusWidget';
+import AgentStatusWidget from '@/components/AgentStatusWidget';
 
 interface DashboardProps {
   userAddress?: string;
