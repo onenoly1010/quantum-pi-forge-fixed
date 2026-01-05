@@ -1,6 +1,6 @@
 "use client"
 
-// Force deployment update - 2024-01-20
+// Force deployment update - 2024-01-20 v2
 import Link from 'next/link'
 
 export default function Home() {
