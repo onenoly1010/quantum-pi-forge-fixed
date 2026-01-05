@@ -74,8 +74,8 @@ Once live, verify:
 **Option A**: Deploy with test wallet (DEMO)
 ```bash
 cd /workspaces/quantum-pi-forge-fixed
-# Update .env.launch with test wallet
-sed -i 's/DEPLOYER_PRIVATE_KEY=.*/DEPLOYER_PRIVATE_KEY=0xd0b80a97c4d2199b2a2f19447ebc99f0e5f5bfe32604ac861c095a1aa5a28c05/' .env.launch
+# Update .env.launch with your test wallet private key
+sed -i 's/DEPLOYER_PRIVATE_KEY=.*/DEPLOYER_PRIVATE_KEY=YOUR_TEST_PRIVATE_KEY_HERE/' .env.launch
 # Run deployment
 bash scripts/deploy-dex.sh
 ```
