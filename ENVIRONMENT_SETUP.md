@@ -82,7 +82,7 @@ Ensure your private keys start with `0x` and are 64 hexadecimal characters long 
 If `.env.launch` or `.env.local` show up in `git status`, they may have been committed before. Remove them with:
 
 ```bash
-git rm --cached .env.launch .env.local
+git rm --cached --ignore-unmatch .env.launch .env.local
 ```
 
 ## Support
