@@ -1,2 +1,6 @@
-Address: [Compute from private key]
-Private Key: 0xd0b80a97c4d2199b2a2f19447ebc99f0e5f5bfe32604ac861c095a1aa5a28c05
+Address: [YOUR_TEST_WALLET_ADDRESS]
+Private Key: [YOUR_TEST_WALLET_PRIVATE_KEY]
+
+Note: This is a placeholder for test wallet information.
+Never commit real private keys to the repository.
+Generate a test wallet using: npx hardhat account
