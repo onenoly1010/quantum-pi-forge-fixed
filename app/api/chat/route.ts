@@ -39,7 +39,7 @@ Be welcoming, clear, and practical. Help users understand how OINIO works withou
       span.setStatus({ code: 0 }); // OK
       return result.toTextStreamResponse();
     } catch (error) {
-      span.recordException(error);
+      span.recordException(error as Error);
       span.setStatus({ code: 1, message: 'Chat completion failed' });
       console.error('AI Chat Error:', error);
       return new Response(
