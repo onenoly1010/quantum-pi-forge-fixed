@@ -4,3 +4,8 @@ Private Key: [YOUR_TEST_WALLET_PRIVATE_KEY]
 Note: This is a placeholder for test wallet information.
 Never commit real private keys to the repository.
 Generate a test wallet using: npx hardhat account
+
+Instructions:
+1. Copy this file to test_wallet.txt
+2. Replace placeholders with actual test wallet credentials
+3. Never commit test_wallet.txt (it's in .gitignore)

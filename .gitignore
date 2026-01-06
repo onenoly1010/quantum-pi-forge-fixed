@@ -9,6 +9,12 @@ build/
 .env.local
 .env.*.local
 
+# Wallet files (SENSITIVE - NEVER COMMIT)
+test_wallet.txt
+*_wallet.txt
+*.pem
+*.key
+
 # Logs
 logs/
 *.log
