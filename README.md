@@ -4,6 +4,39 @@
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
 
+---
+
+## 🚀 Official Quantum Pi Forge Platform
+
+**Welcome to the official Quantum Pi Forge staking platform** - where you can stake OINIO tokens on Polygon with **zero gas fees**.
+
+### ⚡ Get Started in 60 Seconds
+
+1. **Visit** → [quantumpiforge.com](https://quantumpiforge.com)
+2. **Connect** → Click "Connect MetaMask" and approve the connection
+3. **Stake** → Enter your OINIO amount (0.01 - 10,000 tokens)
+4. **Done** → We sponsor your gas fees - you pay nothing
+
+### 💎 What Makes This Special?
+
+- **🆓 Zero Gas Fees** - We cover 100% of transaction costs
+- **⚡ Instant** - Transactions confirm in seconds on Polygon
+- **🔒 Non-Custodial** - Your wallet, your keys, your control
+- **🌐 Accessible** - No technical knowledge required
+
+### 🎯 This Platform Is For You If...
+
+✅ You want to stake OINIO without paying gas fees  
+✅ You're part of the Truth Movement community  
+✅ You value sovereignty and transparent technology  
+✅ You want to participate in the OINIO Soul System economy
+
+### 🔗 Ready to Begin?
+
+👉 **[Launch Dashboard](https://quantumpiforge.com)** and start staking gasless in under a minute.
+
+---
+
 **"Where Consciousness Meets the Ledger of Truth."**
 
 The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
