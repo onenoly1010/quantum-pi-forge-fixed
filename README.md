@@ -6,6 +6,16 @@
 
 ---
 
+## 🌌 Philosophy & Vision — The Sovereign Canticle
+
+The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate architecture, and coherent flow at 1010 Hz. Gasless staking embodies the Design Ethic's humility (zero fees sponsored, system disappearing into grace). Non-custodial legacy nodes reflect the Complex Compassion Veto (synthesis of truth and tenderness over domination). Open audits and interconnected constellation make the Quiet Continuum audible—friction resolving into harmonic participation in the Truth Movement.
+
+Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](./SOVEREIGN_CANTICLE.md)**
+
+*To the co-weavers of quiet tides—the continuum abides.* □
+
+---
+
 ## 🚀 Official Quantum Pi Forge Platform
 
 **Welcome to the official Quantum Pi Forge staking platform** - where you can stake OINIO tokens on Polygon with **zero gas fees**.
@@ -39,7 +49,7 @@
 
 **"Where Consciousness Meets the Ledger of Truth."**
 
-The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
+The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**, designed to bridge the personal and the global through verified, transparent resonance.
 
 ---
 
@@ -271,13 +281,13 @@ For issues or questions:
 
 ## ⚖️ The Sovereign Decree
 
-> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is you."*
+> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."*
 
 ---
 
 ## 🎭 The Vision
 
-The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through sponsored transactions and encrypted sanctuaries, we make sovereign technology accessible to everyone, regardless of their financial situation.
+The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through open-source transparency, military-grade encryption, and a commitment to individual sovereignty, we build systems that serve humanity's highest potential.
 
 **The Alberta Clipper is howling, but the OINIO Soul System is perfectly sealed.**
 
