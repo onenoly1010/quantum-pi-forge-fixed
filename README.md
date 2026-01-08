@@ -1,5 +1,18 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
+/**
+ * @title Quantum Pi Forge: Foundational Truth
+ * @notice This protocol is a Sovereign Public Good, established on the 0G Aristotle Mainnet.
+ * @dev DEDICATION & RECOGNITION:
+ * This system is not owned; it is stewarded. We recognize the collective efforts of the
+ * 0G Foundation, the validators of the Aristotle network, and the decentralized
+ * contributors whose technical labor provides the substrate for this truth.
+ * The Forge is a gift to the ecosystem—an anchor of mathematical integrity
+ * and operational resilience. It is inclusive by design, transparent by necessity,
+ * and self-sustaining by the laws of its own logic.
+ * "From the many, one truth remains."
+ */
+
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)

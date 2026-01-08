@@ -12,7 +12,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "deploy": "curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}"
+    "deploy": "curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}",
+    "verify-funding": "node scripts/verify-funding.js",
+    "check-balance": "node scripts/check-wallet-balance.js",
+    "deploy:dex": "npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle",
+    "setup:secrets": "bash scripts/setup-github-secrets.sh"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.1",
