@@ -1,0 +1,23 @@
+# Vercel Build Ignore
+# Exclude submodules and non-Next.js directories
+
+# Submodules
+pi-forge-quantum-genesis/
+
+# Smart contracts
+contracts/
+
+# Hardhat
+hardhat.config.ts
+hardhat.config.template.ts
+artifacts/
+cache/
+
+# Scripts (except API routes)
+scripts/
+
+# Documentation
+docs/
+
+# Vendor
+vendor/

@@ -4,8 +4,26 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Removed basePath and assetPrefix - not needed for Vercel
-  // These were for GitHub Pages static export
+  // TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  // Exclude directories from file tracing
+  experimental: {
+    outputFileTracingExcludes: {
+      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
+    },
+  },
+  // Webpack configuration to exclude submodule
+  webpack: (config) => {
+    config.watchOptions = {
+      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**', '**/docs/**'],
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

@@ -1,0 +1,68 @@
+# Constellation Deployment Workflow
+# Triggers deployment status checks across all services
+
+name: 🌌 Constellation Health Check
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'CONSTELLATION_LAUNCH_STATUS.md'
+
+jobs:
+  health-check:
+    name: 🔍 Service Health Verification
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Check All Services
+        id: health
+        run: |
+          echo "## 🌌 Constellation Health Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Service | URL | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          
+          check_service() {
+            local name="$1"
+            local url="$2"
+            local status=$(curl -s -o /dev/null -w "%{http_code}" "$url" --max-time 10 2>/dev/null || echo "ERR")
+            if [ "$status" = "200" ]; then
+              echo "| $name | $url | ✅ $status |" >> $GITHUB_STEP_SUMMARY
+            elif [ "$status" = "301" ] || [ "$status" = "302" ]; then
+              echo "| $name | $url | ↩️ $status |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| $name | $url | ❌ $status |" >> $GITHUB_STEP_SUMMARY
+            fi
+          }
+          
+          check_service "Public Portal" "https://quantumpiforge.com"
+          check_service "DEX Dashboard" "https://quantum-pi-forge-fixed.vercel.app"
+          check_service "Backend API" "https://pi-forge-quantum-genesis-1.onrender.com"
+          check_service "Resonance Engine" "https://quantum-resonance-clean.vercel.app"
+          check_service "Countdown" "https://onenoly1010.github.io/countdown"
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ Last checked: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Check 0G Wallet Balance
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 💰 0G Deployer Wallet" >> $GITHUB_STEP_SUMMARY
+          BALANCE=$(curl -s -X POST https://evmrpc.0g.ai \
+            -H "Content-Type: application/json" \
+            -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x353663cd664bB3e034Dc0f308D8896C0a242e4cd","latest"],"id":1}' | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); bal=int(d.get('result','0x0'),16); print(f'{bal/1e18:.6f} 0G')")
+          echo "- Address: \`0x353663cd664bB3e034Dc0f308D8896C0a242e4cd\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Balance: **$BALANCE**" >> $GITHUB_STEP_SUMMARY
+          if [ "$BALANCE" = "0.000000 0G" ]; then
+            echo "- Status: ⏳ Awaiting funding" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Status: ✅ Ready for deployment" >> $GITHUB_STEP_SUMMARY
+          fi
