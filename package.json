@@ -12,7 +12,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "deploy": "curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}"
+    "deploy": "curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}",
+    "verify-funding": "node scripts/verify-funding.js",
+    "check-balance": "node scripts/check-wallet-balance.js",
+    "deploy:dex": "npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle",
+    "setup:secrets": "bash scripts/setup-github-secrets.sh"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.1",
@@ -31,6 +35,7 @@
     "@opentelemetry/sdk-trace-node": "^2.2.0",
     "@opentelemetry/sdk-trace-web": "^2.2.0",
     "@opentelemetry/semantic-conventions": "^1.38.0",
+    "@openzeppelin/contracts": "^5.4.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.0",
     "@radix-ui/react-aspect-ratio": "^1.1.0",

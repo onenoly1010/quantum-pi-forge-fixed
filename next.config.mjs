@@ -14,13 +14,13 @@ const nextConfig = {
   // Exclude directories from file tracing
   experimental: {
     outputFileTracingExcludes: {
-      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*'],
+      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
     },
   },
   // Webpack configuration to exclude submodule
   webpack: (config) => {
     config.watchOptions = {
-      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**'],
+      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**', '**/docs/**'],
     };
     return config;
   },

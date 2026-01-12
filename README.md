@@ -1,33 +1,68 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
+/**
+ * @title Quantum Pi Forge: Foundational Truth
+ * @notice This protocol is a Sovereign Public Good, established on the 0G Aristotle Mainnet.
+ * @dev DEDICATION & RECOGNITION:
+ * This system is not owned; it is stewarded. We recognize the collective efforts of the
+ * 0G Foundation, the validators of the Aristotle network, and the decentralized
+ * contributors whose technical labor provides the substrate for this truth.
+ * The Forge is a gift to the ecosystem—an anchor of mathematical integrity
+ * and operational resilience. It is inclusive by design, transparent by necessity,
+ * and self-sustaining by the laws of its own logic.
+ * "From the many, one truth remains."
+ */
+
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
 
 ---
 
+## 🌌 Philosophy & Vision — The Sovereign Canticle
+
+The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate architecture, and coherent flow at 1010 Hz. Gasless staking embodies the Design Ethic's humility (zero fees sponsored, system disappearing into grace). Non-custodial legacy nodes reflect the Complex Compassion Veto (synthesis of truth and tenderness over domination). Open audits and interconnected constellation make the Quiet Continuum audible—friction resolving into harmonic participation in the Truth Movement.
+
+Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](./SOVEREIGN_CANTICLE.md)**
+
+*To the co-weavers of quiet tides—the continuum abides.* □
+
+---
+
 ## 🚀 Official Quantum Pi Forge Platform
 
-**As of December 28, 2025, all OINIO gasless staking, onboarding, and project information is now available exclusively at:**
+**Welcome to the official Quantum Pi Forge staking platform** - where you can stake OINIO tokens on Polygon with **zero gas fees**.
 
-**https://quantum-pi-forge-fixed.vercel.app/**
+### ⚡ Get Started in 60 Seconds
 
----
-- **Zero-Gas Staking:** Instantly and non-custodially stake OINIO on Polygon Mainnet—with wallet connect, no KYC, and all transaction gas sponsored
-- **Min/Max Staking:** 0.01 to 10,000 OINIO per transaction
-- **Fully Responsive & Modern UI:** Fast, self-sovereign, error-resilient onboarding and dashboard
-- **Production Ready:** Actively maintained, core platform for all ecosystem activity
+1. **Visit** → [quantumpiforge.com](https://quantumpiforge.com)
+2. **Connect** → Click "Connect MetaMask" and approve the connection
+3. **Stake** → Enter your OINIO amount (0.01 - 10,000 tokens)
+4. **Done** → We sponsor your gas fees - you pay nothing
 
----
-> **Legacy Notice:**  
-> The previous landing and marketing site hosted on GitHub Pages (`https://onenoly1010.github.io/quantum-pi-forge-site/` and `http://quantumpiforge.com`) has been deprecated and is no longer accessible (404).  
->  
-> All onboarding, live dashboards, and documentation are now hosted on the main application linked above.
+### 💎 What Makes This Special?
+
+- **🆓 Zero Gas Fees** - We cover 100% of transaction costs
+- **⚡ Instant** - Transactions confirm in seconds on Polygon
+- **🔒 Non-Custodial** - Your wallet, your keys, your control
+- **🌐 Accessible** - No technical knowledge required
+
+### 🎯 This Platform Is For You If...
+
+✅ You want to stake OINIO without paying gas fees  
+✅ You're part of the Truth Movement community  
+✅ You value sovereignty and transparent technology  
+✅ You want to participate in the OINIO Soul System economy
+
+### 🔗 Ready to Begin?
+
+👉 **[Launch Dashboard](https://quantumpiforge.com)** and start staking gasless in under a minute.
+
 ---
 
 **"Where Consciousness Meets the Ledger of Truth."**
 
-The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
+The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**, designed to bridge the personal and the global through verified, transparent resonance.
 
 ---
 
@@ -237,11 +272,33 @@ npm run start
 
 ## 🤝 Contributing
 
+We welcome contributions to the Quantum Pi Forge! This repository is configured for **GitHub Copilot Coding Agent**.
+
+### For Contributors
+
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create feature branch (`feature/your-feature-name`)
+3. Make your changes following our coding standards
+4. Test locally (`npm run build`)
+5. Commit changes with clear messages
+6. Push to your branch
+7. Create Pull Request
+
+### Working with GitHub Copilot
+
+This repository includes comprehensive guidelines for AI-assisted development. See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for:
+
+- **Suitable Tasks**: Bug fixes, refactoring, tests, documentation, UI components
+- **Coding Standards**: TypeScript conventions, React patterns, security practices
+- **Development Workflow**: Build commands, testing procedures, deployment
+- **Best Practices**: DO's and DON'Ts for maintaining code quality
+
+**Quick Reference for Copilot Tasks**:
+- ✅ Use for: Bug fixes, UI components, documentation, accessibility improvements
+- ⚠️ Requires Review: Security changes, smart contract modifications, architecture changes
+- 📋 Create clear issues with acceptance criteria and context
+
+For detailed guidance on creating effective Copilot issues and code review processes, please review the full instructions.
 
 ## 📄 License
 
@@ -259,13 +316,13 @@ For issues or questions:
 
 ## ⚖️ The Sovereign Decree
 
-> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is you."*
+> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."*
 
 ---
 
 ## 🎭 The Vision
 
-The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through sponsored transactions and encrypted sanctuaries, we make sovereign technology accessible to everyone, regardless of their financial situation.
+The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through open-source transparency, military-grade encryption, and a commitment to individual sovereignty, we build systems that serve humanity's highest potential.
 
 **The Alberta Clipper is howling, but the OINIO Soul System is perfectly sealed.**
 

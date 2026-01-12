@@ -1,5 +1,6 @@
 "use client"
 
+// Force deployment update - 2024-01-20 v2
 import Link from 'next/link'
 
 export default function Home() {
@@ -310,6 +311,105 @@ export default function Home() {
               <h3 className="text-lg font-semibold text-white mb-2">Real-Time Dashboard</h3>
               <p className="text-white/50 text-sm">See your balance, track your stakes, watch confirmations live.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* QUANTUM CONSTELLATION - CONNECTED PROJECTS */}
+      <section className="py-20 px-6 bg-gradient-to-b from-transparent to-indigo-950/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-indigo-400 text-sm font-semibold uppercase tracking-wider">Quantum Constellation</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">
+              Sovereign Ecosystem
+            </h2>
+            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+              Multiple platforms working together for the Truth Movement. Each project serves a unique purpose in the sovereign economy.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Current Project - Quantum Pi Forge */}
+            <div className="bg-gradient-to-br from-violet-600/20 to-cyan-600/20 rounded-2xl p-6 border border-violet-500/30 relative">
+              <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+              <div className="text-2xl mb-3">⚡</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Quantum Pi Forge</h3>
+              <p className="text-white/70 text-sm mb-4">Gasless OINIO staking platform on Polygon. Zero fees, instant confirmation.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-emerald-400 font-medium">CURRENT</span>
+                <span className="text-xs text-white/50">Live on Polygon</span>
+              </div>
+            </div>
+
+            {/* AI Forge */}
+            <a href="https://onenoly1010.github.io/Ai-forge-/" target="_blank" rel="noopener noreferrer"
+               className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors group">
+              <div className="text-2xl mb-3">🤖</div>
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">AI Forge</h3>
+              <p className="text-white/70 text-sm mb-4">Ethical AI application builder. Create AI tools without coding.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-cyan-400 font-medium">LIVE</span>
+                <span className="text-xs text-white/50">GitHub Pages</span>
+              </div>
+            </a>
+
+            {/* Pi Forge Quantum Genesis */}
+            <a href="https://pi-forge-quantum-genesis-1.onrender.com" target="_blank" rel="noopener noreferrer"
+               className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors group">
+              <div className="text-2xl mb-3">🌌</div>
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">Quantum Genesis</h3>
+              <p className="text-white/70 text-sm mb-4">Coordination and orchestration platform for sovereign systems.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-cyan-400 font-medium">LIVE</span>
+                <span className="text-xs text-white/50">Render</span>
+              </div>
+            </a>
+
+            {/* Quantum Resonance */}
+            <a href="https://quantum-resonance-clean.vercel.app" target="_blank" rel="noopener noreferrer"
+               className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors group">
+              <div className="text-2xl mb-3">🎵</div>
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">Quantum Resonance</h3>
+              <p className="text-white/70 text-sm mb-4">Harmonic ledger and resonance analysis for frequency-based systems.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-yellow-400 font-medium">LIVE</span>
+                <span className="text-xs text-white/50">Vercel</span>
+              </div>
+            </a>
+
+            {/* Launch Countdown */}
+            <a href="https://onenoly1010.github.io/countdown" target="_blank" rel="noopener noreferrer"
+               className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors group">
+              <div className="text-2xl mb-3">⏰</div>
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">Launch Countdown</h3>
+              <p className="text-white/70 text-sm mb-4">Real-time countdown to major project launches and events.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-cyan-400 font-medium">LIVE</span>
+                <span className="text-xs text-white/50">GitHub Pages</span>
+              </div>
+            </a>
+
+            {/* Quantum Pi Forge Fixed (Staking App) */}
+            <a href="https://quantum-pi-forge-fixed.vercel.app" target="_blank" rel="noopener noreferrer"
+               className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors group">
+              <div className="text-2xl mb-3">🔥</div>
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-violet-400 transition-colors">Staking Dashboard</h3>
+              <p className="text-white/70 text-sm mb-4">Advanced staking interface with real-time monitoring and analytics.</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-cyan-400 font-medium">LIVE</span>
+                <span className="text-xs text-white/50">Vercel</span>
+              </div>
+            </a>
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-white/50 text-sm">
+              All projects are open source and connected through the sovereign ecosystem.
+            </p>
+            <a href="https://github.com/onenoly1010" target="_blank" rel="noopener noreferrer"
+               className="inline-flex items-center mt-4 text-violet-400 hover:text-violet-300">
+              View all repositories on GitHub →
+            </a>
           </div>
         </div>
       </section>
