@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-etherscan";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -15,6 +16,24 @@ dotenv.config({ path: envPath });
 const config: HardhatUserConfig = {
   solidity: {
     compilers: [
+      {
+        version: "0.8.24",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+      {
+        version: "0.8.20",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
       {
         version: "0.5.16", // Uniswap V2 Factory
         settings: {
@@ -45,6 +64,22 @@ const config: HardhatUserConfig = {
         : [],
       chainId: 16661,
     },
+  },
+
+  etherscan: {
+    apiKey: {
+      "0g-aristotle": "no-key-needed"
+    },
+    customChains: [
+      {
+        network: "0g-aristotle",
+        chainId: 16661,
+        urls: {
+          apiURL: "https://chainscan.0g.ai/api",
+          browserURL: "https://chainscan.0g.ai"
+        }
+      }
+    ]
   },
 
   paths: {

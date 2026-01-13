@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import TracingProvider from './tracing-provider'
 
 export const metadata: Metadata = {
-  title: 'Quantum Pi Forge',
-  description: 'Pi Network powered quantum application',
+  title: 'OINIO - Sovereign Staking',
+  description: 'Gasless staking for the sovereign economy. No fees, no friction.',
 }
 
 export default function RootLayout({
@@ -14,9 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://sdk.minepi.com/pi-sdk.js" async></script>
+        {/* OINIO - Standing on our own merit */}
       </head>
       <body className="font-sans antialiased">
+        <TracingProvider />
         {children}
       </body>
     </html>

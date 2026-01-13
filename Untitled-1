@@ -1,0 +1,5 @@
+Repository: onenoly1010/pi-forge-quantum-genesis
+Go to: Settings → Secrets and variables → Actions
+Add secret:
+  Name: RAILWAY_TOKEN
+  Value: forgeit

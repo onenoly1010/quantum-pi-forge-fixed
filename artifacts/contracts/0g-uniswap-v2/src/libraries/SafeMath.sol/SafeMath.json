@@ -1,0 +1,13 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "SafeMath",
+  "sourceName": "contracts/0g-uniswap-v2/src/libraries/SafeMath.sol",
+  "abi": [],
+  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220f6378e43dcac627b9f71ab86565e7e4bb7b653ab1ec07599d0e6cd11c530ae3d64736f6c63430006060033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220f6378e43dcac627b9f71ab86565e7e4bb7b653ab1ec07599d0e6cd11c530ae3d64736f6c63430006060033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/0g-uniswap-v2/src/libraries/SafeMath.sol",
+  "buildInfoId": "solc-0_6_6-6edb373f2679ea75424ce678220e3e6365f1a871"
+}

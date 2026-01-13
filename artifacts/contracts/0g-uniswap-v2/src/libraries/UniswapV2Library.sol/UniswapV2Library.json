@@ -1,0 +1,13 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "UniswapV2Library",
+  "sourceName": "contracts/0g-uniswap-v2/src/libraries/UniswapV2Library.sol",
+  "abi": [],
+  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220bd7b71b6de5083ef27c6bb15f03ca54c5767e96d046ca227fe684c2b499fcb6464736f6c63430006060033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220bd7b71b6de5083ef27c6bb15f03ca54c5767e96d046ca227fe684c2b499fcb6464736f6c63430006060033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/0g-uniswap-v2/src/libraries/UniswapV2Library.sol",
+  "buildInfoId": "solc-0_6_6-a36df9ab03b9303ab2f695c4e804555a13d896cd"
+}

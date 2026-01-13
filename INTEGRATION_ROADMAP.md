@@ -18,7 +18,7 @@
 - **Documentation**: Comprehensive (2,400+ lines)
 
 ### ⚠️ What Needs Integration
-- **Railway Backend**: URL exists but not properly configured
+- **Backend Hosting**: Switching from Railway (failing) to Render
 - **Supabase**: Running but disconnected
 - **Netlify**: Free hosting available but not utilized
 - **.env configuration**: Split across multiple files
@@ -103,20 +103,22 @@
 ---
 
 ### Priority 2: Backend Configuration (1 hour)
-**Goal**: Railway backend properly connected to Supabase
+**Goal**: Backend (Render) properly connected to Supabase
 
 **Current State**:
 ```
-Railway URL: https://pi-forge-backend.up.railway.app
-Status: Running but misconfigured
+Railway Status: Failing deployments
+Action: Migrate to Render
 ```
 
 **Required Actions**:
 1. **Verify backend source code location**
-   - Is it in this repo? Another repo?
-   - What framework? (Express? Next API routes only?)
+   - Located in `pi-forge-quantum-genesis/`
+   - Framework: FastAPI (Python)
 
-2. **Configure Railway environment**:
+2. **Configure Render environment**:
+   - Follow `pi-forge-quantum-genesis/RENDER_SETUP.md`
+   - Set env vars:
    ```env
    DATABASE_URL=<supabase_connection_string>
    OINIO_TOKEN_ADDRESS=0x07f43E5B1A8a0928B364E40d5885f81A543B05C7
@@ -127,8 +129,8 @@ Status: Running but misconfigured
 
 3. **Test endpoints**:
    ```bash
-   curl https://pi-forge-backend.up.railway.app/health
-   curl https://pi-forge-backend.up.railway.app/api/leaderboard
+   curl https://<your-render-url>/health
+   curl https://<your-render-url>/api/leaderboard
    ```
 
 **Deliverable**: Working `/health` endpoint + API documentation
@@ -179,15 +181,15 @@ CREATE TABLE leaderboard (
 **Deliverable**: `supabase/schema.sql` + connection docs
 
 ---
-
-### Priority 4: Frontend-Backend Connection (30 min)
-**Goal**: Dashboard pulling real data from Railway
+Backend
 
 **Current Issue**:
 - Frontend hardcoded to `https://pi-forge-backend.up.railway.app`
-- But backend not responding correctly
+- Backend moving to Render
 
 **Actions**:
+1. Update `NEXT_PUBLIC_BACKEND_URL` in Vercel to new Render URL
+2. Add CORS configuration to Backend (FastAPI)
 1. Update `NEXT_PUBLIC_BACKEND_URL` in Vercel
 2. Add CORS configuration to Railway backend
 3. Test API calls from browser console

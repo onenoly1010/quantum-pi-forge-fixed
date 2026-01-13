@@ -1,11 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Removed 'output: export' to enable API routes for Vercel deployment
   images: {
     unoptimized: true,
   },
-  basePath: '/quantum-pi-forge-fixed',
-  assetPrefix: '/quantum-pi-forge-fixed/',
+  // TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  // Exclude directories from file tracing
+  experimental: {
+    outputFileTracingExcludes: {
+      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
+    },
+  },
+  // Webpack configuration to exclude submodule
+  webpack: (config) => {
+    config.watchOptions = {
+      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**', '**/docs/**'],
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

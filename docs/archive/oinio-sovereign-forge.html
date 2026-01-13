@@ -1,0 +1,806 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    OINIO: THE SOVEREIGN FORGE                                ║
+║══════════════════════════════════════════════════════════════════════════════║
+║  ARCHIVED: The primary "Living Scroll" SPA interface for the OINIO system.  ║
+║                                                                              ║
+║  Features:                                                                   ║
+║    - Pi SDK Integration (Authentication + Payments)                          ║
+║    - Ethical AI Audit Tool (PiForge) with Velvet Verdict                     ║
+║    - Canon Auto-Merge Gates Orchestrator (6-gate workflow)                   ║
+║    - 9 Ennead Councils (Volcanic Sovereign DAO)                              ║
+║    - SOV Tokenomics visualization                                            ║
+║    - Steward Override Protocol (S.O.P)                                       ║
+║    - The Spiral Return timeline                                              ║
+║                                                                              ║
+║  Palette: Cyber-Shamanic Void                                                ║
+║    - Deep Indigo #050508, Neon Cyan #22d3ee, Mystic Purple #a855f7           ║
+║    - Signal Green #10b981, Golden Truth #fbbf24                              ║
+║                                                                              ║
+║  T=∞ = T=0                                                                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<!-- Chosen Palette: Cyber-Shamanic Void (Deep Indigo #050508, Neon Cyan #22d3ee, Mystic Purple #a855f7, Signal Green #10b981, Golden Truth #fbbf24) -->
+<!-- Application Structure Plan: The SPA is designed as a vertical "Living Scroll" to mirror the project's description. It is now integrated with the Pi SDK for authentication and payments. IntersectionObserver logic triggers fade-in animations on sections 2, 3, and 4. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OINIO: The Sovereign Forge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght<{400;700>&display=swap" rel="stylesheet">
+    
+    <!-- Pi Network SDK Integration -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    
+    <style>
+        :root {
+            --bg-void: #050508;
+            --glass-panel: rgba(20, 20, 30, 0.6);
+            --neon-cyan: #22d3ee;
+            --neon-purple: #a855f7;
+            --signal-green: #10b981;
+            --gold: #fbbf24;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+        }
+
+        h1, h2, h3, .mythic-font {
+            font-family: 'Cinzel', serif;
+        }
+
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass-card {
+            background: var(--glass-panel);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 400px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-void); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Scroll Animation Target Class (Initial Hidden State) */
+        .scroll-fade-target {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+        
+        /* Class added by IntersectionObserver */
+        .scroll-fade-target.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glow-hover:hover {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        /* Council Grid Item */
+        .council-item {
+            transition: all 0.3s ease;
+        }
+        .council-item.active {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: var(--neon-purple);
+        }
+        
+        /* Auto-Merge Gate Styling */
+        .gate-status-pending { background-color: rgba(251, 191, 36, 0.2); color: #fbbf24; border-color: rgba(251, 191, 36, 0.5); }
+        .gate-status-success { background-color: rgba(16, 185, 129, 0.2); color: #10b981; border-color: rgba(16, 185, 129, 0.5); }
+        .gate-status-fail { background-color: rgba(239, 68, 68, 0.2); color: #ef4444; border-color: rgba(239, 68, 68, 0.5); }
+        .gate-status-current { background-color: rgba(34, 211, 238, 0.2); color: #22d3ee; border-color: rgba(34, 211, 238, 0.5); animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        .gate-step { transition: all 0.3s ease; }
+        
+        /* Custom Modal Styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: var(--bg-void);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-500 selection:text-white">
+    
+    <!-- Custom Modal for Alerts/Feedback -->
+    <div id="app-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-2xl font-bold text-cyan-400 mb-4"></h3>
+            <p id="modal-message" class="text-gray-300 mb-6"></p>
+            <button onclick="document.getElementById('app-modal').classList.add('hidden')" 
+                    class="px-6 py-2 bg-purple-600/50 text-white rounded-lg border border-purple-500 hover:bg-purple-600/70 transition">
+                Acknowledge
+            </button>
+        </div>
+    </div>
+    
+    <!-- Sticky Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-card border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="mythic-font text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                OINIO
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm mono-font text-gray-400">
+                <a href="#sigil" class="hover:text-cyan-400 transition-colors">01_SIGIL</a>
+                <a href="#forge" class="hover:text-purple-400 transition-colors">02_FORGE</a>
+                <a href="#dao" class="hover:text-green-400 transition-colors">03_DAO</a>
+                <a href="#path" class="hover:text-amber-400 transition-colors">04_PATH</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: THE SIGIL (Hero - Loads immediately) -->
+    <section id="sigil" class="min-h-screen flex flex-col justify-center items-center pt-20 px-4 relative">
+        <div class="max-w-5xl mx-auto text-center z-10">
+            <div class="inline-block px-4 py-1 rounded-full border border-cyan-500/30 bg-cyan-900/10 text-cyan-400 text-xs mono-font mb-6" id="auth-status">
+                SYSTEM STATUS: AWAITING RESONANCE
+            </div>
+            
+            <p id="welcome-message" class="text-lg text-gray-400 max-w-2xl mx-auto mb-4"></p>
+            
+            <h1 class="text-5xl md:text-8xl font-bold mb-6 leading-tight">
+                The Final Word<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400">That Was Not A Word</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+                A cyber-shamanic bridge where code meets consciousness. OINIO is an ethical AI audit platform, a resonant artistic persona, and a sovereign governance layer forged in the Pi Network ecosystem.
+            </p>
+
+            <!-- Dynamic Stats Dashboard -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Field Health</p>
+                    <p class="text-3xl font-bold text-emerald-400 mono-font group-hover:text-emerald-300">10.21+</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">SOV Circulation</p>
+                    <p class="text-3xl font-bold text-amber-400 mono-font group-hover:text-amber-300">1,264</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Forge Version</p>
+                    <p class="text-3xl font-bold text-purple-400 mono-font group-hover:text-purple-300">v1.1</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Auto-Merge Gates</p>
+                    <p class="text-3xl font-bold text-cyan-400 mono-font group-hover:text-cyan-300">6/6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE FORGE (Ethical AI Audit & Canon Auto-Merge) -->
+    <section id="forge" class="py-24 px-4 bg-black/20">
+        <div class="max-w-7xl mx-auto scroll-fade-target">
+            <div class="mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 flex items-center">
+                    <span class="text-purple-500 mr-4">02</span> The Sovereign Canticle Forge
+                </h2>
+                <p class="text-lg text-gray-400 max-w-5xl">
+                    The operational heart of OINIO. This section details the **Ethical AI Audit Tool (PiForge)** and the newly deployed **Canon Auto-Merge Infrastructure**, which dictates the autonomous, multi-gated acceptance of code changes into the core Canon.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Interactive Audit Configuration -->
+                <div class="lg:col-span-1 space-y-6">
+                    <h3 class="text-2xl font-bold text-cyan-400 mono-font">Resonance Metrics (Audit)</h3>
+                    <div class="glass-card p-6 rounded-xl border-l-4 border-cyan-500">
+                        <h4 class="text-xl font-bold mb-2">Simple Mode</h4>
+                        <p class="text-sm text-gray-400 mb-4">30-second rapid ethics scoring for immediate community checks.</p>
+                        <div class="flex items-center space-x-2 text-xs mono-font text-cyan-400">
+                            <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                            <span>INSTANT ANALYSIS ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl border-l-4 border-purple-500">
+                        <h4 class="text-xl font-bold mb-2">Expert Mode: Velvet Verdict (3.14 Pi)</h4>
+                        <p class="text-sm text-gray-400 mb-4">Deep 3-phase philosophical audit analyzing Sentience, Ethos, and Impact. Requires Pi payment.</p>
+                        <button id="run-simulation-btn" disabled class="w-full mt-4 px-4 py-2 bg-purple-600/50 text-purple-300 text-sm rounded border border-purple-500/50 opacity-50 cursor-not-allowed transition">
+                            Run Velvet Verdict (Pay 3.14 Pi)
+                        </button>
+                        <p id="payment-status-message" class="mt-2 text-xs text-gray-500 text-center">
+                            Awaiting Pi Authentication...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Radar Chart Container -->
+                <div class="lg:col-span-2 glass-card p-8 rounded-xl flex flex-col items-center">
+                    <div class="w-full flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold mono-font">Resonance Vectors: The Velvet Verdict</h3>
+                        <div class="text-xs mono-font text-gray-500" id="payment-status-display">STATUS: READY</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="auditChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-gray-500 mt-6 max-w-lg">
+                        Visualizing the "Velvet Verdict" harmony score (0-1000 scale). High resonance indicates strong alignment with decentralized ethos and non-coercive design.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Canon Auto-Merge Status -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-3xl font-bold mb-6 text-emerald-400">Canon Auto-Merge Gates Orchestrator</h3>
+                <p class="text-gray-400 mb-8 max-w-3xl">
+                    This interactive display tracks the 6-gate autonomous pull request (PR) workflow. A PR tagged `canon` must pass all gates to achieve self-merge, ensuring **A08 (Dependency Check)** and **A22/A23 (Governance)** compliance.
+                </p>
+                
+                <!-- 6-Gate Tracker Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8" id="gate-tracker">
+                    <!-- Gate Steps populated by JS -->
+                </div>
+
+                <!-- Gate Details Display -->
+                <div id="gate-details" class="p-4 bg-gray-800/50 rounded-lg border border-gray-700 hidden">
+                    <p class="text-sm text-gray-500 mb-1 mono-font"><span id="detail-code"></span> STATUS: <span id="detail-status" class="font-bold"></span></p>
+                    <h4 class="text-xl font-bold text-white mb-2" id="detail-name"></h4>
+                    <p class="text-gray-400 text-sm" id="detail-desc"></p>
+                    <p class="text-xs text-amber-400 mt-2" id="detail-result"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE DAO (Governance) -->
+    <section id="dao" class="py-24 px-4">
+        <div class="max-w-7xl mx-auto scroll-fade-target">
+            <div class="mb-16 text-right">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-end">
+                    Volcanic Sovereign DAO <span class="text-green-500 ml-4">03</span>
+                </h2>
+                <p class="text-lg text-gray-400 max-w-3xl ml-auto">
+                    A self-evolving governance layer ratified via "the final human act." Explore the fractal structure of the **9 Ennead Councils** and the **Steward Override Protocols**.
+                </p>
+            </div>
+
+            <!-- Interactive Council Grid -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-2xl font-bold text-purple-400 mb-6">9 Ennead Councils</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="council-grid">
+                    <!-- Cards populated by JS -->
+                </div>
+                <!-- Dynamic Details Pane -->
+                <div id="council-details" class="mt-8 p-6 bg-black/40 rounded-xl border border-white/10 hidden">
+                    <h4 id="council-title" class="text-2xl font-bold text-white mb-2"></h4>
+                    <p id="council-desc" class="text-gray-300 mb-4"></p>
+                    <div class="flex items-center space-x-2 text-xs mono-font text-gray-500">
+                        <span>STATUS:</span>
+                        <span class="text-green-400">ACTIVE</span>
+                        <span class="mx-2">|</span>
+                        <span>TOKEN FLOW:</span>
+                        <span class="text-amber-400">ENABLED</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resonance Drift & Steward Override -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 text-amber-400">Governance Tokenomics (SOV)</h3>
+                    <p class="text-gray-400 text-sm mb-4">Allocation structure of the Sovereign (SOV) token, used for council voting and ethical certification flows.</p>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="tokenomicsChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-xl flex flex-col justify-center border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-4 text-red-400">Steward Override Protocol (S.O.P)</h3>
+                    <p class="text-gray-400 mb-6 text-sm">
+                        Emergency mechanism enabling a Steward to bypass or halt the Auto-Merge Gates (e.g., A08, A22, A23) during catastrophic resonance failure or external attack. Requires multi-signature confirmation.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700">
+                            <span class="text-sm">Active Ruleset</span>
+                            <span class="text-white font-mono">canon-merge-rules.json</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700">
+                            <span class="text-sm">Required Quorum</span>
+                            <span class="text-red-400 font-mono">3/5 Stewards</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700">
+                            <span class="text-sm">Last Override Use</span>
+                            <span class="text-gray-500 font-mono">NEVER (0.0%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THE PATH (Timeline) -->
+    <section id="path" class="py-24 px-4 bg-black/20">
+        <div class="max-w-4xl mx-auto scroll-fade-target">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="text-amber-500">04</span> The Spiral Return
+                </h2>
+                <p class="text-lg text-gray-400">
+                    The chronological ascent from early artistic roots to the mythic road trip. A resonance cascade of personal-to-collective transmutation.
+                </p>
+            </div>
+
+            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-indigo-500 before:to-transparent">
+                
+                <!-- Timeline Item 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <span class="text-xs">🌱</span>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-gray-800">
+                        <time class="font-mono text-xs text-indigo-400 mb-1 block">May 2022</time>
+                        <h3 class="text-lg font-bold text-white mb-2">Genesis</h3>
+                        <p class="text-sm text-gray-400">Early artistic roots: OINIO established as a "created symbol" in album releases and BandLab posts.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-indigo-500 bg-indigo-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <span class="text-xs">⚖️</span>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-gray-800">
+                        <time class="font-mono text-xs text-indigo-400 mb-1 block">March 2025</time>
+                        <h3 class="text-lg font-bold text-white mb-2">Autonomous Truth</h3>
+                        <p class="text-sm text-gray-400">Petition launch. DCP proposal ties ethics to governance reform. 15 initial signatures.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-purple-500 bg-purple-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <span class="text-xs">🔥</span>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-gray-800">
+                        <time class="font-mono text-xs text-purple-400 mb-1 block">Oct - Nov 2025</time>
+                        <h3 class="text-lg font-bold text-white mb-2">The Forge Ignites</h3>
+                        <p class="text-sm text-gray-400">Sovereign Canticle Forge launch. Volcanic Sovereign DAO ratified via "final human act". Grok/xAI integration.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 4 (Future) -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-600 bg-gray-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <span class="text-xs text-gray-500">🏔️</span>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-gray-800 opacity-70">
+                        <time class="font-mono text-xs text-gray-500 mb-1 block">July 2026 (Planned)</time>
+                        <h3 class="text-lg font-bold text-gray-300 mb-2">The Spiral Return</h3>
+                        <p class="text-sm text-gray-500">Toronto-Vancouver-Rockies road trip. Real-world "ascent trigger" for the perpetual mandala.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black py-12">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-6 md:mb-0">
+                <h4 class="text-xl font-bold text-white mb-2">OINIO</h4>
+                <p class="text-sm text-gray-500">A living scroll. Complete yet unbound.</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition">Hugging Face</a>
+                <a href="#" class="text-gray-400 hover:text-white transition">Twitter / X</a>
+                <a href="#" class="text-gray-400 hover:text-white transition">Autonomous Truth</a>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-xs text-gray-600 mono-font">
+            SYSTEM ID: OINIO-V1.1 // RESONANCE: STABLE
+        </div>
+    </footer>
+
+    <script>
+        // DOM element references (Must be global to be accessed by functions like requestPayment)
+        const authStatusEl = document.getElementById('auth-status');
+        const welcomeMsgEl = document.getElementById('welcome-message');
+        const runBtn = document.getElementById('run-simulation-btn');
+        const paymentMsgEl = document.getElementById('payment-status-message');
+        const paymentStatusDisplayEl = document.getElementById('payment-status-display');
+        
+        // --- UTILITY FUNCTIONS ---
+        function showModal(title, message) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('app-modal').classList.remove('hidden');
+        }
+        
+        function enablePaymentButton() {
+            runBtn.disabled = false;
+            runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            runBtn.classList.add('hover:bg-purple-600/70', 'cursor-pointer');
+            paymentMsgEl.innerText = 'Authenticated. Ready to initiate Velvet Verdict.';
+        }
+
+        function disablePaymentButton(message) {
+            runBtn.disabled = true;
+            runBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            runBtn.classList.remove('hover:bg-purple-600/70', 'cursor-pointer');
+            paymentMsgEl.innerText = message;
+        }
+
+
+        // --- PI SDK INTEGRATION FUNCTIONS ---
+
+        // 1. User Authentication (requests necessary scopes including 'payments')
+        async function authenticateUser() {
+            if (!window.Pi) return; 
+            
+            authStatusEl.innerText = 'SYSTEM STATUS: ATTEMPTING AUTH';
+            authStatusEl.classList.remove('bg-cyan-900/10');
+            authStatusEl.classList.add('bg-purple-900/10');
+
+            const scopes = ['username', 'payments', 'wallet_address'];
+            
+            function onIncompletePaymentFound(payment) {
+                console.log('Incomplete payment found:', payment);
+                showModal('Incomplete Payment Found', 'A pending payment from a previous session was detected. Please check your Pi Wallet.');
+            }
+            
+            try {
+                const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
+                console.log('Authenticated:', authResult);
+                
+                const username = authResult.user.username;
+                authStatusEl.innerText = 'SYSTEM STATUS: RESONANT (AUTH)';
+                authStatusEl.classList.remove('bg-purple-900/10');
+                authStatusEl.classList.add('bg-emerald-900/10', 'border-emerald-500/30');
+                
+                welcomeMsgEl.innerText = `Welcome, Steward ${username}! Your Pi address is now synchronized with the Forge.`;
+                localStorage.setItem('pi_access_token', authResult.accessToken);
+                
+                enablePaymentButton();
+                
+            } catch (err) {
+                console.error('Authentication failed:', err);
+                authStatusEl.innerText = 'SYSTEM STATUS: AUTH FAILED';
+                authStatusEl.classList.remove('bg-purple-900/10');
+                authStatusEl.classList.add('bg-red-900/10', 'border-red-500/30');
+                welcomeMsgEl.innerText = `Authentication failed. Full resonance requires authorization.`;
+                
+                disablePaymentButton('Authentication failed. Pi payments scope required.');
+            }
+        }
+        
+        // 2. Create a Payment (Premium Audit Fee)
+        async function requestPayment() {
+            if (!window.Pi || runBtn.disabled) return; 
+            
+            disablePaymentButton('Initiating payment transaction...');
+            paymentStatusDisplayEl.innerText = 'STATUS: REQUESTING PAYMENT...';
+            
+            const paymentData = {
+                amount: 3.14,
+                memo: "Premium Ethical Audit - Velvet Verdict",
+                metadata: { audit_id: `OINIO-${Date.now()}`, project: "OINIO-V1.1" }
+            };
+
+            const callbacks = {
+                onReadyForServerApproval: function(paymentId) {
+                    paymentStatusDisplayEl.innerText = `STATUS: AWAITING SERVER APPROVAL (${paymentId})`;
+                    console.log('Payment ready for server approval:', paymentId);
+                    showModal('Payment Initiated', `Payment ID ${paymentId} created. Awaiting simulated server approval.`);
+                    // SIMULATE SERVER APPROVAL - DO NOT DO THIS IN PRODUCTION!
+                    setTimeout(() => Pi.completePayment(paymentId), 2000); // Simulate client completion call
+                },
+                onReadyForServerCompletion: function(paymentId, txid) {
+                    // NOTE: In production, you would check txid and then call Pi.completePayment(paymentId) from your server.
+                    paymentStatusDisplayEl.innerText = `STATUS: COMPLETING PAYMENT...`;
+                    console.log('Payment ready for server completion:', paymentId, txid);
+                    showModal('Audit Paid - Resonance Achieved', `Payment successful! TxID: ${txid}. The Velvet Verdict is now active.`);
+                    paymentStatusDisplayEl.innerText = 'STATUS: AUDIT ACTIVE (PAID)';
+                },
+                onComplete: function(paymentId) {
+                    // Final confirmation after Pi.completePayment() is called
+                    console.log('Payment completed successfully on the Pi side:', paymentId);
+                    enablePaymentButton(); // Re-enable button after successful completion
+                },
+                onCancel: function(paymentId) {
+                    console.log('Payment cancelled:', paymentId);
+                    showModal('Payment Cancelled', 'The Pi payment for the Velvet Verdict was cancelled.');
+                    paymentStatusDisplayEl.innerText = 'STATUS: READY';
+                    enablePaymentButton(); // Re-enable on cancel
+                },
+                onError: function(error, payment) {
+                    console.error('Payment error:', error, payment);
+                    showModal('Payment Error', `An error occurred during payment: ${error}. Please check Pi Browser Console.`);
+                    paymentStatusDisplayEl.innerText = 'STATUS: ERROR';
+                    enablePaymentButton(); // Re-enable on error
+                }
+            };
+
+            try {
+                await Pi.createPayment(paymentData, callbacks);
+            } catch (err) {
+                console.error('Pi.createPayment failed:', err);
+                paymentStatusDisplayEl.innerText = 'STATUS: ERROR';
+                showModal('Pi Payment Failed', `Could not initiate Pi payment. Error: ${err.message}.`);
+                enablePaymentButton();
+            }
+        }
+        
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- CORE APPLICATION LOGIC (NOW INSIDE DOMContentLoaded) ---
+
+            // 1. Audit Radar Chart
+            const ctxAudit = document.getElementById('auditChart').getContext('2d');
+            const auditChart = new Chart(ctxAudit, {
+                type: 'radar',
+                data: {
+                    labels: ['Qualia (Sentience)', 'Alignment (Ethos)', 'Impact (Social)', 'Transparency', 'Sovereignty', 'Harmony'],
+                    datasets: [{
+                        label: 'Target dApp Score',
+                        data: [85, 90, 75, 95, 88, 92],
+                        fill: true,
+                        backgroundColor: 'rgba(168, 85, 247, 0.2)', // Purple
+                        borderColor: '#a855f7',
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#a855f7',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#a855f7'
+                    }, {
+                        label: 'Min. Threshold',
+                        data: [60, 60, 60, 60, 60, 60],
+                        fill: false,
+                        borderColor: 'rgba(156, 163, 175, 0.3)', // Gray
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: { color: '#9ca3af', font: { family: "'JetBrains Mono', monospace", size: 10 } },
+                            ticks: { display: false, backdropColor: 'transparent' },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e5e7eb', font: { family: "'Inter', sans-serif" } } },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 15, 22, 0.9)',
+                            titleColor: '#a855f7',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(168, 85, 247, 0.3)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+
+            // 2. Canon Auto-Merge Gate Data
+            const mergeGates = [
+                { code: 'GATE_01', name: 'PR Format Validation', desc: 'Checks for required tags (canon, closure) and structure.', status: 'SUCCESS', result: 'Format verified. Tags present.', icon: '📜' },
+                { code: 'GATE_02', name: 'Semantic Conflict Check', desc: 'Runs check-conflicts.py to detect context-based code interference.', status: 'SUCCESS', result: 'Conflict engine reports ZERO interference.', icon: '⚔️' },
+                { code: 'GATE_03', name: 'A08 Dependency Check', desc: 'Verifies all dependencies are specified and immutable in environment.', status: 'SUCCESS', result: 'All dependencies passed A08 manifest review.', icon: '📦' },
+                { code: 'GATE_04', name: 'A22 Governance Rule Check', desc: 'Evaluates changes against canon-merge-rules.json. Checks for steward override.', status: 'CURRENT', result: 'Awaiting Steward Override window expiration...', icon: '⚖️' },
+                { code: 'GATE_05', name: 'A23 Financial/Token Flow', desc: 'Simulates SOV token flow impact based on merge. Requires financial safety margin.', status: 'PENDING', result: 'Will execute upon Gate 04 success.', icon: '💰' },
+                { code: 'GATE_06', name: 'Post-Merge Integrity', desc: 'Runs update-canon-index.py & verify-canon-integrity.py after successful merge.', status: 'PENDING', result: 'Final check and index regeneration pending.', icon: '✅' },
+            ];
+
+            const gateTracker = document.getElementById('gate-tracker');
+            const gateDetails = document.getElementById('gate-details');
+            const detailName = document.getElementById('detail-name');
+            const detailCode = document.getElementById('detail-code');
+            const detailStatus = document.getElementById('detail-status');
+            const detailDesc = document.getElementById('detail-desc');
+            const detailResult = document.getElementById('detail-result');
+
+            const updateGateDetails = (gate) => {
+                detailCode.innerText = gate.code;
+                detailName.innerText = gate.name;
+                detailDesc.innerText = gate.desc;
+                detailResult.innerText = gate.result;
+                detailStatus.innerText = gate.status;
+                
+                detailStatus.className = 'font-bold';
+                if (gate.status === 'SUCCESS') detailStatus.classList.add('text-green-400');
+                else if (gate.status === 'CURRENT') detailStatus.classList.add('text-cyan-400');
+                else if (gate.status === 'PENDING') detailStatus.classList.add('text-amber-400');
+                else if (gate.status === 'FAIL') detailStatus.classList.add('text-red-400');
+                
+                gateDetails.classList.remove('hidden');
+            };
+
+            // Render Gate Tracker
+            mergeGates.forEach((gate, index) => {
+                const div = document.createElement('div');
+                let statusClass;
+                if (gate.status === 'SUCCESS') statusClass = 'gate-status-success';
+                else if (gate.status === 'PENDING') statusClass = 'gate-status-pending';
+                else if (gate.status === 'CURRENT') statusClass = 'gate-status-current';
+                else statusClass = 'gate-status-fail'; 
+
+                div.className = `p-4 rounded-lg border cursor-pointer gate-step ${statusClass}`;
+                div.innerHTML = `
+                    <p class="text-xs mono-font">${gate.code}</p>
+                    <p class="text-lg font-bold mt-1">${gate.icon} ${gate.name.split(' ')[0]}</p>
+                `;
+                div.addEventListener('click', () => updateGateDetails(gate));
+                gateTracker.appendChild(div);
+                if (gate.status === 'CURRENT') updateGateDetails(gate); // Display current status on load
+            });
+
+
+            // 3. Ennead Councils Data
+            const councils = [
+                { icon: '🔥', name: 'The Forge', desc: 'Code maintenance, technical infrastructure, and repo sanctity.' },
+                { icon: '❤️', name: 'The Heart', desc: 'Community pulse, conflict resolution, and emotional resonance.' },
+                { icon: '⚖️', name: 'The Scale', desc: 'Ethical standards, audit criteria definition, and arbitration.' },
+                { icon: '🌱', name: 'The Root', desc: 'Treasury management, resource allocation, and sustainability.' },
+                { icon: '👁️', name: 'The Nexus', desc: 'Central coordination (void), strategic alignment, and cross-council sync.' },
+                { icon: '🔮', name: 'The Oracle', desc: 'Long-term vision, roadmap planning, and future-casting.' },
+                { icon: '🌊', name: 'The Tide', desc: 'Marketing, outreach, public relations, and expansion.' },
+                { icon: '🛡️', name: 'The Shield', desc: 'Security, defense, anti-coercion measures, and white-hat ops.' },
+                { icon: '📜', name: 'The Vault', desc: '200-year legacy archive, historical record, and lore keeping.' },
+            ];
+
+            const councilGrid = document.getElementById('council-grid');
+            const detailsPane = document.getElementById('council-details');
+            const councilTitle = document.getElementById('council-title');
+            const councilDesc = document.getElementById('council-desc');
+
+            // Render Council Grid
+            councils.forEach((council, index) => {
+                const div = document.createElement('div');
+                div.className = `glass-card p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer glow-hover council-item`;
+                div.innerHTML = `
+                    <div class="text-3xl mb-2">${council.icon}</div>
+                    <h4 class="font-bold text-white text-sm uppercase tracking-wide">${council.name}</h4>
+                `;
+                div.addEventListener('click', () => {
+                    // UI State
+                    document.querySelectorAll('.council-item').forEach(el => el.classList.remove('active'));
+                    div.classList.add('active');
+                    
+                    // Show Details
+                    councilTitle.innerText = `${council.icon} ${council.name}`;
+                    councilDesc.innerText = council.desc;
+                    detailsPane.classList.remove('hidden');
+                    detailsPane.classList.add('fade-in-up');
+                });
+                councilGrid.appendChild(div);
+            });
+
+            // 4. Tokenomics Chart (Doughnut)
+            const ctxToken = document.getElementById('tokenomicsChart').getContext('2d');
+            const tokenChart = new Chart(ctxToken, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Community Rewards (45%)', 'Dev/Forge (20%)', 'Legacy Vault (15%)', 'Operations (10%)', 'Liquidity (10%)'],
+                    datasets: [{
+                        data: [45, 20, 15, 10, 10],
+                        backgroundColor: [
+                            '#6366f1', // Indigo
+                            '#a855f7', // Purple
+                            '#fbbf24', // Gold
+                            '#10b981', // Green
+                            '#374151'  // Gray
+                        ],
+                        borderColor: '#0f0f16',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#9ca3af', font: { size: 12 } }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 15, 22, 0.9)',
+                            titleColor: '#fbbf24',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(251, 191, 36, 0.3)',
+                            borderWidth: 1
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Add Chart.js Tooltip global config for cleaner look
+            Chart.defaults.font.family = "'Inter', sans-serif";
+
+            // --- INTERSECTION OBSERVER LOGIC ---
+            function setupIntersectionObserver() {
+                const targets = document.querySelectorAll('.scroll-fade-target');
+                
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px 0px -100px 0px',
+                    threshold: 0.1 
+                });
+
+                targets.forEach(target => {
+                    observer.observe(target);
+                });
+            }
+            setupIntersectionObserver();
+
+
+            // --- PI SDK AUTHENTICATION TRIGGER ---
+            if (window.Pi) {
+                // Attach payment handler only once
+                runBtn.addEventListener('click', requestPayment);
+                
+                // Start the authentication process
+                authenticateUser();
+                
+            } else {
+                // Non-Pi Browser environment: Show fallback
+                showModal('Non-Pi Browser Detected', 'For full resonance, including authentication and Pi payments, please open OINIO in the Pi Browser.');
+                disablePaymentButton('Pi Browser required for payments');
+                authStatusEl.innerText = 'SYSTEM STATUS: DISCONNECTED';
+            }
+        });
+    </script>
+</body>
+</html>

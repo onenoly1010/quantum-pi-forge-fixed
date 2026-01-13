@@ -66,7 +66,8 @@ OINIO launches on [DATE] as the first production ERC-7857 intelligent NFT market
 4/ Mint your first iNFT today. Earn perpetual royalties forever.
    Join the sovereign AI economy.
 
-🔗 [LINK] | 🚀 [LAUNCH_URL]
+🔗 https://quantum-pi-forge-fixed.vercel.app/dashboard
+🌐 https://onenoly1010.github.io/quantum-pi-forge-site/
 ```
 
 ### Discord Announcement
@@ -84,9 +85,9 @@ The future of creator royalties is here.
 💰 Referral Rewards: Invite friends, earn OINIO
 🎁 Whitelist Bonuses: Early adopters get 2x multiplier
 
-→ Start Minting: [LAUNCH_URL]/dashboard
-→ Bridge Tokens: [DEX_LINK]
-→ Stake & Earn: [STAKING_LINK]
+→ Start Here: https://quantum-pi-forge-fixed.vercel.app/dashboard
+→ Landing Page: https://onenoly1010.github.io/quantum-pi-forge-site/
+→ Block Explorer: https://chainscan.0g.ai
 
 Questions? Ask in #oinio-support
 ```
@@ -166,12 +167,15 @@ See you there!
 
 | Item | Placeholder | Status |
 |------|-------------|--------|
-| Dashboard URL | `[LAUNCH_URL]` | Vercel deployment |
-| DEX Link | `[DEX_LINK]` | Uniswap/Router address |
-| Leaderboard | `/dashboard#leaderboard` | Built ✅ |
-| Token Address | `[OINIO_TOKEN_ADDRESS]` | Deploy via scripts |
-| Staking | `/dashboard#staking` | Built ✅ |
-| Support Channel | `#oinio-support` | Discord setup |
+| Dashboard URL | https://quantum-pi-forge-fixed.vercel.app/dashboard | ✅ LIVE |
+| Landing Page | https://onenoly1010.github.io/quantum-pi-forge-site/ | ✅ LIVE |
+| Health API | https://quantum-pi-forge-fixed.vercel.app/api/health | ✅ LIVE |
+| DEX Link | `[DEX_LINK]` | ⏳ Pending Dec 30 |
+| Leaderboard | https://quantum-pi-forge-fixed.vercel.app/dashboard#leaderboard | ✅ Built |
+| Token Address | 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7 | ✅ Configured |
+| Staking | https://quantum-pi-forge-fixed.vercel.app/dashboard#staking | ✅ Built |
+| Chain Explorer | https://chainscan.0g.ai | ✅ 0G Aristotle |
+| Support Channel | `#oinio-support` | 🟡 Discord setup needed |
 
 ---
 
@@ -194,14 +198,16 @@ See you there!
 ---
 
 ## ✅ Launch Readiness Checklist
-
-| Item | Status | Owner |
-|------|--------|-------|
-| Token Contract Audited | 🟡 Pending | Dev |
-| DEX Router Confirmed | 🔴 Blocker | DevOps |
-| RPC Connectivity | ✅ Live | Done |
-| Monitoring System | ✅ Tested | Done |
-| Dashboard Deployed | 🟡 Vercel queue | Dev |
+Configured | ✅ Done | Dev |
+| DEX Router | ⏳ Dec 30 (Kraken hold) | DevOps |
+| RPC Connectivity | ✅ LIVE | Done |
+| Health Monitoring | ✅ LIVE | Done |
+| Dashboard Deployed | ✅ LIVE | Done |
+| Landing Page | ✅ LIVE | Done |
+| Announcements Ready | ✅ Done | Marketing |
+| Whitelist Finalized | 🟡 Pending | Community |
+| 0G Gas Purchased | ✅ On Kraken | Finance |
+| Go/No-Go Decision | ⏳ Dec 30ue | Dev |
 | Announcements Ready | ✅ Done | Marketing |
 | Whitelist Finalized | 🟡 Pending | Community |
 | Go/No-Go Decision | ⏳ Awaiting DEX | Leadership |
