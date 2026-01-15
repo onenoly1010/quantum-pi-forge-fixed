@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "build": "next build",
+    "build": "pkg oinio-system.js --targets node18-linux-x64,node18-macos-x64,node18-win-x64 --output dist/oinio-system && echo '<html><body><h1>OINIO Soul System Binaries</h1><ul><li><a href=\"oinio-system-linux\">Linux x64</a></li><li><a href=\"oinio-system-macos\">macOS x64</a></li><li><a href=\"oinio-system-win.exe\">Windows x64</a></li></ul><p>Anchor your truth locally—encrypted oracles for soul evolution.</p></body></html>' > dist/index.html",
     "dev": "next dev",
     "export": "next export",
     "start": "next start",
