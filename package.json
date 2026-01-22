@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && npx eslint --max-warnings=0 .",
     "format": "prettier --write .",
     "deploy": "chmod +x scripts/deploy-quantum.sh && ./scripts/deploy-quantum.sh",
     "debug": "node scripts/debug-quantum.js",

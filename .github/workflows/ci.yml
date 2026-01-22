@@ -31,13 +31,19 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Lint
-        run: npm run lint || true
+        run: |
+          npm run lint
+          npx eslint --max-warnings=0 .
+
+      - name: Format check
+        run: |
+          npx prettier --check .
 
       - name: Typecheck
         run: npx tsc --noEmit
 
       - name: Test
-        run: npm test || true
+        run: npm test
 
       - name: Build
         run: npm run build

@@ -38,8 +38,18 @@ ready_time=$(date +%s)
 startup_ms=$(( (ready_time - start_time) * 1000 ))
 
 echo "Server ready after ${startup_ms}ms"
+# Check threshold (ms)
+STARTUP_THRESHOLD_MS=${STARTUP_THRESHOLD_MS:-30000}
+if [ "$startup_ms" -gt "$STARTUP_THRESHOLD_MS" ]; then
+  echo "ERROR: Startup time ${startup_ms}ms exceeded threshold ${STARTUP_THRESHOLD_MS}ms"
+  echo "Tail of log (last 200 lines):"
+  tail -n 200 "$LOGFILE" || true
+  exit 2
+fi
+
 echo "Tail of log (last 50 lines):"
 tail -n 50 "$LOGFILE" || true
+
 
 # Optional: run a quick RPC test
 if command -v curl >/dev/null 2>&1; then

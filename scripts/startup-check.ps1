@@ -56,7 +56,15 @@ if (-not $ok) {
 
 $readyTime = Get-Date
 $startupMs = ($readyTime - $startTime).TotalMilliseconds
+$thresholdMs = [int]($env:STARTUP_THRESHOLD_MS -as [int])
+if (-not $thresholdMs) { $thresholdMs = 30000 }
 Write-Output "Server ready after $([int]$startupMs)ms"
+if ($startupMs -gt $thresholdMs) {
+  Write-Output "ERROR: Startup time $([int]$startupMs)ms exceeded threshold ${thresholdMs}ms"
+  if (Test-Path $logFile) { Get-Content $logFile -Tail 200 }
+  try { $proc.Kill() } catch {}
+  exit 2
+}
 if (Test-Path $logFile) { Write-Output "--- Log tail (last 50 lines) ---"; Get-Content $logFile -Tail 50 }
 # Wait on process
 $proc.WaitForExit()
