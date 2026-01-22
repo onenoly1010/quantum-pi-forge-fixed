@@ -1,0 +1,81 @@
+{
+  "buildCommand": "npm run build && npm run postbuild",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci --include=dev",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "ALCHEMY_API_KEY": {
+      "description": "Alchemy API Key for Polygon RPC",
+      "value": ""
+    },
+    "WALLETCONNECT_PROJECT_ID": {
+      "description": "WalletConnect Project ID",
+      "value": ""
+    },
+    "OINIO_TOKEN_ADDRESS": {
+      "description": "OINIO Token Contract Address",
+      "value": ""
+    },
+    "SENTRY_AUTH_TOKEN": {
+      "description": "Sentry authentication token",
+      "value": ""
+    }
+  },
+  "redirects": [
+    {
+      "source": "/old-forge",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/legacy",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/quantum/:path*",
+      "destination": "/api/quantum/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "github": {
+    "silent": false,
+    "autoAlias": true
+  },
+  "regions": ["sfo1"],
+  "public": true
+}

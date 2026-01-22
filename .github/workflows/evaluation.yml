@@ -1,0 +1,49 @@
+name: AI Evaluation
+
+on:
+  push:
+    paths:
+      - 'evaluation/**'
+      - 'app/**'
+      - '.github/workflows/evaluation.yml'
+  pull_request:
+    paths:
+      - 'evaluation/**'
+
+jobs:
+  evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Python evaluation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r evaluation/requirements.txt
+
+      - name: Run evaluation
+        run: |
+          mkdir -p evaluation_results
+          python evaluation/run_evaluation.py --data evaluation/evaluation_dataset.jsonl --output evaluation_results
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Upload evaluation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-results
+          path: evaluation/evaluation_results

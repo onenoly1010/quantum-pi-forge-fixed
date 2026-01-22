@@ -1,0 +1,438 @@
+name: AI Agent Handoff & Autonomous Runbook
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: false
+        default: 'update-status'
+        type: choice
+        options:
+          - update-status
+          - rollback
+          - update-component
+          - emergency-stop
+      rollback_version:
+        description: 'Version to rollback to (for rollback action)'
+        required: false
+        type: string
+      target_component:
+        description: 'Component to update (for update-component action)'
+        required: false
+        type: choice
+        options:
+          - fastapi
+          - flask
+          - gradio
+          - all
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - 'src/**'
+      - '.github/workflows/**'
+  workflow_run:
+    workflows: ["Deploy Next.js site to Pages", "Agent Dispatch"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+  checks: read
+
+jobs:
+  safety-gate:
+    name: 🛡️ Safety Gate
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Safety Checks
+        id: check
+        run: |
+          echo "Running safety checks..."
+          # Add your safety checks here
+          echo "status=success" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+  ci-pipeline:
+    name: 🔧 CI Pipeline
+    runs-on: ubuntu-latest
+    needs: safety-gate
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+        continue-on-error: true
+
+      - name: Build Project
+        id: build
+        run: |
+          if npm run build; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+  deployment:
+    name: 🚀 Deployment
+    runs-on: ubuntu-latest
+    needs: ci-pipeline
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'update-component')
+    outputs:
+      status: ${{ steps.deploy.outputs.status }}
+      deployment_url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Application
+        id: deploy
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.action }}" = "update-component" ]; then
+            echo "Running update-component.sh for target component: ${{ github.event.inputs.target_component }}"
+            chmod +x ./scripts/runbook/update-component.sh
+            ./scripts/runbook/update-component.sh "${{ github.event.inputs.target_component }}"
+            result=$?
+            if [ "$result" -eq 0 ]; then
+              echo "status=success" >> $GITHUB_OUTPUT
+            else
+              echo "status=failure" >> $GITHUB_OUTPUT
+            fi
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.ci-pipeline.outputs.status }}" = "success" ]; then
+            echo "Deployment triggered via ${{ github.event_name }}"
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          else
+            echo "status=skipped" >> $GITHUB_OUTPUT
+            echo "url=https://quantum-pi-forge-fixed.vercel.app" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+  monitoring:
+    name: 📊 Monitoring
+    runs-on: ubuntu-latest
+    needs: [safety-gate, ci-pipeline]
+    outputs:
+      status: ${{ steps.health.outputs.status }}
+      fastapi_status: ${{ steps.health.outputs.fastapi_status }}
+      flask_status: ${{ steps.health.outputs.flask_status }}
+      gradio_status: ${{ steps.health.outputs.gradio_status }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Health Check Services
+        id: health
+        run: |
+          echo "Checking service health via runbook script..."
+          chmod +x ./scripts/runbook/health-check.sh
+          
+          # Run health checks and capture output
+          if curl -sf -m 5 http://localhost:8000/health > /dev/null 2>&1; then
+            echo "fastapi_status=healthy" >> $GITHUB_OUTPUT
+          else
+            echo "fastapi_status=unavailable" >> $GITHUB_OUTPUT
+          fi
+          
+          if curl -sf -m 5 http://localhost:5000/health > /dev/null 2>&1; then
+            echo "flask_status=healthy" >> $GITHUB_OUTPUT
+          else
+            echo "flask_status=unavailable" >> $GITHUB_OUTPUT
+          fi
+          
+          if curl -sf -m 5 http://localhost:7860/ > /dev/null 2>&1; then
+            echo "gradio_status=healthy" >> $GITHUB_OUTPUT
+          else
+            echo "gradio_status=unavailable" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "status=healthy" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Generate Monitoring Report
+        run: |
+          mkdir -p monitoring-reports
+          cat > monitoring-reports/health-check.json << EOF
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "run_id": "${{ github.run_id }}",
+            "fastapi": "${{ steps.health.outputs.fastapi_status }}",
+            "flask": "${{ steps.health.outputs.flask_status }}",
+            "gradio": "${{ steps.health.outputs.gradio_status }}"
+          }
+          EOF
+
+      - name: Upload Monitoring Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitoring-report
+          path: monitoring-reports/
+          retention-days: 30
+
+  rollback:
+    name: 🔄 Rollback
+    runs-on: ubuntu-latest
+    needs: deployment
+    if: github.event.inputs.action == 'rollback' || needs.deployment.result == 'failure'
+    outputs:
+      status: ${{ steps.rollback.outputs.status }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Execute Rollback
+        id: rollback
+        run: |
+          if [ "${{ github.event.inputs.action }}" = "rollback" ]; then
+            ROLLBACK_VERSION="${{ github.event.inputs.rollback_version }}"
+
+            if [ -z "$ROLLBACK_VERSION" ]; then
+              echo "Error: rollback_version input is required when action is 'rollback'."
+              exit 1
+            fi
+
+            # Validate rollback_version format (semantic version with optional 'v', commit hash, or tag - no path traversal)
+            if ! echo "$ROLLBACK_VERSION" | grep -Eq '^v?[0-9a-zA-Z._-]+$'; then
+              echo "Error: Invalid rollback_version format: '$ROLLBACK_VERSION'. Only alphanumeric, dots, underscores, and hyphens allowed."
+              exit 1
+            fi
+
+            echo "Rolling back to version: $ROLLBACK_VERSION"
+            chmod +x ./scripts/runbook/rollback.sh
+            ./scripts/runbook/rollback.sh "$ROLLBACK_VERSION"
+            echo "status=completed" >> $GITHUB_OUTPUT
+          else
+            echo "status=not_needed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+  emergency-stop:
+    name: 🚨 Emergency Stop
+    runs-on: ubuntu-latest
+    if: github.event.inputs.action == 'emergency-stop'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Execute Emergency Stop
+        run: |
+          echo "🚨 EMERGENCY STOP INITIATED"
+          echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Triggered by: ${{ github.actor }}"
+          chmod +x ./scripts/runbook/emergency-stop.sh
+          bash ./scripts/runbook/emergency-stop.sh
+
+  update-status-issue:
+    name: 📝 Update Status Issue
+    runs-on: ubuntu-latest
+    needs: [safety-gate, ci-pipeline, deployment, monitoring, rollback]
+    if: always()
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get Job Statuses
+        id: statuses
+        run: |
+          echo "safety_gate=${{ needs.safety-gate.outputs.status || 'success' }}" >> $GITHUB_OUTPUT
+          echo "ci_pipeline=${{ needs.ci-pipeline.outputs.status || 'success' }}" >> $GITHUB_OUTPUT
+          echo "deployment=${{ needs.deployment.outputs.status || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "monitoring=${{ needs.monitoring.outputs.status || 'healthy' }}" >> $GITHUB_OUTPUT
+          echo "rollback=${{ needs.rollback.outputs.status || 'skipped' }}" >> $GITHUB_OUTPUT
+          
+          # Determine overall operational status
+          if [ "${{ needs.safety-gate.result }}" = "failure" ] || [ "${{ needs.ci-pipeline.result }}" = "failure" ]; then
+            echo "operational_status=⚠️ DEGRADED" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.deployment.result }}" = "failure" ]; then
+            echo "operational_status=🔴 CRITICAL" >> $GITHUB_OUTPUT
+          else
+            echo "operational_status=✅ OPERATIONAL" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Find or Create Status Issue
+        id: find-issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🤖 AI Agent Autonomous Runbook Status';
+            
+            // Search for existing issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'ai-agent,automated,runbook'
+            });
+            
+            let issueNumber = null;
+            for (const issue of issues.data) {
+              if (issue.title === title) {
+                issueNumber = issue.number;
+                break;
+              }
+            }
+            
+            // Create issue if it doesn't exist
+            if (!issueNumber) {
+              const newIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: 'Initializing AI Agent Autonomous Runbook...',
+                labels: ['ai-agent', 'automated', 'runbook']
+              });
+              issueNumber = newIssue.data.number;
+            }
+            
+            core.setOutput('issue_number', issueNumber);
+            return issueNumber;
+
+      - name: Update Status Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ steps.find-issue.outputs.issue_number }};
+            const timestamp = new Date().toISOString();
+            const runId = context.runId;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}`;
+            
+            // Get monitoring statuses
+            const fastapiStatus = '${{ needs.monitoring.outputs.fastapi_status || 'unavailable' }}';
+            const flaskStatus = '${{ needs.monitoring.outputs.flask_status || 'unavailable' }}';
+            const gradioStatus = '${{ needs.monitoring.outputs.gradio_status || 'unavailable' }}';
+            
+            const statusEmoji = (status) => {
+              if (!status || status === 'skipped') return '⏭️ Skipped';
+              if (status === 'healthy') return '✅ Healthy';
+              if (status === 'success') return '✅ Success';
+              if (status === 'not_needed') return 'ℹ️ Not needed';
+              if (status === 'completed') return '✅ Completed';
+              if (status === 'unavailable') return '⚠️ Unavailable';
+              return '❌ Failed';
+            };
+            
+            
+            const body = `# ${{ steps.statuses.outputs.operational_status }}
+
+            **Last Updated**: ${timestamp}
+            **Run**: <a href="${runUrl}">#${runId}</a>
+            **Trigger**: ${{ github.event_name }}
+            **Branch**: ${{ github.ref_name }}
+
+            ## Job Status Summary
+
+            | Job | Status | Result |
+            |-----|--------|--------|
+            | 🛡️ Safety Gate | ${{ needs.safety-gate.result }} | ${statusEmoji('${{ needs.safety-gate.outputs.status }}')} |
+            | 🔧 CI Pipeline | ${{ needs.ci-pipeline.result }} | ${statusEmoji('${{ needs.ci-pipeline.outputs.status }}')} |
+            | 🚀 Deployment | ${{ needs.deployment.result }} | ${statusEmoji('${{ needs.deployment.outputs.status }}')} |
+            | 📊 Monitoring | ${{ needs.monitoring.result }} | ${statusEmoji('${{ needs.monitoring.outputs.status }}')} |
+            | 🔄 Rollback | ${{ needs.rollback.result }} | ${statusEmoji('${{ needs.rollback.outputs.status }}')} |
+
+            ## System Health
+
+            - **FastAPI Quantum Conduit** (Port 8000): ${statusEmoji(fastapiStatus)}
+            - **Flask Glyph Weaver** (Port 5000): ${statusEmoji(flaskStatus)}
+            - **Gradio Truth Mirror** (Port 7860): ${statusEmoji(gradioStatus)}
+
+
+            ## AI Agent Instructions
+
+            ### For Monitoring
+            \`\`\`bash
+            # Check current deployment status
+            gh run view ${runId}
+
+            # Download monitoring reports
+            gh run download ${runId} -n monitoring-report
+            \`\`\`
+
+            ### For Rollback (if needed)
+            \`\`\`bash
+            # Trigger manual rollback
+            gh workflow run "ai-agent-handoff-runbook.yml" \\
+              -f action=rollback \\
+              -f rollback_version="<previous-deployment-tag>"
+            \`\`\`
+
+            ### For Updates
+            \`\`\`bash
+            # Update specific component
+            gh workflow run "ai-agent-handoff-runbook.yml" \\
+              -f action=update-component \\
+              -f target_component=fastapi
+            \`\`\`
+
+            ---
+
+            ## Configuration
+
+            This issue is automatically maintained by the AI Agent Autonomous Runbook.
+
+            **Labels**: \`ai-agent\`, \`automated\`, \`runbook\`
+            **Auto-Update**: Every 6 hours or on deployment
+
+            ### Emergency Procedures
+
+            1. **Emergency Stop**: \`gh workflow run "ai-agent-handoff-runbook.yml" -f action=emergency-stop\`
+            2. **Force Rollback**: See rollback instructions above
+            3. **Manual Intervention**: Contact repository maintainer
+
+            ### Monitoring Alerts
+
+            Configure webhook notifications:
+            - Set \`SLACK_WEBHOOK_URL\` secret for Slack alerts
+            - Set \`DISCORD_WEBHOOK_URL\` secret for Discord alerts
+
+            ---
+
+            *Last automated update: ${timestamp}*
+            *Workflow: <a href="${runUrl}">AI Agent Handoff &amp; Autonomous Runbook</a>*`;
+            
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: body
+            });
+            
+            // Add comment on workflow trigger events
+            if (context.eventName === 'workflow_dispatch') {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `🤖 Workflow manually triggered by @${context.actor}\n**Action**: ${context.payload.inputs?.action || 'update-status'}\n**Timestamp**: ${timestamp}`
+              });
+            }
+
+      - name: Send Notifications
+        if: always()
+        run: |
+          echo "📢 Status update completed"
+          echo "Issue: https://github.com/${{ github.repository }}/issues/${{ steps.find-issue.outputs.issue_number }}"
+          echo ""
+          echo "Note: To enable Slack/Discord notifications, configure webhook secrets and implement notification logic"

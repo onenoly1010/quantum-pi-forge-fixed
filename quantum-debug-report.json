@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-01-20T20:05:38.893Z",
+  "nodeVersion": "v24.11.1",
+  "platform": "win32",
+  "memory": {
+    "totalMem": 7,
+    "freeMem": 1
+  },
+  "criticalFiles": [
+    {
+      "file": "package.json",
+      "exists": true
+    },
+    {
+      "file": "next.config.js",
+      "exists": false
+    },
+    {
+      "file": "tailwind.config.js",
+      "exists": false
+    },
+    {
+      "file": "app/layout.tsx",
+      "exists": true
+    },
+    {
+      "file": "app/page.tsx",
+      "exists": true
+    },
+    {
+      "file": "app/globals.css",
+      "exists": true
+    }
+  ]
+}

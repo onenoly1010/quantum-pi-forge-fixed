@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Pi Forge - Sovereign Staking Protocol</title>
+  <meta name="description" content="Stake OINIO tokens with zero gas fees. Join the Truth Movement and build your sovereign future with gasless transactions on Polygon.">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'brand-violet': {
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              900: '#4c1d95'
+            },
+            'brand-cyan': {
+              400: '#22d3ee',
+              500: '#06b6d4',
+              600: '#0891b2'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .glow-effect {
+      box-shadow: 0 0 60px rgba(139, 92, 246, 0.3);
+    }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .scroll-smooth {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0a0f] text-white scroll-smooth">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <!-- Brand -->
+        <a href="#home" class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+            <span class="text-white font-bold text-lg">Ω</span>
+          </div>
+          <span class="text-white font-semibold text-xl tracking-tight">Quantum Pi Forge</span>
+        </a>
+        
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex items-center space-x-8">
+          <li><a href="#home" class="text-white/80 hover:text-white transition-colors">Home</a></li>
+          <li><a href="#features" class="text-white/80 hover:text-white transition-colors">Features</a></li>
+          <li><a href="#how-it-works" class="text-white/80 hover:text-white transition-colors">How It Works</a></li>
+          <li><a href="#testimonials" class="text-white/80 hover:text-white transition-colors">Success Stories</a></li>
+          <li>
+            <a href="/dashboard" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-medium hover:opacity-90 transition-opacity">
+              Start Earning →
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-white/80 hover:text-white">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
+        <ul class="space-y-4">
+          <li><a href="#home" class="block text-white/80 hover:text-white">Home</a></li>
+          <li><a href="#features" class="block text-white/80 hover:text-white">Features</a></li>
+          <li><a href="#how-it-works" class="block text-white/80 hover:text-white">How It Works</a></li>
+          <li><a href="#testimonials" class="block text-white/80 hover:text-white">Success Stories</a></li>
+          <li>
+            <a href="/dashboard" class="block px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-medium text-center">
+              Start Earning →
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0">
+      <div class="absolute top-20 left-10 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-20 right-10 w-80 h-80 bg-cyan-600/20 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-900/10 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-6 py-20 text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-2"></span>
+        <span class="text-violet-300 text-sm font-medium">Live on Polygon Mainnet</span>
+      </div>
+      
+      <!-- Main Headline -->
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        Earn Passive Income<br>
+        <span class="gradient-text">With Zero Gas Fees</span>
+      </h1>
+      
+      <!-- Subheadline -->
+      <p class="text-xl md:text-2xl text-white/60 max-w-3xl mx-auto mb-10">
+        Stake your OINIO tokens and let your crypto work for you. We cover all transaction fees—you keep 100% of your rewards.
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="/dashboard" class="px-8 py-4 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold text-lg hover:opacity-90 transition-opacity glow-effect">
+          Start Staking Now
+        </a>
+        <a href="#how-it-works" class="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-medium text-lg hover:bg-white/10 transition-colors">
+          Learn More ↓
+        </a>
+      </div>
+      
+      <!-- Trust Indicators -->
+      <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-white/50">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          Secure Smart Contracts
+        </div>
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Instant Settlement
+        </div>
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Zero Hidden Fees
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          Why Choose <span class="gradient-text">Quantum Pi Forge</span>
+        </h2>
+        <p class="text-xl text-white/60 max-w-2xl mx-auto">
+          Built for the Truth Movement with security, simplicity, and sovereignty at its core.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="glass-card rounded-2xl p-8 hover:bg-white/[0.08] transition-colors">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500/20 to-violet-500/10 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Zero Gas Fees</h3>
+          <p class="text-white/50 leading-relaxed">
+            We sponsor all transaction costs. Stake any amount from 0.01 to 10,000 OINIO without spending a single MATIC on gas.
+          </p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="glass-card rounded-2xl p-8 hover:bg-white/[0.08] transition-colors">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-500/10 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Instant Staking</h3>
+          <p class="text-white/50 leading-relaxed">
+            Transactions confirm in seconds on Polygon. No waiting, no complex processes—just connect, enter amount, and stake.
+          </p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="glass-card rounded-2xl p-8 hover:bg-white/[0.08] transition-colors">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/10 flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Your Keys, Your Crypto</h3>
+          <p class="text-white/50 leading-relaxed">
+            Non-custodial staking means you always control your assets. We never hold your tokens—stake directly from your wallet.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="py-24 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-violet-900/5 to-transparent"></div>
+    <div class="relative max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          Start in <span class="gradient-text">3 Simple Steps</span>
+        </h2>
+        <p class="text-xl text-white/60 max-w-2xl mx-auto">
+          From zero to earning in under 2 minutes. No technical knowledge required.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="relative">
+          <div class="glass-card rounded-2xl p-8 h-full">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-600 to-cyan-600 flex items-center justify-center text-xl font-bold mb-6">
+              1
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Connect Your Wallet</h3>
+            <p class="text-white/50 leading-relaxed mb-4">
+              Click "Connect Wallet" and approve the connection in MetaMask. Works on desktop and mobile.
+            </p>
+            <div class="flex items-center text-sm text-white/40">
+              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Takes ~10 seconds
+            </div>
+          </div>
+          <!-- Connector line -->
+          <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-violet-500 to-transparent"></div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="relative">
+          <div class="glass-card rounded-2xl p-8 h-full">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-600 to-cyan-600 flex items-center justify-center text-xl font-bold mb-6">
+              2
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Enter Your Amount</h3>
+            <p class="text-white/50 leading-relaxed mb-4">
+              Choose how many OINIO tokens you want to stake. Minimum 0.01, maximum 10,000 per transaction.
+            </p>
+            <div class="flex items-center text-sm text-white/40">
+              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Takes ~5 seconds
+            </div>
+          </div>
+          <!-- Connector line -->
+          <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-violet-500 to-transparent"></div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="relative">
+          <div class="glass-card rounded-2xl p-8 h-full">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-600 to-cyan-600 flex items-center justify-center text-xl font-bold mb-6">
+              3
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Click Stake & Earn</h3>
+            <p class="text-white/50 leading-relaxed mb-4">
+              Hit the stake button and we handle everything. Transaction confirms in seconds—no gas required from you.
+            </p>
+            <div class="flex items-center text-sm text-emerald-400">
+              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              You're earning!
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA -->
+      <div class="text-center mt-12">
+        <a href="/dashboard" class="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold text-lg hover:opacity-90 transition-opacity">
+          Get Started Now
+          <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          Trusted by the <span class="gradient-text">Truth Movement</span>
+        </h2>
+        <p class="text-xl text-white/60 max-w-2xl mx-auto">
+          Join thousands who are building their sovereign future.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="glass-card rounded-2xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-lg font-bold">
+              S
+            </div>
+            <div class="ml-4">
+              <div class="font-semibold">SovereignOne</div>
+              <div class="text-sm text-white/40">Early Adopter</div>
+            </div>
+          </div>
+          <p class="text-white/60 leading-relaxed">
+            "Finally, a staking platform that doesn't eat into my returns with gas fees. The gasless transactions are a game changer for building real passive income."
+          </p>
+          <div class="flex mt-4 text-amber-400">
+            ★★★★★
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="glass-card rounded-2xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center text-lg font-bold">
+              T
+            </div>
+            <div class="ml-4">
+              <div class="font-semibold">TruthSeeker42</div>
+              <div class="text-sm text-white/40">Active Staker</div>
+            </div>
+          </div>
+          <p class="text-white/60 leading-relaxed">
+            "Setup took less than a minute. Connected my MetaMask, entered my amount, clicked stake—done. No complicated steps, no hidden fees. This is how crypto should work."
+          </p>
+          <div class="flex mt-4 text-amber-400">
+            ★★★★★
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="glass-card rounded-2xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-violet-500 flex items-center justify-center text-lg font-bold">
+              F
+            </div>
+            <div class="ml-4">
+              <div class="font-semibold">FrequencyMaster</div>
+              <div class="text-sm text-white/40">Community Member</div>
+            </div>
+          </div>
+          <p class="text-white/60 leading-relaxed">
+            "Being part of the 1010 Hz frequency movement and earning at the same time—this platform understands what we're building. Sovereign economy is the future."
+          </p>
+          <div class="flex mt-4 text-amber-400">
+            ★★★★★
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="py-24 relative">
+    <div class="absolute inset-0 bg-gradient-to-t from-violet-900/20 to-transparent"></div>
+    <div class="relative max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">
+        Ready to Build Your<br><span class="gradient-text">Sovereign Future?</span>
+      </h2>
+      <p class="text-xl text-white/60 mb-10 max-w-2xl mx-auto">
+        Join the Truth Movement today. Start staking with zero gas fees and watch your crypto work for you.
+      </p>
+      <a href="/dashboard" class="inline-flex items-center px-10 py-5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold text-xl hover:opacity-90 transition-opacity glow-effect">
+        Start Earning Now →
+      </a>
+      <p class="mt-6 text-sm text-white/40">
+        No account needed • Connect wallet and start immediately
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-8 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+              <span class="text-white font-bold text-lg">Ω</span>
+            </div>
+            <span class="text-white font-semibold text-xl">Quantum Pi Forge</span>
+          </div>
+          <p class="text-white/50 max-w-md">
+            Building the sovereign economy for the Truth Movement. Gasless staking, instant settlement, complete control.
+          </p>
+        </div>
+        
+        <!-- Links -->
+        <div>
+          <h4 class="font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-white/50">
+            <li><a href="/dashboard" class="hover:text-white transition-colors">Dashboard</a></li>
+            <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+            <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-white/50">
+            <li><a href="https://polygonscan.com/address/0x07f43E5B1A8a0928B364E40d5885f81A543B05C7" target="_blank" class="hover:text-white transition-colors">Token Contract</a></li>
+            <li><a href="https://github.com/onenoly1010/quantum-pi-forge-fixed" target="_blank" class="hover:text-white transition-colors">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Bottom -->
+      <div class="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/5">
+        <p class="text-white/40 text-sm mb-4 md:mb-0">
+          © 2024 Quantum Pi Forge. Built for the Truth Movement.
+        </p>
+        <div class="flex items-center space-x-4 text-white/40 text-sm">
+          <span>Frequency: 1010 Hz</span>
+          <span>•</span>
+          <span>Polygon Network</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

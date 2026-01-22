@@ -1,0 +1,19 @@
+# Core dependencies for Quantum Pi Forge AI components
+requests>=2.31.0
+web3>=6.0.0
+python-dotenv>=1.0.0
+python-dateutil>=2.8.0
+
+# OpenTelemetry for tracing
+opentelemetry-distro>=0.45b0
+opentelemetry-exporter-otlp-proto-grpc>=1.24.0
+opentelemetry-instrumentation>=0.45b0
+opentelemetry-instrumentation-requests>=0.45b0
+opentelemetry-instrumentation-urllib3>=0.45b0
+
+# Additional instrumentations
+opentelemetry-instrumentation-fastapi>=0.45b0
+opentelemetry-instrumentation-pymongo>=0.45b0  # if using MongoDB
+
+# Optional: for advanced tracing
+opentelemetry-sdk>=1.24.0

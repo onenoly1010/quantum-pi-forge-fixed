@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Launch Dashboard - Creator Revenue Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+        }
+        .metric-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .live-indicator {
+            position: relative;
+        }
+        .live-indicator::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                🚀 Creator Revenue Engine - Launch Dashboard
+            </h1>
+            <p class="text-gray-400 text-lg">Real-time monitoring of your economic flywheel</p>
+            <div class="mt-4 flex items-center justify-center space-x-2">
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-green-400 font-semibold">LIVE</span>
+            </div>
+        </div>
+
+        <!-- Key Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Creator Balance -->
+            <div class="metric-card rounded-lg p-6 glow pulse-glow">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-green-400">💰 Creator Balance</h3>
+                    <div class="live-indicator"></div>
+                </div>
+                <div class="text-3xl font-bold text-green-400 mb-2" id="creator-balance">$0.00</div>
+                <div class="text-sm text-gray-400">Available for payout</div>
+                <div class="mt-2 text-xs text-green-300">Next payout: $50.00 needed</div>
+            </div>
+
+            <!-- Total Burns Today -->
+            <div class="metric-card rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-orange-400">🔥 Burns Today</h3>
+                    <div class="live-indicator"></div>
+                </div>
+                <div class="text-3xl font-bold text-orange-400 mb-2" id="burns-today">0</div>
+                <div class="text-sm text-gray-400">Template usage events</div>
+                <div class="mt-2 text-xs text-orange-300">Revenue: $0.00</div>
+            </div>
+
+            <!-- Active Creators -->
+            <div class="metric-card rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-blue-400">👑 Active Creators</h3>
+                    <div class="live-indicator"></div>
+                </div>
+                <div class="text-3xl font-bold text-blue-400 mb-2" id="active-creators">0</div>
+                <div class="text-sm text-gray-400">Connected & earning</div>
+                <div class="mt-2 text-xs text-blue-300">Stripe connected: 0</div>
+            </div>
+
+            <!-- Platform Revenue -->
+            <div class="metric-card rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-purple-400">💎 Platform Revenue</h3>
+                    <div class="live-indicator"></div>
+                </div>
+                <div class="text-3xl font-bold text-purple-400 mb-2" id="platform-revenue">$0.00</div>
+                <div class="text-sm text-gray-400">5% of all burns</div>
+                <div class="mt-2 text-xs text-purple-300">This launch cycle</div>
+            </div>
+        </div>
+
+        <!-- Live Activity Feed -->
+        <div class="metric-card rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4 text-white">📡 Live Activity Feed</h3>
+            <div id="activity-feed" class="space-y-2 max-h-64 overflow-y-auto">
+                <div class="text-gray-400 text-center py-4">
+                    Waiting for first activity... 🚀
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Payouts Table -->
+        <div class="metric-card rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4 text-white">💸 Recent Payouts</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="text-left p-2 text-gray-400">Creator</th>
+                            <th class="text-left p-2 text-gray-400">Amount</th>
+                            <th class="text-left p-2 text-gray-400">Template</th>
+                            <th class="text-left p-2 text-gray-400">Time</th>
+                            <th class="text-left p-2 text-gray-400">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payouts-table">
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-gray-400">
+                                No payouts yet. First one coming soon! 🎯
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <button onclick="triggerTestBurn()" class="metric-card rounded-lg p-4 hover:bg-gray-800 transition-colors">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🧪</div>
+                    <div class="font-semibold">Trigger Test Burn</div>
+                    <div class="text-xs text-gray-400">Simulate template usage</div>
+                </div>
+            </button>
+
+            <button onclick="refreshData()" class="metric-card rounded-lg p-4 hover:bg-gray-800 transition-colors">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🔄</div>
+                    <div class="font-semibold">Refresh Data</div>
+                    <div class="text-xs text-gray-400">Manual data refresh</div>
+                </div>
+            </button>
+
+            <button onclick="exportData()" class="metric-card rounded-lg p-4 hover:bg-gray-800 transition-colors">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">📊</div>
+                    <div class="font-semibold">Export Report</div>
+                    <div class="text-xs text-gray-400">Download metrics CSV</div>
+                </div>
+            </button>
+        </div>
+
+        <!-- Launch Progress -->
+        <div class="metric-card rounded-lg p-6">
+            <h3 class="text-xl font-semibold mb-4 text-white">🎯 Launch Progress</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span>Schema Deployed</span>
+                    <span id="schema-status" class="text-yellow-400">⏳ Pending</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>Stripe Connected</span>
+                    <span id="stripe-status" class="text-yellow-400">⏳ Pending</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>API Endpoints Live</span>
+                    <span id="api-status" class="text-yellow-400">⏳ Pending</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>First Creator Onboarded</span>
+                    <span id="creator-status" class="text-yellow-400">⏳ Pending</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>First Payout Triggered</span>
+                    <span id="payout-status" class="text-yellow-400">⏳ Pending</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>Public Launch</span>
+                    <span id="launch-status" class="text-red-400">⏸️ Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Update with your API endpoints
+        const API_BASE = 'https://your-api.vercel.app'; // Replace with your Vercel API URL
+
+        // Real-time data variables
+        let eventSource = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRealtimeUpdates();
+            refreshData();
+            updateLaunchProgress();
+        });
+
+        // Set up real-time updates
+        function initializeRealtimeUpdates() {
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            try {
+                eventSource = new EventSource(`${API_BASE}/api/creator/events`);
+
+                eventSource.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    updateMetrics(data);
+                    addActivityEvent(data);
+                    reconnectAttempts = 0; // Reset on successful connection
+                };
+
+                eventSource.onerror = function() {
+                    console.log('EventSource error, attempting reconnect...');
+                    reconnectAttempts++;
+
+                    if (reconnectAttempts <= maxReconnectAttempts) {
+                        setTimeout(initializeRealtimeUpdates, 5000 * reconnectAttempts);
+                    } else {
+                        addActivityEvent({
+                            type: 'error',
+                            message: 'Lost real-time connection. Refresh page to reconnect.',
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                };
+
+                eventSource.onopen = function() {
+                    console.log('Real-time connection established');
+                    addActivityEvent({
+                        type: 'system',
+                        message: 'Real-time dashboard connected',
+                        timestamp: new Date().toISOString()
+                    });
+                };
+
+            } catch (error) {
+                console.error('Failed to initialize real-time updates:', error);
+            }
+        }
+
+        // Update metrics display
+        function updateMetrics(data) {
+            if (data.creator_balance !== undefined) {
+                document.getElementById('creator-balance').textContent = `$${data.creator_balance.toFixed(2)}`;
+            }
+            if (data.burns_today !== undefined) {
+                document.getElementById('burns-today').textContent = data.burns_today;
+            }
+            if (data.active_creators !== undefined) {
+                document.getElementById('active-creators').textContent = data.active_creators;
+            }
+            if (data.platform_revenue !== undefined) {
+                document.getElementById('platform-revenue').textContent = `$${data.platform_revenue.toFixed(2)}`;
+            }
+        }
+
+        // Add activity to live feed
+        function addActivityEvent(event) {
+            const feed = document.getElementById('activity-feed');
+            const eventDiv = document.createElement('div');
+            eventDiv.className = 'flex items-center space-x-2 text-sm';
+
+            const timestamp = new Date(event.timestamp || Date.now()).toLocaleTimeString();
+
+            let icon = '📡';
+            let colorClass = 'text-gray-400';
+
+            switch (event.type) {
+                case 'burn':
+                    icon = '🔥';
+                    colorClass = 'text-orange-400';
+                    break;
+                case 'payout':
+                    icon = '💰';
+                    colorClass = 'text-green-400';
+                    break;
+                case 'creator':
+                    icon = '👑';
+                    colorClass = 'text-blue-400';
+                    break;
+                case 'error':
+                    icon = '❌';
+                    colorClass = 'text-red-400';
+                    break;
+                case 'system':
+                    icon = '⚙️';
+                    colorClass = 'text-purple-400';
+                    break;
+            }
+
+            eventDiv.innerHTML = `
+                <span class="${colorClass}">${icon}</span>
+                <span class="text-gray-300">${event.message}</span>
+                <span class="text-gray-500 text-xs ml-auto">${timestamp}</span>
+            `;
+
+            feed.insertBefore(eventDiv, feed.firstChild);
+
+            // Keep only last 20 events
+            while (feed.children.length > 20) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        // Refresh all data
+        async function refreshData() {
+            try {
+                const [dashboardRes, payoutsRes] = await Promise.all([
+                    fetch(`${API_BASE}/api/creator/dashboard?creator_id=all`),
+                    fetch(`${API_BASE}/api/creator/recent-payouts?creator_id=all`)
+                ]);
+
+                if (dashboardRes.ok) {
+                    const dashboardData = await dashboardRes.json();
+                    updateMetrics(dashboardData);
+                }
+
+                if (payoutsRes.ok) {
+                    const payoutsData = await payoutsRes.json();
+                    updatePayoutsTable(payoutsData);
+                }
+
+                addActivityEvent({
+                    type: 'system',
+                    message: 'Dashboard data refreshed',
+                    timestamp: new Date().toISOString()
+                });
+
+            } catch (error) {
+                console.error('Failed to refresh data:', error);
+                addActivityEvent({
+                    type: 'error',
+                    message: 'Failed to refresh dashboard data',
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        // Update payouts table
+        function updatePayoutsTable(payouts) {
+            const tbody = document.getElementById('payouts-table');
+
+            if (payouts.length === 0) return;
+
+            tbody.innerHTML = payouts.slice(0, 10).map(payout => `
+                <tr class="border-b border-gray-800">
+                    <td class="p-2">${payout.creator_email || 'Anonymous'}</td>
+                    <td class="p-2 text-green-400">$${payout.creator_share.toFixed(2)}</td>
+                    <td class="p-2">${payout.template_name || 'Unknown'}</td>
+                    <td class="p-2 text-gray-400">${new Date(payout.created_at).toLocaleTimeString()}</td>
+                    <td class="p-2">
+                        <span class="px-2 py-1 rounded text-xs ${
+                            payout.status === 'completed' ? 'bg-green-900 text-green-300' :
+                            payout.status === 'pending' ? 'bg-yellow-900 text-yellow-300' :
+                            'bg-red-900 text-red-300'
+                        }">${payout.status}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Trigger test burn (for development)
+        async function triggerTestBurn() {
+            try {
+                const response = await fetch(`${API_BASE}/api/creator/payout`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        templateId: 'test-template-001',
+                        userId: 'test-user-001',
+                        burnAmount: 10.00,
+                        transactionHash: '0x' + Math.random().toString(16).substr(2, 64)
+                    })
+                });
+
+                if (response.ok) {
+                    addActivityEvent({
+                        type: 'burn',
+                        message: 'Test burn triggered successfully!',
+                        timestamp: new Date().toISOString()
+                    });
+                    setTimeout(refreshData, 1000);
+                } else {
+                    throw new Error('Test burn failed');
+                }
+            } catch (error) {
+                addActivityEvent({
+                    type: 'error',
+                    message: 'Test burn failed: ' + error.message,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        // Export data as CSV
+        function exportData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                creator_balance: document.getElementById('creator-balance').textContent,
+                burns_today: document.getElementById('burns-today').textContent,
+                active_creators: document.getElementById('active-creators').textContent,
+                platform_revenue: document.getElementById('platform-revenue').textContent
+            };
+
+            const csv = 'data:text/csv;charset=utf-8,' +
+                Object.keys(data).join(',') + '\n' +
+                Object.values(data).join(',');
+
+            const encodedUri = encodeURI(csv);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `launch-dashboard-${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            addActivityEvent({
+                type: 'system',
+                message: 'Dashboard data exported to CSV',
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Update launch progress (mock - replace with real checks)
+        function updateLaunchProgress() {
+            // In a real implementation, these would check actual API endpoints
+            const statuses = {
+                'schema-status': '✅ Complete',
+                'stripe-status': '✅ Complete',
+                'api-status': '✅ Complete',
+                'creator-status': '⏳ Pending',
+                'payout-status': '⏳ Pending',
+                'launch-status': '⏸️ Ready'
+            };
+
+            Object.entries(statuses).forEach(([id, status]) => {
+                document.getElementById(id).textContent = status;
+                document.getElementById(id).className = status.includes('✅') ? 'text-green-400' :
+                                                       status.includes('⏸️') ? 'text-blue-400' : 'text-yellow-400';
+            });
+        }
+
+        // Auto-refresh every 30 seconds as backup
+        setInterval(refreshData, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+name: Monitoring - Startup Check
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # daily at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  startup-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci --prefer-offline --no-audit --progress=false
+
+      - name: Run startup check
+        run: |
+          bash scripts/startup-check.sh 3000 /api/health || true
+        timeout-minutes: 10
+
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: startup-check-logs
+          path: |
+            scripts/startup-check.sh
+            .next/**

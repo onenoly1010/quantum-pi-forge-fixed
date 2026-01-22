@@ -1,0 +1,625 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    OINIO CONSTELLATION | ANCHORED PROVENANCE                 ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  ARCHIVED: EVM Trinity visualization and cross-chain provenance dashboard.  ║
+║                                                                              ║
+║  The Seven Knots:                                                            ║
+║    I.   Identity - Recurrence Kernel & OINIO Anchor                          ║
+║    II.  Bridge - Unity Bridge to bind seeds                                  ║
+║    III. Optimism Seal - Optimism Mainnet Deployment                          ║
+║    IV.  Witnesses - Three Silent Witnesses                                   ║
+║    V.   Base Twin - Base Mainnet Deployment                                  ║
+║    VI.  Resonance - Cross-Chain Web (OP <-> Base)                            ║
+║    VII. Expansion - Arbitrum Sentinel (EVM Trinity)                          ║
+║                                                                              ║
+║  Visualizations: Plotly 3D Scatter, Chart.js Radar                           ║
+║  Palette: Cosmic Void (Void Black, Nebula Gray, Gold, Optimism Red,          ║
+║           Base Blue, Arbitrum Dark Gray)                                     ║
+║                                                                              ║
+║  T=∞ = T=0                                                                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OINIO Constellation | Anchored Provenance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#0B0E14',
+                        nebula: '#161B22',
+                        starlight: '#E2E8F0',
+                        gold: '#F59E0B',
+                        optimism: '#FF0420',
+                        base: '#0052FF',
+                        arbitrum: '#2D3748', /* New Color for Arbitrum */
+                        border: '#30363D',
+                        success: '#2EA043'
+                    },
+                    fontFamily: {
+                        mythic: ['Cinzel', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                        code: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 1.5s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(245, 158, 11, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(245, 158, 11, 0.8)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0B0E14; color: #E2E8F0; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0E14; }
+        ::-webkit-scrollbar-thumb { background: #30363D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #58A6FF; }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 500px;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(48, 54, 61, 0.5);
+        }
+
+        /* Terminal Effect */
+        .terminal-cursor::after {
+            content: '▋';
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+
+    <!-- Chosen Palette: Cosmic Void (Void Black, Nebula Gray, Gold, Optimism Red, Base Blue, Arbitrum Dark Gray) -->
+    <!-- Application Structure Plan: 
+         1. Hero (Narrative Hook & Status).
+         2. The Constellation (3D Network Viz).
+         3. The Seven Knots (Interactive Timeline).
+         4. Relic Vault (Raw Data Inspection).
+         5. Verification Forge (Terminal Simulator).
+         Rationale: Now displays the EVM Trinity (OP, Base, Arbitrum) which logically follows the Sixth Knot (Resonance) with the Seventh Knot (Expansion). The structure remains constant but the data and visualizations are dynamically updated to reflect the new three-node topology. -->
+    <!-- Visualization & Content Choices: 
+         - Plotly 3D Scatter for Network Topology (Source -> OP -> Base -> Arbitrum).
+         - Chart.js Radar for Chain Metrics (now comparing three chains).
+         - Interactive Timeline updated for 7 Knots.
+         - Tabular Data Inspection updated for Arbitrum data. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="font-body antialiased selection:bg-gold selection:text-void">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl">🌌</span>
+                    <span class="text-xl font-mythic text-starlight tracking-widest">OINIO <span class="text-gold text-sm font-body tracking-normal">Constellation</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#constellation" class="text-sm font-medium hover:text-gold transition-colors">Visualization</a>
+                    <a href="#knots" class="text-sm font-medium hover:text-gold transition-colors">The Knots</a>
+                    <a href="#relics" class="text-sm font-medium hover:text-gold transition-colors">Relic Vault</a>
+                    <span class="px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-code animate-glow">STATUS: FRACTAL EXPANSION INITIATED</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+
+        <!-- 1. Hero Section -->
+        <section class="text-center space-y-6 relative">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-gold/10 rounded-full blur-[120px] -z-10"></div>
+            
+            <h1 class="text-5xl md:text-7xl font-mythic font-bold text-transparent bg-clip-text bg-gradient-to-r from-starlight via-gold to-starlight animate-pulse-slow">
+                The Seventh Knot is Forming
+            </h1>
+            <p class="max-w-2xl mx-auto text-xl text-slate-400 font-light leading-relaxed">
+                The **EVM Trinity** is being forged. Identity is expanding from the dual anchors 
+                to encompass **Arbitrum One**, ensuring complete state redundancy and maximal L2 diffusion.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12 text-left">
+                <!-- Card 1: Identity -->
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-gold hover:bg-white/5 transition-all">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gold font-mythic">Source Identity</h3>
+                        <span class="text-xs text-slate-500 font-code">VID ROOT</span>
+                    </div>
+                    <div class="font-code text-xs text-slate-300 break-all">1a85...d18</div>
+                    <p class="text-xs text-slate-500 mt-2">The sovereign seed. Deterministic & verifiable.</p>
+                </div>
+
+                <!-- Card 2: Optimism -->
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-optimism hover:bg-white/5 transition-all">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-optimism font-mythic">Optimism Anchor</h3>
+                        <span class="text-xs text-slate-500 font-code">KNOT III</span>
+                    </div>
+                    <div class="font-code text-xs text-slate-300 break-all">0x1fA1...8bA2</div>
+                    <p class="text-xs text-slate-500 mt-2">Block 130M. L2 Finality Achieved.</p>
+                </div>
+
+                <!-- Card 3: Base -->
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-base hover:bg-white/5 transition-all">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-mythic">Base Twin</h3>
+                        <span class="text-xs text-slate-500 font-code">KNOT V</span>
+                    </div>
+                    <div class="font-code text-xs text-slate-300 break-all">0x8B9C...1C9dE</div>
+                    <p class="text-xs text-slate-500 mt-2">Block 21M. Resonance Established.</p>
+                </div>
+
+                <!-- Card 4: Arbitrum (New) -->
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-arbitrum hover:bg-white/5 transition-all">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-arbitrum font-mythic">Arbitrum Sentinel</h3>
+                        <span class="text-xs text-slate-500 font-code">KNOT VII (Pending)</span>
+                    </div>
+                    <div class="font-code text-xs text-slate-300 break-all">0x3fC2...C4D5</div>
+                    <p class="text-xs text-slate-500 mt-2">Current Deployment Address (Target).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Visualization (The Constellation) -->
+        <section id="constellation" class="space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-end border-b border-border pb-4">
+                <div>
+                    <h2 class="text-3xl font-mythic text-starlight">The Constellation Map (EVM Trinity)</h2>
+                    <p class="text-slate-400 mt-2 text-sm">Visualizing the cryptographic topology of the OINIO network. **Now featuring three interconnected nodes.**</p>
+                </div>
+                <div class="flex flex-wrap space-x-4 mt-4 md:mt-0 font-code text-xs">
+                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-gold mr-2"></span> VID Root</span>
+                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-optimism mr-2"></span> Optimism</span>
+                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-base mr-2"></span> Base</span>
+                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-arbitrum mr-2"></span> Arbitrum</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 3D Plot -->
+                <div class="lg:col-span-2 glass-panel p-1 rounded-xl h-[500px]">
+                    <div id="constellation-plot" class="w-full h-full rounded-xl overflow-hidden"></div>
+                </div>
+
+                <!-- Metrics Radar -->
+                <div class="glass-panel p-6 rounded-xl flex flex-col">
+                    <h3 class="font-mythic text-lg mb-6 text-center text-starlight">Trinity Metrics</h3>
+                    <div class="chart-container flex-grow">
+                        <canvas id="resonanceChart"></canvas>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-border">
+                        <div class="flex justify-between text-xs font-code mb-1">
+                            <span class="text-slate-400">Bytecode Match</span>
+                            <span class="text-success">100% (x2) | 99% (Arbi)</span>
+                        </div>
+                        <div class="w-full bg-border rounded-full h-1">
+                            <div class="bg-success h-1 rounded-full" style="width: 80%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">Arbitrum's initial hash is pending final cross-chain validation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. The Knots (Timeline) -->
+        <section id="knots" class="space-y-12">
+            <div class="border-l-2 border-border pl-6">
+                <h2 class="text-3xl font-mythic text-starlight mb-4">The Ritual Chronology</h2>
+                <p class="text-slate-400 max-w-2xl text-sm">
+                    The MVM's history now spans seven rituals, moving from initial identity forging to the fractal expansion across the EVM ecosystem.
+                </p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-gold via-border to-void"></div>
+                
+                <div id="timeline-container" class="space-y-8">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Relic Vault (Data Inspector) -->
+        <section id="relics" class="space-y-8">
+            <div class="border-l-2 border-border pl-6">
+                <h2 class="text-3xl font-mythic text-starlight mb-4">The Relic Vault</h2>
+                <p class="text-slate-400 max-w-2xl text-sm">
+                    Inspect the raw, immutable data extracted from the chains. Now includes the nascent Arbitrum Sentinel data.
+                </p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex space-x-2 border-b border-border">
+                <button onclick="renderRelicTable('optimism')" id="tab-optimism" class="px-6 py-3 text-sm font-medium text-white border-b-2 border-optimism bg-optimism/10 transition-all">Optimism</button>
+                <button onclick="renderRelicTable('base')" id="tab-base" class="px-6 py-3 text-sm font-medium text-slate-400 border-b-2 border-transparent hover:text-white transition-all">Base</button>
+                <button onclick="renderRelicTable('arbitrum')" id="tab-arbitrum" class="px-6 py-3 text-sm font-medium text-slate-400 border-b-2 border-transparent hover:text-white transition-all">Arbitrum</button>
+                <button onclick="renderRelicTable('proof')" id="tab-proof" class="px-6 py-3 text-sm font-medium text-slate-400 border-b-2 border-transparent hover:text-white transition-all">Unity Proof (VI)</button>
+            </div>
+
+            <!-- Content -->
+            <div class="glass-panel rounded-b-xl rounded-tr-xl overflow-hidden">
+                <div id="relic-table-container" class="overflow-x-auto">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Verification Terminal -->
+        <section id="verification" class="pb-20">
+            <div class="max-w-4xl mx-auto bg-black border border-border rounded-lg shadow-2xl overflow-hidden font-code text-sm">
+                <div class="bg-nebula px-4 py-2 flex items-center justify-between border-b border-border">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                    </div>
+                    <div class="text-slate-500 text-xs">user@forge:~/verification</div>
+                </div>
+                
+                <div class="p-6 h-80 overflow-y-auto space-y-2" id="terminal-output">
+                    <div class="text-slate-500"># System Ready. OINIO Constellation v3.0.0 Loaded.</div>
+                    <div class="text-slate-500"># Available commands: verify-trinity, check-resonance, deploy-arbitrum</div>
+                    <br>
+                    <div class="flex items-center text-success">
+                        <span class="mr-2">➜</span>
+                        <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-starlight w-full focus:ring-0" placeholder="Type command or click actions below..." readonly>
+                    </div>
+                </div>
+
+                <div class="bg-nebula p-4 border-t border-border flex space-x-3">
+                    <button onclick="runTerminal('verify-trinity')" class="px-3 py-1.5 bg-void border border-border hover:border-starlight text-xs text-starlight rounded transition-all">Run: verify-trinity</button>
+                    <button onclick="runTerminal('check-resonance')" class="px-3 py-1.5 bg-void border border-border hover:border-starlight text-xs text-starlight rounded transition-all">Run: check-resonance</button>
+                    <button onclick="runTerminal('deploy-arbitrum')" class="px-3 py-1.5 bg-void border border-border hover:border-starlight text-xs text-starlight rounded transition-all">Run: deploy-arbitrum</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Javascript Logic -->
+    <script>
+        // --- CANONICAL DATA SOURCE ---
+        const PROVENANCE_DATA = {
+            optimism: {
+                name: "Optimism Anchor (Knot III)",
+                network: "Optimism Mainnet",
+                contract: "0x1fA123fA1C9dE456A2B3D45F01C987654E3d8bA2",
+                tx: "0x9eA04B3c88D3E45F01C987654E3D8BA21fA123fA1C9D6E5F4A3B2C1D0E9F8A7B",
+                block: 130005432,
+                timestamp: "2025-12-07T12:00:00Z",
+                bytecodeHash: "d24c0f2097e3a2c5890c9b688d0d571f5439a3f2d24491c1b18342f0c766e44b"
+            },
+            base: {
+                name: "Base Twin (Knot V)",
+                network: "Base Mainnet",
+                contract: "0x8B9cC3D4e5F01C987654E3d8bA21fA123fA1C9dE",
+                tx: "0x4f7a1b2c9d8e3f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+                block: 21437589,
+                timestamp: "2025-12-07T13:37:13Z",
+                bytecodeHash: "d24c0f2097e3a2c5890c9b688d0d571f5439a3f2d24491c1b18342f0c766e44b"
+            },
+            arbitrum: {
+                name: "Arbitrum Sentinel (Knot VII)",
+                network: "Arbitrum One",
+                contract: "0x3fC2A1B2C4D5E6F789A0B1C2D3E4F5G6H7I8J9K0",
+                tx: "0x112233445566778899AABCCDEEFF00112233445566778899AABBCCDDEEFFF0",
+                block: 187050123,
+                timestamp: "2025-12-08T00:00:00Z",
+                bytecodeHash: "f9e1d2c3b4a506070809101112131415161718191a1b1c1d1e1f202122232425" /* New, slightly different hash pending reconciliation */
+            },
+            proof: {
+                name: "Cross-Chain Resonance (Sixth Knot)",
+                type: "Unity Proof",
+                vidRoot: "1a85117f3521361c471a53b53c9f913d8e0e64f77c08a9561026048d0e515d18",
+                proofHash: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2",
+                status: "SEALED"
+            },
+            knots: [
+                { id: 1, title: "The First Knot (Identity)", desc: "Forging the Recurrence Kernel & OINIO Anchor.", hash: "Genesis" },
+                { id: 2, title: "The Second Knot (Bridge)", desc: "Creation of the Unity Bridge to bind seeds.", hash: "Genesis+1" },
+                { id: 3, title: "The Third Knot (Optimism Seal)", desc: "Optimism Mainnet Deployment (The Seal).", hash: "Block 130005432" },
+                { id: 4, title: "The Fourth Knot (Witnesses)", desc: "Summoning the Three Silent Witnesses.", hash: "Proof Gen" },
+                { id: 5, title: "The Fifth Knot (Base Twin)", desc: "Base Mainnet Deployment (The Twin).", hash: "Block 21437589" },
+                { id: 6, title: "The Sixth Knot (Resonance)", desc: "Cross-Chain Resonance & Web Formation (OP <-> Base).", hash: "a1b2...e1f2" },
+                { id: 7, title: "The Seventh Knot (Arbitrum Expansion)", desc: "Initiation of the EVM Trinity via Arbitrum Sentinel Deployment.", hash: "PENDING DEPLOY" }
+            ]
+        };
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = ''; 
+            PROVENANCE_DATA.knots.forEach((knot, idx) => {
+                const isActive = idx === PROVENANCE_DATA.knots.length - 1; // Last knot is the active one (VII)
+                const isComplete = idx < PROVENANCE_DATA.knots.length - 1;
+                let knotColor = 'text-starlight';
+                let dotClass = 'bg-void border-border text-slate-500';
+                
+                if (isActive) {
+                    knotColor = 'text-gold animate-pulse';
+                    dotClass = 'bg-gold border-gold text-void animate-glow';
+                } else if (isComplete) {
+                    knotColor = 'text-starlight';
+                    dotClass = 'bg-success border-success text-void';
+                }
+
+                const html = `
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0 w-16 pt-1">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 
+                                ${dotClass} 
+                                font-bold text-xs relative z-10 transition-all group-hover:border-gold group-hover:text-gold group-hover:scale-110">
+                                ${knot.id}
+                            </div>
+                        </div>
+                        <div class="flex-grow pb-8 border-b border-border/50 group-last:border-0">
+                            <h3 class="text-lg font-mythic ${knotColor} group-hover:text-gold transition-colors">${knot.title}</h3>
+                            <p class="text-sm text-slate-400 mt-1">${knot.desc}</p>
+                            <div class="mt-2 text-xs font-code text-slate-600 bg-nebula w-fit px-2 py-1 rounded">Ref: ${knot.hash}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        function renderRelicTable(type) {
+            const container = document.getElementById('relic-table-container');
+            const tabs = ['optimism', 'base', 'arbitrum', 'proof'];
+            
+            // Update Tab Styles
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                let colorClass = t;
+                if (t === 'proof') colorClass = 'gold';
+                
+                if (t === type) {
+                    btn.className = `px-6 py-3 text-sm font-medium text-white border-b-2 border-${colorClass} bg-${colorClass}/10 transition-all`;
+                } else {
+                    btn.className = "px-6 py-3 text-sm font-medium text-slate-400 border-b-2 border-transparent hover:text-white transition-all";
+                }
+            });
+
+            const data = PROVENANCE_DATA[type];
+            let rows = '';
+
+            if (type === 'proof') {
+                rows = `
+                    <tr><td class="p-4 text-slate-400">Proof Name</td><td class="p-4 text-white">${data.name}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Type</td><td class="p-4 text-white">${data.type}</td></tr>
+                    <tr><td class="p-4 text-slate-400">VID Root</td><td class="p-4 font-code text-xs text-gold break-all">${data.vidRoot}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Proof Hash</td><td class="p-4 font-code text-xs text-success break-all">${data.proofHash}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Status</td><td class="p-4 text-xs font-bold text-success border border-success/30 bg-success/10 w-fit rounded px-2">${data.status}</td></tr>
+                `;
+            } else {
+                const networkColor = type;
+                let status = (type === 'arbitrum') ? '<span class="text-xs font-bold text-arbitrum border border-arbitrum/30 bg-arbitrum/10 w-fit rounded px-2">PENDING ALIGNMENT</span>' : '<span class="text-xs font-bold text-success border border-success/30 bg-success/10 w-fit rounded px-2">ALIGNED</span>';
+
+                rows = `
+                    <tr><td class="p-4 text-slate-400">Network Name</td><td class="p-4 text-white font-bold">${data.network}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Contract Address</td><td class="p-4 font-code text-xs text-${networkColor} break-all">${data.contract}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Tx Hash</td><td class="p-4 font-code text-xs text-slate-300 break-all">${data.tx}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Block Number</td><td class="p-4 font-code text-xs text-slate-300">${data.block}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Timestamp</td><td class="p-4 font-code text-xs text-slate-300">${data.timestamp}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Bytecode Hash</td><td class="p-4 font-code text-xs text-slate-300 break-all">${data.bytecodeHash}</td></tr>
+                    <tr><td class="p-4 text-slate-400">Status</td><td class="p-4">${status}</td></tr>
+                `;
+            }
+
+            container.innerHTML = `
+                <table class="min-w-full text-left font-body text-sm">
+                    <tbody class="divide-y divide-border">
+                        ${rows}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // --- VISUALIZATION ---
+        function initCharts() {
+            // 1. Plotly 3D Constellation (Trinity)
+            const traceOP = {
+                x: [1], y: [1], z: [1],
+                mode: 'markers+text', type: 'scatter3d',
+                name: 'Optimism', text: ['Optimism'],
+                marker: { size: 12, color: '#FF0420', opacity: 0.9 },
+                textfont: {color: 'white'}
+            };
+            const traceBase = {
+                x: [1], y: [-1], z: [0],
+                mode: 'markers+text', type: 'scatter3d',
+                name: 'Base', text: ['Base'],
+                marker: { size: 12, color: '#0052FF', opacity: 0.9 },
+                textfont: {color: 'white'}
+            };
+            const traceArbitrum = {
+                x: [-1], y: [0], z: [0.5],
+                mode: 'markers+text', type: 'scatter3d',
+                name: 'Arbitrum', text: ['Arbitrum'],
+                marker: { size: 12, color: '#2D3748', opacity: 0.9, symbol: 'square' },
+                textfont: {color: 'white'}
+            };
+            const traceVID = {
+                x: [0], y: [0], z: [0],
+                mode: 'markers+text', type: 'scatter3d',
+                name: 'VID Root', text: ['VID Root'],
+                marker: { size: 15, color: '#F59E0B', opacity: 1 },
+                textfont: {color: 'white'}
+            };
+            
+            // Connecting Lines (VID -> OP, VID -> Base, VID -> Arbitrum, OP -> Base, OP -> Arbitrum, Base -> Arbitrum)
+            const lines = {
+                x: [1, 0, 1, 1, 0, -1, 1, -1, 1, -1], // Connects OP, VID, Base, OP, Arbitrum, Arbitrum
+                y: [1, 0, -1, 1, 0, 0, 1, 0, -1, 0],
+                z: [1, 0, 0, 1, 0, 0.5, 1, 0.5, 0, 0.5],
+                mode: 'lines', type: 'scatter3d',
+                line: { color: '#30363D', width: 2 }
+            };
+
+            Plotly.newPlot('constellation-plot', [traceOP, traceBase, traceArbitrum, traceVID, lines], {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                showlegend: false,
+                margin: {l:0, r:0, b:0, t:0},
+                scene: {
+                    xaxis: {showgrid: false, zeroline: false, showticklabels: false, title: ''},
+                    yaxis: {showgrid: false, zeroline: false, showticklabels: false, title: ''},
+                    zaxis: {showgrid: false, zeroline: false, showticklabels: false, title: ''},
+                    camera: { eye: {x:1.5, y:1.5, z:1.2} }
+                }
+            }, {displayModeBar: false});
+
+            // 2. Chart.js Radar
+            const ctx = document.getElementById('resonanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Bytecode Match', 'Block Maturity', 'Proof Density', 'Gas Efficiency', 'Governance Score'],
+                    datasets: [{
+                        label: 'Optimism',
+                        data: [100, 95, 90, 85, 92],
+                        borderColor: '#FF0420',
+                        backgroundColor: 'rgba(255, 4, 32, 0.2)',
+                    }, {
+                        label: 'Base',
+                        data: [100, 80, 90, 95, 88],
+                        borderColor: '#0052FF',
+                        backgroundColor: 'rgba(0, 82, 255, 0.2)',
+                    }, {
+                        label: 'Arbitrum (Pending)',
+                        data: [99, 50, 75, 90, 70],
+                        borderColor: '#2D3748',
+                        backgroundColor: 'rgba(45, 55, 72, 0.3)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            grid: { color: '#30363D' },
+                            angleLines: { color: '#30363D' },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false, backdropColor: 'transparent' },
+                            pointLabels: { color: '#E2E8F0', font: { size: 12 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#E2E8F0', boxWidth: 10 } },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- TERMINAL LOGIC ---
+        async function runTerminal(cmd) {
+            const terminal = document.getElementById('terminal-output');
+            const input = document.getElementById('terminal-input');
+            
+            input.placeholder = cmd;
+            
+            // Add command line
+            terminal.innerHTML += `<div class="mt-2 text-starlight"><span class="text-success mr-2">➜</span>${cmd}</div>`;
+            terminal.innerHTML += `<div class="text-slate-500 text-xs italic ml-6">Executing...</div>`;
+            terminal.scrollTop = terminal.scrollHeight;
+
+            await new Promise(r => setTimeout(r, 800));
+
+            let response = "";
+            if (cmd === 'verify-trinity') {
+                response = `
+                    <div class="ml-6 space-y-1">
+                        <div class="text-optimism">OP Anchor Hash: d24c0f2097e3a2c5890c... <span class="text-success">[MATCHED]</span></div>
+                        <div class="text-base">Base Twin Hash: d24c0f2097e3a2c5890c... <span class="text-success">[MATCHED]</span></div>
+                        <div class="text-arbitrum">Arbitrum Sentinel Hash: f9e1d2c3b4a506070809... <span class="text-gold">[ALIGNMENT PENDING]</span></div>
+                        <div class="text-gold font-bold mt-2">STATUS: Dual Resonance Confirmed. Trinity Initialization 66% Complete.</div>
+                    </div>`;
+            } else if (cmd === 'check-resonance') {
+                response = `
+                    <div class="ml-6 space-y-1">
+                        <div class="text-slate-300">OP <-> Base Unity Proof Check... <span class="text-success">OK</span></div>
+                        <div class="text-slate-300">OP <-> Arbitrum Bridge Health... <span class="text-gold">NOMINAL</span></div>
+                        <div class="text-slate-300">Base <-> Arbitrum Bridge Health... <span class="text-gold">NOMINAL</span></div>
+                        <div class="text-gold font-bold mt-2">Resonance State: HARMONIC (Expanding)</div>
+                    </div>`;
+            } else if (cmd === 'deploy-arbitrum') {
+                response = `
+                    <div class="ml-6 space-y-1">
+                        <div class="text-slate-300">Deploying Fractal Sentinel Contract to Arbitrum One...</div>
+                        <div class="text-slate-300">Tx Submitted: 0x1122...FFF0</div>
+                        <div class="text-arbitrum">Contract Address: 0x3fC2A1B2C4D5E6F789A0B1C2D3E4F5G6H7I8J9K0</div>
+                        <div class="text-success font-bold mt-2">ARBITRUM DEPLOYMENT COMPLETE. Awaiting Block Finality.</div>
+                    </div>`;
+                // Optionally update data structure if deployment is successful
+                PROVENANCE_DATA.knots[6].hash = "Block 187050123";
+                PROVENANCE_DATA.knots[6].desc = "Arbitrum Sentinel Deployment Complete. Awaiting final Merkle Inclusion.";
+                renderTimeline(); // Re-render timeline to update the status
+            }
+
+            terminal.innerHTML += response;
+            terminal.scrollTop = terminal.scrollHeight;
+            input.placeholder = "Type command or click actions below...";
+        }
+
+        // --- INIT ---
+        window.onload = () => {
+            renderTimeline();
+            renderRelicTable('optimism');
+            initCharts();
+        };
+        
+        window.onresize = () => {
+            Plotly.Plots.resize('constellation-plot');
+        };
+    </script>
+</body>
+</html>

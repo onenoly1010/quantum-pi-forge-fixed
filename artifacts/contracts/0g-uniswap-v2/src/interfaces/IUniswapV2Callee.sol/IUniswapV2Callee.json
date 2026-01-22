@@ -1,0 +1,42 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "IUniswapV2Callee",
+  "sourceName": "contracts/0g-uniswap-v2/src/interfaces/IUniswapV2Callee.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount0",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount1",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "uniswapV2Call",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/0g-uniswap-v2/src/interfaces/IUniswapV2Callee.sol",
+  "buildInfoId": "solc-0_8_24-2fe1d8c6e7b45055dc308041115240ebf6853dc4"
+}
