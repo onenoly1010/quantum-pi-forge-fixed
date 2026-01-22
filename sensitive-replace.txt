@@ -1,0 +1,6 @@
+regex:OPENAI_API_KEY=.{8,}==>OPENAI_API_KEY=***REMOVED***
+regex:XAI_API_KEY=.{8,}==>XAI_API_KEY=***REMOVED***
+regex:ALCHEMY_API_KEY=.{8,}==>ALCHEMY_API_KEY=***REMOVED***
+regex:SPONSOR_PRIVATE_KEY=.{8,}==>SPONSOR_PRIVATE_KEY=***REMOVED***
+regex:PRIVATE_KEY=.{8,}==>PRIVATE_KEY=***REMOVED***
+regex:.*['\"]?xai.*['\"]?.*==>***REMOVED***

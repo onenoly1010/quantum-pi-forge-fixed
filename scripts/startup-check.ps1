@@ -7,31 +7,12 @@ Param(
 $logDir = '.logs'
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }
 $logFile = Join-Path $logDir 'startup.log'
+# Ensure the log file exists so Resolve-Path succeeds when passing it to the background job
+if (-not (Test-Path $logFile)) { New-Item -ItemType File -Path $logFile | Out-Null }
 
 Write-Output "Starting dev server (logs -> $logFile)"
-$startInfo = New-Object System.Diagnostics.ProcessStartInfo
-$startInfo.FileName = 'cmd.exe'
-$startInfo.Arguments = '/c npm run dev -- --port ' + $Port
-$startInfo.RedirectStandardOutput = $true
-$startInfo.RedirectStandardError = $true
-$startInfo.UseShellExecute = $false
-$startInfo.CreateNoWindow = $true
-
-$proc = New-Object System.Diagnostics.Process
-$proc.StartInfo = $startInfo
-$proc.Start() | Out-Null
-
-# Async read to file
-$stdOut = $proc.StandardOutput
-$stdErr = $proc.StandardError
-Start-Job -ScriptBlock {
-  param($out, $err, $file)
-  while (-not $out.EndOfStream -or -not $err.EndOfStream) {
-    if (-not $out.EndOfStream) { $line = $out.ReadLine(); Add-Content -Path $file -Value $line }
-    if (-not $err.EndOfStream) { $line = $err.ReadLine(); Add-Content -Path $file -Value $line }
-    Start-Sleep -Milliseconds 100
-  }
-} -ArgumentList $stdOut, $stdErr, (Resolve-Path $logFile)
+# Start npm dev server and redirect stdout/stderr to the log file (works across PowerShell sessions)
+$proc = Start-Process -FilePath 'npm' -ArgumentList @('run','dev','--','--port',$Port) -RedirectStandardOutput $logFile -RedirectStandardError $logFile -NoNewWindow -PassThru
 
 $startTime = Get-Date
 Write-Output "Waiting for server to respond at http://localhost:$Port$HealthPath"
