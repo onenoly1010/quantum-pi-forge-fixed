@@ -824,6 +824,9 @@ When reviewing Copilot PRs:
 4. Repeat until satisfied
 5. Merge when all criteria are met
 
+## Automated Agent Instructions
+For deterministic, machine-oriented rules governing automated coding agents, see `.github/automated-agent-instructions.md`. That file contains strict behavioral constraints, output requirements, and system-level rules that agents must follow.
+
 ## Additional Resources
 
 - [GitHub Copilot Best Practices](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results)
@@ -832,3 +835,202 @@ When reviewing Copilot PRs:
 - [Ethers.js v6 Documentation](https://docs.ethers.org/v6/)
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+---
+
+## Development Environment Configuration
+
+To maintain consistency and productivity, use the following VS Code settings, keybindings, and extensions. These are tailored for clarity-first development in this modular, self-describing codebase.
+
+### VS Code Settings (`settings.json`)
+```json
+{
+  "workbench.colorTheme": "Quiet Light",
+  "workbench.iconTheme": "vs-minimal",
+  "workbench.startupEditor": "none",
+  "workbench.editor.enablePreview": false,
+  "editor.fontFamily": "Consolas, 'Fira Code', monospace",
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "selection",
+  "editor.formatOnSave": true,
+  "editor.smoothScrolling": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.inlineSuggest.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.autoSave": "onFocusChange",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "markdown.preview.breaks": true,
+  "breadcrumbs.enabled": true,
+  "explorer.compactFolders": false,
+  "security.workspace.trust.enabled": true
+}
+```
+
+### Keybindings (`keybindings.json`)
+```json
+[
+  {
+    "key": "ctrl+e",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "workbench.action.debug.start"
+  },
+  {
+    "key": "ctrl+shift+e",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "ctrl+shift+f",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "ctrl+shift+g",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "ctrl+shift+x",
+    "command": "workbench.view.extensions"
+  },
+  {
+    "key": "ctrl+shift+p",
+    "command": "workbench.action.showCommands"
+  }
+]
+```
+
+### Recommended Extensions (`extensions.json`)
+```json
+{
+  "recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "ritwickdey.liveserver",
+    "rangav.vscode-thunder-client",
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "alefragnani.bookmarks",
+    "eamodio.gitlens",
+    "hediet.vscode-drawio",
+    "yzhang.markdown-all-in-one",
+    "humao.rest-client",
+    "ms-azuretools.vscode-docker"
+  ]
+}
+```
+
+### Workspace Template Structure
+Use this living, self-describing structure for new projects or expansions:
+```
+your-project/
+│
+├── README.md
+├── docs/
+│   └── architecture.md
+│
+├── src/
+│   └── (your code)
+│
+├── scripts/
+│   ├── audit.sh
+│   ├── repair.sh
+│   └── snapshot.sh
+│
+├── diagnostics/
+│   └── system-snapshot.md
+│
+└── artifacts/
+    └── (generated outputs)
+```
+
+### Canonical README Template
+```markdown
+# Project Canon
+
+This workspace is structured as a living, self-describing system.  
+Every folder represents a layer of awareness, clarity, and operational flow.
+
+## Structure
+
+### `/docs`
+Long-form explanations, architecture notes, conceptual maps.
+
+### `/src`
+The active codebase — the living system.
+
+### `/scripts`
+Modular tools for audits, diagnostics, and repair cycles.
+
+### `/diagnostics`
+Snapshots of system state, convergence cycles, and forensic traces.
+
+### `/artifacts`
+Generated outputs, exports, and captured results.
+
+## Rituals
+
+- Begin each session by reviewing the current diagnostic snapshot.
+- End each session by running `scripts/snapshot.sh` to capture system state.
+- Maintain clarity, modularity, and mutual uplift across all artifacts.
+```
+
+### Diagnostic & Repair Scripts
+Place these in `/scripts/` for audit cycles matching the project's operational flow.
+
+**`scripts/audit.sh`**:
+```bash
+#!/bin/bash
+echo "=== Audit Cycle ==="
+echo "Timestamp: $(date)"
+echo "Running lint..."
+npm run lint
+echo "Checking git status..."
+git status
+echo "Audit complete."
+```
+
+**`scripts/repair.sh`**:
+```bash
+#!/bin/bash
+echo "=== Repair Cycle ==="
+echo "Applying fixes..."
+npm run fix
+echo "Rebuilding..."
+npm run build
+echo "Repair complete."
+```
+
+**`scripts/snapshot.sh`**:
+```bash
+#!/bin/bash
+OUTPUT="diagnostics/system-snapshot-$(date +%Y%m%d-%H%M%S).md"
+
+echo "Creating system snapshot: $OUTPUT"
+
+{
+  echo "# System Snapshot"
+  echo "Timestamp: $(date)"
+  echo ""
+  echo "## Git Status"
+  git status
+  echo ""
+  echo "## Recent Commits"
+  git log -n 5
+} > "$OUTPUT"
+
+echo "Snapshot saved."
+```

@@ -42,3 +42,5 @@ if ($jobStatus.State -eq "Running") {
     Write-Host "⚠️ Guardian job status: $($jobStatus.State)" -ForegroundColor Yellow
     Write-Host "Check job output for details" -ForegroundColor Gray
 }
+
+git remote set-url origin https://YOUR_PAT@github.com/onenoly1010/AI_GIT_REPO.git
