@@ -1,9 +1,9 @@
 // iNFT Protocol - Unified Exports
 
-// Smart Contracts
-const HybridNFT = require('./contracts/HybridNFT.json');
-const EvolutionManager = require('./contracts/EvolutionManager.json');
-const MetadataRegistry = require('./contracts/MetadataRegistry.json');
+// Smart Contracts (source files - compile with Hardhat)
+const HybridNFT = './contracts/HybridNFT.sol';
+const EvolutionManager = './contracts/EvolutionManager.sol';
+const MetadataRegistry = './contracts/MetadataRegistry.sol';
 
 // Intelligence Systems
 const PersonalityGenerator = require('./intelligence/personality/generator');
