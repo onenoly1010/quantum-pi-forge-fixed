@@ -15,10 +15,10 @@
 
 | Aspect | Description |
 |--------|-------------|
-| **Product** | Web3 staking dashboard with gasless transactions |
+| **Product** | Multi-chain Web3 platform with staking, Pi Network integration, and Gemini AI minting |
 | **Token** | OINIO (Polygon: `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7`) |
-| **Network** | Polygon Mainnet (Chain ID: 137) |
-| **Philosophy** | "OINIO Soul System" - consciousness + blockchain |
+| **Networks** | Polygon Mainnet (Chain ID: 137), Pi Network (Stellar), Gemini AI |
+| **Philosophy** | "OINIO Soul System" - consciousness + blockchain + AI |
 | **Target Users** | Truth Movement community members |
 
 ---

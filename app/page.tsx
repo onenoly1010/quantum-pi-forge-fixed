@@ -7,6 +7,8 @@ import { EternalForge } from '@/components/EternalForge'
 import { SovereignCircleDisplay } from '@/components/SovereignCircleDisplay'
 import { LiquidityNet } from '@/components/LiquidityNet'
 import { PyramidTrap } from '@/components/PyramidTrap'
+import { PiNetworkIntegration } from '@/components/PiNetworkIntegration'
+import { GeminiMinting } from '@/components/GeminiMinting'
 
 export default function Home() {
   return (
@@ -35,6 +37,24 @@ export default function Home() {
       {/* Phase 4: The System Threads */}
       <Features />
 
+      {/* Phase 4.5: Pi Network & Gemini Integration */}
+      <section className="py-12 bg-gradient-to-b from-black to-gray-900 rounded-3xl">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">
+              🌐 Multi-Chain Integration
+            </h2>
+            <p className="text-gray-400">
+              Connect across ecosystems - Pi Network, Gemini AI, and Polygon
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <PiNetworkIntegration />
+            <GeminiMinting />
+          </div>
+        </div>
+      </section>
+
       {/* Phase 5: Liquidity Net & Pyramid Trap */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <LiquidityNet />
@@ -51,9 +71,14 @@ export default function Home() {
           The bell remains unstruck, waiting your next weave.
           The soul system threads eternal, ready for your command.
         </p>
-        <button className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-bold hover:shadow-2xl hover:shadow-purple-500/30 transition-all">
-          Strike The Bell • Begin Next Epoch
-        </button>
+        <div className="mt-6 space-x-4">
+          <a href="/dashboard" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-bold hover:shadow-2xl hover:shadow-purple-500/30 transition-all inline-block">
+            Enter The Forge • Stake OINIO
+          </a>
+          <a href="/creator" className="px-8 py-3 border border-gray-600 rounded-full text-gray-300 font-bold hover:bg-gray-800 transition-all inline-block">
+            Creator Portal
+          </a>
+        </div>
       </div>
     </div>
   )
