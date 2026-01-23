@@ -83,14 +83,41 @@ async def rate_limit_status(request: Request):
 
 @app.get("/api/data")
 def get_sample_data():
-    return {
-        "data": [
-            {"id": 1, "name": "Sample Item 1", "value": 100},
-            {"id": 2, "name": "Sample Item 2", "value": 200},
-            {"id": 3, "name": "Sample Item 3", "value": 300}
-        ],
-        "total": 3,
-        "timestamp": "2024-01-01T00:00:00Z"
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+DOCS_API_KEY = os.getenv("DOCS_API_KEY")
+
+app = FastAPI(
+    title="Quantum Pi Forge API",
+    description="Backend API for Quantum Pi Forge - Sovereign Staking Protocol",
+    version="2.0.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+)
+
+@app.middleware("http")
+async def protect_docs_in_production(request: Request, call_next):
+    """
+    Restrict access to API documentation in production using a simple API key.
+
+    - In non-production environments, docs remain freely accessible.
+    - In production, access to /api/docs, /api/redoc, and /openapi.json
+      requires the X-Docs-Api-Key header matching DOCS_API_KEY.
+    """
+    path = request.url.path
+    if ENVIRONMENT == "production" and path in ("/api/docs", "/api/redoc", "/openapi.json"):
+        if not DOCS_API_KEY:
+            # Misconfiguration: docs are enabled but no key is set
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Documentation access not configured"},
+            )
+
+        provided_key = request.headers.get("X-Docs-Api-Key")
+        if provided_key != DOCS_API_KEY:
+            raise HTTPException(status_code=401, detail="Unauthorized documentation access")
+
+    response = await call_next(request)
+    return response
     }
 
 
@@ -111,7 +138,7 @@ def read_root():
     return """
     <!DOCTYPE html>
     <html lang="en">
-    <head>
+# Add trusted host middleware for production
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vercel + FastAPI</title>
@@ -124,7 +151,7 @@ def read_root():
             }
 
             body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+
                 background-color: #000000;
                 color: #ffffff;
                 line-height: 1.6;

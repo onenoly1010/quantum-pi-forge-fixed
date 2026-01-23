@@ -131,9 +131,9 @@ We lead with transparency because Truth has nothing to hide.
 - 🔗 **MetaMask Integration** - Seamless wallet connection
 - ⛽ **Gasless Transactions** - Sponsor-covered staking fees
 - 📊 **Real-time Balance** - Live OINIO token balance display
+- 🪙 **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
+- ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
 - 🎨 **Modern UI** - Beautiful gradient design with glassmorphism
-- 🔒 **Secure API** - Production-ready backend validation
-- 📱 **Responsive** - Mobile-first design
 
 ## 🛠️ Tech Stack
 
