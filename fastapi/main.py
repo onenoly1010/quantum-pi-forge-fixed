@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from datetime import datetime
 import os
 from supabase import create_client, Client
@@ -62,22 +63,68 @@ stripe_secret_key = os.getenv("STRIPE_SECRET_KEY")
 if stripe_secret_key:
     stripe.api_key = stripe_secret_key
 
+# Get allowed origins from environment
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "").split(",")
+if not ALLOWED_ORIGINS or ALLOWED_ORIGINS == ['']:
+    # Default development origins
+    ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
+    ]
+
+    # Add production domains if specified
+    PRODUCTION_DOMAIN = os.getenv("PRODUCTION_DOMAIN")
+    if PRODUCTION_DOMAIN:
+        ALLOWED_ORIGINS.extend([
+            f"https://{PRODUCTION_DOMAIN}",
+            f"https://www.{PRODUCTION_DOMAIN}",
+            f"https://api.{PRODUCTION_DOMAIN}",
+        ])
 
 app = FastAPI(
     title="Quantum Pi Forge API",
     description="Backend API for Quantum Pi Forge - Sovereign Staking Protocol",
     version="2.0.0",
+    docs_url="/api/docs" if os.getenv("ENVIRONMENT") != "production" else None,
+    redoc_url="/api/redoc" if os.getenv("ENVIRONMENT") != "production" else None
 )
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict to specific origins
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "X-CSRF-Token",
+        "X-API-Key",
+        "Accept",
+        "Origin",
+        "Cache-Control",
+        "X-File-Name",
+    ],
+    expose_headers=["Content-Disposition", "X-Total-Count"],
+    max_age=3600,  # 1 hour
 )
+Add trusted host middleware for production
+if os.getenv("ENVIRONMENT") == "production":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=[
+            "quantumpiforge.com",
+            "www.quantumpiforge.com",
+            "api.quantumpiforge.com",
+            "localhost",
+            "127.0.0.1"
+        ]
+    )
 
+# 
 # Rate limiting middleware
 rate_limiter = None
 if RATE_LIMITING_ENABLED:

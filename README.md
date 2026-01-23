@@ -131,7 +131,9 @@ We lead with transparency because Truth has nothing to hide.
 - 🔗 **MetaMask Integration** - Seamless wallet connection
 - ⛽ **Gasless Transactions** - Sponsor-covered staking fees
 - 📊 **Real-time Balance** - Live OINIO token balance display
-- 🎨 **Modern UI** - Beautiful gradient design with glassmorphism
+- � **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
+- ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
+- �🎨 **Modern UI** - Beautiful gradient design with glassmorphism
 - 🔒 **Secure API** - Production-ready backend validation
 - 📱 **Responsive** - Mobile-first design
 
@@ -139,8 +141,9 @@ We lead with transparency because Truth has nothing to hide.
 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
-- **Web3**: Ethers.js, MetaMask
-- **Blockchain**: Polygon Network
+- **Web3**: Ethers.js, MetaMask, Pi Network SDK
+- **AI**: Google Gemini AI, OpenAI API
+- **Blockchain**: Polygon Network, Pi Network (Stellar)
 - **Deployment**: Vercel
 
 ## 📋 Prerequisites
