@@ -26,11 +26,11 @@ One platform. One experience. The definitive minting platform for sovereign inte
 ### Phase 1: Foundation (Week 1)
 - [x] Extract OINIO Oracle Engine → `/core/oracle`
 - [x] Extract Pi Bridge → `/integrations/pi/`
+- [x] Extract iNFT Protocol → `/core/inft/`
 - [ ] Basic unified API structure
 
 ### Phase 2: Identity & Assets (Week 2)
 - [x] Extract Identity Core → `/core/identity/`
-- [ ] Extract iNFT Protocol → `/core/inft-protocol`
 - [ ] Unified auth (Pi + OINIO)
 
 ### Phase 3: Synthesis (Week 3)
@@ -63,8 +63,8 @@ One platform. One experience. The definitive minting platform for sovereign inte
 
 ## 📍 CURRENT STATUS
 **Genesis Platform:** quantum-pi-forge-fixed  
-**Last Extraction:** OINIO Oracle Engine from `quantum-pi-forge-fixed`  
-**Next Extraction:** Pi Bridge from `pi-claimable-nft-demo` + `quantum-pi-forge-fixed`
+**Last Extraction:** iNFT Protocol from `mr-nft-agent` + `oinio-contracts`  
+**Next Extraction:** Phase 2 unified API development
 
 ---
 *This document is the single source of truth for the QuantumPiForge consolidation.*  
