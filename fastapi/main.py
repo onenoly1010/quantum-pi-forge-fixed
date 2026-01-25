@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -44,6 +45,13 @@ setup_tracing()
 
 # Load environment variables
 load_dotenv()
+=======
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+import os
+>>>>>>> fix/dep-ci-uvicorn-port
 
 # Import rate limiting middleware
 try:
@@ -53,6 +61,7 @@ except ImportError:
     RATE_LIMITING_ENABLED = False
     print("Warning: Rate limiting middleware not available")
 
+<<<<<<< HEAD
 # Initialize Supabase
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
@@ -82,18 +91,24 @@ if not ALLOWED_ORIGINS or ALLOWED_ORIGINS == ['']:
             f"https://www.{PRODUCTION_DOMAIN}",
             f"https://api.{PRODUCTION_DOMAIN}",
         ])
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 
 app = FastAPI(
     title="Quantum Pi Forge API",
     description="Backend API for Quantum Pi Forge - Sovereign Staking Protocol",
     version="2.0.0",
+<<<<<<< HEAD
     docs_url="/api/docs" if os.getenv("ENVIRONMENT") != "production" else None,
     redoc_url="/api/redoc" if os.getenv("ENVIRONMENT") != "production" else None
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 )
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
+<<<<<<< HEAD
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -125,15 +140,26 @@ if os.getenv("ENVIRONMENT") == "production":
     )
 
 # 
+=======
+    allow_origins=["*"],  # In production, restrict to specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+>>>>>>> fix/dep-ci-uvicorn-port
 # Rate limiting middleware
 rate_limiter = None
 if RATE_LIMITING_ENABLED:
     rate_limiter = create_rate_limiter()
     app.add_middleware(RateLimitMiddleware, rate_limiter=rate_limiter)
 
+<<<<<<< HEAD
 # Instrument FastAPI app for tracing
 FastAPIInstrumentor.instrument_app(app)
 
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 
 # ==================== HEALTH & STATUS ENDPOINTS ====================
 
@@ -183,6 +209,7 @@ async def rate_limit_status(request: Request):
 
 @app.get("/api/data")
 def get_sample_data():
+<<<<<<< HEAD
     return {
         "data": [
             {"id": 1, "name": "Sample Item 1", "value": 100},
@@ -192,6 +219,24 @@ def get_sample_data():
         "total": 3,
         "timestamp": "2024-01-01T00:00:00Z"
     }
+=======
+    """Simple sample data endpoint."""
+    return {"message": "This is sample data from Quantum Pi Forge API", "environment": os.getenv("ENVIRONMENT", "development"), "timestamp": datetime.utcnow().isoformat()}
+
+
+@app.middleware("http")
+async def protect_docs_in_production(request: Request, call_next):
+    """Protect API docs in production with an API key."""
+    path = request.url.path
+    if os.getenv("ENVIRONMENT", "development") == "production" and path in ("/api/docs", "/api/redoc", "/openapi.json"):
+        if not os.getenv("DOCS_API_KEY"):
+            return JSONResponse(status_code=500, content={"detail": "Documentation access not configured"})
+        provided_key = request.headers.get("X-Docs-Api-Key")
+        if provided_key != os.getenv("DOCS_API_KEY"):
+            raise HTTPException(status_code=401, detail="Unauthorized documentation access")
+    response = await call_next(request)
+    return response
+>>>>>>> fix/dep-ci-uvicorn-port
 
 
 @app.get("/api/items/{item_id}")
@@ -206,6 +251,7 @@ def get_item(item_id: int):
     }
 
 
+<<<<<<< HEAD
 # ==================== CREATOR PAYOUT ENDPOINTS ====================
 
 @app.post("/api/creator/payout")
@@ -893,12 +939,18 @@ async def get_revenue_monitor():
         raise HTTPException(status_code=500, detail=f"Revenue monitor failed: {str(e)}")
 
 
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return """
     <!DOCTYPE html>
     <html lang="en">
+<<<<<<< HEAD
     <head>
+=======
+# Add trusted host middleware for production
+>>>>>>> fix/dep-ci-uvicorn-port
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vercel + FastAPI</title>
@@ -911,7 +963,11 @@ def read_root():
             }
 
             body {
+<<<<<<< HEAD
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+=======
+
+>>>>>>> fix/dep-ci-uvicorn-port
                 background-color: #000000;
                 color: #ffffff;
                 line-height: 1.6;
@@ -1205,4 +1261,12 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
+<<<<<<< HEAD
     uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
+=======
+    try:
+        PORT = int(os.getenv("PORT", "8000"))
+    except (TypeError, ValueError):
+        PORT = 8000
+    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
+>>>>>>> fix/dep-ci-uvicorn-port

@@ -12,6 +12,7 @@
  * Usage: node scripts/verify-funding.js
  */
 
+<<<<<<< HEAD
 require('dotenv').config({ path: '.env.launch' });
 const { ethers } = require('ethers');
 
@@ -20,12 +21,52 @@ const RPC_FALLBACKS = [
   'https://rpc.0g.ai',         // Secondary
   'https://rpc-backup.0g.ai'   // Tertiary
 ];
+=======
+// Load environment variables in order of precedence (CI writes .env.production)
+const fs = require('fs');
+const path = require('path');
+const dotenv = require('dotenv');
+
+const envCandidates = ['.env.production', '.env.launch', '.env.local', '.env'];
+let loadedEnv = null;
+for (const candidate of envCandidates) {
+  const p = path.resolve(process.cwd(), candidate);
+  if (fs.existsSync(p)) {
+    console.log(`🔐 Loading environment from ${candidate}`);
+    dotenv.config({ path: p });
+    loadedEnv = candidate;
+    break;
+  }
+}
+if (!loadedEnv) {
+  console.warn('⚠️ No env file found; relying on process environment variables.');
+}
+
+const { ethers } = require('ethers');
+
+// RPC endpoints (allow overrides from env)
+const RPC_FALLBACKS = [];
+if (process.env.ZERO_G_RPC_URL) RPC_FALLBACKS.push(process.env.ZERO_G_RPC_URL);
+if (process.env.ZERO_G_RPC_FALLBACKS) {
+  RPC_FALLBACKS.push(...process.env.ZERO_G_RPC_FALLBACKS.split(',').map(s => s.trim()).filter(Boolean));
+}
+// Default backends
+RPC_FALLBACKS.push(
+  'https://evmrpc.0g.ai',      // Primary
+  'https://rpc.0g.ai',         // Secondary
+  'https://rpc-backup.0g.ai'   // Tertiary
+);
+>>>>>>> fix/dep-ci-uvicorn-port
 
 async function testRpcHealth(rpcUrl) {
   try {
     const startTime = Date.now();
     const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, {
+<<<<<<< HEAD
       timeout: 5000, // 5 second timeout for health checks
+=======
+      timeout: 10000, // 10 second timeout for health checks
+>>>>>>> fix/dep-ci-uvicorn-port
     });
 
     // Test both network connectivity and block sync
@@ -129,12 +170,54 @@ async function checkBalanceWithRetry(address, maxRetries = 3) {
   throw lastError || new Error('All RPC endpoints failed');
 }
 
+<<<<<<< HEAD
+=======
+// New helper: try a preferred RPC first, then fall back to configured RPCs
+async function checkBalanceWithPreferredRpc(address, preferredRpc = null, maxRetries = 3) {
+  let lastError;
+  const rpcList = preferredRpc ? [preferredRpc, ...RPC_FALLBACKS.filter(r => r !== preferredRpc)] : RPC_FALLBACKS;
+
+  for (const rpcUrl of rpcList) {
+    console.log(`🌐 Trying RPC for balance: ${rpcUrl}`);
+    const isHealthy = await testRpcHealth(rpcUrl);
+    if (!isHealthy) {
+      console.log(`⚠️  Skipping unhealthy RPC: ${rpcUrl}`);
+      continue;
+    }
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`🔄 Balance attempt ${attempt}/${maxRetries} on ${rpcUrl}`);
+        const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, { timeout: 10000 });
+        const balance = await provider.getBalance(address);
+        console.log(`✅ Balance retrieved from ${rpcUrl}`);
+        return { balance, rpcUrl };
+      } catch (err) {
+        lastError = err;
+        console.log(`⚠️  Attempt ${attempt} failed on ${rpcUrl}: ${err.message}`);
+        if (attempt < maxRetries) {
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+          console.log(`⏳ Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+  }
+
+  throw lastError || new Error('All RPC endpoints failed');
+}
+
+>>>>>>> fix/dep-ci-uvicorn-port
 async function checkGasPrice(rpcUrl) {
   try {
     console.log('⛽ Analyzing gas market conditions...');
 
     const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, {
+<<<<<<< HEAD
       timeout: 5000,
+=======
+      timeout: 10000,
+>>>>>>> fix/dep-ci-uvicorn-port
     });
 
     // Get current fee data and block info
@@ -191,11 +274,33 @@ async function checkGasPrice(rpcUrl) {
 }
 
 async function main() {
+<<<<<<< HEAD
   const deployerAddress = process.env.DEPLOYER_ADDRESS;
 
   if (!deployerAddress) {
     console.error('❌ DEPLOYER_ADDRESS not found in .env.launch');
     console.log('💡 Make sure .env.launch exists and contains DEPLOYER_ADDRESS');
+=======
+  let deployerAddress = process.env.DEPLOYER_ADDRESS;
+  const deployerPrivateKey = process.env.DEPLOYER_PRIVATE_KEY || process.env.SPONSOR_PRIVATE_KEY;
+
+  // Derive address from private key when DEPLOYER_ADDRESS is not explicitly provided
+  if (!deployerAddress) {
+    if (deployerPrivateKey) {
+      try {
+        const wallet = new ethers.Wallet(deployerPrivateKey);
+        deployerAddress = wallet.address;
+        console.log(`🔐 Derived deployer address from private key: ${deployerAddress}`);
+      } catch (err) {
+        console.error('❌ Failed to derive deployer address from private key:', err.message);
+      }
+    }
+  }
+
+  if (!deployerAddress) {
+    console.error('❌ DEPLOYER_ADDRESS not found and could not be derived from private key');
+    console.log('💡 Make sure .env.launch or .env.production exists and contains DEPLOYER_ADDRESS or DEPLOYER_PRIVATE_KEY');
+>>>>>>> fix/dep-ci-uvicorn-port
     process.exit(1);
   }
 
@@ -208,8 +313,13 @@ async function main() {
     const bestRpcUrl = await selectBestRpc();
     console.log('');
 
+<<<<<<< HEAD
     // Check balance with the best RPC
     const { balance, rpcUrl } = await checkBalanceWithRetry(deployerAddress, bestRpcUrl);
+=======
+    // Check balance with the best RPC (attempt preferred RPC first)
+    const { balance, rpcUrl } = await checkBalanceWithPreferredRpc(deployerAddress, bestRpcUrl);
+>>>>>>> fix/dep-ci-uvicorn-port
     const balanceInEth = parseFloat(ethers.formatEther(balance));
 
     console.log(`💰 Current Balance: ${balanceInEth.toFixed(4)} A0G`);

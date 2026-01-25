@@ -1,5 +1,8 @@
 fastapi
 uvicorn
+<<<<<<< HEAD
 supabase
 stripe
 python-dotenv
+=======
+>>>>>>> fix/dep-ci-uvicorn-port

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+<<<<<<< HEAD
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -18,10 +19,19 @@ export const metadata: Metadata = {
     title: 'Pi Forge Quantum Genesis',
     description: 'Quantum Pi mining with zero gas fees',
   },
+=======
+import './globals.css'
+import TracingProvider from './tracing-provider'
+
+export const metadata: Metadata = {
+  title: 'OINIO - Sovereign Staking',
+  description: 'Gasless staking for the sovereign economy. No fees, no friction.',
+>>>>>>> fix/dep-ci-uvicorn-port
 }
 
 export default function RootLayout({
   children,
+<<<<<<< HEAD
 }: {
   children: React.ReactNode
 }) {
@@ -47,6 +57,19 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+=======
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        {/* OINIO - Standing on our own merit */}
+      </head>
+      <body className="font-sans antialiased">
+        <TracingProvider />
+        {children}
+>>>>>>> fix/dep-ci-uvicorn-port
       </body>
     </html>
   )

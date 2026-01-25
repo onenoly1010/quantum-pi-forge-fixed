@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "buildCommand": "npm run build && npm run postbuild",
   "devCommand": "npm run dev",
   "installCommand": "npm ci --include=dev",
@@ -78,4 +79,7 @@
   },
   "regions": ["sfo1"],
   "public": true
+=======
+  "outputDirectory": "public"
+>>>>>>> fix/dep-ci-uvicorn-port
 }

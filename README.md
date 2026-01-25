@@ -131,19 +131,30 @@ We lead with transparency because Truth has nothing to hide.
 - 🔗 **MetaMask Integration** - Seamless wallet connection
 - ⛽ **Gasless Transactions** - Sponsor-covered staking fees
 - 📊 **Real-time Balance** - Live OINIO token balance display
+<<<<<<< HEAD
 - � **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
 - ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
 - �🎨 **Modern UI** - Beautiful gradient design with glassmorphism
 - 🔒 **Secure API** - Production-ready backend validation
 - 📱 **Responsive** - Mobile-first design
+=======
+- 🪙 **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
+- ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
+- 🎨 **Modern UI** - Beautiful gradient design with glassmorphism
+>>>>>>> fix/dep-ci-uvicorn-port
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
+<<<<<<< HEAD
 - **Web3**: Ethers.js, MetaMask, Pi Network SDK
 - **AI**: Google Gemini AI, OpenAI API
 - **Blockchain**: Polygon Network, Pi Network (Stellar)
+=======
+- **Web3**: Ethers.js, MetaMask
+- **Blockchain**: Polygon Network
+>>>>>>> fix/dep-ci-uvicorn-port
 - **Deployment**: Vercel
 
 ## 📋 Prerequisites
@@ -273,6 +284,7 @@ npm run build
 npm run start
 ```
 
+<<<<<<< HEAD
 ## 🔍 AI Agent Tracing & Observability
 
 The Quantum Pi Forge includes comprehensive tracing for AI agent operations using OpenTelemetry and AI Toolkit.
@@ -327,6 +339,8 @@ Traces are automatically collected and can be viewed in the AI Toolkit trace vie
 
 ---
 
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 ## 🤝 Contributing
 
 We welcome contributions to the Quantum Pi Forge! This repository is configured for **GitHub Copilot Coding Agent**.
