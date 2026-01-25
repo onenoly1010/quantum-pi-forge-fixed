@@ -5,14 +5,13 @@
 
 const express = require('express');
 const router = express.Router();
-const { validate, validateParams } = require('../middleware/validate');
-const { inftOwnershipMiddleware } = require('../middleware/auth');
-const { auditLogger, businessLogger } = require('../middleware/logger');
-const { ApiError } = require('../shared/errors');
+const { validate, validateParams } = require('../../middleware/validate');
+const { inftOwnershipMiddleware } = require('../../middleware/auth');
+const { auditLogger, businessLogger } = require('../../middleware/logger');
+const { ApiError } = require('../../shared/errors');
 
 // Import iNFT services
-const mintingService = require('../services/minting');
-const evolutionService = require('../services/evolution');
+const { inftService } = require('../../services/inft');
 
 /**
  * POST /api/inft/mint
@@ -32,14 +31,7 @@ router.post('/mint',
         throw new ApiError('Minting permission required', 403);
       }
 
-      const mintResult = await mintingService.mintINFT({
-        oracleReadingId,
-        paymentTxHash,
-        soulId: user.soul?.id,
-        userId: user.id,
-        metadata: metadata || {},
-        requestId: req.requestId
-      });
+      const mintResult = await inftService.mintINFT(user.soulId || 'dummy_soul', oracleReadingId, metadata || {});
 
       res.status(201).json({
         success: true,
@@ -73,7 +65,7 @@ router.post('/mint',
  * Get iNFT information
  */
 router.get('/:inftId',
-  validateParams({ inftId: require('../middleware/validate').validators.validateInftId }),
+  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -115,7 +107,7 @@ router.get('/:inftId',
  * Trigger iNFT evolution
  */
 router.post('/:inftId/evolve',
-  validateParams({ inftId: require('../middleware/validate').validators.validateInftId }),
+  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
   validate('evolveINFT'),
   inftOwnershipMiddleware,
   auditLogger('inft_evolution'),
@@ -169,7 +161,7 @@ router.post('/:inftId/evolve',
  * Record interaction with iNFT
  */
 router.post('/:inftId/interact',
-  validateParams({ inftId: require('../middleware/validate').validators.validateInftId }),
+  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -208,7 +200,7 @@ router.post('/:inftId/interact',
  * Get iNFT memory and interaction history
  */
 router.get('/:inftId/memory',
-  validateParams({ inftId: require('../middleware/validate').validators.validateInftId }),
+  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -255,7 +247,7 @@ router.get('/:inftId/memory',
  * Get iNFT evolution history
  */
 router.get('/:inftId/evolution-history',
-  validateParams({ inftId: require('../middleware/validate').validators.validateInftId }),
+  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -323,6 +315,6 @@ router.get('/marketplace', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-);
+});
 
 module.exports = router;

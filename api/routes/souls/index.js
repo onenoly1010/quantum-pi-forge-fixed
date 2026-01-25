@@ -5,20 +5,20 @@
 
 const express = require('express');
 const router = express.Router();
-const { validate, validateParams } = require('../middleware/validate');
-const { soulOwnershipMiddleware } = require('../middleware/auth');
-const { auditLogger, businessLogger } = require('../middleware/logger');
-const { ApiError } = require('../shared/errors');
+const { validate, validateParams } = require('../../middleware/validate');
+const { soulOwnershipMiddleware } = require('../../middleware/auth');
+const { auditLogger, businessLogger } = require('../../middleware/logger');
+const { ApiError } = require('../../shared/errors');
 
-// Import soul services (these will be created)
-const soulService = require('../services/souls');
+// Import soul services
+const { soulService } = require('../../services/soul');
 
 /**
  * GET /api/souls/:soulId
  * Get soul information
  */
 router.get('/:soulId',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   soulOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -54,7 +54,7 @@ router.get('/:soulId',
  * Update soul metadata
  */
 router.put('/:soulId',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   validate('updateSoul'),
   soulOwnershipMiddleware,
   auditLogger('soul_update'),
@@ -86,7 +86,7 @@ router.put('/:soulId',
  * Get all iNFTs owned by a soul
  */
 router.get('/:soulId/infts',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   soulOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -130,7 +130,7 @@ router.get('/:soulId/infts',
  * Get oracle readings for a soul
  */
 router.get('/:soulId/oracle-readings',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   soulOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -172,7 +172,7 @@ router.get('/:soulId/oracle-readings',
  * Get soul statistics
  */
 router.get('/:soulId/stats',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   soulOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -203,7 +203,7 @@ router.get('/:soulId/stats',
  * Verify soul ownership
  */
 router.post('/:soulId/verify',
-  validateParams({ soulId: require('../middleware/validate').validators.validateSoulId }),
+  validateParams({ soulId: require('../../middleware/validate').validators.validateSoulId }),
   async (req, res, next) => {
     try {
       const { soulId } = req.params;

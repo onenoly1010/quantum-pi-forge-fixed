@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "build": "pkg oinio-system.js --targets node18-linux-x64,node18-macos-x64,node18-win-x64 --output public/oinio-system && echo '<html><body><h1>OINIO Soul System Binaries</h1><ul><li><a href=\"oinio-system-linux\">Linux x64</a></li><li><a href=\"oinio-system-macos\">macOS x64</a></li><li><a href=\"oinio-system-win.exe\">Windows x64</a></li></ul><p>Anchor your truth locally—encrypted oracles for soul evolution.</p></body></html>' > public/index.html",
+    "build": "next build",
     "dev": "next dev",
     "export": "next export",
     "start": "next start",
@@ -16,7 +16,25 @@
     "verify-funding": "node scripts/verify-funding.js",
     "check-balance": "node scripts/check-wallet-balance.js",
     "deploy:dex": "npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle",
-    "setup:secrets": "bash scripts/setup-github-secrets.sh"
+    "setup:secrets": "bash scripts/setup-github-secrets.sh",
+    "loadtest": "artillery run loadtest/load.yml",
+    "loadtest:smoke": "artillery run loadtest/smoke.yml",
+    "loadtest:stress": "artillery run loadtest/stress.yml",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:audit:fix": "npm audit fix",
+    "security:scan": "node security/scan.js",
+    "security:full": "npm run security:scan && npm run security:audit",
+    "validate:production": "node scripts/validation/simple-validator.js",
+    "validate:env": "node scripts/validation/env-validator.js",
+    "validate:locks": "node scripts/validation/validate-locks.js",
+    "backup:database": "node scripts/backup/database-backup.js",
+    "backup:config": "node scripts/backup/config-backup.js",
+    "backup:all": "node scripts/backup/full-backup.js",
+    "docs:generate": "node scripts/docs/generate-api-docs.js",
+    "docs:serve": "npx http-server docs/api -p 8080",
+    "health:check": "node scripts/health/check.js",
+    "monitoring:start": "docker-compose -f docker-compose.monitoring.yml up -d",
+    "monitoring:stop": "docker-compose -f docker-compose.monitoring.yml down"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.1",
@@ -87,7 +105,17 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^1.0.0"
+    "vaul": "^1.0.0",
+    "mongodb": "^6.3.0",
+    "redis": "^4.6.13",
+    "node-cron": "^3.0.3",
+    "compression": "^1.7.4",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "cors": "^2.8.5",
+    "joi": "^17.12.0",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.3",
@@ -99,6 +127,7 @@
     "@types/node": "^22",
     "@types/react": "19.2.7",
     "autoprefixer": "^10.4.22",
+    "artillery": "^2.0.8",
     "hardhat": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.2.0",
@@ -107,6 +136,10 @@
     "tailwindcss": "^3.4.19",
     "ts-jest": "^29.4.6",
     "typescript": "^5"
+  },
+  "overrides": {
+    "picomatch": "2.3.1",
+    "ws": "8.17.1"
   },
   "engines": {
     "node": "20.x"

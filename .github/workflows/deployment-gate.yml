@@ -20,7 +20,7 @@ on:
       skip_funding_check:
         description: 'Skip funding verification (for testing)'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 jobs:
@@ -43,14 +43,43 @@ jobs:
 
     - name: 🔧 Setup Environment
       run: |
-        # Create minimal .env.launch for CI (secrets should be in GitHub Secrets)
-        if [ ! -f .env.launch ]; then
-          cat > .env.launch << EOF
-        DEPLOYER_ADDRESS=${{ secrets.DEPLOYER_ADDRESS }}
-        ZERO_G_RPC_URL=https://evmrpc.0g.ai
+        # Create production environment file from secrets
+        cat > .env.production << 'EOF'
+        # Blockchain/Web3
+        SPONSOR_PRIVATE_KEY=${{ secrets.SPONSOR_PRIVATE_KEY }}
+        POLYGON_RPC_URL=https://polygon-rpc.com
+        OINIO_TOKEN_ADDRESS=0x07f43E5B1A8a0928B364E40d5885f81A543B05C7
+        DEPLOYER_PRIVATE_KEY=${{ secrets.DEPLOYER_PRIVATE_KEY }}
+        ZERO_G_RPC_URL=https://rpc.0g.ai
         ZERO_G_CHAIN_ID=16661
+
+        # AI/OpenAI
+        OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+        AI_GATEWAY_API_KEY=${{ secrets.AI_GATEWAY_API_KEY }}
+        AI_GATEWAY_URL=https://ai-gateway.vercel.sh/v1
+
+        # Next.js
+        NEXT_PUBLIC_APP_URL=https://quantumpiforge.com
+
+        # Authentication
+        JWT_SECRET=${{ secrets.JWT_SECRET }}
+        NEXTAUTH_URL=https://quantumpiforge.com
+        NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+        GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}
+        GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}
+        PI_API_KEY=${{ secrets.PI_API_KEY }}
+
+        # Database
+        MONGODB_URI=${{ secrets.MONGODB_URI }}
+        DATABASE_NAME=quantumpiforge_prod
+
+        # Monitoring
+        SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+        # Deployment
+        NODE_ENV=production
+        VERCEL_ENV=production
         EOF
-        fi
 
     - name: 💰 Verify Deployer Funding
       id: funding_check
@@ -62,15 +91,31 @@ jobs:
 
         echo "🔍 Running automated funding verification..."
         npm run verify-funding
-      continue-on-error: false
+      continue-on-error: true
+
+    - name: 📣 Notify: Funding Check Failed
+      if: steps.funding_check.outcome != 'success'
+      env:
+        WEBHOOK: ${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}
+      run: |
+        echo "🔔 Funding check did not succeed. Preparing notification..."
+        if [ -z "${WEBHOOK}" ]; then
+          echo "No DEPLOYMENT_NOTIFICATION_WEBHOOK secret set. Skipping notification."
+        else
+          PAYLOAD="{\"content\":\"🚨 Deployment Gate Alert: Funding verification FAILED for ${GITHUB_REPOSITORY} on ref ${GITHUB_REF}. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\"}"
+          curl -s -X POST -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK" || true
+          echo "Notification sent to webhook."
+        fi
+        # Fail the job to enforce the gate
+        exit 1
 
     - name: 📊 Gas Price Intelligence
       id: gas_check
       run: |
         echo "⛽ Analyzing gas market conditions on 0G Aristotle..."
 
-        MAX_RETRIES=3
-        RETRY_DELAY=60  # 60 seconds between retries
+        MAX_RETRIES=5
+        RETRY_DELAY=120  # 120 seconds between retries
         MAX_REASONABLE_GAS=50  # 50 gwei threshold
 
         for attempt in $(seq 1 $MAX_RETRIES); do
@@ -238,6 +283,20 @@ jobs:
         echo "3. Adjust deployment timing"
         echo ""
         echo "To override: Re-run workflow with skip_funding_check=true"
+
+    - name: 📣 Notify: Gas Price Warning
+      if: steps.gas_check.outputs.gas_too_high == 'true'
+      env:
+        WEBHOOK: ${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}
+      run: |
+        echo "🔔 Gas price warning detected. Preparing notification..."
+        if [ -z "${WEBHOOK}" ]; then
+          echo "No DEPLOYMENT_NOTIFICATION_WEBHOOK secret set. Skipping notification."
+        else
+          PAYLOAD="{\"content\":\"⚠️ Deployment Gate Alert: Gas prices elevated for ${GITHUB_REPOSITORY} on ref ${GITHUB_REF}. Estimated Max Fee: ${{ steps.gas_check.outputs.max_fee_gwei }} gwei. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\"}"
+          curl -s -X POST -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK" || true
+          echo "Notification sent to webhook."
+        fi
 
   # Optional: Automated deployment (uncomment when ready)
   # deploy-dex:

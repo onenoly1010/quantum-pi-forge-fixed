@@ -8,7 +8,9 @@ const router = express.Router();
 const os = require('os');
 
 // Import services for health checks
-const authService = require('../services/auth/session');
+const { authService } = require('../../services/auth');
+const { dbManager } = require('../../config/database');
+const { getMetrics, updateDatabaseMetrics } = require('../../middleware/metrics');
 
 /**
  * GET /health

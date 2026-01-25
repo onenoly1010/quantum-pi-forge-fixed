@@ -29,9 +29,7 @@ class DatabaseManager {
         connectTimeoutMS: parseInt(getEnvVar('DB_CONNECT_TIMEOUT', '10000')),
         retryWrites: getEnvVar('DB_RETRY_WRITES', 'true') === 'true',
         retryReads: getEnvVar('DB_RETRY_READS', 'true') === 'true',
-        maxIdleTimeMS: parseInt(getEnvVar('DB_MAX_IDLE_TIME', '30000')),
-        bufferMaxEntries: parseInt(getEnvVar('DB_BUFFER_MAX_ENTRIES', '0')),
-        bufferCommands: getEnvVar('DB_BUFFER_COMMANDS', 'true') === 'true'
+        maxIdleTimeMS: parseInt(getEnvVar('DB_MAX_IDLE_TIME', '30000'))
       }
     };
   }

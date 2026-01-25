@@ -5,12 +5,12 @@
 
 const express = require('express');
 const router = express.Router();
-const { validate } = require('../middleware/validate');
-const { auditLogger, businessLogger } = require('../middleware/logger');
-const { ApiError } = require('../shared/errors');
+const { validate } = require('../../middleware/validate');
+const { auditLogger, businessLogger } = require('../../middleware/logger');
+const { ApiError } = require('../../shared/errors');
 
 // Import payment service
-const paymentService = require('../services/payments');
+const { paymentService } = require('../../services/payment');
 
 /**
  * POST /api/payments/create
@@ -271,6 +271,6 @@ router.get('/stats/admin', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-);
+});
 
 module.exports = router;

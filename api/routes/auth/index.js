@@ -5,10 +5,10 @@
 
 const express = require('express');
 const router = express.Router();
-const authService = require('../services/auth/session');
-const { validate } = require('../middleware/validate');
-const { auditLogger } = require('../middleware/logger');
-const { ApiError } = require('../shared/errors');
+const { authService } = require('../../services/auth');
+const { validate } = require('../../middleware/validate');
+const { auditLogger } = require('../../middleware/logger');
+const { ApiError } = require('../../shared/errors');
 
 /**
  * POST /api/auth/login
@@ -18,44 +18,48 @@ router.post('/login', validate('login'), auditLogger('user_login'), async (req, 
   try {
     const { piToken, soulSignature } = req.body;
 
-    let authResult;
+    let user;
 
     if (piToken) {
-      // Pi Network authentication
-      authResult = await authService.authenticateWithPi(piToken, soulSignature);
-    } else if (soulSignature) {
-      // Direct soul authentication
-      authResult = await authService.authenticateWithSoul(soulSignature);
+      // Pi Network authentication - simplified for now
+      const mockUserInfo = {
+        username: 'pi_user_' + Date.now(),
+        email: null,
+        avatar: null
+      };
+
+      user = await authService.authenticateWithPi(piToken, mockUserInfo);
     } else {
-      throw new ApiError('Either piToken or soulSignature required', 400);
+      throw new ApiError('Pi token required for authentication', 400);
     }
 
     // Create session
-    const session = await authService.createSession(authResult);
-    const permissions = authService.getUserPermissions(authResult);
+    const session = await authService.createSession(user.userId, {
+      userAgent: req.headers['user-agent'],
+      ipAddress: req.ip
+    });
+
+    // Generate JWT token
+    const token = authService.generateToken({
+      sessionId: session.sessionId,
+      userId: user.userId
+    });
 
     res.json({
       success: true,
       session: {
-        id: session.id,
+        id: session.sessionId,
         expiresAt: session.expiresAt
       },
+      token,
       user: {
-        authMethod: authResult.authMethod,
-        permissions,
-        piUser: authResult.piUser ? {
-          uid: authResult.piUser.uid,
-          username: authResult.piUser.username
-        } : null,
-        soul: authResult.soul ? {
-          id: authResult.soul.id,
-          level: authResult.soul.level,
-          coherence: authResult.soul.coherence
-        } : null
-      },
-      timestamp: new Date().toISOString()
+        userId: user.userId,
+        authMethods: user.authMethods,
+        piAddress: user.piAddress,
+        username: user.username,
+        soulId: user.soulId
+      }
     });
-
   } catch (error) {
     next(error);
   }

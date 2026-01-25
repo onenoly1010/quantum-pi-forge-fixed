@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  quantumpiforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: quantumpiforge-prod
+    ports:
+      - "3000:3000"  # Frontend
+      - "8000:8000"  # API
+    environment:
+      - NODE_ENV=production
+      - VERCEL_ENV=production
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - quantumpiforge-network
+
+  # Redis for caching (optional but recommended)
+  redis:
+    image: redis:7-alpine
+    container_name: quantumpiforge-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - quantumpiforge-network
+    command: redis-server --appendonly yes
+
+  # MongoDB (if not using cloud MongoDB)
+  mongodb:
+    image: mongo:7-jammy
+    container_name: quantumpiforge-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: quantumpiforge_prod
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    restart: unless-stopped
+    networks:
+      - quantumpiforge-network
+
+networks:
+  quantumpiforge-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  mongodb_data:
+  mongodb_config:

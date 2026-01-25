@@ -5,12 +5,12 @@
 
 const express = require('express');
 const router = express.Router();
-const { validate, validateParams } = require('../middleware/validate');
-const { auditLogger, businessLogger } = require('../middleware/logger');
-const { ApiError } = require('../shared/errors');
+const { validate, validateParams } = require('../../middleware/validate');
+const { auditLogger, businessLogger } = require('../../middleware/logger');
+const { ApiError } = require('../../shared/errors');
 
 // Import oracle service
-const oracleService = require('../services/oracle');
+const { oracleService } = require('../../services/oracle');
 
 /**
  * POST /api/oracle/reading
@@ -62,7 +62,7 @@ router.post('/reading',
  * Get specific oracle reading
  */
 router.get('/reading/:readingId',
-  validateParams({ readingId: require('../middleware/validate').validators.validateOracleReadingId }),
+  validateParams({ readingId: require('../../middleware/validate').validators.validateOracleReadingId }),
   async (req, res, next) => {
     try {
       const { readingId } = req.params;

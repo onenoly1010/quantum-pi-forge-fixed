@@ -83,42 +83,22 @@ async def rate_limit_status(request: Request):
 
 @app.get("/api/data")
 def get_sample_data():
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-DOCS_API_KEY = os.getenv("DOCS_API_KEY")
+    """Simple sample data endpoint."""
+    return {"message": "This is sample data from Quantum Pi Forge API", "environment": os.getenv("ENVIRONMENT", "development"), "timestamp": datetime.utcnow().isoformat()}
 
-app = FastAPI(
-    title="Quantum Pi Forge API",
-    description="Backend API for Quantum Pi Forge - Sovereign Staking Protocol",
-    version="2.0.0",
-    docs_url="/api/docs",
-    redoc_url="/api/redoc",
-)
 
 @app.middleware("http")
 async def protect_docs_in_production(request: Request, call_next):
-    """
-    Restrict access to API documentation in production using a simple API key.
-
-    - In non-production environments, docs remain freely accessible.
-    - In production, access to /api/docs, /api/redoc, and /openapi.json
-      requires the X-Docs-Api-Key header matching DOCS_API_KEY.
-    """
+    """Protect API docs in production with an API key."""
     path = request.url.path
-    if ENVIRONMENT == "production" and path in ("/api/docs", "/api/redoc", "/openapi.json"):
-        if not DOCS_API_KEY:
-            # Misconfiguration: docs are enabled but no key is set
-            return JSONResponse(
-                status_code=500,
-                content={"detail": "Documentation access not configured"},
-            )
-
+    if os.getenv("ENVIRONMENT", "development") == "production" and path in ("/api/docs", "/api/redoc", "/openapi.json"):
+        if not os.getenv("DOCS_API_KEY"):
+            return JSONResponse(status_code=500, content={"detail": "Documentation access not configured"})
         provided_key = request.headers.get("X-Docs-Api-Key")
-        if provided_key != DOCS_API_KEY:
+        if provided_key != os.getenv("DOCS_API_KEY"):
             raise HTTPException(status_code=401, detail="Unauthorized documentation access")
-
     response = await call_next(request)
     return response
-    }
 
 
 @app.get("/api/items/{item_id}")
@@ -445,4 +425,8 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
+    try:
+        PORT = int(os.getenv("PORT", "8000"))
+    except (TypeError, ValueError):
+        PORT = 8000
+    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
