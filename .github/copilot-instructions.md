@@ -824,9 +824,12 @@ When reviewing Copilot PRs:
 4. Repeat until satisfied
 5. Merge when all criteria are met
 
+<<<<<<< HEAD
 ## Automated Agent Instructions
 For deterministic, machine-oriented rules governing automated coding agents, see `.github/automated-agent-instructions.md`. That file contains strict behavioral constraints, output requirements, and system-level rules that agents must follow.
 
+=======
+>>>>>>> fix/dep-ci-uvicorn-port
 ## Additional Resources
 
 - [GitHub Copilot Best Practices](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results)
@@ -835,6 +838,7 @@ For deterministic, machine-oriented rules governing automated coding agents, see
 - [Ethers.js v6 Documentation](https://docs.ethers.org/v6/)
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+<<<<<<< HEAD
 
 ---
 
@@ -1034,3 +1038,5 @@ echo "Creating system snapshot: $OUTPUT"
 
 echo "Snapshot saved."
 ```
+=======
+>>>>>>> fix/dep-ci-uvicorn-port

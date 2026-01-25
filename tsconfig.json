@@ -23,5 +23,9 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.d.ts"],
+<<<<<<< HEAD
   "exclude": ["node_modules", "__tests__", "components/ui/carousel.tsx", "components/ui/chart.tsx", "components/ui/resizable.tsx", "hardhat.config.template.ts", "hardhat.config.ts", "scripts/**/*", "pi-forge-quantum-genesis/**/*", "contracts/**/*", "docs/**/*"]
+=======
+  "exclude": ["node_modules", "hardhat.config.template.ts", "hardhat.config.ts", "scripts/**/*", "pi-forge-quantum-genesis/**/*", "contracts/**/*", "docs/**/*"]
+>>>>>>> fix/dep-ci-uvicorn-port
 }
