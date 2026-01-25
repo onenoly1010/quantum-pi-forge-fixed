@@ -1,7 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "pi-forge-quantum-genesis",
-  "version": "2.0.0",
+  "name": "quantum-pi-forge-fixed",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
