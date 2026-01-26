@@ -1,0 +1,96 @@
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { AlertCircle, Loader2 } from 'lucide-react';
+
+export default function VerifyPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [verificationStatus, setVerificationStatus] = useState(null);
+
+  const handleVerify = async () => {
+    setIsLoading(true);
+    // TODO: Implement contract verification logic
+    setTimeout(() => {
+      setIsLoading(false);
+      setVerificationStatus('pending_deployment');
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">Quantum Pi Forge Verification</h1>
+          <p className="text-slate-300">On-chain verification of sovereign staking protocol</p>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-yellow-500" />
+              Contracts Not Yet Deployed
+            </CardTitle>
+            <CardDescription>
+              The Quantum Pi Forge contracts have not been deployed to Polygon Mainnet yet.
+              Use the deployment script to deploy and then verify here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="font-semibold">Expected Parameters (Manifest v1.1):</h3>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>Reward Rate: 0.01 OINIO/sec</div>
+                <div>Max Rewards: 1,000,000 OINIO</div>
+                <div>OINIO Token: 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7</div>
+                <div>Forwarder: QuantumForwarder</div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="font-semibold">Deployment Steps:</h3>
+              <ol className="list-decimal list-inside text-sm space-y-1">
+                <li>Run deployment script: <code>npx hardhat run scripts/deploy-polygon-mainnet.ts --network polygon</code></li>
+                <li>Verify contracts on PolygonScan</li>
+                <li>Renounce ownership for sovereignty</li>
+                <li>Return here to verify on-chain parameters</li>
+              </ol>
+            </div>
+
+            <Button
+              onClick={handleVerify}
+              disabled={isLoading}
+              className="w-full"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Checking Contracts...
+                </>
+              ) : (
+                'Check Contract Status'
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {verificationStatus === 'pending_deployment' && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-yellow-500" />
+                Deployment Required
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-yellow-600">
+                Contracts are not deployed yet. Please run the deployment script first.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
