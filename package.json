@@ -94,7 +94,7 @@
     "d3": "^7.9.0",
     "embla-carousel-react": "^9.0.0-rc01",
     "ethers": "^6.7.0",
-    "firebase": "^10.7.0",
+    "firebase": "^12.8.0",
     "framer-motion": "^10.0.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.294.0",
