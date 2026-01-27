@@ -124,7 +124,7 @@
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.0",
     "husky": "^8.0.0",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^16.2.7",
     "tsx": "^3.12.7",
     "typescript": "^5.0.0"
   },
