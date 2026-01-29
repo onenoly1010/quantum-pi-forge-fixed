@@ -1,4 +1,15 @@
-# FastAPI Starter
+# FastAPI Backend - Quantum Pi Forge
+
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
+FastAPI backend service for the Quantum Pi Forge / OINIO Soul System, providing high-performance APIs with automatic documentation.
+
+## About This Service
+
+This FastAPI service is part of the Quantum Pi Forge constellation, handling:
+- Rate limiting middleware (tiered: free/staking/admin)
+- Health check endpoints
+- API documentation (Swagger/OpenAPI)
 
 Deploy your [FastAPI](https://fastapi.tiangolo.com/) project to Vercel with zero configuration.
 

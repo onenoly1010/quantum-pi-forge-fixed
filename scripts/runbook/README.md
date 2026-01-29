@@ -1,6 +1,8 @@
 # AI Agent Autonomous Runbook Scripts
 
-This directory contains scripts used by the AI Agent Autonomous Runbook workflow.
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
+This directory contains scripts used by the AI Agent Autonomous Runbook workflow. For full documentation, see [docs/AI_AGENT_RUNBOOK.md](../../docs/AI_AGENT_RUNBOOK.md).
 
 ## Scripts
 
