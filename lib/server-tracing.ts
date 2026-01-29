@@ -131,23 +131,56 @@ export async function withTracing<T>(
 }
 
 /**
- * Trace an AI model call
+ * Trace a blockchain transaction operation
  */
-export async function traceAICall<T>(
-  modelName: string,
+export async function traceBlockchainTransaction<T>(
+  operationName: string,
   operation: (span: Span) => Promise<T>,
   metadata?: {
-    provider?: string;
-    promptTokens?: number;
-    completionTokens?: number;
-    temperature?: number;
+    contractAddress?: string;
+    method?: string;
+    chainId?: number;
+    gasLimit?: string;
   }
 ): Promise<T> {
   return withTracing(
-    `ai.${modelName}`,
+    `blockchain.${operationName}`,
     operation,
     {
-      'ai.model': modelName,
+      'blockchain.operation': operationName,
+      'blockchain.contract_address': metadata?.contractAddress || '',
+      'blockchain.method': metadata?.method || '',
+      'blockchain.chain_id': metadata?.chainId || 137,
+      'blockchain.gas_limit': metadata?.gasLimit || '',
+      'quantum.operation': 'blockchain-transaction',
+    }
+  );
+}
+
+/**
+ * Trace a Web3 wallet interaction
+ */
+export async function traceWalletInteraction<T>(
+  operationName: string,
+  operation: (span: Span) => Promise<T>,
+  metadata?: {
+    walletType?: string;
+    network?: string;
+    action?: string;
+  }
+): Promise<T> {
+  return withTracing(
+    `wallet.${operationName}`,
+    operation,
+    {
+      'wallet.operation': operationName,
+      'wallet.type': metadata?.walletType || 'metamask',
+      'wallet.network': metadata?.network || 'polygon',
+      'wallet.action': metadata?.action || '',
+      'quantum.operation': 'wallet-interaction',
+    }
+  );
+}
       'ai.provider': metadata?.provider || 'unknown',
       'quantum.component': 'AI',
       ...(metadata?.promptTokens && { 'ai.prompt_tokens': metadata.promptTokens }),
