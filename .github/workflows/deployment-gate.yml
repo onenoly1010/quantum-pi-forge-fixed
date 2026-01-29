@@ -55,6 +55,7 @@ jobs:
 
     - name: 💰 Verify Deployer Funding
       id: funding_check
+      continue-on-error: true
       run: |
         if [ "${{ github.event.inputs.skip_funding_check }}" = "true" ]; then
           echo "⏭️  Skipping funding verification (manual override)"
@@ -63,16 +64,13 @@ jobs:
 
         echo "🔍 Running automated funding verification..."
         npm run verify-funding
-      continue-on-error: false
-      continue-on-error: true
 
     - name: 📣 Notify: Funding Check Failed
       if: steps.funding_check.outcome != 'success'
-      env:
-        WEBHOOK: ${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}
       run: |
         echo "🔔 Funding check did not succeed. Preparing notification..."
-        if [ -z "${WEBHOOK}" ]; then
+        WEBHOOK="${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}"
+        if [ -z "$WEBHOOK" ]; then
           echo "No DEPLOYMENT_NOTIFICATION_WEBHOOK secret set. Skipping notification."
         else
           PAYLOAD="{\"content\":\"🚨 Deployment Gate Alert: Funding verification FAILED for ${GITHUB_REPOSITORY} on ref ${GITHUB_REF}. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\"}"
@@ -87,8 +85,6 @@ jobs:
       run: |
         echo "⛽ Analyzing gas market conditions on 0G Aristotle..."
 
-        MAX_RETRIES=3
-        RETRY_DELAY=60  # 60 seconds between retries
         MAX_RETRIES=5
         RETRY_DELAY=120  # 120 seconds between retries
         MAX_REASONABLE_GAS=50  # 50 gwei threshold
@@ -261,11 +257,10 @@ jobs:
 
     - name: 📣 Notify: Gas Price Warning
       if: steps.gas_check.outputs.gas_too_high == 'true'
-      env:
-        WEBHOOK: ${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}
       run: |
         echo "🔔 Gas price warning detected. Preparing notification..."
-        if [ -z "${WEBHOOK}" ]; then
+        WEBHOOK="${{ secrets.DEPLOYMENT_NOTIFICATION_WEBHOOK }}"
+        if [ -z "$WEBHOOK" ]; then
           echo "No DEPLOYMENT_NOTIFICATION_WEBHOOK secret set. Skipping notification."
         else
           PAYLOAD="{\"content\":\"⚠️ Deployment Gate Alert: Gas prices elevated for ${GITHUB_REPOSITORY} on ref ${GITHUB_REF}. Estimated Max Fee: ${{ steps.gas_check.outputs.max_fee_gwei }} gwei. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\"}"
