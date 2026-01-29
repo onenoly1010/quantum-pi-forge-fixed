@@ -23,7 +23,7 @@
 
 The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate architecture, and coherent flow at 1010 Hz. Gasless staking embodies the Design Ethic's humility (zero fees sponsored, system disappearing into grace). Non-custodial legacy nodes reflect the Complex Compassion Veto (synthesis of truth and tenderness over domination). Open audits and interconnected constellation make the Quiet Continuum audible—friction resolving into harmonic participation in the Truth Movement.
 
-Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](./SOVEREIGN_CANTICLE.md)**
+Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](docs/decisions/sovereign-canticle.md)**
 
 *To the co-weavers of quiet tides—the continuum abides.* □
 
@@ -317,6 +317,35 @@ For issues or questions:
 ## ⚖️ The Sovereign Decree
 
 > *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."*
+
+---
+
+## 🌐 Related Repositories
+
+This is the primary repository for the Quantum Pi Forge / OINIO Soul System. The project ecosystem includes:
+
+### Core Repositories
+
+| Repository | Description | Link |
+|------------|-------------|------|
+| **quantum-pi-forge-fixed** | Main production codebase - Next.js dashboard, FastAPI backend, smart contracts | [github.com/onenoly1010/quantum-pi-forge-fixed](https://github.com/onenoly1010/quantum-pi-forge-fixed) |
+| **quantum-pi-forge-site** | Marketing and landing pages for the platform | [github.com/onenoly1010/quantum-pi-forge-site](https://github.com/onenoly1010/quantum-pi-forge-site) |
+| **pi-forge-quantum-genesis** | Legacy code archive and historical documentation | [github.com/onenoly1010/pi-forge-quantum-genesis](https://github.com/onenoly1010/pi-forge-quantum-genesis) |
+
+### AI & Research Components
+
+| Component | Description | Link |
+|-----------|-------------|------|
+| **LLM Coherence Auditor** | Framework for auditing LLM preference stability and coherence | [huggingface.co/spaces/onenoly1010/llm-coherence-auditor](https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor) |
+| **QMIX Theorem Visualization** | Interactive multi-agent RL theorem demonstration | [huggingface.co/spaces/onenoly1010/qmix-theorem-viz](https://huggingface.co/spaces/onenoly1010/qmix-theorem-viz) |
+| **Evaluation Dataset** | Annotated test cases for AI agent evaluation | [huggingface.co/datasets/onenoly1010/quantum-forge-eval](https://huggingface.co/datasets/onenoly1010/quantum-forge-eval) |
+
+### Documentation
+
+For comprehensive documentation, see:
+- [Project Identity Guide](IDENTITY.md) - Overview of the project structure and status
+- [Repository Consolidation Plan](docs/REPOSITORY_CONSOLIDATION_PLAN.md) - Future architecture strategy
+- [AI Agent Runbook](docs/AI_AGENT_RUNBOOK.md) - Autonomous operations guide
 
 ---
 
