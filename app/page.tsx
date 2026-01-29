@@ -2,7 +2,7 @@
 
 // Force deployment update - 2024-01-20 v2
 import Link from 'next/link'
-import BuyOINIO from '@/components/BuyOINIO'
+import SovereignSwap from '@/components/SovereignSwap'
 
 export default function Home() {
   return (
@@ -322,15 +322,15 @@ export default function Home() {
           <div className="text-center mb-12">
             <span className="text-emerald-400 text-sm font-semibold uppercase tracking-wider">Live Trading</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">
-              Buy OINIO Instantly
+              Sovereign DEX Trading
             </h2>
             <p className="text-white/60 mt-4 max-w-2xl mx-auto">
-              Trade 0G for OINIO directly on the 0G Aristotle network. No intermediaries, no fees beyond network costs.
+              Trade OINIO ↔ 0G directly on the 0G Aristotle network. Full sovereign control, zero intermediaries, pure decentralized exchange.
             </p>
           </div>
 
           <div className="flex justify-center">
-            <BuyOINIO />
+            <SovereignSwap />
           </div>
 
           <div className="text-center mt-8">

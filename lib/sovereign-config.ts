@@ -12,6 +12,17 @@
 
 export const SOVEREIGN_CONFIG = {
   // Network Configuration
+  CHAIN_ID: 16661,
+  NAME: '0G Aristotle',
+  RPC_URL: 'https://16661.rpc.thirdweb.com',
+  EXPLORER_URL: 'https://chainscan.0g.ai',
+
+  // Core Contract Addresses
+  OINIO_TOKEN: '0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37',
+  DEX_ROUTER: '0x0ff65f38fa43f0aac51901381acd7a8908ae2537',
+  DEX_FACTORY: '0x307bFaA937768a073D41a2EbFBD952Be8E38BF91',
+
+  // Legacy network object for compatibility
   NETWORK: {
     CHAIN_ID: 16661,
     NAME: '0G Aristotle',
@@ -24,10 +35,11 @@ export const SOVEREIGN_CONFIG = {
     },
   },
 
-  // Core Contracts (Verified on Mainnet)
+  // Legacy contracts object for compatibility
   CONTRACTS: {
     OINIO_TOKEN: '0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37',
     DEX_ROUTER: '0x0ff65f38fa43f0aac51901381acd7a8908ae2537',
+    DEX_FACTORY: '0x307bFaA937768a073D41a2EbFBD952Be8E38BF91',
     CENTRAL_AWARENESS_V2: '', // To be set after deployment
     QUANTUM_STAKING: '', // To be set after deployment
     GASLESS_FORWARDER: '', // To be set after deployment
