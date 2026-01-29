@@ -168,6 +168,10 @@ The Quantum Pi Forge began as a Pi Network integration project during its early 
 
 The name "Quantum Pi Forge" honors these origins while the system has evolved into something sovereign and focused.
 
+### 🌉 A Hybrid by Design
+
+This is a **hybrid project** that acknowledges both its Pi Network origins and its current Polygon focus. We support both communities, maintain transparency about our evolution, and preserve all historical code in the repository. For more details, see the [Hybrid Project Identity section in the README](../README.md#-hybrid-project-identity).
+
 ---
 
 ## 🤝 How to Get Help
