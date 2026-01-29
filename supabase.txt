@@ -1,0 +1,8 @@
+
+
+supabase_key=sb_secret_PKKEM6-TNDtOQvm9KcPRhw_IhWvikll
+
+supabase_url=https://moatvwdasjqhahcqpbpn.supabase.co
+
+anon public=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vYXR2d2Rhc2pxaGFoY3FwYnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxOTg2MTUsImV4cCI6MjA3Nzc3NDYxNX0.z8LZXgvmY7HBw8osJvhU1isH4ujsM2nm_DDdcxKrGuY
+
