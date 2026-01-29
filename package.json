@@ -25,17 +25,13 @@
     "oracle": "python sovereign_economic_oracle.py",
     "quantum": "python quantum_resonance_field.py",
     "fastapi": "cd fastapi && python -m uvicorn main:app --reload",
-
     "eval:install": "pip install -r evaluation/requirements.txt",
     "eval:run": "python evaluation/run_evaluation.py --data evaluation/evaluation_dataset.jsonl --output evaluation_results",
     "eval:collect": "npx tsx evaluation/collect_responses.ts",
-
     "prune:deps": "npm prune && npm dedupe",
-
     "dev:fast": "cross-env NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=\"--max-old-space-size=4096\" next dev --turbopack",
     "clean:all": "rimraf .next node_modules/.cache out && echo Cleaned caches",
     "startup:check": "bash scripts/startup-check.sh",
-
     "deploy:frontend": "chmod +x scripts/deploy-frontend.sh && ./scripts/deploy-frontend.sh",
     "deploy:backend": "chmod +x scripts/deploy-backend.sh && ./scripts/deploy-backend.sh",
     "deploy:all": "npm run deploy:frontend && npm run deploy:backend",
@@ -107,6 +103,7 @@
     "react-hook-form": "^7.71.1",
     "react-resizable-panels": "^4.4.1",
     "recharts": "^3.6.0",
+    "solady": "^0.1.26",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.0.0",
     "tailwindcss": "^3.3.0",
@@ -121,10 +118,10 @@
     "@types/react-dom": "^18.2.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
-    "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.5.0",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.0"
   },

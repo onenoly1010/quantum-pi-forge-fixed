@@ -104,7 +104,7 @@ export default function Home() {
               Truly Free Staking
             </h2>
             <p className="text-white/60 mt-4 max-w-2xl mx-auto">
-              Most platforms charge gas fees that eat into your rewards. 
+              Most platforms charge gas fees that eat into your rewards.
               We sponsor every transaction. You pay nothing. Ever.
             </p>
           </div>
@@ -187,8 +187,8 @@ export default function Home() {
 
           {/* CTA after steps */}
           <div className="text-center mt-12">
-            <Link 
-              href="/dashboard" 
+            <Link
+              href="/dashboard"
               className="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold text-lg hover:opacity-90"
             >
               Try It Now — Free
@@ -290,7 +290,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">On-Chain Verification</h3>
-              <p className="text-white/50 text-sm">Every stake appears on 0G Explorer. Verify your transaction instantly.</p>
+              <p className="text-white/50 text-sm">Every stake appears on 0G Aristotle Explorer. Verify your transaction instantly.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
@@ -424,8 +424,8 @@ export default function Home() {
             <p className="text-xl text-white/60 mb-8">
               60 seconds from now, your tokens could be working for you.
             </p>
-            <Link 
-              href="/dashboard" 
+            <Link
+              href="/dashboard"
               className="inline-flex items-center px-10 py-5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold text-xl hover:opacity-90 shadow-lg shadow-violet-500/25"
             >
               Enter the Dashboard
@@ -453,7 +453,7 @@ export default function Home() {
             <div className="flex items-center gap-6 text-sm text-white/40">
               <Link href="/for-humans" className="hover:text-white/60">How It Works</Link>
               <a href="https://github.com/onenoly1010/quantum-pi-forge-fixed" target="_blank" rel="noopener noreferrer" className="hover:text-white/60">GitHub</a>
-              <a href="https://explorer.0g.ai/token/0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37" target="_blank" rel="noopener noreferrer" className="hover:text-white/60">Token Contract</a>
+              <a href="https://0g.ai/explorer" target="_blank" rel="noopener noreferrer" className="hover:text-white/60">0G Explorer</a>
             </div>
           </div>
           <div className="text-center mt-8 text-white/30 text-xs">

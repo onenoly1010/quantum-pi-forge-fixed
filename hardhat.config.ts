@@ -63,6 +63,9 @@ const config: HardhatUserConfig = {
         ? [process.env.DEPLOYER_PRIVATE_KEY] 
         : [],
       chainId: 16661,
+      timeout: 120000, // 2 minutes for slow RPC responses
+      gasPrice: 20000000000, // 20 gwei base gas price
+      blockGasLimit: 30000000, // Conservative block gas limit
     },
   },
 

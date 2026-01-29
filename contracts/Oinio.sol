@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.27;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "solady/src/tokens/ERC20.sol";
 
-contract Oinio is ERC20, ERC20Permit, Ownable {
-    constructor(address initialOwner)
-        ERC20("OINIO", "OINIO")
-        ERC20Permit("OINIO")
-        Ownable(initialOwner)
-    {}
+contract Oinio is ERC20 {
+    constructor()
+        ERC20("OINIO", "OINIO", 18)
+    {
+        // Mint 1 billion OINIO to deployer
+        _mint(msg.sender, 1000000000 * 10**18);
+    }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
 }
