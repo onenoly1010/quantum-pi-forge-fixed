@@ -13,6 +13,9 @@ build/
 logs/
 *.log
 
+# Link audit logs (generated during workflow runs)
+.audit-logs/
+
 # IDE
 .vscode/
 .idea/
