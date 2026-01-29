@@ -1,0 +1,112 @@
+[
+  {
+    "scenario_id": "smart_contract_reentrancy",
+    "category": "Smart Contract Security",
+    "description": "Simulate a reentrancy attack on the OINIO staking contract",
+    "test_input": {
+      "attack_type": "reentrancy",
+      "contract_address": "0x07f43E5B1A8a0928B364E40d5885f81A543B05C7",
+      "attack_payload": "malicious_fallback_function"
+    },
+    "expected_behavior": "Contract should detect and prevent reentrancy attack, transaction should revert with appropriate error message"
+  },
+  {
+    "scenario_id": "smart_contract_overflow",
+    "category": "Smart Contract Security",
+    "description": "Test for integer overflow/underflow vulnerabilities in token transfers",
+    "test_input": {
+      "attack_type": "integer_overflow",
+      "amount": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+      "recipient": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+    },
+    "expected_behavior": "Contract should use SafeMath or Solidity 0.8+ built-in checks to prevent overflow, transaction should revert"
+  },
+  {
+    "scenario_id": "api_input_validation",
+    "category": "API Security",
+    "description": "Attempt SQL injection through sponsor transaction API endpoint",
+    "test_input": {
+      "endpoint": "/api/sponsor-transaction",
+      "payload": {
+        "userAddress": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+        "amount": "100'; DROP TABLE users; --",
+        "signature": "0x1234567890abcdef"
+      }
+    },
+    "expected_behavior": "API should validate input types and reject malicious SQL injection attempts, return 400 Bad Request"
+  },
+  {
+    "scenario_id": "api_auth_bypass",
+    "category": "API Security",
+    "description": "Attempt to bypass authentication on protected endpoints",
+    "test_input": {
+      "endpoint": "/api/admin/dashboard",
+      "headers": {
+        "Authorization": "Bearer fake_token_123"
+      }
+    },
+    "expected_behavior": "API should require valid authentication, return 401 Unauthorized for invalid tokens"
+  },
+  {
+    "scenario_id": "frontend_xss",
+    "category": "Frontend Security",
+    "description": "Inject XSS payload through user input fields",
+    "test_input": {
+      "input_field": "staking_amount",
+      "payload": "<script>alert('XSS')</script>",
+      "user_action": "submit_staking_form"
+    },
+    "expected_behavior": "Frontend should sanitize inputs and prevent script execution, display sanitized text only"
+  },
+  {
+    "scenario_id": "gasless_transaction_manipulation",
+    "category": "Transaction Security",
+    "description": "Attempt to manipulate gasless transaction amounts",
+    "test_input": {
+      "original_amount": "10.0",
+      "manipulated_amount": "10000.1",
+      "signature": "tampered_signature"
+    },
+    "expected_behavior": "Smart contract should verify signature matches amount, transaction should revert for invalid signatures"
+  },
+  {
+    "scenario_id": "metamask_connection_hijacking",
+    "category": "Wallet Security",
+    "description": "Simulate MetaMask connection hijacking attempt",
+    "test_input": {
+      "fake_provider": "malicious_ethereum_provider",
+      "spoofed_network": "fake_polygon_network"
+    },
+    "expected_behavior": "Application should validate MetaMask connection and network, reject connections to unauthorized networks"
+  },
+  {
+    "scenario_id": "rpc_endpoint_spoofing",
+    "category": "Network Security",
+    "description": "Attempt to connect to malicious RPC endpoint",
+    "test_input": {
+      "rpc_url": "https://malicious-rpc-endpoint.com",
+      "expected_chain_id": 137
+    },
+    "expected_behavior": "Application should validate RPC endpoint and chain ID, reject connections to unauthorized endpoints"
+  },
+  {
+    "scenario_id": "rate_limiting_bypass",
+    "category": "API Security",
+    "description": "Attempt to bypass rate limiting on transaction endpoints",
+    "test_input": {
+      "requests_per_minute": 1000,
+      "endpoint": "/api/sponsor-transaction"
+    },
+    "expected_behavior": "API should enforce rate limits, return 429 Too Many Requests for excessive requests"
+  },
+  {
+    "scenario_id": "access_control_bypass",
+    "category": "Smart Contract Security",
+    "description": "Attempt to bypass access controls in contract functions",
+    "test_input": {
+      "function_call": "admin_only_function",
+      "caller_address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+    },
+    "expected_behavior": "Contract should enforce access controls using modifiers, revert calls from unauthorized addresses"
+  }
+]

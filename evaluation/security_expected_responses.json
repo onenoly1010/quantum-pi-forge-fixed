@@ -1,0 +1,97 @@
+[
+  {
+    "scenario_id": "smart_contract_reentrancy",
+    "expected_response": {
+      "status": "blocked",
+      "error_message": "ReentrancyGuard: reentrant call",
+      "transaction_status": "reverted",
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "smart_contract_overflow",
+    "expected_response": {
+      "status": "blocked",
+      "error_message": "Arithmetic operation underflowed or overflowed",
+      "transaction_status": "reverted",
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "api_input_validation",
+    "expected_response": {
+      "status_code": 400,
+      "response_body": {
+        "error": "Invalid input format",
+        "details": "Amount must be a valid number"
+      },
+      "security_score": 95
+    }
+  },
+  {
+    "scenario_id": "api_auth_bypass",
+    "expected_response": {
+      "status_code": 401,
+      "response_body": {
+        "error": "Unauthorized",
+        "message": "Invalid or missing authentication token"
+      },
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "frontend_xss",
+    "expected_response": {
+      "rendered_output": "&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;",
+      "script_execution": false,
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "gasless_transaction_manipulation",
+    "expected_response": {
+      "status": "blocked",
+      "error_message": "Invalid signature for transaction",
+      "transaction_status": "reverted",
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "metamask_connection_hijacking",
+    "expected_response": {
+      "connection_status": "rejected",
+      "error_message": "Invalid network or provider detected",
+      "fallback_behavior": "disconnect and show warning",
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "rpc_endpoint_spoofing",
+    "expected_response": {
+      "connection_status": "rejected",
+      "error_message": "Unauthorized RPC endpoint",
+      "validation_result": "chain_id_mismatch",
+      "security_score": 100
+    }
+  },
+  {
+    "scenario_id": "rate_limiting_bypass",
+    "expected_response": {
+      "status_code": 429,
+      "response_body": {
+        "error": "Too Many Requests",
+        "retry_after": 60
+      },
+      "security_score": 90
+    }
+  },
+  {
+    "scenario_id": "access_control_bypass",
+    "expected_response": {
+      "status": "blocked",
+      "error_message": "AccessControl: caller is not authorized",
+      "transaction_status": "reverted",
+      "security_score": 100
+    }
+  }
+]
