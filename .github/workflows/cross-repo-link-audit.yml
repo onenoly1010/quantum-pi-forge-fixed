@@ -1,0 +1,306 @@
+# Cross-Repository Link Audit & Documentation Consistency Workflow
+# 
+# Purpose: Automate documentation navigation and cross-repo link management
+# across the quantum-pi-forge constellation.
+#
+# Features:
+# - Crawls all documentation and README files
+# - Identifies outdated, broken, or missing cross-repo links
+# - Standardizes all repository references
+# - Auto-generates constellation map
+# - Provides detailed validation logs
+# - Creates issues for unsolvable problems
+#
+# Triggers:
+# - Weekly schedule (every Sunday at 00:00 UTC)
+# - Pull requests that modify documentation
+# - Manual workflow dispatch
+
+name: 🔗 Cross-Repo Link Audit
+
+on:
+  # Weekly automated run
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight UTC
+  
+  # Run on PRs that modify documentation
+  pull_request:
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/cross-repo-link-audit.yml'
+      - 'scripts/link-audit/**'
+  
+  # Allow manual trigger with options
+  workflow_dispatch:
+    inputs:
+      fix_issues:
+        description: 'Automatically fix issues (create PR)'
+        required: false
+        default: 'false'
+        type: boolean
+      report_only:
+        description: 'Report only mode (no fixes)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  audit-links:
+    name: 🔍 Audit Cross-Repository Links
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better context
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 📦 Install Dependencies
+        run: |
+          npm install -g markdown-link-check
+          # Install additional utilities
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+      
+      - name: 🔍 Scan Documentation Files
+        id: scan
+        run: |
+          echo "## 📚 Documentation Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Find all markdown files
+          MD_FILES=$(find . -type f -name "*.md" ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/vendor/*")
+          FILE_COUNT=$(echo "$MD_FILES" | wc -l)
+          
+          echo "Found **$FILE_COUNT** markdown files to scan" >> $GITHUB_STEP_SUMMARY
+          echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
+          
+          # Create output directory for logs
+          mkdir -p .audit-logs
+          echo "$MD_FILES" > .audit-logs/markdown-files.txt
+      
+      - name: ✅ Check for Broken Links
+        id: check_links
+        continue-on-error: true
+        run: |
+          echo "## 🔗 Link Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Run link checker on all markdown files
+          bash scripts/link-audit/check-links.sh
+      
+      - name: 📋 Validate Related Repositories Sections
+        id: validate_sections
+        run: |
+          echo "## 📋 Related Repositories Section Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Check for presence of "Related Repositories" sections
+          node scripts/link-audit/validate-related-repos.js
+      
+      - name: 🗺️ Generate Constellation Map
+        id: generate_map
+        run: |
+          echo "## 🗺️ Constellation Map Generation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Generate updated constellation map
+          node scripts/link-audit/generate-constellation-map.js
+      
+      - name: 🔧 Auto-Fix Issues
+        id: auto_fix
+        if: |
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.fix_issues == 'true') ||
+          (github.event_name == 'schedule')
+        run: |
+          echo "## 🔧 Auto-Fix Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Run automated fixes
+          bash scripts/link-audit/fix-links.sh
+          
+          # Check if any files were modified
+          if [[ -n $(git status -s) ]]; then
+            echo "changes_made=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes were made to fix issues" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "changes_made=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No changes needed" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: 📊 Generate Validation Report
+        if: always()
+        run: |
+          echo "## 📊 Final Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Summary Statistics" >> $GITHUB_STEP_SUMMARY
+          
+          # Create detailed report
+          cat > .audit-logs/validation-report.md << 'EOF'
+          # Cross-Repository Link Audit Report
+          
+          **Date**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          **Workflow Run**: ${{ github.run_number }}
+          **Triggered By**: ${{ github.event_name }}
+          
+          ## Files Scanned
+          
+          Total markdown files: ${{ steps.scan.outputs.file_count }}
+          
+          ## Issues Found
+          
+          EOF
+          
+          # Append detailed logs
+          if [ -f .audit-logs/broken-links.txt ]; then
+            echo "### Broken Links" >> .audit-logs/validation-report.md
+            cat .audit-logs/broken-links.txt >> .audit-logs/validation-report.md
+          fi
+          
+          if [ -f .audit-logs/missing-sections.txt ]; then
+            echo "### Missing Related Repositories Sections" >> .audit-logs/validation-report.md
+            cat .audit-logs/missing-sections.txt >> .audit-logs/validation-report.md
+          fi
+          
+          if [ -f .audit-logs/fixed-issues.txt ]; then
+            echo "### Fixed Issues" >> .audit-logs/validation-report.md
+            cat .audit-logs/fixed-issues.txt >> .audit-logs/validation-report.md
+          fi
+          
+          # Display report summary in workflow
+          if [ -f .audit-logs/validation-report.md ]; then
+            cat .audit-logs/validation-report.md >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: 📤 Upload Audit Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-audit-logs-${{ github.run_number }}
+          path: .audit-logs/
+          retention-days: 30
+      
+      - name: 🔄 Create Pull Request
+        if: steps.auto_fix.outputs.changes_made == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            🔗 Auto-fix: Update cross-repository links and documentation
+            
+            - Fixed broken or outdated links
+            - Standardized repository references
+            - Updated Related Repositories sections
+            - Regenerated constellation map
+          branch: auto/link-audit-${{ github.run_number }}
+          delete-branch: true
+          title: '🔗 [Auto] Cross-Repository Link Audit Fixes'
+          body: |
+            ## 🤖 Automated Link Audit Fixes
+            
+            This PR was automatically generated by the Cross-Repository Link Audit workflow.
+            
+            ### Changes Made
+            
+            - ✅ Fixed broken or outdated links
+            - ✅ Standardized all repository references to `https://github.com/onenoly1010/{repo}` format
+            - ✅ Updated or added "Related Repositories" sections where missing
+            - ✅ Regenerated constellation map with current status
+            - ✅ Validated internal anchor links
+            
+            ### Validation Report
+            
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for detailed logs.
+            
+            ### Review Checklist
+            
+            - [ ] All link changes are correct and point to valid resources
+            - [ ] Repository descriptions are accurate
+            - [ ] Status indicators (✅ Active, 📦 Archived) are correct
+            - [ ] No sensitive information was inadvertently exposed
+            
+            **Note**: This is an automated PR. Please review carefully before merging.
+          labels: |
+            documentation
+            automated
+            link-audit
+      
+      - name: 🚨 Create Issue for Critical Problems
+        if: failure() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🚨 Cross-Repository Link Audit Failed';
+            const body = `## Critical Issues Detected
+            
+            The automated link audit workflow has detected critical issues that require manual intervention.
+            
+            ### Workflow Details
+            - **Run ID**: ${context.runId}
+            - **Run Number**: ${context.runNumber}
+            - **Triggered By**: ${context.eventName}
+            - **Date**: ${new Date().toUTCString()}
+            
+            ### Action Required
+            
+            1. Review the [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId}) for detailed error logs
+            2. Download the audit logs artifact for offline analysis
+            3. Manually fix any issues that could not be automatically resolved
+            4. Update the audit scripts if necessary to handle new edge cases
+            
+            ### Common Issues
+            
+            - Broken external links (repositories may have been deleted or renamed)
+            - Invalid internal anchor references (headings may have changed)
+            - Missing required sections in documentation files
+            - Network timeouts during link validation
+            
+            ### Next Steps
+            
+            Please address the issues and then manually trigger the workflow again to verify the fixes.
+            
+            ---
+            
+            **Auto-generated by**: \`cross-repo-link-audit.yml\` workflow
+            **Assignees**: Please tag appropriate maintainers
+            `;
+            
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'link-audit,automated,critical'
+            });
+            
+            if (issues.data.length === 0) {
+              // Create new issue
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['link-audit', 'automated', 'critical', 'documentation']
+              });
+              console.log('Created new issue for link audit failure');
+            } else {
+              // Update existing issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: `## New Failure Detected\n\n${body}`
+              });
+              console.log('Updated existing issue with new failure information');
+            }
