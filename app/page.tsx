@@ -2,6 +2,7 @@
 
 // Force deployment update - 2024-01-20 v2
 import Link from 'next/link'
+import BuyOINIO from '@/components/BuyOINIO'
 
 export default function Home() {
   return (
@@ -311,6 +312,31 @@ export default function Home() {
               <h3 className="text-lg font-semibold text-white mb-2">Real-Time Dashboard</h3>
               <p className="text-white/50 text-sm">See your balance, track your stakes, watch confirmations live.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRADE OINIO - BUY COMPONENT */}
+      <section className="py-20 px-6 bg-gradient-to-b from-transparent to-emerald-950/20">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-emerald-400 text-sm font-semibold uppercase tracking-wider">Live Trading</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">
+              Buy OINIO Instantly
+            </h2>
+            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+              Trade 0G for OINIO directly on the 0G Aristotle network. No intermediaries, no fees beyond network costs.
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <BuyOINIO />
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-white/50 text-sm">
+              Connect MetaMask • Switch to 0G Aristotle • Start Trading
+            </p>
           </div>
         </div>
       </section>
