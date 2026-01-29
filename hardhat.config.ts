@@ -58,7 +58,7 @@ const config: HardhatUserConfig = {
   networks: {
     "0g-aristotle": {
       type: "http",
-      url: process.env.ZERO_G_RPC_URL || "https://rpc.0g.ai",
+      url: process.env.ZERO_G_RPC_URL || "https://evmrpc.0g.ai",
       accounts: process.env.DEPLOYER_PRIVATE_KEY && process.env.DEPLOYER_PRIVATE_KEY !== "your_deployer_private_key_here" 
         ? [process.env.DEPLOYER_PRIVATE_KEY] 
         : [],

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head><title>OINIO DEPLOY</title>
+<style>
+body{background:#000;color:#0f0;font-family:monospace;margin:40px}
+button{background:#0f0;color:#000;border:none;padding:15px;font-size:16px;margin:10px;cursor:pointer}
+textarea{width:100%;height:300px;background:#111;color:#0f0;border:1px solid #0f0;padding:10px}
+.step{margin:20px 0;padding:15px;border-left:3px solid #0f0}
+.code{background:#111;padding:10px;margin:10px 0}
+</style>
+</head>
+<body>
+<h1>⚡ OINIO DEPLOYMENT - DIRECT PATH</h1>
+
+<div class="step">
+<h2>✅ STEP 1: COPY CONTRACT CODE</h2>
+<textarea id="contractCode" readonly>
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/token/ERC20/ERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/access/Ownable.sol";
+
+contract OINIOToken is ERC20, ERC20Burnable, Ownable {
+    uint256 private constant INITIAL_SUPPLY = 1_000_000_000 * 10**18;
+    
+    constructor(address initialOwner) ERC20("OINIO Token", "OINIO") Ownable(initialOwner) {
+        _mint(initialOwner, INITIAL_SUPPLY);
+    }
+    
+    function decimals() public pure override returns (uint8) {
+        return 18;
+    }
+}
+</textarea>
+<button onclick="copyCode()">📋 COPY TO CLIPBOARD</button>
+</div>
+
+<div class="step">
+<h2>✅ STEP 2: OPEN REMIX IN NEW TAB</h2>
+<button onclick="window.open('https://remix.ethereum.org', '_blank')">
+🚀 OPEN REMIX.ETHEREUM.ORG
+</button>
+</div>
+
+<div class="step">
+<h2>✅ STEP 3: CREATE FILE IN REMIX</h2>
+<div class="code">
+1. In Remix, click <strong>+</strong> (Create New File)<br>
+2. Name it: <strong>OINIOToken.sol</strong><br>
+3. Paste the code (Ctrl+V)<br>
+4. See green checkmark at bottom = COMPILED
+</div>
+</div>
+
+<div class="step">
+<h2>✅ STEP 4: CONNECT WALLET & DEPLOY</h2>
+<div class="code">
+1. Click <strong>"Deploy & run transactions"</strong> (4th icon left)<br>
+2. <strong>ENVIRONMENT:</strong> "Injected Provider - MetaMask"<br>
+3. <strong>ACCOUNT:</strong> Should show 0x3356...<br>
+4. <strong>CONTRACT:</strong> Select "OINIOToken"<br>
+5. <strong>CONSTRUCTOR:</strong> Enter this EXACT address:<br>
+<div style="background:#000;padding:8px;margin:5px 0;word-break:break-all">
+0x335651BD160fDA89C9E7A095dF9Dc1BB9f3cF4DC
+</div>
+6. <strong>CLICK "Deploy"</strong><br>
+7. MetaMask pops up → Confirm (~$0.05 gas)<br>
+</div>
+</div>
+
+<div class="step">
+<h2>✅ STEP 5: GET TRANSACTION HASH</h2>
+<div class="code">
+After MetaMask confirms:<br>
+1. In Remix, look at bottom-left "Deployed Contracts"<br>
+2. Find "OINIOToken at 0x..."<br>
+3. Click 📋 copy icon next to transaction hash<br>
+4. Hash looks like: 0x1234...abcd<br>
+5. Send to Kris
+</div>
+</div>
+
+<div style="border:2px solid #f00;padding:20px;margin:30px 0;background:#200">
+<h3>🚨 CRITICAL CHECKS:</h3>
+• MetaMask MUST say "Polygon Mainnet"<br>
+• Gas fee MUST be ~0.02-0.05 POL ($0.02-$0.05)<br>
+• <strong>REJECT ANY $100 REQUEST</strong><br>
+• Confirm FROM address = 0x3356...<br>
+• Network ID = 137
+</div>
+
+<button onclick="showEmergency()" style="background:#f00;color:#fff">
+🚨 EMERGENCY GUIDE
+</button>
+
+<div id="emergency" style="display:none;margin-top:20px">
+<h3>🚨 IF STUCK:</h3>
+1. Close all browser tabs except this one<br>
+2. Open Remix fresh<br>
+3. Disconnect/reconnect MetaMask in Remix<br>
+4. Ensure MetaMask is on Polygon Mainnet<br>
+5. Copy/paste code again<br>
+<br>
+<strong>OR USE HARDHAT (ADVANCED):</strong><br>
+<textarea readonly style="height:100px">
+npx hardhat run scripts/deploy.js --network polygon
+</textarea>
+</div>
+
+<script>
+function copyCode() {
+    document.getElementById('contractCode').select();
+    document.execCommand('copy');
+    alert('Contract code copied! Paste into Remix.');
+}
+function showEmergency() {
+    document.getElementById('emergency').style.display = 'block';
+}
+</script>
+</body>
+</html>
