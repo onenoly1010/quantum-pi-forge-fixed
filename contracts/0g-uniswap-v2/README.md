@@ -1,5 +1,9 @@
 # 🌀 0G Aristotle - Uniswap V2 Sovereign DEX
 
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
+Uniswap V2 fork deployment for 0G Aristotle Mainnet, part of the Quantum Pi Forge DEX infrastructure.
+
 **PR #138 - Phase 1 Complete, Phase 2 Ready**
 
 ## 📋 Verified Addresses

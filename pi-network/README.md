@@ -1,5 +1,11 @@
 # 🌌 Quantum Pi Forge: Pi Network Integration
 
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
+**📜 Historical Context**: This directory contains archived Pi Network integration code. The project has evolved to focus on OINIO token staking on Polygon Mainnet. See [IDENTITY.md](../IDENTITY.md) for current status.
+
+---
+
 This directory contains the **Rust-Soroban blueprint** for deploying the Quantum Pi Forge on the **Pi Network Protocol v23** (Stellar-based smart contracts).
 
 ## 🏗️ Architecture Overview

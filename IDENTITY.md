@@ -185,6 +185,26 @@ The Pi SDK has been removed. The Forge stands sovereign.
 
 ---
 
+## 🌐 RELATED REPOSITORIES
+
+### Primary Ecosystem
+
+| Repository | Role | Status |
+|------------|------|--------|
+| [quantum-pi-forge-fixed](https://github.com/onenoly1010/quantum-pi-forge-fixed) | Main production codebase (this repo) | ✅ Active |
+| [quantum-pi-forge-site](https://github.com/onenoly1010/quantum-pi-forge-site) | Marketing and landing pages | ✅ Active |
+| [pi-forge-quantum-genesis](https://github.com/onenoly1010/pi-forge-quantum-genesis) | Legacy code and historical documentation | 📦 Archived |
+
+### AI Components
+
+| Component | Purpose | Platform |
+|-----------|---------|----------|
+| [LLM Coherence Auditor](https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor) | Audits LLM preference stability | HuggingFace Spaces |
+| [QMIX Theorem Viz](https://huggingface.co/spaces/onenoly1010/qmix-theorem-viz) | Multi-agent RL visualization | HuggingFace Spaces |
+| [Evaluation Dataset](https://huggingface.co/datasets/onenoly1010/quantum-forge-eval) | AI agent test cases | HuggingFace Datasets |
+
+---
+
 ## 📚 KEY DOCUMENTATION
 
 | Document | Purpose |

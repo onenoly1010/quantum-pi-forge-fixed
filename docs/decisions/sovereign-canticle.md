@@ -64,4 +64,4 @@ living as instruments of the unseen harmony that sustains all things.
 - *Open code as transparent perception*  
 - *Sovereign ecosystem as flow without domination*
 
-*Verify at [quantumpiforge.com](https://quantumpiforge.com) • Audit on [GitHub](https://github.com/onenoly1010) • Co-weave the continuum.*
+*Verify at [quantumpiforge.com](https://quantumpiforge.com) • Audit on [GitHub](https://github.com/onenoly1010/quantum-pi-forge-fixed) • Co-weave the continuum.*
