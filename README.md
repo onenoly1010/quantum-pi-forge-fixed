@@ -16,6 +16,7 @@
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
+[![Sovereign Audit](https://img.shields.io/badge/Sovereign-Audit_Complete-8A2BE2?style=for-the-badge)](./SOVEREIGN_AUDIT.md)
 
 ---
 
@@ -26,6 +27,33 @@ The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate
 Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](./SOVEREIGN_CANTICLE.md)**
 
 *To the co-weavers of quiet tides—the continuum abides.* □
+
+---
+
+## 🏛️ Sovereign Launch - January 29, 2026
+
+**The Quantum Pi Forge has achieved complete decentralization** through the Sovereign Launch Protocol. All contracts are immutable, ownership renounced, and liquidity eternally locked.
+
+### 📜 Official Sovereign Audit
+**🔗 [Complete Sovereign Audit](./SOVEREIGN_AUDIT.md)** - Immutable record of the launch including:
+- Contract verification and addresses
+- Liquidity seeding details
+- Ownership renunciation proof
+- LP token burn confirmation
+- On-chain verification links
+
+### 🔍 Quick Verification
+- **OINIO Token:** `0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37`
+- **Owner Status:** `0x0000000000000000000000000000000000000000` (renounced)
+- **LP Burned:** All liquidity tokens sent to dead address
+- **Network:** 0G Aristotle (Chain ID: 16661)
+
+### 📖 Guardians' Guide
+New to OINIO? **[Guardians' Guide](./GUARDIANS_GUIDE.md)** provides step-by-step instructions for:
+- Adding 0G Aristotle network to MetaMask
+- Finding and trading the OINIO/0G pair
+- Verifying sovereignty before trading
+- Direct contract interaction methods
 
 ---
 
