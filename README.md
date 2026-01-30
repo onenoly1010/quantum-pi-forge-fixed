@@ -60,6 +60,18 @@ Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Cohe
 
 ---
 
+## 🌉 Hybrid Project Identity
+
+Quantum Pi Forge is a hybrid platform. Our journey began as a Pi Network integration—serving the Pi community directly and building foundational features for Pi users. As the project matured, we evolved our active development toward a sovereign Polygon (OINIO token) ecosystem, embracing new features and infrastructure while preserving our original intent and archival code.
+
+- **Legacy preserved:** Pi Network-based logic and documentation remain available in our repository for transparency and reference.
+- **Active development:** Current smart contracts, user flows, and community governance operate on Polygon, leveraging the OINIO token and gasless staking.
+- **Open to all:** Contributors and users from both Pi and Polygon communities are welcome, with full support and context maintained for both.
+
+This hybrid character is a conscious design decision. It allows us to build on our history, support multiple communities, and offer transparency about how the project has evolved.
+
+---
+
 **"Where Consciousness Meets the Ledger of Truth."**
 
 The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**, designed to bridge the personal and the global through verified, transparent resonance.
