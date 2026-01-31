@@ -132,10 +132,25 @@ check_internal_file() {
   if [[ "$ref" =~ "#" ]]; then
     local anchor="${ref#*#}"
     # Convert anchor to lowercase and replace spaces with hyphens (GitHub style)
-    local normalized_anchor=$(echo "$anchor" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
-    
-    # Search for heading in target file
-    if ! grep -qi "^#.*$anchor" "$target_path" && ! grep -qi "^#.*$(echo $anchor | sed 's/-/ /g')" "$target_path"; then
+    local normalized_anchor
+    normalized_anchor=$(echo "$anchor" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
+
+    # Search for a heading whose normalized text matches the normalized anchor
+    local anchor_found=0
+    while IFS= read -r heading_line; do
+      # Extract heading text after leading hashes and whitespace
+      local heading_text
+      heading_text=$(echo "$heading_line" | sed -E 's/^[[:space:]]*#+[[:space:]]*(.*)$/\1/')
+      # Normalize heading text using the same rules as for the anchor
+      local normalized_heading
+      normalized_heading=$(echo "$heading_text" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sed 's/[^a-z0-9-]//g')
+      if [[ "$normalized_heading" == "$normalized_anchor" ]]; then
+        anchor_found=1
+        break
+      fi
+    done < <(grep -i '^[[:space:]]*#' "$target_path" || true)
+
+    if [[ "$anchor_found" -eq 0 ]]; then
       echo "- ⚠️ Anchor may not exist in \`$source_file\` (line $line): $ref" >> "$BROKEN_LINKS_LOG"
       echo "  - Anchor: \`#$anchor\` not found in \`$file_path\`" >> "$BROKEN_LINKS_LOG"
       # Don't increment broken_links for anchors as they may be dynamically generated
