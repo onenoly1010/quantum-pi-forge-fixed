@@ -183,6 +183,10 @@ Quantum Pi Forge originated with Pi Network integration during early development
 
 The Pi SDK has been removed. The Forge stands sovereign.
 
+### 🌉 Hybrid Identity
+
+This is a **hybrid project by design**. We honor our Pi Network roots while actively developing on Polygon. Both communities are supported, and all historical code remains transparent and accessible. See [README.md](README.md#-hybrid-project-identity) for the full hybrid project identity statement.
+
 ---
 
 ## 🌐 RELATED REPOSITORIES
