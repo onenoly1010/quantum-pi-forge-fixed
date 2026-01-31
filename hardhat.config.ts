@@ -67,6 +67,14 @@ const config: HardhatUserConfig = {
       gasPrice: 20000000000, // 20 gwei base gas price
       blockGasLimit: 30000000, // Conservative block gas limit
     },
+    // 0G Testnet (Galileo)
+    "0g-testnet": {
+      type: "http",
+      url: "https://evmrpc-testnet.0g.ai",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      chainId: 16602,
+      timeout: 120000,
+    },
   },
 
   etherscan: {
