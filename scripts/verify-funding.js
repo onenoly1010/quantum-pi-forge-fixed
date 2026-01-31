@@ -12,8 +12,10 @@
  * Usage: node scripts/verify-funding.js
  */
 
-require('dotenv').config({ path: '.env.launch' });
-const { ethers } = require('ethers');
+import dotenv from 'dotenv';
+import { ethers } from 'ethers';
+
+dotenv.config({ path: '.env.launch' });
 
 const RPC_FALLBACKS = [
   'https://evmrpc.0g.ai',      // Primary
