@@ -77,9 +77,10 @@ jobs:
           echo "🔄 Gas check attempt $attempt/$MAX_RETRIES..."
 
           # Get comprehensive gas data using the enhanced script
-          GAS_DATA=$(node -e "
-          const { ethers } = require('ethers');
-          require('dotenv').config({ path: '.env.launch' });
+          GAS_DATA=$(node --input-type=module -e "
+          import { ethers } from 'ethers';
+          import dotenv from 'dotenv';
+          dotenv.config({ path: '.env.launch' });
 
           async function analyzeGas() {
             try {
