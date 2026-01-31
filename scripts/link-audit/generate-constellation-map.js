@@ -210,7 +210,7 @@ function generateConstellationMap() {
   content += '---\n\n';
   
   // Generate each category
-  for (const [key, category] of Object.entries(CONSTELLATION)) {
+  for (const category of Object.values(CONSTELLATION)) {
     content += `## ${category.icon} ${category.title}\n\n`;
     
     for (const repo of category.repos) {
