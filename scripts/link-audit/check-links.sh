@@ -17,7 +17,8 @@
 # Output: Creates .audit-logs/broken-links.txt with findings
 ###############################################################################
 
-set -e
+# Note: Do not use `set -e` here, as helper functions intentionally return
+# non-zero exit codes to signal detected issues, and we want a full report.
 
 # Colors for output
 RED='\033[0;31m'
