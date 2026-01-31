@@ -59,8 +59,9 @@ bash scripts/link-audit/fix-links.sh
 ### Prerequisites
 
 ```bash
-# Install Node.js dependencies (if not already installed)
-npm install -g markdown-link-check
+# Ensure Node.js and npm are available
+node --version
+npm --version
 
 # Ensure bash, jq, and curl are available
 sudo apt-get update
