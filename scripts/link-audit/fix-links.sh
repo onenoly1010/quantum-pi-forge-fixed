@@ -16,8 +16,8 @@
 # Output: Creates .audit-logs/fixed-issues.txt with changes made
 ###############################################################################
 
-set -e
-
+# Note: Global 'set -e' removed to avoid exiting on helper functions
+# that may return non-zero for "no-op" cases (e.g., unchanged files).
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
