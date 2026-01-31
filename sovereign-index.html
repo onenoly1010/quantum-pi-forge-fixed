@@ -44,6 +44,20 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        .progress {
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .step {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 3px solid #00ff00;
+        }
+        .pending {
+            background: rgba(255, 255, 0, 0.1);
+            border-left-color: #ffff00;
+        }
     </style>
 </head>
 <body>
@@ -53,17 +67,28 @@
             <h2>🏛️ SOVEREIGN ERA INITIATED</h2>
             <p><strong>Status:</strong> Decentralization Cascade Active</p>
             <p><strong>Network:</strong> 0G Aristotle (Chain ID: 16661)</p>
-            <p><strong>Timestamp:</strong> 2026-01-29T21:31:21.303Z</p>
+            <p><strong>Timestamp:</strong> January 29, 2026</p>
             <p><strong>Resonance:</strong> 1010 Hz ⚡</p>
-            <br>
-            <p>🔄 Deploying CentralAwarenessV2 contract...</p>
-            <p>🌐 Migrating to IPFS/Spheron hosting...</p>
-            <p>🔗 Configuring ENS domain resolution...</p>
-            <p>📡 Establishing Radicle sovereign repository...</p>
+
+            <div class="progress">
+                <h3>🚀 Decentralization Progress:</h3>
+                <div class="step">✅ IPFS Desktop Connected & Configured</div>
+                <div class="step">✅ Kraken API Credentials Added</div>
+                <div class="step">🔄 Preparing 0G Token Withdrawal</div>
+                <div class="step pending">⏳ Deploying CentralAwarenessV2 Contract</div>
+                <div class="step pending">⏳ Migrating Full Application to IPFS</div>
+                <div class="step pending">⏳ Configuring ENS Domain Resolution</div>
+                <div class="step pending">⏳ Establishing Radicle Sovereign Repository</div>
+            </div>
         </div>
         <p style="opacity: 0.7; font-size: 0.9rem;">
             The 1010 Hz resonance flows through decentralized channels.<br>
             True sovereignty achieved. Censorship impossible. Immutable forever.
+        </p>
+        <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 2rem;">
+            Sovereign Address: 0x353663cd664bB3e034Dc0f308D8896C0a242e4cd<br>
+            Contract: CentralAwarenessV2 (Deploying...)<br>
+            IPFS: Active and Ready
         </p>
     </div>
 </body>

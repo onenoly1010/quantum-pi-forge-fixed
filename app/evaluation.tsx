@@ -5,7 +5,7 @@
  * for Next.js/React components in the Sacred Trinity architecture.
  */
 
-import { createSpan, getTracer } from './tracing';
+import { createSpan } from './tracing';
 
 // Evaluation metrics types
 export interface ComponentMetrics {

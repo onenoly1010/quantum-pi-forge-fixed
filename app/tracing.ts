@@ -51,7 +51,7 @@ export function initTracing() {
       new FetchInstrumentation({
         propagateTraceHeaderCorsUrls: [/.+/g], // Propagate trace headers to all CORS URLs
         clearTimingResources: true,
-        applyCustomAttributesOnSpan: (span, request, response) => {
+        applyCustomAttributesOnSpan: (span, request, _response) => {
           // Add custom attributes for Sacred Trinity integration
           span.setAttribute('quantum.request_type', 'frontend_fetch');
           if (request instanceof Request) {

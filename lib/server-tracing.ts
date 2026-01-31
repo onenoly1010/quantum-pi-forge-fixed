@@ -181,6 +181,24 @@ export async function traceWalletInteraction<T>(
     }
   );
 }
+
+/**
+ * Trace an AI model call
+ */
+export async function traceAICall<T>(
+  modelName: string,
+  operation: (span: Span) => Promise<T>,
+  metadata?: {
+    provider?: string;
+    promptTokens?: number;
+    completionTokens?: number;
+    temperature?: number;
+  }
+): Promise<T> {
+  return withTracing(
+    `ai.${modelName}`,
+    operation,
+    {
       'ai.provider': metadata?.provider || 'unknown',
       'quantum.component': 'AI',
       ...(metadata?.promptTokens && { 'ai.prompt_tokens': metadata.promptTokens }),

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface ReferralStats {
   referral_code: string | null;
@@ -16,9 +16,9 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
 
   useEffect(() => {
     fetchReferralStats();
-  }, [creatorId]);
+  }, [creatorId, fetchReferralStats]);
 
-  const fetchReferralStats = async () => {
+  const fetchReferralStats = useCallback(async () => {
     try {
       const response = await fetch(`/api/creator/referral-stats?creator_id=${creatorId}`);
       if (response.ok) {
@@ -28,7 +28,7 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
     } catch (error) {
       console.error('Failed to fetch referral stats:', error);
     }
-  };
+  }, [creatorId]);
 
   const createReferralLink = async () => {
     setLoading(true);
@@ -69,7 +69,7 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
       await navigator.clipboard.writeText(stats.referral_link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
+    } catch (_error) {
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = stats.referral_link;

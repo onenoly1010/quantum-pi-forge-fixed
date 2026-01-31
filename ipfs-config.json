@@ -1,0 +1,25 @@
+{
+  "API": {
+    "HTTPHeaders": {
+      "Access-Control-Allow-Origin": ["*"],
+      "Access-Control-Allow-Methods": ["GET", "POST", "PUT"],
+      "Access-Control-Allow-Headers": ["Authorization", "Content-Type"]
+    }
+  },
+  "Gateway": {
+    "HTTPHeaders": {
+      "Access-Control-Allow-Origin": ["*"],
+      "Access-Control-Allow-Methods": ["GET"],
+      "Access-Control-Allow-Headers": ["*"]
+    }
+  },
+  "Swarm": {
+    "ConnMgr": {
+      "LowWater": 50,
+      "HighWater": 200
+    }
+  },
+  "Datastore": {
+    "StorageMax": "10GB"
+  }
+}

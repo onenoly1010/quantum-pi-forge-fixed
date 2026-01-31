@@ -32,7 +32,7 @@ interface RecentPayout {
 export default function CreatorDashboard() {
   const [dashboard, setDashboard] = useState<CreatorDashboardData | null>(null);
   const [recentPayouts, setRecentPayouts] = useState<RecentPayout[]>([]);
-  const [realtimeEarnings, setRealtimeEarnings] = useState(0);
+  const [realtimeEarnings, ] = useState(0);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -101,7 +101,7 @@ export default function CreatorDashboard() {
     return (
       <div className="text-center py-12 bg-black text-white min-h-screen">
         <h2 className="text-2xl font-bold mb-4">Dashboard Unavailable</h2>
-        <p>Please ensure you're logged in as a creator.</p>
+        <p>Please ensure you&apos;re logged in as a creator.</p>
       </div>
     );
   }

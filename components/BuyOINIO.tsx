@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,9 +29,9 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
   // Initialize Web3 connection
   useEffect(() => {
     initializeWeb3();
-  }, []);
+  }, [initializeWeb3]);
 
-  const initializeWeb3 = async () => {
+  const initializeWeb3 = useCallback(async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
         const web3Provider = new ethers.BrowserProvider(window.ethereum);
@@ -94,7 +94,7 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${SOVEREIGN_CONFIG.network.chainId.toString(16)}` }],
       });
-    } catch (switchError: any) {
+    } catch (switchError: unknown) {
       // This error code indicates that the chain has not been added to MetaMask
       if (switchError.code === 4902) {
         try {
@@ -117,7 +117,7 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
         setError('Failed to switch to 0G Aristotle network');
       }
     }
-  };
+  }, [updateBalances]);
 
   const buyOINIO = async () => {
     if (!signer || !provider) {
@@ -182,7 +182,7 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
 
       success('OINIO purchase successful!');
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Swap failed:', error);
       setStatus('error');
 
