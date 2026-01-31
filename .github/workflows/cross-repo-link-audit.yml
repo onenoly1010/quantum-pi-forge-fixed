@@ -39,11 +39,6 @@ on:
         required: false
         default: 'false'
         type: boolean
-      report_only:
-        description: 'Report only mode (no fixes)'
-        required: false
-        default: 'false'
-        type: boolean
 
 permissions:
   contents: write
