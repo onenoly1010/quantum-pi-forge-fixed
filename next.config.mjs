@@ -12,7 +12,9 @@ const nextConfig = {
   outputFileTracingExcludes: {
     '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
   },
-  // Empty turbopack config to silence warning (applications work fine with no configuration)
+  // Empty turbopack config silences the "webpack config with no turbopack config" error in Next.js 16
+  // See: https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+  // Many applications work fine under Turbopack with no configuration
   turbopack: {},
 };
 
