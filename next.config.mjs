@@ -8,22 +8,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  // Exclude directories from file tracing (moved from experimental in Next.js 16)
+  outputFileTracingExcludes: {
+    '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
   },
-  // Exclude directories from file tracing
-  experimental: {
-    outputFileTracingExcludes: {
-      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
-    },
-  },
-  // Webpack configuration to exclude submodule
-  webpack: (config) => {
-    config.watchOptions = {
-      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**', '**/docs/**'],
-    };
-    return config;
-  },
+  // Empty turbopack config silences the "webpack config with no turbopack config" error in Next.js 16
+  // See: https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
+  // Many applications work fine under Turbopack with no configuration
+  turbopack: {},
 };
 
 export default nextConfig;
