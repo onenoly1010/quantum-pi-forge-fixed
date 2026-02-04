@@ -47,15 +47,97 @@ router.get('/live', (req, res) => {
 });
 
 // Readiness probe
-router.get('/ready', (req, res) => {
-  // Add checks for database connections, external services, etc.
-  const isReady = true; // Placeholder - add real checks
+router.get('/ready', async (req, res) => {
+  // Check critical dependencies
+  const checks = {
+    blockchain: await checkBlockchainConnection(),
+    sponsorWallet: await checkSponsorWallet(),
+  };
+  
+  const isReady = Object.values(checks).every(check => check === true);
   
   if (isReady) {
-    res.status(200).send('OK');
+    res.status(200).json({
+      status: 'ready',
+      checks,
+    });
   } else {
-    res.status(503).send('NOT READY');
+    res.status(503).json({
+      status: 'not_ready',
+      checks,
+    });
   }
 });
+
+// Production monitoring endpoint
+router.get('/monitoring', async (req, res) => {
+  const sponsorBalances = await getSponsorWalletBalances();
+  
+  res.json({
+    success: true,
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    sponsorWallet: sponsorBalances,
+    rateLimit: {
+      windowMs: process.env.RATE_LIMIT_WINDOW_MS || '900000',
+      maxRequests: process.env.RATE_LIMIT_MAX_REQUESTS || '100',
+    },
+    features: {
+      gaslessStaking: true,
+      apiVersion: process.env.API_VERSION || 'v1',
+    },
+  });
+});
+
+// Helper functions
+async function checkBlockchainConnection() {
+  try {
+    const rpcUrl = process.env.POLYGON_RPC_URL;
+    if (!rpcUrl) return false;
+    
+    const response = await fetch(rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_blockNumber',
+        params: [],
+        id: 1,
+      }),
+    });
+    
+    const data = await response.json();
+    return !!data.result;
+  } catch (error) {
+    console.error('Blockchain connection check failed:', error);
+    return false;
+  }
+}
+
+async function checkSponsorWallet() {
+  try {
+    const privateKey = process.env.SPONSOR_PRIVATE_KEY;
+    return !!privateKey && privateKey.length > 0;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function getSponsorWalletBalances() {
+  try {
+    // This would require ethers.js to get actual balances
+    // For now, return status only
+    return {
+      status: 'configured',
+      note: 'Use separate balance check script for detailed info',
+    };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: error.message,
+    };
+  }
+}
 
 export default router;

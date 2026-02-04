@@ -28,3 +28,40 @@ Thumbs.db
 
 # Build artifacts
 *.tsbuildinfo
+
+# ==========================================
+# PRODUCTION DEPLOYMENT - CRITICAL SECURITY
+# ==========================================
+# Never commit these deployment-specific files!
+.env.production
+.env.railway
+.env.vercel
+.soroban-env
+pi-network/.soroban-env
+backend/.env.production
+**/*PRIVATE_KEY*
+**/*.key
+**/*.pem
+
+# ==========================================
+# Deployment Platform Files
+# ==========================================
+.railway
+.vercel
+
+# ==========================================
+# Smart Contract Build Artifacts
+# ==========================================
+cache/
+artifacts/
+typechain-types/
+target/
+**/*.wasm
+
+# ==========================================
+# Temporary Deployment Files
+# ==========================================
+/tmp/
+*.tmp
+*.backup
+*.bak
