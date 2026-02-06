@@ -4,9 +4,24 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+from supabase import create_client, Client
 
-# Load environment variables from .env file
+# Load environment variables
 load_dotenv()
+
+# Initialize Supabase client
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+supabase: Client = None
+
+if supabase_url and supabase_key:
+    try:
+        supabase = create_client(supabase_url, supabase_key)
+        print("✅ Supabase client initialized successfully")
+    except Exception as e:
+        print(f"❌ Failed to initialize Supabase client: {e}")
+else:
+    print("⚠️  Supabase credentials not found - database features disabled")
 
 # Import rate limiting middleware
 try:
@@ -85,17 +100,192 @@ async def rate_limit_status(request: Request):
 # ==================== DATA ENDPOINTS ====================
 
 
-@app.get("/api/data")
-def get_sample_data():
-    return {
-        "data": [
-            {"id": 1, "name": "Sample Item 1", "value": 100},
-            {"id": 2, "name": "Sample Item 2", "value": 200},
-            {"id": 3, "name": "Sample Item 3", "value": 300}
-        ],
-        "total": 3,
-        "timestamp": "2024-01-01T00:00:00Z"
-    }
+@app.get("/api/database/status")
+def database_status():
+    """Check database connection status"""
+    if not supabase:
+        return {"status": "disconnected", "message": "Supabase not configured"}
+    
+    try:
+        # Test connection by getting user count or similar
+        response = supabase.table("users").select("*", count="exact").limit(1).execute()
+        return {
+            "status": "connected",
+            "message": "Supabase database accessible",
+            "connection_test": "successful"
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Database connection failed: {str(e)}"
+        }
+
+
+@app.post("/api/users")
+async def create_user(request: Request):
+    """Create a new user in the database"""
+    if not supabase:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Database not available"}
+        )
+    
+    try:
+        data = await request.json()
+        wallet_address = data.get("wallet_address")
+        if not wallet_address:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "wallet_address is required"}
+            )
+        
+        # Check if user already exists
+        existing = supabase.table("users").select("*").eq("wallet_address", wallet_address).execute()
+        if existing.data:
+            return {"message": "User already exists", "user": existing.data[0]}
+        
+        # Create new user
+        user_data = {
+            "wallet_address": wallet_address,
+            "created_at": datetime.utcnow().isoformat(),
+            "total_staked": 0,
+            "staking_count": 0
+        }
+        
+        result = supabase.table("users").insert(user_data).execute()
+        return {"message": "User created successfully", "user": result.data[0]}
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to create user: {str(e)}"}
+        )
+
+
+@app.get("/api/users/{wallet_address}")
+def get_user(wallet_address: str):
+    """Get user information by wallet address"""
+    if not supabase:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Database not available"}
+        )
+    
+    try:
+        result = supabase.table("users").select("*").eq("wallet_address", wallet_address).execute()
+        if not result.data:
+            return JSONResponse(
+                status_code=404,
+                content={"error": "User not found"}
+            )
+        return {"user": result.data[0]}
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to get user: {str(e)}"}
+        )
+
+
+@app.post("/api/transactions")
+async def record_transaction(request: Request):
+    """Record a staking transaction"""
+    if not supabase:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Database not available"}
+        )
+    
+    try:
+        data = await request.json()
+        required_fields = ["wallet_address", "amount", "transaction_hash", "type"]
+        
+        for field in required_fields:
+            if field not in data:
+                return JSONResponse(
+                    status_code=400,
+                    content={"error": f"{field} is required"}
+                )
+        
+        transaction_data = {
+            "wallet_address": data["wallet_address"],
+            "amount": float(data["amount"]),
+            "transaction_hash": data["transaction_hash"],
+            "type": data["type"],  # "stake" or "unstake"
+            "timestamp": datetime.utcnow().isoformat(),
+            "status": "pending"
+        }
+        
+        result = supabase.table("transactions").insert(transaction_data).execute()
+        
+        # Update user staking stats
+        if data["type"] == "stake":
+            supabase.table("users").update({
+                "total_staked": supabase.table("users").select("total_staked").eq("wallet_address", data["wallet_address"]).execute().data[0]["total_staked"] + float(data["amount"]),
+                "staking_count": supabase.table("users").select("staking_count").eq("wallet_address", data["wallet_address"]).execute().data[0]["staking_count"] + 1
+            }).eq("wallet_address", data["wallet_address"]).execute()
+        
+        return {"message": "Transaction recorded successfully", "transaction": result.data[0]}
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to record transaction: {str(e)}"}
+        )
+
+
+@app.get("/api/transactions/{wallet_address}")
+def get_user_transactions(wallet_address: str):
+    """Get transaction history for a user"""
+    if not supabase:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Database not available"}
+        )
+    
+    try:
+        result = supabase.table("transactions").select("*").eq("wallet_address", wallet_address).order("timestamp", desc=True).execute()
+        return {"transactions": result.data}
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to get transactions: {str(e)}"}
+        )
+
+
+@app.get("/api/stats")
+def get_platform_stats():
+    """Get platform-wide statistics"""
+    if not supabase:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Database not available"}
+        )
+    
+    try:
+        # Get total users
+        users_count = supabase.table("users").select("*", count="exact").execute().count
+        
+        # Get total staked amount
+        total_staked_result = supabase.table("users").select("total_staked").execute()
+        total_staked = sum(user["total_staked"] for user in total_staked_result.data)
+        
+        # Get total transactions
+        transactions_count = supabase.table("transactions").select("*", count="exact").execute().count
+        
+        return {
+            "total_users": users_count,
+            "total_staked": total_staked,
+            "total_transactions": transactions_count,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to get stats: {str(e)}"}
+        )
 
 
 @app.get("/api/items/{item_id}")
