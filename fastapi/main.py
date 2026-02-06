@@ -3,6 +3,10 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import rate limiting middleware
 try:
@@ -418,4 +422,6 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host=host, port=port, reload=True)

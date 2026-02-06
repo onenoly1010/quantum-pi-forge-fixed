@@ -12,13 +12,6 @@ jest.mock('ethers', () => ({
   },
 }));
 
-// Mock LaunchCountdown component
-jest.mock('../src/components/LaunchCountdown', () => {
-  return function MockLaunchCountdown() {
-    return <div data-testid="launch-countdown">Launch Countdown</div>;
-  };
-});
-
 describe('Dashboard - MetaMask Wallet Connection', () => {
   const mockEthereum = {
     request: jest.fn(),
