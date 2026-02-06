@@ -42,6 +42,7 @@
     "hardhat.config.ts",
     "scripts/**/*",
     "pi-forge-quantum-genesis/**/*",
-    "contracts/**/*"
+    "contracts/**/*",
+    "docs/archive/**/*"
   ]
 }
