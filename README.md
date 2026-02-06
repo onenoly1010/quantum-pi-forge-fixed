@@ -207,9 +207,11 @@ quantum-pi-forge-fixed/
 
 ## 🔧 API Endpoints
 
-### POST `/api/sponsor-transaction`
+> **Note:** Dynamic API routes (marked with 🔒) require server-side runtime and are only available on Vercel deployment. Static routes (marked with ✨) work on both Vercel and GitHub Pages.
 
-Sponsors gasless OINIO token transfers.
+### 🔒 POST `/api/sponsor-transaction`
+
+Sponsors gasless OINIO token transfers. **Requires Vercel deployment** (needs blockchain private keys and runtime execution).
 
 **Request Body:**
 ```json
@@ -229,6 +231,34 @@ Sponsors gasless OINIO token transfers.
   "message": "Staking transaction sponsored successfully"
 }
 ```
+
+### ✨ GET `/api/health`
+
+Returns system health status. **Works on all deployments** (static export compatible).
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-02-06T10:00:00Z"
+}
+```
+
+### ✨ GET `/api/health-shields`
+
+Shields.io badge endpoint for README status display. **Works on all deployments** (static export compatible).
+
+### 🔒 POST `/api/chat`
+
+AI chat completions powered by OpenAI. **Requires Vercel deployment** (needs API keys and streaming responses).
+
+### 🔒 POST `/api/ai/complete`
+
+AI text generation endpoint. **Requires Vercel deployment** (needs OpenAI API key).
+
+### 🔒 POST `/api/ai/grok`
+
+xAI Grok model endpoint. **Requires Vercel deployment** (needs xAI API key, edge runtime).
 
 ## 🔒 Security Features
 
@@ -252,11 +282,33 @@ Built with shadcn/ui and Tailwind CSS:
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Vercel (Production - Recommended)
+
+**Primary deployment target** with full support for all features including API routes.
 
 1. Connect GitHub repository
-2. Set environment variables
-3. Deploy automatically on push
+2. Set environment variables (required):
+   - `SPONSOR_PRIVATE_KEY` - For gasless transactions
+   - `POLYGON_RPC_URL` - Polygon network endpoint
+   - `OINIO_TOKEN_ADDRESS` - OINIO token contract address
+   - `XAI_API_KEY` - For AI features (optional)
+   - `OPENAI_API_KEY` - For AI chat features (optional)
+3. Deploy automatically on push to `main` branch
+
+**All API routes work** on Vercel: `/api/sponsor-transaction`, `/api/chat`, `/api/health`, etc.
+
+### GitHub Pages (Documentation Only)
+
+The repository includes a GitHub Actions workflow that deploys to GitHub Pages for documentation and status badges. **Note:** GitHub Pages uses static export, which has the following limitations:
+
+**API Routes Compatibility:**
+- ✅ `/api/health` - Status endpoint (static, works with GitHub Pages)
+- ✅ `/api/health-shields` - Badge endpoint (static, works with GitHub Pages)
+- ❌ `/api/sponsor-transaction` - Requires server runtime (Vercel only)
+- ❌ `/api/chat` - Requires server runtime (Vercel only)
+- ❌ `/api/ai/*` - Requires server runtime (Vercel only)
+
+**Important:** For full functionality including gasless staking and AI features, use the Vercel deployment at [quantumpiforge.com](https://quantumpiforge.com).
 
 ### Manual Deployment
 
