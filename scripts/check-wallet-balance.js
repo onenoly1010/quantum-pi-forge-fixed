@@ -4,8 +4,10 @@
  * Usage: node scripts/check-wallet-balance.js
  */
 
-require('dotenv').config({ path: '.env.launch' });
-const { ethers } = require('ethers');
+import dotenv from 'dotenv';
+import { ethers } from 'ethers';
+
+dotenv.config({ path: '.env.launch' });
 
 async function main() {
   const rpcUrl = process.env.ZERO_G_RPC_URL || 'https://evmrpc.0g.ai';
@@ -26,7 +28,7 @@ async function main() {
     const balanceInEth = ethers.formatEther(balance);
 
     console.log(`💰 Balance: ${balanceInEth} GAS`);
-    
+
     if (parseFloat(balanceInEth) >= 2.0) {
       console.log('✅ Sufficient balance for DEX deployment');
       process.exit(0);

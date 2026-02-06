@@ -1,0 +1,76 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXTAUTH_URL: https://quantum-pi-forge.vercel.app
+          NEXTAUTH_SECRET: quantum_pi_forge_sovereign_soul_secret_2026_144
+          GITHUB_CLIENT_ID: Ov23liT4fA85V6b4QZW9
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PI_NETWORK_API_KEY: ${{ secrets.PI_NETWORK_API_KEY }}
+          PI_NETWORK_APP_ID: ${{ secrets.PI_NETWORK_APP_ID }}
+          PI_NETWORK_WEBHOOK_SECRET: ${{ secrets.PI_NETWORK_WEBHOOK_SECRET }}
+          PI_NETWORK_WALLET_PRIVATE_KEY: ${{ secrets.PI_NETWORK_WALLET_PRIVATE_KEY }}
+          PI_NETWORK_API_ENDPOINT: ${{ secrets.PI_NETWORK_API_ENDPOINT }}
+          PI_NETWORK_MODE: ${{ secrets.PI_NETWORK_MODE }}
+          PI_SANDBOX_MODE: ${{ secrets.PI_SANDBOX_MODE }}
+          POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
+          ZERO_G_RPC_URL: ${{ secrets.ZERO_G_RPC_URL }}
+          SPONSOR_PRIVATE_KEY: ${{ secrets.SPONSOR_PRIVATE_KEY }}
+          OINIO_TOKEN_ADDRESS: ${{ secrets.OINIO_TOKEN_ADDRESS }}
+          NEXT_PUBLIC_APP_URL: https://quantum-pi-forge.vercel.app
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+          NEXT_PUBLIC_CHAIN_ID: ${{ secrets.NEXT_PUBLIC_CHAIN_ID }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          IPFS_API_KEY: ${{ secrets.IPFS_API_KEY }}
+          ARWEAVE_KEY: ${{ secrets.ARWEAVE_KEY }}
+          THE_GRAPH_API_KEY: ${{ secrets.THE_GRAPH_API_KEY }}
+          CHAINLINK_ACCESS_KEY: ${{ secrets.CHAINLINK_ACCESS_KEY }}
+          AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
+          AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL }}
+          GITHUB_WEBHOOK_SECRET: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
+          APPLICATION_INSIGHTS_CONNECTION_STRING: ${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }}
+          OTEL_SERVICE_NAME: ${{ secrets.OTEL_SERVICE_NAME }}
+          OTEL_TRACES_EXPORTER: ${{ secrets.OTEL_TRACES_EXPORTER }}
+          OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
+          OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
