@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// Required for static export compatibility
+export const dynamic = "force-static";
+export const revalidate = 300; // Revalidate every 5 minutes
+
 export async function GET() {
   const health = {
     status: 'healthy',
