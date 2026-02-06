@@ -28,7 +28,9 @@ EXPOSE 8000
 
 # Health check using Python's urllib instead of curl (not available in slim image)
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD python -c "import urllib.request, sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').getcode() == 200 else 1)"
+    CMD python -c "import urllib.request, sys; \
+try: sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health', timeout=5).getcode() == 200 else 1); \
+except: sys.exit(1)"
 
 # Start the application
 CMD ["python", "main.py"]

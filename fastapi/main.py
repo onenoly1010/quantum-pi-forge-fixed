@@ -225,15 +225,16 @@ async def record_transaction(request: Request):
             
             # Check if user exists before accessing array indices
             if user_stats.data and len(user_stats.data) > 0:
-                current_total_staked = user_stats.data[0]["total_staked"]
-                current_staking_count = user_stats.data[0]["staking_count"]
+                # Use .get() with default values to handle None values safely
+                current_total_staked = user_stats.data[0].get("total_staked", 0) or 0
+                current_staking_count = user_stats.data[0].get("staking_count", 0) or 0
                 supabase.table("users").update({
                     "total_staked": current_total_staked + float(data["amount"]),
                     "staking_count": current_staking_count + 1
                 }).eq("wallet_address", data["wallet_address"]).execute()
             else:
-                # Create new user if doesn't exist
-                supabase.table("users").insert({
+                # Create new user if doesn't exist (use upsert to handle race conditions)
+                supabase.table("users").upsert({
                     "wallet_address": data["wallet_address"],
                     "total_staked": float(data["amount"]),
                     "staking_count": 1
