@@ -4,8 +4,8 @@
  * Usage: node scripts/check-wallet-balance.js
  */
 
-import dotenv from 'dotenv';
-import { ethers } from 'ethers';
+const dotenv = require('dotenv');
+const { ethers } = require('ethers');
 
 dotenv.config({ path: '.env.launch' });
 
