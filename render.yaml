@@ -23,7 +23,7 @@ services:
     value: REPLACE_WITH_SUPABASE_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: SUPABASE_URL
-    value: https://quantum-pi-forge.supabase.co
+    value: REPLACE_WITH_SUPABASE_URL_IN_RENDER_DASHBOARD
     sync: false
   - key: DATABASE_URL
     value: REPLACE_WITH_DATABASE_URL_IN_RENDER_DASHBOARD
@@ -50,7 +50,7 @@ services:
     value: REPLACE_WITH_ENCRYPTION_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: POLYGON_RPC_URL
-    value: https://polygon-mainnet.infura.io/v3/YOUR_INFURA_KEY
+    value: REPLACE_WITH_POLYGON_RPC_URL_IN_RENDER_DASHBOARD
     sync: false
   - key: ZERO_G_RPC_URL
     value: https://rpc.0g.ai
