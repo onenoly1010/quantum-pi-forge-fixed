@@ -9,8 +9,8 @@
  * Usage: node scripts/fund-deployer-wallet.js
  */
 
-import dotenv from 'dotenv';
-import { ethers } from 'ethers';
+const dotenv = require('dotenv');
+const { ethers } = require('ethers');
 
 // Load environment
 dotenv.config({ path: '.env.launch' });
