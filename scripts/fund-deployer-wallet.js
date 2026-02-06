@@ -111,13 +111,96 @@ async function fundViaFaucet() {
  * Attempt to fund via programmatic transfer (if API key available)
  */
 async function fundViaProgrammaticTransfer() {
-  console.log('\n🔄 Attempting programmatic transfer...');
+  console.log('\n🔄 Attempting programmatic transfer via Gnosis Safe...');
 
-  // Check for available API keys that might enable transfers
+  // Check for Gnosis Safe API configuration
+  const safeApiUrl = process.env.SAFE_API_URL || 'https://safe-transaction-mainnet.safe.global/api/v1';
+  const safeAddress = process.env.SAFE_ADDRESS;
+  const safeApiKey = process.env.SAFE_API_KEY;
+
+  if (!safeAddress || !safeApiKey) {
+    console.log('❌ Safe API not configured (SAFE_ADDRESS and SAFE_API_KEY required)');
+    console.log('💡 Configure in .env.launch: SAFE_ADDRESS=your_safe_address, SAFE_API_KEY=your_api_key');
+    return false;
+  }
+
+  try {
+    // Check Safe balance first
+    const balanceResponse = await fetch(`${safeApiUrl}/safes/${safeAddress}/balances/`, {
+      headers: {
+        'Authorization': `Bearer ${safeApiKey}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!balanceResponse.ok) {
+      console.log(`❌ Failed to check Safe balance: ${balanceResponse.status}`);
+      return false;
+    }
+
+    const balances = await balanceResponse.json();
+    const gasBalance = balances.find(b => b.tokenAddress === null || b.tokenAddress === '0x0000000000000000000000000000000000000000');
+
+    if (!gasBalance || parseFloat(gasBalance.balance) / 1e18 < 5.0) {
+      console.log('❌ Insufficient GAS balance in Safe wallet');
+      return false;
+    }
+
+    console.log(`💰 Safe has ${parseFloat(gasBalance.balance) / 1e18} GAS available`);
+
+    // Create transaction proposal
+    const transactionData = {
+      to: DEPLOYER_ADDRESS,
+      value: ethers.parseEther('5.0').toString(),
+      data: '0x',
+      gasLimit: '21000'
+    };
+
+    const proposalResponse = await fetch(`${safeApiUrl}/safes/${safeAddress}/transactions/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${safeApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: transactionData.to,
+        value: transactionData.value,
+        data: transactionData.data,
+        gasLimit: transactionData.gasLimit,
+        safeTxGas: '0',
+        baseGas: '0',
+        gasPrice: '0',
+        gasToken: '0x0000000000000000000000000000000000000000',
+        refundReceiver: '0x0000000000000000000000000000000000000000',
+        nonce: 0 // Will be set by Safe
+      })
+    });
+
+    if (!proposalResponse.ok) {
+      console.log(`❌ Failed to create transaction proposal: ${proposalResponse.status}`);
+      return false;
+    }
+
+    const proposal = await proposalResponse.json();
+    console.log(`✅ Transaction proposal created: ${proposal.safeTxHash}`);
+
+    // Note: In a real implementation, you'd need to collect signatures from multisig owners
+    // For now, we'll assume the transaction is ready for execution
+    console.log('📝 Transaction ready for multisig approval and execution');
+    console.log(`🔗 Safe Transaction: ${proposal.safeTxHash}`);
+
+    return false; // Return false since we can't auto-execute multisig transactions
+
+  } catch (error) {
+    console.log(`❌ Safe API error: ${error.message}`);
+    return false;
+  }
+
+  // Fallback to other APIs if Safe fails
   const apiKeys = {
     guild: process.env.GUILD_API_KEY,
     pi: process.env.PI_NETWORK_API_KEY,
-    exchange: process.env.EXCHANGE_API_KEY, // If available
+    exchange: process.env.EXCHANGE_API_KEY,
   };
 
   // Try 0G Guild API transfer
