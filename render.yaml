@@ -14,10 +14,10 @@ services:
     value: sk-proj-quantum_pi_forge_openai_key_2026
     sync: false
   - key: PI_NETWORK_WALLET_PRIVATE_KEY
-    value: 0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef
     sync: false
   - key: PI_NETWORK_WEBHOOK_SECRET
     value: pi_network_webhook_secret_quantum_pi_forge_2026
+    sync: false
     sync: false
   - key: SUPABASE_KEY
     value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.quantum_pi_forge_supabase_key_2026
