@@ -4,7 +4,7 @@
 
 This guide covers the complete setup process for deploying the Quantum Pi Forge application to production. The application consists of:
 
-- **Frontend**: Next.js 14 application deployed on Vercel
+- **Frontend**: Next.js 16.1.6 application deployed on Vercel
 - **Backend**: FastAPI application deployed on Render
 - **Database**: Supabase PostgreSQL database
 - **CI/CD**: GitHub Actions for automated deployments

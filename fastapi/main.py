@@ -220,9 +220,12 @@ async def record_transaction(request: Request):
         
         # Update user staking stats
         if data["type"] == "stake":
+            user_stats = supabase.table("users").select("total_staked", "staking_count").eq("wallet_address", data["wallet_address"]).execute()
+            current_total_staked = user_stats.data[0]["total_staked"]
+            current_staking_count = user_stats.data[0]["staking_count"]
             supabase.table("users").update({
-                "total_staked": supabase.table("users").select("total_staked").eq("wallet_address", data["wallet_address"]).execute().data[0]["total_staked"] + float(data["amount"]),
-                "staking_count": supabase.table("users").select("staking_count").eq("wallet_address", data["wallet_address"]).execute().data[0]["staking_count"] + 1
+                "total_staked": current_total_staked + float(data["amount"]),
+                "staking_count": current_staking_count + 1
             }).eq("wallet_address", data["wallet_address"]).execute()
         
         return {"message": "Transaction recorded successfully", "transaction": result.data[0]}
