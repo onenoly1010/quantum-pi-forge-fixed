@@ -8,7 +8,7 @@ services:
   plan: starter
   envVars:
   - key: ANTHROPIC_API_KEY
-    value: sk-ant-api03-quantum_pi_forge_anthropic_key_2026
+    value: REPLACE_WITH_ANTHROPIC_API_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: OPENAI_API_KEY
     value: sk-proj-quantum_pi_forge_openai_key_2026
