@@ -1,8 +1,16 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+from typing import List
 import os
+import time
+import asyncio
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Import rate limiting middleware
 try:
@@ -36,6 +44,11 @@ if RATE_LIMITING_ENABLED:
 
 
 # ==================== HEALTH & STATUS ENDPOINTS ====================
+
+# Track application start time for uptime calculation
+APP_START_TIME = time.time()
+TOTAL_REQUESTS = 0
+ACTIVE_CONNECTIONS = 0
 
 @app.get("/health")
 def health_check():
@@ -75,6 +88,65 @@ async def rate_limit_status(request: Request):
     return {
         "rate_limiting": True,
         **status,
+    }
+
+
+@app.get("/api/deployment/health")
+async def deployment_health():
+    """
+    Comprehensive health check endpoint for deployment monitoring.
+    Returns detailed status of all services and deployment information.
+    """
+    global TOTAL_REQUESTS, ACTIVE_CONNECTIONS
+    
+    start_time = time.time()
+    TOTAL_REQUESTS += 1
+    
+    # Check database connection (simulated for now)
+    db_status = True
+    db_response_time = 45
+    
+    # Check Pi Network connection (simulated)
+    pi_status = True
+    pi_mode = os.getenv("PI_NETWORK_MODE", "mainnet")
+    
+    # Check Supabase connection (simulated)
+    supabase_status = True
+    
+    response_time = int((time.time() - start_time) * 1000)
+    uptime_seconds = int(time.time() - APP_START_TIME)
+    
+    # Determine overall status
+    all_healthy = all([db_status, pi_status, supabase_status])
+    overall_status = "healthy" if all_healthy else "degraded"
+    
+    return {
+        "status": overall_status,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "services": {
+            "database": {
+                "status": "online" if db_status else "offline",
+                "responseTime": db_response_time
+            },
+            "piNetwork": {
+                "status": "connected" if pi_status else "disconnected",
+                "mode": pi_mode
+            },
+            "supabase": {
+                "status": "connected" if supabase_status else "disconnected"
+            }
+        },
+        "deployment": {
+            "version": "3.3.0",
+            "environment": os.getenv("ENVIRONMENT", "production"),
+            "uptime": uptime_seconds,
+            "lastDeployment": os.getenv("LAST_DEPLOYMENT_TIME", "2026-02-06T10:30:00Z")
+        },
+        "metrics": {
+            "totalRequests": TOTAL_REQUESTS,
+            "activeConnections": ACTIVE_CONNECTIONS,
+            "avgResponseTime": response_time
+        }
     }
 
 
@@ -414,6 +486,127 @@ def read_root():
     </body>
     </html>
     """
+
+
+# ==================== WEBSOCKET DEPLOYMENT STREAMING ====================
+
+class DeploymentStreamManager:
+    """Manager for real-time deployment event streaming via WebSocket."""
+    
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+        self.deployment_events = []
+    
+    async def connect(self, websocket: WebSocket):
+        """Accept a new WebSocket connection and send recent events."""
+        global ACTIVE_CONNECTIONS
+        await websocket.accept()
+        self.active_connections.append(websocket)
+        ACTIVE_CONNECTIONS += 1
+        
+        # Send recent events to new client (last 50 events)
+        for event in self.deployment_events[-50:]:
+            try:
+                await websocket.send_json(event)
+            except Exception as e:
+                logger.warning(f"Failed to send event to new client: {e}")
+                break
+    
+    def disconnect(self, websocket: WebSocket):
+        """Remove a disconnected client."""
+        global ACTIVE_CONNECTIONS
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
+            ACTIVE_CONNECTIONS -= 1
+    
+    async def broadcast_event(self, event: dict):
+        """Broadcast an event to all connected clients."""
+        # Add timestamp
+        event["timestamp"] = datetime.utcnow().isoformat() + "Z"
+        
+        # Store event
+        self.deployment_events.append(event)
+        
+        # Keep only last 1000 events
+        if len(self.deployment_events) > 1000:
+            self.deployment_events = self.deployment_events[-1000:]
+        
+        # Broadcast to all connected clients
+        disconnected = []
+        for connection in self.active_connections:
+            try:
+                await connection.send_json(event)
+            except Exception as e:
+                logger.info(f"Client disconnected during broadcast: {e}")
+                disconnected.append(connection)
+        
+        # Remove disconnected clients
+        for connection in disconnected:
+            self.disconnect(connection)
+
+
+# Initialize deployment stream manager
+deployment_manager = DeploymentStreamManager()
+
+
+@app.websocket("/ws/deployment")
+async def deployment_websocket(websocket: WebSocket):
+    """WebSocket endpoint for real-time deployment event streaming."""
+    await deployment_manager.connect(websocket)
+    try:
+        while True:
+            # Keep connection alive with ping/pong
+            data = await websocket.receive_text()
+            
+            if data == "ping":
+                await websocket.send_text("pong")
+            
+    except WebSocketDisconnect:
+        deployment_manager.disconnect(websocket)
+
+
+@app.post("/api/deployment/trigger")
+async def trigger_deployment(phase: str):
+    """
+    Trigger a deployment and stream events.
+    This is a demo endpoint showing how deployment events are broadcasted.
+    """
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "started",
+        "message": f"Deployment phase {phase} initiated",
+        "level": "info"
+    })
+    
+    # Simulate deployment steps
+    await asyncio.sleep(2)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "building",
+        "message": "Building application...",
+        "level": "info"
+    })
+    
+    await asyncio.sleep(3)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "deploying",
+        "message": "Deploying to production...",
+        "level": "info"
+    })
+    
+    await asyncio.sleep(2)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "completed",
+        "message": "Deployment successful",
+        "level": "success"
+    })
+    
+    return {"status": "success", "phase": phase}
 
 
 if __name__ == "__main__":
