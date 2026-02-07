@@ -158,7 +158,7 @@ curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-v6.netlify.app
 
 ## 📝 Notes
 
-- **pi-mr-nft-agent** repository is live at https://github.com/onenoly1010/pi-mr-nft-agent.
+- **pi-mr-nft-agent** repository is live at https://github.com/onenoly1010/pi-mr-nft-agent
 - All live services responding with HTTP 200
 - Sponsor wallet configured for gasless OINIO staking
 - Twitter meta tags prepared (add via Vercel dashboard)
