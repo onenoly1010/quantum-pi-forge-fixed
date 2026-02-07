@@ -1119,16 +1119,22 @@
       async checkService(serviceKey, cardId) {
         const service = this.services[serviceKey];
         try {
+          // Note: Due to CORS restrictions, we can't directly check external services
+          // In a production environment, these checks should be done via a backend proxy
+          // For now, we'll optimistically assume services are online if they don't throw network errors
           const response = await fetch(service.url, {
             method: 'HEAD',
-            mode: 'no-cors'
+            mode: 'no-cors',
+            cache: 'no-cache'
           });
-          // Note: no-cors mode doesn't allow reading the response, so we assume success if no error
+          // If fetch succeeds without throwing, assume the service is reachable
           service.status = 'online';
           this.updateServiceCard(cardId, true);
         } catch (error) {
+          // Network error or CORS error indicates service may be unreachable
           service.status = 'offline';
           this.updateServiceCard(cardId, false);
+          this.addLogEntry(service.name, `Health check failed: ${error.message}`, 'warning');
         }
       }
       

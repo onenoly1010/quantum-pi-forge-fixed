@@ -6,6 +6,11 @@ from typing import List
 import os
 import time
 import asyncio
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Import rate limiting middleware
 try:
@@ -503,8 +508,9 @@ class DeploymentStreamManager:
         for event in self.deployment_events[-50:]:
             try:
                 await websocket.send_json(event)
-            except:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to send event to new client: {e}")
+                break
     
     def disconnect(self, websocket: WebSocket):
         """Remove a disconnected client."""
@@ -530,7 +536,8 @@ class DeploymentStreamManager:
         for connection in self.active_connections:
             try:
                 await connection.send_json(event)
-            except:
+            except Exception as e:
+                logger.info(f"Client disconnected during broadcast: {e}")
                 disconnected.append(connection)
         
         # Remove disconnected clients

@@ -344,10 +344,12 @@ The **Forge Covenant** section in `UPDATED_INDEX.html` provides a comprehensive 
   - Phase 3: Queued (Pi Network Contracts, 0G DEX Contracts)
 
 - **🔍 Real-Time Service Status Cards**
-  - Backend API (Railway)
-  - Public Site (GitHub Pages)
-  - Frontend Dashboard (Vercel)
-  - Resonance Engine (Vercel)
+  - Backend API (Railway) - Full health check via `/api/deployment/health`
+  - Public Site (GitHub Pages) - Network reachability check
+  - Frontend Dashboard (Vercel) - Network reachability check
+  - Resonance Engine (Vercel) - Network reachability check
+  
+  > **Note:** Due to CORS restrictions, external service checks use optimistic reachability testing. For production environments, consider implementing a backend proxy endpoint to perform proper HTTP status checks on all external services.
 
 - **📜 Smart Contract Status Tracking**
   - OINIO Token on Polygon (Deployed)
