@@ -260,6 +260,157 @@ AI text generation endpoint. **Requires Vercel deployment** (needs OpenAI API ke
 
 xAI Grok model endpoint. **Requires Vercel deployment** (needs xAI API key, edge runtime).
 
+### 🔒 Backend API: GET `/api/deployment/health`
+
+**Backend Endpoint** - Comprehensive health check for deployment monitoring. Available on Railway backend at `https://pi-forge-quantum-genesis.railway.app/api/deployment/health`
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-02-07T12:45:23.490Z",
+  "services": {
+    "database": {
+      "status": "online",
+      "responseTime": 45
+    },
+    "piNetwork": {
+      "status": "connected",
+      "mode": "mainnet"
+    },
+    "supabase": {
+      "status": "connected"
+    }
+  },
+  "deployment": {
+    "version": "3.3.0",
+    "environment": "production",
+    "uptime": 123456,
+    "lastDeployment": "2026-02-06T10:30:00Z"
+  },
+  "metrics": {
+    "totalRequests": 150234,
+    "activeConnections": 42,
+    "avgResponseTime": 120
+  }
+}
+```
+
+### 🔒 Backend API: WebSocket `/ws/deployment`
+
+**Backend WebSocket** - Real-time deployment event streaming. Available at `wss://pi-forge-quantum-genesis.railway.app/ws/deployment`
+
+**Features:**
+- Real-time deployment event streaming
+- Client subscription to deployment phases
+- Broadcast deployment logs to all connected clients
+- Heartbeat/ping-pong for connection health
+
+**Event Format:**
+```json
+{
+  "service": "Frontend Dashboard",
+  "status": "deployed",
+  "message": "Deployment successful",
+  "level": "success",
+  "timestamp": "2026-02-07T12:45:23.490Z"
+}
+```
+
+### 🔒 Backend API: POST `/api/deployment/trigger`
+
+**Backend Endpoint** - Trigger deployment for testing. Available on Railway backend.
+
+**Query Parameters:**
+- `phase` - Deployment phase to trigger (e.g., "2", "3")
+
+**Response:**
+```json
+{
+  "status": "success",
+  "phase": "2"
+}
+```
+
+## ⚒️ Forge Covenant: Deployment Monitoring Dashboard
+
+The **Forge Covenant** section in `UPDATED_INDEX.html` provides a comprehensive real-time deployment monitoring dashboard:
+
+### Features
+
+- **📊 Phase-Based Deployment Visualization**
+  - Phase 1: Live (Backend API, Public Site)
+  - Phase 2: Deploying (Frontend Dashboard, Resonance Engine)
+  - Phase 3: Queued (Pi Network Contracts, 0G DEX Contracts)
+
+- **🔍 Real-Time Service Status Cards**
+  - Backend API (Railway)
+  - Public Site (GitHub Pages)
+  - Frontend Dashboard (Vercel)
+  - Resonance Engine (Vercel)
+
+- **📜 Smart Contract Status Tracking**
+  - OINIO Token on Polygon (Deployed)
+  - Pi Network Contracts (Queued)
+  - 0G DEX Contracts (Ready)
+
+- **📈 Live Ecosystem Metrics**
+  - Total Requests
+  - Active Connections
+  - Average Response Time
+  - Services Online Count
+
+- **🎛️ Interactive Deployment Controls**
+  - Deploy Phase 2 button
+  - Deploy Phase 3 button
+  - Run Health Check button
+  - Critical dependency warnings
+
+- **📝 Live Deployment Log**
+  - WebSocket-powered real-time streaming
+  - Timestamped log entries
+  - Color-coded log levels (info, success, warning, error)
+  - Auto-refresh every 30 seconds
+
+### Usage
+
+The dashboard automatically initializes when the page loads and:
+1. Checks all services health every 30 seconds
+2. Connects to WebSocket for real-time deployment events
+3. Displays service status with color-coded badges
+4. Updates metrics from backend health endpoint
+5. Enables/disables deployment buttons based on backend status
+
+## 🚀 Deployment Automation Scripts
+
+Located in `scripts/deployment/`, these scripts automate the deployment process:
+
+### `health-check.sh`
+Comprehensive health check for all services.
+```bash
+./scripts/deployment/health-check.sh
+```
+
+### `deploy-frontend.sh`
+Deploy Frontend Dashboard to Vercel with backend health validation.
+```bash
+./scripts/deployment/deploy-frontend.sh
+```
+
+### `deploy-contracts.sh`
+Deploy smart contracts to specified network.
+```bash
+./scripts/deployment/deploy-contracts.sh [polygon|pi-mainnet|0g-testnet]
+```
+
+### `master-deploy.sh`
+Master deployment orchestration for phase-based deployments.
+```bash
+./scripts/deployment/master-deploy.sh [phase1|phase2|phase3|all]
+```
+
+See `scripts/deployment/README.md` for detailed usage and requirements.
+
 ## 🔒 Security Features
 
 - ✅ Environment variable validation
