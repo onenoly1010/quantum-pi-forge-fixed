@@ -11,10 +11,22 @@
 // Check if we're in edge runtime (avoid Node.js-specific imports)
 // Edge runtime is indicated by NEXT_RUNTIME environment variable or lack of Node.js APIs
 const isEdgeRuntime = 
-  typeof process !== 'undefined' && process.env.NEXT_RUNTIME === 'edge' ||
-  typeof globalThis !== 'undefined' && (globalThis as any).EdgeRuntime !== undefined;
+  (typeof process !== 'undefined' && process.env.NEXT_RUNTIME === 'edge') ||
+  (typeof globalThis !== 'undefined' && (globalThis as any).EdgeRuntime !== undefined);
 
 // Conditionally import Node.js-specific packages only in Node.js runtime
+// Type definitions for OpenTelemetry when available
+interface SpanInterface {
+  setAttribute(key: string, value: string | number | boolean): void;
+  setStatus(status: { code: number; message?: string }): void;
+  recordException(error: Error): void;
+  end(): void;
+}
+
+interface TracerInterface {
+  startActiveSpan<T>(name: string, fn: (span: SpanInterface) => T): T;
+}
+
 let resourceFromAttributes: any;
 let NodeTracerProvider: any;
 let SimpleSpanProcessor: any;
@@ -22,8 +34,8 @@ let BatchSpanProcessor: any;
 let OTLPTraceExporter: any;
 let registerInstrumentations: any;
 let HttpInstrumentation: any;
-let trace: any;
-let SpanStatusCode: any;
+let trace: { getTracer: (name: string, version: string) => TracerInterface };
+let SpanStatusCode: { OK: number; ERROR: number };
 let Span: any;
 let context: any;
 
@@ -128,7 +140,7 @@ export function initServerTracing(): any {
  * Get the tracer for creating spans
  * No-op in edge runtime
  */
-export function getServerTracer(name: string = 'quantum-pi-forge-api') {
+export function getServerTracer(name: string = 'quantum-pi-forge-api'): TracerInterface {
   if (isEdgeRuntime) {
     // Return no-op tracer in edge runtime
     return {
@@ -153,7 +165,7 @@ export function getServerTracer(name: string = 'quantum-pi-forge-api') {
  */
 export async function withTracing<T>(
   operationName: string,
-  operation: (span: any) => Promise<T>,
+  operation: (span: SpanInterface) => Promise<T>,
   attributes?: Record<string, string | number | boolean>
 ): Promise<T> {
   if (isEdgeRuntime) {
@@ -168,7 +180,7 @@ export async function withTracing<T>(
 
   const tracer = getServerTracer();
   
-  return tracer.startActiveSpan(operationName, async (span: any) => {
+  return tracer.startActiveSpan(operationName, async (span: SpanInterface) => {
     try {
       // Add custom attributes
       if (attributes) {
@@ -198,7 +210,7 @@ export async function withTracing<T>(
  */
 export async function traceAICall<T>(
   modelName: string,
-  operation: (span: any) => Promise<T>,
+  operation: (span: SpanInterface) => Promise<T>,
   metadata?: {
     provider?: string;
     promptTokens?: number;
@@ -225,7 +237,7 @@ export async function traceAICall<T>(
  */
 export async function traceBlockchainTransaction<T>(
   transactionType: string,
-  operation: (span: any) => Promise<T>,
+  operation: (span: SpanInterface) => Promise<T>,
   metadata?: {
     network?: string;
     tokenAddress?: string;
@@ -253,7 +265,7 @@ export async function traceBlockchainTransaction<T>(
 export async function traceAPIHandler<T>(
   endpoint: string,
   method: string,
-  handler: (span: any) => Promise<T>
+  handler: (span: SpanInterface) => Promise<T>
 ): Promise<T> {
   return withTracing(
     `api.${method.toLowerCase()}.${endpoint}`,
@@ -268,7 +280,7 @@ export async function traceAPIHandler<T>(
 
 // Auto-initialize on import (for API routes in Node.js runtime only)
 // Skip edge runtime to avoid "navigator is not defined" errors
-if (typeof window === 'undefined' && typeof globalThis !== 'undefined' && (globalThis as any).EdgeRuntime === undefined) {
+if (typeof window === 'undefined' && !isEdgeRuntime) {
   initServerTracing();
 }
 
