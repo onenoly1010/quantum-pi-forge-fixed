@@ -5,7 +5,7 @@
 
 class PiTokenVerifier {
   constructor() {
-    this.apiBaseUrl = process.env.PI_API_BASE_URL || 'https://api.pi.network';
+    this.apiBaseUrl = process.env.PI_API_BASE_URL || "https://api.pi.network";
   }
 
   /**
@@ -13,32 +13,32 @@ class PiTokenVerifier {
    */
   async verifyToken(accessToken) {
     if (!accessToken) {
-      return { valid: false, error: 'No token provided' };
+      return { valid: false, error: "No token provided" };
     }
 
     // In development/demo mode, accept demo tokens
-    if (accessToken === 'demo_token') {
+    if (accessToken === "demo_token") {
       return {
         valid: true,
-        user: { username: 'demo_user' },
-        scopes: ['username']
+        user: { username: "demo_user" },
+        scopes: ["username"],
       };
     }
 
     try {
       // Verify token with Pi Platform API
       const response = await fetch(`${this.apiBaseUrl}/v1/auth/verify`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
       if (!response.ok) {
         return {
           valid: false,
-          error: `Token verification failed: ${response.status}`
+          error: `Token verification failed: ${response.status}`,
         };
       }
 
@@ -47,13 +47,13 @@ class PiTokenVerifier {
       return {
         valid: true,
         user: data.user,
-        scopes: data.scopes || []
+        scopes: data.scopes || [],
       };
     } catch (error) {
-      console.error('Token verification error:', error);
+      console.error("Token verification error:", error);
       return {
         valid: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -63,14 +63,14 @@ class PiTokenVerifier {
    */
   async verifyUser(username) {
     if (!username) {
-      return { valid: false, error: 'No username provided' };
+      return { valid: false, error: "No username provided" };
     }
 
     // In demo mode, accept demo users
-    if (username === 'demo_user') {
+    if (username === "demo_user") {
       return {
         valid: true,
-        user: { username: 'demo_user', uid: 'demo_uid' }
+        user: { username: "demo_user", uid: "demo_uid" },
       };
     }
 
@@ -81,7 +81,7 @@ class PiTokenVerifier {
       if (!response.ok) {
         return {
           valid: false,
-          error: `User verification failed: ${response.status}`
+          error: `User verification failed: ${response.status}`,
         };
       }
 
@@ -89,13 +89,13 @@ class PiTokenVerifier {
 
       return {
         valid: true,
-        user: userData
+        user: userData,
       };
     } catch (error) {
-      console.error('User verification error:', error);
+      console.error("User verification error:", error);
       return {
         valid: false,
-        error: error.message
+        error: error.message,
       };
     }
   }

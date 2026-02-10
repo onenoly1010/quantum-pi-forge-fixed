@@ -25,9 +25,7 @@
       },
       "outputSelection": {
         "*": {
-          "": [
-            "ast"
-          ],
+          "": ["ast"],
           "*": [
             "abi",
             "evm.bytecode",

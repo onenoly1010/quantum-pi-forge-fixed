@@ -6,12 +6,12 @@
 
 **This is the AI repository**: `onenoly1010/AI_GIT_REPO`
 
-| Fact | Value |
-|------|-------|
-| **Project Name** | AI_GIT_REPO |
-| **What It Is** | AI development and experimentation repository |
-| **Main Branch** | `main` |
-| **Purpose** | Prototyping, testing, and deploying AI models and applications |
+| Fact             | Value                                                          |
+| ---------------- | -------------------------------------------------------------- |
+| **Project Name** | AI_GIT_REPO                                                    |
+| **What It Is**   | AI development and experimentation repository                  |
+| **Main Branch**  | `main`                                                         |
+| **Purpose**      | Prototyping, testing, and deploying AI models and applications |
 
 ---
 
@@ -20,7 +20,9 @@
 This repository is configured for GitHub Copilot Coding Agent. When working with Copilot:
 
 ### Suitable Tasks
+
 Copilot excels at **low-to-medium complexity** tasks such as:
+
 - 🐛 Bug fixes and error handling improvements
 - 🔧 Refactoring existing code
 - ✅ Adding or improving tests
@@ -31,12 +33,14 @@ Copilot excels at **low-to-medium complexity** tasks such as:
 - 🔐 Security vulnerability fixes
 
 **Avoid assigning** tasks that require:
+
 - Deep domain expertise in advanced AI/ML
 - Large-scale architecture changes
 - Complex business logic decisions
 - Critical security-sensitive operations without review
 
 ### Iteration Process
+
 1. **Clear Issues**: Write detailed issues with acceptance criteria
 2. **Review PRs**: Treat Copilot PRs like human contributions - review carefully
 3. **Provide Feedback**: Use PR comments and mention `@copilot` for iterations
@@ -44,6 +48,7 @@ Copilot excels at **low-to-medium complexity** tasks such as:
 5. **Test Thoroughly**: Always validate changes with builds and tests
 
 ### Security Expectations
+
 - Copilot works in sandboxed environments with restricted permissions
 - All changes require human review before merging
 - API keys and sensitive data must never be committed
@@ -57,11 +62,13 @@ AI_GIT_REPO is a repository for developing, testing, and deploying AI applicatio
 ## Tech Stack
 
 ### Languages
+
 - **Primary**: Python, JavaScript/TypeScript
 - **AI Frameworks**: TensorFlow, PyTorch, OpenAI API, LangChain, etc.
 - **Web**: Next.js, React, FastAPI, Flask
 
 ### Key Dependencies
+
 - AI/ML libraries (to be specified per project)
 - Web frameworks for interfaces
 - Deployment tools (Docker, Vercel, etc.)
@@ -98,18 +105,21 @@ pytest               # Run Python tests
 ## Coding Standards
 
 ### Python
+
 - Use type hints
 - Follow PEP 8
 - Use virtual environments
 - Document functions with docstrings
 
 ### JavaScript/TypeScript
+
 - Use TypeScript for new files
 - Follow ESLint rules
 - Use async/await for asynchronous code
 - Prefer functional programming where appropriate
 
 ### AI-Specific
+
 - Version control for models and datasets
 - Document model architectures and training parameters
 - Include evaluation metrics
@@ -130,16 +140,19 @@ DATASET_PATH=<path-to-data>
 ## Key Features to Maintain
 
 ### 1. Model Management
+
 - Version control for AI models
 - Reproducible training pipelines
 - Model evaluation and validation
 
 ### 2. Data Handling
+
 - Secure data storage and processing
 - Privacy compliance
 - Data quality checks
 
 ### 3. Security
+
 - Input validation and sanitization
 - Rate limiting for API endpoints
 - Secure model serving
@@ -147,6 +160,7 @@ DATASET_PATH=<path-to-data>
 ## Common Patterns
 
 ### Python AI Script
+
 ```python
 import openai
 
@@ -159,6 +173,7 @@ def generate_response(prompt: str) -> str:
 ```
 
 ### React AI Component
+
 ```typescript
 'use client';
 import { useState } from 'react';
@@ -200,6 +215,7 @@ export default function AIChat() {
 - **CI/CD**: GitHub Actions for automated testing and deployment
 
 ## Automated Agent Instructions
+
 For deterministic, machine-oriented rules governing automated coding agents, see `.github/automated-agent-instructions.md`. That file contains strict behavioral constraints, output requirements, and system-level rules that agents must follow.
 
 ## Additional Resources

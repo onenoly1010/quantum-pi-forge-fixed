@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 interface ReferralStats {
   referral_code: string | null;
@@ -20,43 +20,49 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
 
   const fetchReferralStats = useCallback(async () => {
     try {
-      const response = await fetch(`/api/creator/referral-stats?creator_id=${creatorId}`);
+      const response = await fetch(
+        `/api/creator/referral-stats?creator_id=${creatorId}`,
+      );
       if (response.ok) {
         const data = await response.json();
         setStats(data);
       }
     } catch (error) {
-      console.error('Failed to fetch referral stats:', error);
+      console.error("Failed to fetch referral stats:", error);
     }
   }, [creatorId]);
 
   const createReferralLink = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/creator/create-referral', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ creator_id: creatorId })
+      const response = await fetch("/api/creator/create-referral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ creator_id: creatorId }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setStats(prev => prev ? {
-          ...prev,
-          referral_code: data.referral_code,
-          referral_link: data.referral_link
-        } : {
-          referral_code: data.referral_code,
-          referred_creators: 0,
-          total_earnings: 0,
-          referral_link: data.referral_link
-        });
+        setStats((prev) =>
+          prev
+            ? {
+                ...prev,
+                referral_code: data.referral_code,
+                referral_link: data.referral_link,
+              }
+            : {
+                referral_code: data.referral_code,
+                referred_creators: 0,
+                total_earnings: 0,
+                referral_link: data.referral_link,
+              },
+        );
       } else {
-        alert('Failed to create referral link');
+        alert("Failed to create referral link");
       }
     } catch (error) {
-      console.error('Error creating referral:', error);
-      alert('Network error. Please try again.');
+      console.error("Error creating referral:", error);
+      alert("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -71,11 +77,11 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
       setTimeout(() => setCopied(false), 2000);
     } catch (_error) {
       // Fallback for older browsers
-      const textArea = document.createElement('textarea');
+      const textArea = document.createElement("textarea");
       textArea.value = stats.referral_link;
       document.body.appendChild(textArea);
       textArea.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       document.body.removeChild(textArea);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -90,7 +96,11 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
       </div>
 
       <p className="text-gray-600 mb-4">
-        Earn <strong className="text-purple-600">5% of their earnings forever</strong> when creators join with your referral link!
+        Earn{" "}
+        <strong className="text-purple-600">
+          5% of their earnings forever
+        </strong>{" "}
+        when creators join with your referral link!
       </p>
 
       {!stats?.referral_code ? (
@@ -99,7 +109,7 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
           disabled={loading}
           className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 mb-4"
         >
-          {loading ? 'Creating Link...' : '🎯 Create Referral Link'}
+          {loading ? "Creating Link..." : "🎯 Create Referral Link"}
         </button>
       ) : (
         <div className="space-y-4">
@@ -110,7 +120,7 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
             <div className="flex gap-2">
               <input
                 type="text"
-                value={stats.referral_link || ''}
+                value={stats.referral_link || ""}
                 readOnly
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-sm"
               />
@@ -118,7 +128,7 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
                 onClick={copyToClipboard}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
               >
-                {copied ? '✅' : '📋'}
+                {copied ? "✅" : "📋"}
               </button>
             </div>
           </div>
@@ -145,7 +155,8 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
               <span className="text-sm font-medium">Pro Tip</span>
             </div>
             <p className="text-sm text-blue-700 mt-1">
-              Share your link in Discord, Twitter, or creator communities. Every creator who joins earns you passive income!
+              Share your link in Discord, Twitter, or creator communities. Every
+              creator who joins earns you passive income!
             </p>
           </div>
         </div>
@@ -153,7 +164,8 @@ export default function CreatorReferral({ creatorId }: { creatorId: string }) {
 
       <div className="mt-4 pt-4 border-t border-purple-200">
         <div className="text-xs text-gray-500">
-          📈 Referral earnings are paid automatically • 🔗 Link never expires • 💰 5% commission on all their template earnings
+          📈 Referral earnings are paid automatically • 🔗 Link never expires •
+          💰 5% commission on all their template earnings
         </div>
       </div>
     </div>

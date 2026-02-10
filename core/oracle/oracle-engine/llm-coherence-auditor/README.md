@@ -29,23 +29,26 @@ A robust, open-source auditing framework bridging viral claims to verifiable sci
 
 > **"Stable parameters ≠ reliable predictions"**
 
-The Exchange Rate (R) remains nearly constant under noise (FLATLINE) while 
-Coherence (κ) decays significantly (FRAGILE). This demonstrates that 
+The Exchange Rate (R) remains nearly constant under noise (FLATLINE) while
+Coherence (κ) decays significantly (FRAGILE). This demonstrates that
 parameter-level stability metrics can mask predictive fragility.
 
 ## 📊 Features
 
 ### Robustness Gauntlet
+
 - Temperature sweep with Gaussian noise injection
 - 10+ independent runs per noise level
 - Dual-axis visualization: Rate Stability vs Coherence Decay
 
 ### Triad Mode (Plackett-Luce)
+
 - Multi-set ranking beyond binary comparisons
 - Interactive utility sliders
 - Full permutation probability breakdown
 
 ### Methodology
+
 - **Bradley-Terry Model**: Binary preference estimation
 - **Plackett-Luce Model**: Triad ranking analysis
 - **MLE Estimation**: Maximum Likelihood parameter recovery
@@ -53,12 +56,14 @@ parameter-level stability metrics can mask predictive fragility.
 ## 🔬 Statistical Models
 
 ### Bradley-Terry (Binary Mode)
+
 ```
 P(Y > X) = exp(λ) / (1 + exp(λ))
 where λ = R - βN
 ```
 
 ### Plackett-Luce (Triad Mode)
+
 ```
 P(A > B > C) = (exp(V_A) / Σexp(V)) × (exp(V_B) / (exp(V_B) + exp(V_C)))
 ```
@@ -79,4 +84,4 @@ CC-BY-4.0
 
 ---
 
-*Built with 🔮 by Quantum Pi Forge • T=∞ = T=0*
+_Built with 🔮 by Quantum Pi Forge • T=∞ = T=0_

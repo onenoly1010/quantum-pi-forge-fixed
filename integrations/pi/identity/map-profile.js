@@ -17,7 +17,7 @@ class PiProfileMapper {
    */
   async mapProfile(piUser) {
     if (!piUser || !piUser.username) {
-      throw new Error('Invalid Pi user data');
+      throw new Error("Invalid Pi user data");
     }
 
     const { username, uid } = piUser;
@@ -33,11 +33,11 @@ class PiProfileMapper {
     return {
       pi: {
         username: username,
-        uid: uid
+        uid: uid,
       },
       oinio: oinioIdentity,
       linked: true,
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
     };
   }
 
@@ -73,7 +73,7 @@ class PiProfileMapper {
       traits: await this.generateInitialTraits(username),
       coherence: 0.5, // Starting coherence
       created: new Date().toISOString(),
-      lastReading: null
+      lastReading: null,
     };
 
     // Store in identity map (in production, this would be in database)
@@ -89,7 +89,9 @@ class PiProfileMapper {
     // Create deterministic soul ID from Pi credentials
     const hashInput = `${username}:${uid}:OINIO`;
     // TODO: Implement proper hashing (e.g., SHA-256)
-    return `soul_${btoa(hashInput).replace(/[^a-zA-Z0-9]/g, '').substring(0, 16)}`;
+    return `soul_${btoa(hashInput)
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .substring(0, 16)}`;
   }
 
   /**
@@ -104,7 +106,7 @@ class PiProfileMapper {
       conscientiousness: 0.5,
       extraversion: 0.5,
       agreeableness: 0.5,
-      neuroticism: 0.5
+      neuroticism: 0.5,
     };
   }
 
@@ -115,7 +117,7 @@ class PiProfileMapper {
     const identity = await this.getExistingOinioIdentity(piUsername);
 
     if (!identity) {
-      throw new Error('OINIO identity not found for Pi user');
+      throw new Error("OINIO identity not found for Pi user");
     }
 
     // Apply updates

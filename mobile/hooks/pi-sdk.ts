@@ -10,32 +10,34 @@ type ConnectResult = {
 
 export function usePiConnection(): ConnectResult {
   // Simple mock for local dev
-  const [connected, setConnected] = require('react').useState(false);
-  const [status, setStatus] = require('react').useState('disconnected');
+  const [connected, setConnected] = require("react").useState(false);
+  const [status, setStatus] = require("react").useState("disconnected");
 
   async function connect() {
-    setStatus('connecting');
+    setStatus("connecting");
     // Simulate async handshake (replace with usePiConnection hook)
-    await new Promise(res => setTimeout(res, 800));
+    await new Promise((res) => setTimeout(res, 800));
     setConnected(true);
-    setStatus('connected');
+    setStatus("connected");
   }
 
   function disconnect() {
     setConnected(false);
-    setStatus('disconnected');
+    setStatus("disconnected");
   }
 
   return { connected, status, connect, disconnect } as unknown as ConnectResult;
 }
 
 export function usePiPurchase() {
-  const [purchasing, setPurchasing] = require('react').useState(false);
-  const [lastReceipt, setLastReceipt] = require('react').useState<any | null>(null);
+  const [purchasing, setPurchasing] = require("react").useState(false);
+  const [lastReceipt, setLastReceipt] = require("react").useState<any | null>(
+    null,
+  );
 
   async function purchase(_opts: { amount: string; currency: string }) {
     setPurchasing(true);
-    await new Promise(res => setTimeout(res, 1200));
+    await new Promise((res) => setTimeout(res, 1200));
     const receipt = { id: `rcpt_${Math.random().toString(36).slice(2, 9)}` };
     setLastReceipt(receipt);
     setPurchasing(false);

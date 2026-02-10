@@ -1,6 +1,7 @@
 # OINIO Launch Announcement Framework
 
 ## 🚀 Main Headline
+
 **"OINIO: The First Creator-First iNFT Marketplace on 0G Aristotle — Perpetual Royalties, Privacy-Preserving AI"**
 
 ---
@@ -51,6 +52,7 @@ OINIO launches on [DATE] as the first production ERC-7857 intelligent NFT market
 ## 🎯 Social Media Posts
 
 ### Twitter/X (Thread Format)
+
 ```
 🧵 Introducing OINIO: The First Creator-First iNFT Marketplace
 
@@ -71,6 +73,7 @@ OINIO launches on [DATE] as the first production ERC-7857 intelligent NFT market
 ```
 
 ### Discord Announcement
+
 ```
 🚀 OINIO IS LIVE ON 0G ARISTOTLE 🚀
 
@@ -93,6 +96,7 @@ Questions? Ask in #oinio-support
 ```
 
 ### Email Campaign (Whitelist Recipients)
+
 ```
 Subject: Your OINIO Whitelist is Ready 🎁
 
@@ -124,6 +128,7 @@ See you there!
 ## 📊 Announcement Checklist
 
 ### Pre-Launch (T-24h)
+
 - [ ] Finalize token contract address
 - [ ] Confirm DEX router and liquidity amount
 - [ ] Set launch timestamps in scripts/deploy.sh
@@ -132,6 +137,7 @@ See you there!
 - [ ] Send whitelist notification emails
 
 ### Launch Hour (T-0)
+
 - [ ] Execute scripts/deploy.sh (automated, monitored)
 - [ ] Post Twitter thread
 - [ ] Announce in Discord #general
@@ -139,6 +145,7 @@ See you there!
 - [ ] Monitor RPC & monitoring dashboard
 
 ### Post-Launch (T+1h to T+24h)
+
 - [ ] Share early minting statistics
 - [ ] Highlight top creators on leaderboard
 - [ ] Announce staking rewards program
@@ -146,6 +153,7 @@ See you there!
 - [ ] Engage with community questions
 
 ### Ongoing (Week 1+)
+
 - [ ] Daily leaderboard highlights
 - [ ] Validator performance reports
 - [ ] Community governance discussions
@@ -165,17 +173,17 @@ See you there!
 
 ## 🔗 Links to Populate
 
-| Item | Placeholder | Status |
-|------|-------------|--------|
-| Dashboard URL | https://quantum-pi-forge-fixed.vercel.app/dashboard | ✅ LIVE |
-| Landing Page | https://onenoly1010.github.io/quantum-pi-forge-site/ | ✅ LIVE |
-| Health API | https://quantum-pi-forge-fixed.vercel.app/api/health | ✅ LIVE |
-| DEX Link | `[DEX_LINK]` | ⏳ Pending Dec 30 |
-| Leaderboard | https://quantum-pi-forge-fixed.vercel.app/dashboard#leaderboard | ✅ Built |
-| Token Address | 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7 | ✅ Configured |
-| Staking | https://quantum-pi-forge-fixed.vercel.app/dashboard#staking | ✅ Built |
-| Chain Explorer | https://chainscan.0g.ai | ✅ 0G Aristotle |
-| Support Channel | `#oinio-support` | 🟡 Discord setup needed |
+| Item            | Placeholder                                                     | Status                  |
+| --------------- | --------------------------------------------------------------- | ----------------------- |
+| Dashboard URL   | https://quantum-pi-forge-fixed.vercel.app/dashboard             | ✅ LIVE                 |
+| Landing Page    | https://onenoly1010.github.io/quantum-pi-forge-site/            | ✅ LIVE                 |
+| Health API      | https://quantum-pi-forge-fixed.vercel.app/api/health            | ✅ LIVE                 |
+| DEX Link        | `[DEX_LINK]`                                                    | ⏳ Pending Dec 30       |
+| Leaderboard     | https://quantum-pi-forge-fixed.vercel.app/dashboard#leaderboard | ✅ Built                |
+| Token Address   | 0x07f43E5B1A8a0928B364E40d5885f81A543B05C7                      | ✅ Configured           |
+| Staking         | https://quantum-pi-forge-fixed.vercel.app/dashboard#staking     | ✅ Built                |
+| Chain Explorer  | https://chainscan.0g.ai                                         | ✅ 0G Aristotle         |
+| Support Channel | `#oinio-support`                                                | 🟡 Discord setup needed |
 
 ---
 
@@ -184,6 +192,7 @@ See you there!
 **Tone**: Technical + Accessible (explain "perpetual royalties" simply)
 
 **Key Phrases**:
+
 - "Creator-first economics"
 - "Perpetual, immutable, uncensorable"
 - "Privacy-preserving AI"
@@ -191,6 +200,7 @@ See you there!
 - "The future of creator ownership"
 
 **Avoid**:
+
 - Hype language ("moon", "HODL", "diamond hands")
 - False claims about revenue ("guaranteed ROI")
 - Competitive shade toward other platforms
@@ -198,6 +208,7 @@ See you there!
 ---
 
 ## ✅ Launch Readiness Checklist
+
 Configured | ✅ Done | Dev |
 | DEX Router | ⏳ Dec 30 (Kraken hold) | DevOps |
 | RPC Connectivity | ✅ LIVE | Done |
@@ -215,4 +226,3 @@ Configured | ✅ Done | Dev |
 ---
 
 **Next Step**: Once DEX router confirmed, update this document with actual URLs and execute launch sequence.
-

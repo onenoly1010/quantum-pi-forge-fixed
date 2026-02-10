@@ -1,63 +1,65 @@
 // components/LiquidityNet.tsx
-'use client'
+"use client";
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect } from "react";
 
 interface LiquidityLayer {
-  price: number
-  depth: number
-  color: string
-  volume: number
+  price: number;
+  depth: number;
+  color: string;
+  volume: number;
 }
 
 export function LiquidityNet() {
-  const svgRef = useRef<SVGSVGElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!svgRef.current) return
+    if (!svgRef.current) return;
 
     // Simple SVG visualization without d3 for now
-    const svg = svgRef.current
-    svg.innerHTML = ''
+    const svg = svgRef.current;
+    svg.innerHTML = "";
 
     // Generate layers from p=0.4 to p=2
-    const layers: LiquidityLayer[] = []
-    const colors = ['#10b981', '#8b5cf6', '#f59e0b', '#ef4444']
+    const layers: LiquidityLayer[] = [];
+    const colors = ["#10b981", "#8b5cf6", "#f59e0b", "#ef4444"];
 
     for (let i = 0; i < 16; i++) {
-      const price = 0.4 + (i * 0.1)
+      const price = 0.4 + i * 0.1;
       layers.push({
         price,
         depth: Math.random() * 100 + 50,
         color: colors[i % colors.length],
-        volume: Math.random() * 1000000 + 500000
-      })
+        volume: Math.random() * 1000000 + 500000,
+      });
     }
 
     // Create simple bars
     layers.forEach((layer, index) => {
-      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-      rect.setAttribute('x', (index * 25).toString())
-      rect.setAttribute('y', (200 - layer.depth).toString())
-      rect.setAttribute('width', '20')
-      rect.setAttribute('height', layer.depth.toString())
-      rect.setAttribute('fill', layer.color)
-      rect.setAttribute('opacity', '0.7')
-      svg.appendChild(rect)
-    })
+      const rect = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "rect",
+      );
+      rect.setAttribute("x", (index * 25).toString());
+      rect.setAttribute("y", (200 - layer.depth).toString());
+      rect.setAttribute("width", "20");
+      rect.setAttribute("height", layer.depth.toString());
+      rect.setAttribute("fill", layer.color);
+      rect.setAttribute("opacity", "0.7");
+      svg.appendChild(rect);
+    });
 
     // Add price line
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    line.setAttribute('x1', '200') // Current price at p=1.2
-    line.setAttribute('x2', '200')
-    line.setAttribute('y1', '0')
-    line.setAttribute('y2', '200')
-    line.setAttribute('stroke', '#60a5fa')
-    line.setAttribute('stroke-width', '2')
-    line.setAttribute('stroke-dasharray', '5,5')
-    svg.appendChild(line)
-
-  }, [])
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", "200"); // Current price at p=1.2
+    line.setAttribute("x2", "200");
+    line.setAttribute("y1", "0");
+    line.setAttribute("y2", "200");
+    line.setAttribute("stroke", "#60a5fa");
+    line.setAttribute("stroke-width", "2");
+    line.setAttribute("stroke-dasharray", "5,5");
+    svg.appendChild(line);
+  }, []);
 
   return (
     <div className="bg-gray-900 rounded-2xl p-6">
@@ -96,5 +98,5 @@ export function LiquidityNet() {
         </div>
       </div>
     </div>
-  )
+  );
 }

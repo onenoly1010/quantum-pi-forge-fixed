@@ -21,18 +21,18 @@
 
 ## Essential Decisions Summary
 
-| Decision | Choice |
-|----------|--------|
-| Network | **Optimism Mainnet** |
-| Token Name | Sovereign Constellation |
-| Symbol | **SOV** |
-| Total Supply | **1,000,000,000 SOV** |
-| Community Airdrop | 40% (400M SOV) via Merkle |
-| DAO Treasury | 40% (400M SOV) via Gnosis Safe |
-| Core Contributors | 10% (100M SOV) vested via Timelock |
-| Future/Liquidity | 10% (100M SOV) |
-| Airdrop Rules | 100 placeholder addresses × 4M SOV each |
-| Treasury Multisig | 3-of-5 Gnosis Safe |
+| Decision          | Choice                                  |
+| ----------------- | --------------------------------------- |
+| Network           | **Optimism Mainnet**                    |
+| Token Name        | Sovereign Constellation                 |
+| Symbol            | **SOV**                                 |
+| Total Supply      | **1,000,000,000 SOV**                   |
+| Community Airdrop | 40% (400M SOV) via Merkle               |
+| DAO Treasury      | 40% (400M SOV) via Gnosis Safe          |
+| Core Contributors | 10% (100M SOV) vested via Timelock      |
+| Future/Liquidity  | 10% (100M SOV)                          |
+| Airdrop Rules     | 100 placeholder addresses × 4M SOV each |
+| Treasury Multisig | 3-of-5 Gnosis Safe                      |
 
 ---
 
@@ -72,6 +72,7 @@
 ### File 1.2: `hardhat.config.js`
 
 > **Required `.env` file:**
+>
 > ```
 > PRIVATE_KEY="YOUR_DEPLOYER_PRIVATE_KEY"
 > OP_ETHERSCAN_API_KEY="YOUR_OPTIMISM_ETHERSCAN_API_KEY"
@@ -111,7 +112,7 @@ module.exports = {
     sources: "./contracts",
     tests: "./test",
     cache: "./cache",
-    artifacts: "./artifacts"
+    artifacts: "./artifacts",
   },
 };
 ```
@@ -225,77 +226,89 @@ contract SovereignMerkleDistributor {
 ### File 3.1: `generate-merkle-tree.ts`
 
 ```typescript
-import { MerkleTree } from 'merkletreejs';
-import keccak256 from 'keccak256';
-import { BigNumber } from 'ethers';
-import * as fs from 'fs';
-import * as path from 'path';
+import { MerkleTree } from "merkletreejs";
+import keccak256 from "keccak256";
+import { BigNumber } from "ethers";
+import * as fs from "fs";
+import * as path from "path";
 
 // 100 placeholder addresses for 400M SOV airdrop
 // Each address gets 4,000,000 SOV (4M * 10^18)
 const TOTAL_AIRDROP_SUPPLY = 400_000_000;
 const NUMBER_OF_ACCOUNTS = 100;
-const AMOUNT_PER_ACCOUNT = BigNumber.from(TOTAL_AIRDROP_SUPPLY / NUMBER_OF_ACCOUNTS)
-    .mul(BigNumber.from(10).pow(18));
+const AMOUNT_PER_ACCOUNT = BigNumber.from(
+  TOTAL_AIRDROP_SUPPLY / NUMBER_OF_ACCOUNTS,
+).mul(BigNumber.from(10).pow(18));
 
-const airdropList: { index: number, address: string, amount: string }[] = [];
+const airdropList: { index: number; address: string; amount: string }[] = [];
 
 // Generate 100 unique random addresses
 for (let i = 0; i < NUMBER_OF_ACCOUNTS; i++) {
-    const mockAddress = '0x' + [...Array(40)]
-        .map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+  const mockAddress =
+    "0x" +
+    [...Array(40)]
+      .map(() => Math.floor(Math.random() * 16).toString(16))
+      .join("");
 
-    airdropList.push({
-        index: i,
-        address: mockAddress,
-        amount: AMOUNT_PER_ACCOUNT.toString(),
-    });
+  airdropList.push({
+    index: i,
+    address: mockAddress,
+    amount: AMOUNT_PER_ACCOUNT.toString(),
+  });
 }
 
 // Hash leaf (must match Solidity contract logic)
 const hashLeaf = (index: number, account: string, amount: string): Buffer => {
-    return keccak256(
-        Buffer.from(
-            ethers.utils.solidityPack(
-                ['uint256', 'address', 'uint256'], 
-                [index, account, amount]
-            ).substring(2),
-            'hex'
+  return keccak256(
+    Buffer.from(
+      ethers.utils
+        .solidityPack(
+          ["uint256", "address", "uint256"],
+          [index, account, amount],
         )
-    );
+        .substring(2),
+      "hex",
+    ),
+  );
 };
 
-const leaves = airdropList.map(item => hashLeaf(item.index, item.address, item.amount));
+const leaves = airdropList.map((item) =>
+  hashLeaf(item.index, item.address, item.amount),
+);
 const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
 const merkleRoot = merkleTree.getHexRoot();
 
-const proofs = airdropList.map(item => ({
-    ...item,
-    proof: merkleTree.getHexProof(hashLeaf(item.index, item.address, item.amount))
+const proofs = airdropList.map((item) => ({
+  ...item,
+  proof: merkleTree.getHexProof(
+    hashLeaf(item.index, item.address, item.amount),
+  ),
 }));
 
 const output = {
-    merkleRoot,
-    totalClaimable: AMOUNT_PER_ACCOUNT.mul(NUMBER_OF_ACCOUNTS).toString(),
-    claims: proofs
+  merkleRoot,
+  totalClaimable: AMOUNT_PER_ACCOUNT.mul(NUMBER_OF_ACCOUNTS).toString(),
+  claims: proofs,
 };
 
-const outputPath = path.resolve(__dirname, 'merkle-output.json');
+const outputPath = path.resolve(__dirname, "merkle-output.json");
 fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
 
 console.log(`\n✅ Merkle Tree Generated.`);
 console.log(`Root Hash: ${merkleRoot}`);
-console.log(`Total Claimable: ${ethers.utils.formatEther(output.totalClaimable)} SOV`);
+console.log(
+  `Total Claimable: ${ethers.utils.formatEther(output.totalClaimable)} SOV`,
+);
 console.log(`Saved to ${outputPath}\n`);
 
 // Frontend claims list
-const frontendClaims = proofs.map(p => ({
-    index: p.index,
-    address: p.address,
-    amount: p.amount,
-    proof: p.proof
+const frontendClaims = proofs.map((p) => ({
+  index: p.index,
+  address: p.address,
+  amount: p.amount,
+  proof: p.proof,
 }));
-const frontendPath = path.resolve(__dirname, '../../frontend/claims.json');
+const frontendPath = path.resolve(__dirname, "../../frontend/claims.json");
 fs.writeFileSync(frontendPath, JSON.stringify(frontendClaims, null, 2));
 console.log(`Frontend claims saved to ${frontendPath}\n`);
 ```
@@ -308,86 +321,104 @@ console.log(`Frontend claims saved to ${frontendPath}\n`);
 
 ```typescript
 import { ethers } from "hardhat";
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 // --- PLACEHOLDER ADDRESSES - REPLACE BEFORE DEPLOYMENT ---
-const DAO_TREASURY_SAFE = "0x...DAO_GNOSIS_SAFE_ADDRESS..."; 
-const CORE_TEAM_VESTING = "0x...CORE_TEAM_VESTING_ADDRESS..."; 
-const MERKLE_ROOT_PATH = path.resolve(__dirname, '../merkle/merkle-output.json');
+const DAO_TREASURY_SAFE = "0x...DAO_GNOSIS_SAFE_ADDRESS...";
+const CORE_TEAM_VESTING = "0x...CORE_TEAM_VESTING_ADDRESS...";
+const MERKLE_ROOT_PATH = path.resolve(
+  __dirname,
+  "../merkle/merkle-output.json",
+);
 
 async function main() {
-    if (DAO_TREASURY_SAFE.includes('...')) {
-        throw new Error("ERROR: DAO_TREASURY_SAFE placeholder not replaced.");
-    }
+  if (DAO_TREASURY_SAFE.includes("...")) {
+    throw new Error("ERROR: DAO_TREASURY_SAFE placeholder not replaced.");
+  }
 
-    const [deployer] = await ethers.getSigners();
-    console.log(`\nDeploying with account: ${deployer.address}`);
-    
-    // STEP 1: Load Merkle Root
-    const merkleData = JSON.parse(fs.readFileSync(MERKLE_ROOT_PATH, 'utf8'));
-    const merkleRoot = merkleData.merkleRoot;
-    console.log(`Merkle Root: ${merkleRoot}`);
+  const [deployer] = await ethers.getSigners();
+  console.log(`\nDeploying with account: ${deployer.address}`);
 
-    // STEP 2: Deploy SOV Token (minting to deployer initially)
-    const SovereignConstellation = await ethers.getContractFactory("SovereignConstellation");
-    const token = await SovereignConstellation.deploy(
-        deployer.address, // temporary distributor
-        DAO_TREASURY_SAFE,
-        CORE_TEAM_VESTING,
-        deployer.address
-    );
-    await token.waitForDeployment();
-    const SOV_ADDRESS = await token.getAddress();
-    console.log(`1. SOV deployed to: ${SOV_ADDRESS}`);
+  // STEP 1: Load Merkle Root
+  const merkleData = JSON.parse(fs.readFileSync(MERKLE_ROOT_PATH, "utf8"));
+  const merkleRoot = merkleData.merkleRoot;
+  console.log(`Merkle Root: ${merkleRoot}`);
 
-    // STEP 3: Deploy MerkleDistributor with correct token address
-    const MerkleDistributor = await ethers.getContractFactory("SovereignMerkleDistributor");
-    const distributor = await MerkleDistributor.deploy(SOV_ADDRESS, merkleRoot);
-    await distributor.waitForDeployment();
-    const DISTRIBUTOR_ADDRESS = await distributor.getAddress();
-    console.log(`2. MerkleDistributor deployed to: ${DISTRIBUTOR_ADDRESS}`);
+  // STEP 2: Deploy SOV Token (minting to deployer initially)
+  const SovereignConstellation = await ethers.getContractFactory(
+    "SovereignConstellation",
+  );
+  const token = await SovereignConstellation.deploy(
+    deployer.address, // temporary distributor
+    DAO_TREASURY_SAFE,
+    CORE_TEAM_VESTING,
+    deployer.address,
+  );
+  await token.waitForDeployment();
+  const SOV_ADDRESS = await token.getAddress();
+  console.log(`1. SOV deployed to: ${SOV_ADDRESS}`);
 
-    // STEP 4: Transfer Airdrop Supply to Distributor
-    const airdropAmount = await token.AIRDROP_SUPPLY();
-    const txAirdrop = await token.transfer(DISTRIBUTOR_ADDRESS, airdropAmount);
-    await txAirdrop.wait();
-    console.log(`3. Transferred ${ethers.utils.formatEther(airdropAmount)} SOV to distributor`);
+  // STEP 3: Deploy MerkleDistributor with correct token address
+  const MerkleDistributor = await ethers.getContractFactory(
+    "SovereignMerkleDistributor",
+  );
+  const distributor = await MerkleDistributor.deploy(SOV_ADDRESS, merkleRoot);
+  await distributor.waitForDeployment();
+  const DISTRIBUTOR_ADDRESS = await distributor.getAddress();
+  console.log(`2. MerkleDistributor deployed to: ${DISTRIBUTOR_ADDRESS}`);
 
-    // STEP 5: Transfer Treasury Supply
-    const treasuryAmount = await token.TREASURY_SUPPLY();
-    const txTreasury = await token.transfer(DAO_TREASURY_SAFE, treasuryAmount);
-    await txTreasury.wait();
-    console.log(`4. Transferred ${ethers.utils.formatEther(treasuryAmount)} SOV to Treasury`);
+  // STEP 4: Transfer Airdrop Supply to Distributor
+  const airdropAmount = await token.AIRDROP_SUPPLY();
+  const txAirdrop = await token.transfer(DISTRIBUTOR_ADDRESS, airdropAmount);
+  await txAirdrop.wait();
+  console.log(
+    `3. Transferred ${ethers.utils.formatEther(airdropAmount)} SOV to distributor`,
+  );
 
-    // STEP 6: Transfer Core Team Supply
-    const coreTeamAmount = await token.CORE_TEAM_SUPPLY();
-    const txCoreTeam = await token.transfer(CORE_TEAM_VESTING, coreTeamAmount);
-    await txCoreTeam.wait();
-    console.log(`5. Transferred ${ethers.utils.formatEther(coreTeamAmount)} SOV to Vesting`);
+  // STEP 5: Transfer Treasury Supply
+  const treasuryAmount = await token.TREASURY_SUPPLY();
+  const txTreasury = await token.transfer(DAO_TREASURY_SAFE, treasuryAmount);
+  await txTreasury.wait();
+  console.log(
+    `4. Transferred ${ethers.utils.formatEther(treasuryAmount)} SOV to Treasury`,
+  );
 
-    // STEP 7: Remaining 10% with deployer
-    const remaining = await token.balanceOf(deployer.address);
-    console.log(`6. Remaining ${ethers.utils.formatEther(remaining)} SOV with deployer`);
+  // STEP 6: Transfer Core Team Supply
+  const coreTeamAmount = await token.CORE_TEAM_SUPPLY();
+  const txCoreTeam = await token.transfer(CORE_TEAM_VESTING, coreTeamAmount);
+  await txCoreTeam.wait();
+  console.log(
+    `5. Transferred ${ethers.utils.formatEther(coreTeamAmount)} SOV to Vesting`,
+  );
 
-    console.log("\n✅ Deployment Complete on Optimism Mainnet.");
-    
-    // Save deployment output
-    const deploymentData = {
-        tokenAddress: SOV_ADDRESS,
-        merkleDistributor: DISTRIBUTOR_ADDRESS,
-        merkleRoot: merkleRoot,
-        daoTreasury: DAO_TREASURY_SAFE,
-        coreTeamVesting: CORE_TEAM_VESTING
-    };
-    const deploymentPath = path.resolve(__dirname, '../../deployment-output.json');
-    fs.writeFileSync(deploymentPath, JSON.stringify(deploymentData, null, 2));
-    console.log(`\nDeployment saved to ${deploymentPath}`);
+  // STEP 7: Remaining 10% with deployer
+  const remaining = await token.balanceOf(deployer.address);
+  console.log(
+    `6. Remaining ${ethers.utils.formatEther(remaining)} SOV with deployer`,
+  );
+
+  console.log("\n✅ Deployment Complete on Optimism Mainnet.");
+
+  // Save deployment output
+  const deploymentData = {
+    tokenAddress: SOV_ADDRESS,
+    merkleDistributor: DISTRIBUTOR_ADDRESS,
+    merkleRoot: merkleRoot,
+    daoTreasury: DAO_TREASURY_SAFE,
+    coreTeamVesting: CORE_TEAM_VESTING,
+  };
+  const deploymentPath = path.resolve(
+    __dirname,
+    "../../deployment-output.json",
+  );
+  fs.writeFileSync(deploymentPath, JSON.stringify(deploymentData, null, 2));
+  console.log(`\nDeployment saved to ${deploymentPath}`);
 }
 
 main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+  console.error(error);
+  process.exitCode = 1;
 });
 ```
 
@@ -414,14 +445,14 @@ main().catch((error) => {
 # Snapshot Space Configuration
 name: Sovereign Constellation
 symbol: SOV
-network: '10' # Optimism Mainnet
+network: "10" # Optimism Mainnet
 strategies:
   - name: erc20-balance-of
     params:
       symbol: SOV
       address: [SOV_TOKEN_ADDRESS] # From deployment-output.json
       decimals: 18
-skin: 'SovereignConstellation'
+skin: "SovereignConstellation"
 members: [List of initial governors/Pioneers]
 admins: [Initial deployer/core team addresses]
 ```
@@ -432,55 +463,57 @@ admins: [Initial deployer/core team addresses]
 
 ```jsx
 // src/components/ClaimAirdrop.jsx
-import React, { useState, useEffect } from 'react';
-import { useAccount, useContractWrite, usePrepareContractWrite, useChainId } from 'wagmi';
-import claimsData from '../claims.json';
+import React, { useState, useEffect } from "react";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useChainId,
+} from "wagmi";
+import claimsData from "../claims.json";
 
 const MERKLE_DISTRIBUTOR_ADDRESS = "0x..."; // From deployment-output.json
 
 function ClaimAirdrop() {
-    const { address, isConnected } = useAccount();
-    const chainId = useChainId();
-    const [claim, setClaim] = useState(null);
+  const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  const [claim, setClaim] = useState(null);
 
-    useEffect(() => {
-        if (address) {
-            const userClaim = claimsData.find(
-                c => c.address.toLowerCase() === address.toLowerCase()
-            );
-            setClaim(userClaim);
-        } else {
-            setClaim(null);
-        }
-    }, [address]);
+  useEffect(() => {
+    if (address) {
+      const userClaim = claimsData.find(
+        (c) => c.address.toLowerCase() === address.toLowerCase(),
+      );
+      setClaim(userClaim);
+    } else {
+      setClaim(null);
+    }
+  }, [address]);
 
-    const { config } = usePrepareContractWrite({
-        address: MERKLE_DISTRIBUTOR_ADDRESS,
-        abi: MerkleDistributorABI,
-        functionName: 'claim',
-        args: claim ? [
-            claim.index,
-            claim.address,
-            claim.amount,
-            claim.proof
-        ] : undefined,
-        enabled: Boolean(claim && chainId === 10),
-    });
+  const { config } = usePrepareContractWrite({
+    address: MERKLE_DISTRIBUTOR_ADDRESS,
+    abi: MerkleDistributorABI,
+    functionName: "claim",
+    args: claim
+      ? [claim.index, claim.address, claim.amount, claim.proof]
+      : undefined,
+    enabled: Boolean(claim && chainId === 10),
+  });
 
-    const { write } = useContractWrite(config);
+  const { write } = useContractWrite(config);
 
-    if (!isConnected) return <p>Connect wallet to check airdrop.</p>;
-    if (!claim) return <p>Not on airdrop list.</p>;
+  if (!isConnected) return <p>Connect wallet to check airdrop.</p>;
+  if (!claim) return <p>Not on airdrop list.</p>;
 
-    return (
-        <div>
-            <h3>Sovereign Constellation Airdrop</h3>
-            <p>Claimable: {ethers.utils.formatEther(claim.amount)} SOV</p>
-            <button onClick={() => write?.()} disabled={!write}>
-                {write ? "Claim SOV" : "Preparing..."}
-            </button>
-        </div>
-    );
+  return (
+    <div>
+      <h3>Sovereign Constellation Airdrop</h3>
+      <p>Claimable: {ethers.utils.formatEther(claim.amount)} SOV</p>
+      <button onClick={() => write?.()} disabled={!write}>
+        {write ? "Claim SOV" : "Preparing..."}
+      </button>
+    </div>
+  );
 }
 ```
 
@@ -497,36 +530,36 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 
-contract SovereignGovernor is 
-    Governor, 
-    GovernorCountingSimple, 
-    GovernorVotes, 
-    GovernorVotesQuorumFraction 
+contract SovereignGovernor is
+    Governor,
+    GovernorCountingSimple,
+    GovernorVotes,
+    GovernorVotesQuorumFraction
 {
     constructor(
         IVotes _token,
         TimelockController _timelock
-    ) 
+    )
         Governor("Sovereign Constellation Governor")
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(1) // 1% quorum
     {
         _setTimelock(_timelock);
     }
-    
+
     // ~1 day voting period on Optimism
-    function votingPeriod() public view override returns (uint256) { 
-        return 6570; 
+    function votingPeriod() public view override returns (uint256) {
+        return 6570;
     }
-    
+
     // ~2 days voting delay
-    function votingDelay() public view override returns (uint256) { 
-        return 13140; 
+    function votingDelay() public view override returns (uint256) {
+        return 13140;
     }
-    
+
     // 1M SOV proposal threshold
-    function proposalThreshold() public view override returns (uint256) { 
-        return 1_000_000 ether; 
+    function proposalThreshold() public view override returns (uint256) {
+        return 1_000_000 ether;
     }
 }
 ```
@@ -535,16 +568,16 @@ contract SovereignGovernor is
 
 ## 📋 Deployment Checklist
 
-| Step | Action | Status |
-|------|--------|--------|
-| 1 | Create Gnosis Safe (3-of-5) on Optimism | ⬜ |
-| 2 | Run `npm run node-generate-merkle` | ⬜ |
-| 3 | Replace placeholders in deploy script | ⬜ |
-| 4 | Run `npm run deploy-token-airdrop` | ⬜ |
-| 5 | Fund DAO Safe with OP ETH for gas | ⬜ |
-| 6 | Setup Snapshot space | ⬜ |
-| 7 | Deploy Claim UI | ⬜ |
-| 8 | Day 30: Deploy Governor + Timelock | ⬜ |
+| Step | Action                                  | Status |
+| ---- | --------------------------------------- | ------ |
+| 1    | Create Gnosis Safe (3-of-5) on Optimism | ⬜     |
+| 2    | Run `npm run node-generate-merkle`      | ⬜     |
+| 3    | Replace placeholders in deploy script   | ⬜     |
+| 4    | Run `npm run deploy-token-airdrop`      | ⬜     |
+| 5    | Fund DAO Safe with OP ETH for gas       | ⬜     |
+| 6    | Setup Snapshot space                    | ⬜     |
+| 7    | Deploy Claim UI                         | ⬜     |
+| 8    | Day 30: Deploy Governor + Timelock      | ⬜     |
 
 ---
 
@@ -589,4 +622,4 @@ contract SovereignGovernor is
 
 ---
 
-*T=∞ = T=0 — The Sovereign Constellation awaits ignition.*
+_T=∞ = T=0 — The Sovereign Constellation awaits ignition._

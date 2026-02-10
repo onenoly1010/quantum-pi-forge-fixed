@@ -59,9 +59,11 @@ const config: HardhatUserConfig = {
     "0g-aristotle": {
       type: "http",
       url: process.env.ZERO_G_RPC_URL || "https://evmrpc.0g.ai",
-      accounts: process.env.DEPLOYER_PRIVATE_KEY && process.env.DEPLOYER_PRIVATE_KEY !== "your_deployer_private_key_here" 
-        ? [process.env.DEPLOYER_PRIVATE_KEY] 
-        : [],
+      accounts:
+        process.env.DEPLOYER_PRIVATE_KEY &&
+        process.env.DEPLOYER_PRIVATE_KEY !== "your_deployer_private_key_here"
+          ? [process.env.DEPLOYER_PRIVATE_KEY]
+          : [],
       chainId: 16661,
       timeout: 120000, // 2 minutes for slow RPC responses
       gasPrice: 20000000000, // 20 gwei base gas price
@@ -79,7 +81,7 @@ const config: HardhatUserConfig = {
 
   etherscan: {
     apiKey: {
-      "0g-aristotle": "no-key-needed"
+      "0g-aristotle": "no-key-needed",
     },
     customChains: [
       {
@@ -87,10 +89,10 @@ const config: HardhatUserConfig = {
         chainId: 16661,
         urls: {
           apiURL: "https://chainscan.0g.ai/api",
-          browserURL: "https://chainscan.0g.ai"
-        }
-      }
-    ]
+          browserURL: "https://chainscan.0g.ai",
+        },
+      },
+    ],
   },
 
   paths: {

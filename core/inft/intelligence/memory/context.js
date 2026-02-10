@@ -21,7 +21,7 @@ class MemoryContext {
       memories: {},
       evolution: {},
       relationships: {},
-      insights: []
+      insights: [],
     };
 
     // Build personality context
@@ -52,11 +52,11 @@ class MemoryContext {
     // This would integrate with personality system
     // Simplified for now
     return {
-      archetype: 'unknown',
+      archetype: "unknown",
       coherence: 0.5,
       dominantTraits: [],
       evolutionStage: 0,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
   }
 
@@ -74,9 +74,9 @@ class MemoryContext {
       emotionalProfile: {
         average: 0,
         range: { min: 0, max: 0 },
-        dominant: 'neutral'
+        dominant: "neutral",
       },
-      temporalDistribution: {}
+      temporalDistribution: {},
     };
   }
 
@@ -92,7 +92,7 @@ class MemoryContext {
       recentEvolutions: [],
       evolutionPatterns: [],
       coherenceHistory: [],
-      traitDevelopment: {}
+      traitDevelopment: {},
     };
   }
 
@@ -106,7 +106,7 @@ class MemoryContext {
       connectedINFTs: [],
       ownerRelationship: {},
       communityConnections: [],
-      interactionPatterns: {}
+      interactionPatterns: {},
     };
   }
 
@@ -118,29 +118,29 @@ class MemoryContext {
 
     // Personality insights
     if (context.personality.coherence > 0.8) {
-      insights.push('Exceptionally coherent personality structure');
+      insights.push("Exceptionally coherent personality structure");
     } else if (context.personality.coherence < 0.3) {
-      insights.push('Personality structure needs development');
+      insights.push("Personality structure needs development");
     }
 
     // Memory insights
     if (context.memories.totalMemories > 100) {
-      insights.push('Rich memory database indicates extensive experience');
+      insights.push("Rich memory database indicates extensive experience");
     } else if (context.memories.totalMemories < 10) {
-      insights.push('Limited memory database suggests early development stage');
+      insights.push("Limited memory database suggests early development stage");
     }
 
     // Evolution insights
     if (context.evolution.totalEvolutions > 50) {
-      insights.push('Highly evolved with significant development history');
+      insights.push("Highly evolved with significant development history");
     }
 
     // Emotional insights
     const emotionalProfile = context.memories.emotionalProfile;
     if (emotionalProfile.average > 0.3) {
-      insights.push('Generally positive emotional disposition');
+      insights.push("Generally positive emotional disposition");
     } else if (emotionalProfile.average < -0.3) {
-      insights.push('Generally negative emotional disposition');
+      insights.push("Generally negative emotional disposition");
     }
 
     return insights;
@@ -165,17 +165,29 @@ class MemoryContext {
 
     // Update specific part of context
     switch (updateType) {
-      case 'personality':
-        existingContext.personality = { ...existingContext.personality, ...updateData };
+      case "personality":
+        existingContext.personality = {
+          ...existingContext.personality,
+          ...updateData,
+        };
         break;
-      case 'memory':
-        existingContext.memories = { ...existingContext.memories, ...updateData };
+      case "memory":
+        existingContext.memories = {
+          ...existingContext.memories,
+          ...updateData,
+        };
         break;
-      case 'evolution':
-        existingContext.evolution = { ...existingContext.evolution, ...updateData };
+      case "evolution":
+        existingContext.evolution = {
+          ...existingContext.evolution,
+          ...updateData,
+        };
         break;
-      case 'relationship':
-        existingContext.relationships = { ...existingContext.relationships, ...updateData };
+      case "relationship":
+        existingContext.relationships = {
+          ...existingContext.relationships,
+          ...updateData,
+        };
         break;
     }
 
@@ -190,10 +202,19 @@ class MemoryContext {
    */
   compareContexts(context1, context2) {
     return {
-      personalityDiff: this.comparePersonalityContexts(context1.personality, context2.personality),
-      memoryDiff: this.compareMemoryContexts(context1.memories, context2.memories),
-      evolutionDiff: this.compareEvolutionContexts(context1.evolution, context2.evolution),
-      overallSimilarity: this.calculateOverallSimilarity(context1, context2)
+      personalityDiff: this.comparePersonalityContexts(
+        context1.personality,
+        context2.personality,
+      ),
+      memoryDiff: this.compareMemoryContexts(
+        context1.memories,
+        context2.memories,
+      ),
+      evolutionDiff: this.compareEvolutionContexts(
+        context1.evolution,
+        context2.evolution,
+      ),
+      overallSimilarity: this.calculateOverallSimilarity(context1, context2),
     };
   }
 
@@ -204,7 +225,7 @@ class MemoryContext {
     return {
       coherenceDiff: p2.coherence - p1.coherence,
       archetypeChanged: p1.archetype !== p2.archetype,
-      stageProgression: p2.evolutionStage - p1.evolutionStage
+      stageProgression: p2.evolutionStage - p1.evolutionStage,
     };
   }
 
@@ -214,7 +235,7 @@ class MemoryContext {
   compareMemoryContexts(m1, m2) {
     return {
       memoryGrowth: m2.totalMemories - m1.totalMemories,
-      emotionalShift: m2.emotionalProfile.average - m1.emotionalProfile.average
+      emotionalShift: m2.emotionalProfile.average - m1.emotionalProfile.average,
     };
   }
 
@@ -224,7 +245,7 @@ class MemoryContext {
   compareEvolutionContexts(e1, e2) {
     return {
       evolutionProgress: e2.totalEvolutions - e1.totalEvolutions,
-      stageProgression: e2.currentStage - e1.currentStage
+      stageProgression: e2.currentStage - e1.currentStage,
     };
   }
 
@@ -243,19 +264,35 @@ class MemoryContext {
     factors += 0.3;
 
     // Coherence similarity
-    const coherenceDiff = Math.abs(context1.personality.coherence - context2.personality.coherence);
+    const coherenceDiff = Math.abs(
+      context1.personality.coherence - context2.personality.coherence,
+    );
     similarity += (1 - coherenceDiff) * 0.3;
     factors += 0.3;
 
     // Memory similarity
-    const memoryRatio = Math.min(context1.memories.totalMemories, context2.memories.totalMemories) /
-                       Math.max(context1.memories.totalMemories, context2.memories.totalMemories);
+    const memoryRatio =
+      Math.min(
+        context1.memories.totalMemories,
+        context2.memories.totalMemories,
+      ) /
+      Math.max(
+        context1.memories.totalMemories,
+        context2.memories.totalMemories,
+      );
     similarity += memoryRatio * 0.2;
     factors += 0.2;
 
     // Evolution similarity
-    const evolutionRatio = Math.min(context1.evolution.totalEvolutions, context2.evolution.totalEvolutions) /
-                          Math.max(context1.evolution.totalEvolutions, context2.evolution.totalEvolutions);
+    const evolutionRatio =
+      Math.min(
+        context1.evolution.totalEvolutions,
+        context2.evolution.totalEvolutions,
+      ) /
+      Math.max(
+        context1.evolution.totalEvolutions,
+        context2.evolution.totalEvolutions,
+      );
     similarity += evolutionRatio * 0.2;
     factors += 0.2;
 
@@ -281,7 +318,7 @@ class MemoryContext {
             inft1: inftIds[i],
             inft2: inftIds[j],
             similarity: comparison.overallSimilarity,
-            comparison
+            comparison,
           };
         }
       }
@@ -303,12 +340,15 @@ class MemoryContext {
     for (const [otherId, otherContext] of this.contexts.entries()) {
       if (otherId === inftId) continue;
 
-      const similarity = this.calculateOverallSimilarity(targetContext, otherContext);
+      const similarity = this.calculateOverallSimilarity(
+        targetContext,
+        otherContext,
+      );
       if (similarity >= threshold) {
         similar.push({
           inftId: otherId,
           similarity,
-          comparison: this.compareContexts(targetContext, otherContext)
+          comparison: this.compareContexts(targetContext, otherContext),
         });
       }
     }
@@ -332,7 +372,7 @@ class MemoryContext {
       totalContexts: this.contexts.size,
       totalRelationships: this.contextRelationships.size,
       contextKeys: Array.from(this.contexts.keys()),
-      relationshipKeys: Array.from(this.contextRelationships.keys())
+      relationshipKeys: Array.from(this.contextRelationships.keys()),
     };
   }
 }

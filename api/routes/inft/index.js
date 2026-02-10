@@ -3,24 +3,25 @@
  * Handles iNFT minting, evolution, and management
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { validate, validateParams } = require('../../middleware/validate');
-const { inftOwnershipMiddleware } = require('../../middleware/auth');
-const { auditLogger, businessLogger } = require('../../middleware/logger');
-const { ApiError } = require('../../shared/errors');
+const { validate, validateParams } = require("../../middleware/validate");
+const { inftOwnershipMiddleware } = require("../../middleware/auth");
+const { auditLogger, businessLogger } = require("../../middleware/logger");
+const { ApiError } = require("../../shared/errors");
 
 // Import iNFT services
-const { inftService } = require('../../services/inft');
+const { inftService } = require("../../services/inft");
 
 /**
  * POST /api/inft/mint
  * Mint new iNFT with personality from oracle reading
  */
-router.post('/mint',
-  validate('mintINFT'),
-  auditLogger('inft_mint'),
-  businessLogger('inft_mint_initiated'),
+router.post(
+  "/mint",
+  validate("mintINFT"),
+  auditLogger("inft_mint"),
+  businessLogger("inft_mint_initiated"),
   async (req, res, next) => {
     try {
       const { oracleReadingId, paymentTxHash, metadata } = req.body;
@@ -28,10 +29,14 @@ router.post('/mint',
 
       // Verify user permissions
       if (!user.permissions?.canMintINFT) {
-        throw new ApiError('Minting permission required', 403);
+        throw new ApiError("Minting permission required", 403);
       }
 
-      const mintResult = await inftService.mintINFT(user.soulId || 'dummy_soul', oracleReadingId, metadata || {});
+      const mintResult = await inftService.mintINFT(
+        user.soulId || "dummy_soul",
+        oracleReadingId,
+        metadata || {},
+      );
 
       res.status(201).json({
         success: true,
@@ -44,28 +49,30 @@ router.post('/mint',
           coherence: mintResult.inft.coherence,
           traits: mintResult.inft.traits,
           metadata: mintResult.inft.metadata,
-          mintedAt: mintResult.inft.mintedAt
+          mintedAt: mintResult.inft.mintedAt,
         },
         transaction: {
           hash: mintResult.transaction.hash,
           blockNumber: mintResult.transaction.blockNumber,
-          gasUsed: mintResult.transaction.gasUsed
+          gasUsed: mintResult.transaction.gasUsed,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/inft/:inftId
  * Get iNFT information
  */
-router.get('/:inftId',
-  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
+router.get(
+  "/:inftId",
+  validateParams({
+    inftId: require("../../middleware/validate").validators.validateInftId,
+  }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -74,7 +81,7 @@ router.get('/:inftId',
       const inft = await evolutionService.getINFT(inftId);
 
       if (!inft) {
-        throw new ApiError('iNFT not found', 404);
+        throw new ApiError("iNFT not found", 404);
       }
 
       res.json({
@@ -91,27 +98,29 @@ router.get('/:inftId',
           metadata: inft.metadata,
           mintedAt: inft.mintedAt,
           lastInteraction: inft.lastInteraction,
-          evolutionHistory: inft.evolutionHistory
+          evolutionHistory: inft.evolutionHistory,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * POST /api/inft/:inftId/evolve
  * Trigger iNFT evolution
  */
-router.post('/:inftId/evolve',
-  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
-  validate('evolveINFT'),
+router.post(
+  "/:inftId/evolve",
+  validateParams({
+    inftId: require("../../middleware/validate").validators.validateInftId,
+  }),
+  validate("evolveINFT"),
   inftOwnershipMiddleware,
-  auditLogger('inft_evolution'),
-  businessLogger('inft_evolution_initiated'),
+  auditLogger("inft_evolution"),
+  businessLogger("inft_evolution_initiated"),
   async (req, res, next) => {
     try {
       const { inftId } = req.params;
@@ -120,14 +129,14 @@ router.post('/:inftId/evolve',
 
       // Verify user permissions
       if (!user.permissions?.canEvolveINFT) {
-        throw new ApiError('Evolution permission required', 403);
+        throw new ApiError("Evolution permission required", 403);
       }
 
       const evolutionResult = await evolutionService.evolveINFT(inftId, {
         ...interactionData,
         userId: user.id,
         soulId: user.soul?.id,
-        requestId: req.requestId
+        requestId: req.requestId,
       });
 
       res.json({
@@ -139,29 +148,31 @@ router.post('/:inftId/evolve',
           evolvedTraits: evolutionResult.evolvedTraits,
           coherenceChange: evolutionResult.coherenceChange,
           trigger: evolutionResult.trigger,
-          evolvedAt: evolutionResult.evolvedAt
+          evolvedAt: evolutionResult.evolvedAt,
         },
         inft: {
           personality: evolutionResult.inft.personality,
           evolutionLevel: evolutionResult.inft.evolutionLevel,
           coherence: evolutionResult.inft.coherence,
-          traits: evolutionResult.inft.traits
+          traits: evolutionResult.inft.traits,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * POST /api/inft/:inftId/interact
  * Record interaction with iNFT
  */
-router.post('/:inftId/interact',
-  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
+router.post(
+  "/:inftId/interact",
+  validateParams({
+    inftId: require("../../middleware/validate").validators.validateInftId,
+  }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -174,7 +185,7 @@ router.post('/:inftId/interact',
         data,
         userId: user.id,
         timestamp: new Date(),
-        requestId: req.requestId
+        requestId: req.requestId,
       });
 
       res.json({
@@ -184,23 +195,25 @@ router.post('/:inftId/interact',
           inftId: interaction.inftId,
           type: interaction.type,
           data: interaction.data,
-          recordedAt: interaction.recordedAt
+          recordedAt: interaction.recordedAt,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/inft/:inftId/memory
  * Get iNFT memory and interaction history
  */
-router.get('/:inftId/memory',
-  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
+router.get(
+  "/:inftId/memory",
+  validateParams({
+    inftId: require("../../middleware/validate").validators.validateInftId,
+  }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -209,7 +222,7 @@ router.get('/:inftId/memory',
 
       const memory = await evolutionService.getINFTMemory(inftId, {
         page: parseInt(page),
-        limit: parseInt(limit)
+        limit: parseInt(limit),
       });
 
       res.json({
@@ -219,35 +232,37 @@ router.get('/:inftId/memory',
           totalInteractions: memory.totalInteractions,
           recentInteractions: memory.recentInteractions,
           memoryPatterns: memory.memoryPatterns,
-          coherence: memory.coherence
+          coherence: memory.coherence,
         },
-        interactions: memory.interactions.map(interaction => ({
+        interactions: memory.interactions.map((interaction) => ({
           id: interaction.id,
           type: interaction.type,
           data: interaction.data,
-          recordedAt: interaction.recordedAt
+          recordedAt: interaction.recordedAt,
         })),
         pagination: {
           page: memory.page,
           limit: memory.limit,
           total: memory.total,
-          pages: Math.ceil(memory.total / memory.limit)
+          pages: Math.ceil(memory.total / memory.limit),
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/inft/:inftId/evolution-history
  * Get iNFT evolution history
  */
-router.get('/:inftId/evolution-history',
-  validateParams({ inftId: require('../../middleware/validate').validators.validateInftId }),
+router.get(
+  "/:inftId/evolution-history",
+  validateParams({
+    inftId: require("../../middleware/validate").validators.validateInftId,
+  }),
   inftOwnershipMiddleware,
   async (req, res, next) => {
     try {
@@ -258,42 +273,41 @@ router.get('/:inftId/evolution-history',
       res.json({
         success: true,
         inftId,
-        evolutionHistory: history.map(event => ({
+        evolutionHistory: history.map((event) => ({
           level: event.level,
           evolvedAt: event.evolvedAt,
           trigger: event.trigger,
           traits: event.traits,
           coherence: event.coherence,
-          metadata: event.metadata
+          metadata: event.metadata,
         })),
         totalEvolutions: history.length,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/inft/marketplace
  * Get marketplace listings (public endpoint)
  */
-router.get('/marketplace', async (req, res, next) => {
+router.get("/marketplace", async (req, res, next) => {
   try {
-    const { page = 1, limit = 20, sort = 'recent', archetype } = req.query;
+    const { page = 1, limit = 20, sort = "recent", archetype } = req.query;
 
     const listings = await evolutionService.getMarketplaceListings({
       page: parseInt(page),
       limit: parseInt(limit),
       sort,
-      archetype
+      archetype,
     });
 
     res.json({
       success: true,
-      listings: listings.items.map(listing => ({
+      listings: listings.items.map((listing) => ({
         inftId: listing.inftId,
         tokenId: listing.tokenId,
         personality: listing.personality,
@@ -301,17 +315,16 @@ router.get('/marketplace', async (req, res, next) => {
         coherence: listing.coherence,
         price: listing.price,
         currency: listing.currency,
-        listedAt: listing.listedAt
+        listedAt: listing.listedAt,
       })),
       pagination: {
         page: listings.page,
         limit: listings.limit,
         total: listings.total,
-        pages: Math.ceil(listings.total / listings.limit)
+        pages: Math.ceil(listings.total / listings.limit),
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     next(error);
   }

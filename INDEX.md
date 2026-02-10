@@ -3,11 +3,13 @@
 ## 📌 Quick Navigation
 
 ### 🚀 For First-Time Users
+
 1. **Start here:** [QUICK_START.sh](QUICK_START.sh) - 3-minute setup guide
 2. **Then read:** [LAUNCH_SETUP.md](LAUNCH_SETUP.md) - Comprehensive setup guide
 3. **Configure:** Edit `.env.launch` with your values
 
 ### 📖 Documentation
+
 - **[FINAL_SPRINT_STATUS.md](FINAL_SPRINT_STATUS.md)** ⭐ **READ THIS FIRST**
   - Current status: 95% ready
   - Blocker: DEX router address
@@ -42,6 +44,7 @@
   - Getting started
 
 ### ⚙️ Configuration Files
+
 - **[.env.launch](.env.launch)** ⭐ **EDIT THIS**
   - All launch configuration parameters
   - Required and optional variables
@@ -54,6 +57,7 @@
 ### 🚀 Executable Scripts
 
 **Critical Path (Run First)**
+
 - **[scripts/deploy-dex.sh](scripts/deploy-dex.sh)** ⭐ **START HERE**
   - Detects or deploys Uniswap V2 Router on 0G Aristotle
   - Automatically updates .env.launch with router address
@@ -61,6 +65,7 @@
   - Usage: `bash scripts/deploy-dex.sh`
 
 **Monitoring & Automation**
+
 - **[scripts/monitor-grant.sh](scripts/monitor-grant.sh)**
   - Continuous grant status monitoring
   - Automatic deployment trigger on approval
@@ -74,6 +79,7 @@
   - Usage: `bash scripts/launch-dashboard.sh`
 
 **Deployment**
+
 - **[scripts/deploy.sh](scripts/deploy.sh)**
   - Flash deployment executor (3-phase)
   - Token contract deployment
@@ -170,6 +176,7 @@ Before launching, ensure you have:
 ## ⚡ Key Features
 
 ### Monitoring System
+
 - ✅ Continuous grant status checking (hourly)
 - ✅ Real-time dashboard updates (30 seconds)
 - ✅ Automatic deployment trigger
@@ -177,6 +184,7 @@ Before launching, ensure you have:
 - ✅ Complete activity logging
 
 ### Frontend Dashboard
+
 - ✅ MetaMask wallet connection
 - ✅ Gasless staking interface
 - ✅ Real-time OINIO balance
@@ -184,12 +192,14 @@ Before launching, ensure you have:
 - ✅ Tab-based navigation
 
 ### Backend Services
+
 - ✅ Gasless transaction API
 - ✅ Leaderboard ranking engine
 - ✅ User statistics tracking
 - ✅ Real-time updates
 
 ### Deployment System
+
 - ✅ Token contract deployment
 - ✅ Liquidity pool creation
 - ✅ Trading enablement
@@ -206,13 +216,13 @@ Before launching, ensure you have:
 
 ## 📈 Expected Timeline
 
-| Phase | Timeline | Status |
-|-------|----------|--------|
-| Configuration | Now | ✅ Complete |
-| Monitoring | 1-30 days | ⏳ Ready |
-| Grant Approval | Variable | 🔄 Waiting |
-| Deployment | 5 minutes | 🚀 Automated |
-| Live Trading | Immediate | 🎉 Goal |
+| Phase          | Timeline  | Status       |
+| -------------- | --------- | ------------ |
+| Configuration  | Now       | ✅ Complete  |
+| Monitoring     | 1-30 days | ⏳ Ready     |
+| Grant Approval | Variable  | 🔄 Waiting   |
+| Deployment     | 5 minutes | 🚀 Automated |
+| Live Trading   | Immediate | 🎉 Goal      |
 
 ## 🆘 Need Help?
 
@@ -237,7 +247,7 @@ Your OINIO project is **fully configured and production-ready**:
 ✅ Documentation complete  
 ✅ Security configured  
 ✅ Monitoring ready  
-✅ Deployment automated  
+✅ Deployment automated
 
 **Next step:** Edit `.env.launch` and start monitoring!
 

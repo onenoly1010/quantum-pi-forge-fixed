@@ -73,18 +73,6 @@ const Carousel = React.forwardRef<
         return
       }
 
-<<<<<<< HEAD
-      setCanScrollPrev(true) // api.canScroll('prev')
-      setCanScrollNext(true) // api.canScroll('next')
-    }, [])
-
-    const scrollPrev = React.useCallback(() => {
-      // api?.scrollTo(api.selectedScrollSnap() - 1)
-    }, [api])
-
-    const scrollNext = React.useCallback(() => {
-      // api?.scrollTo(api.selectedScrollSnap() + 1)
-=======
       setCanScrollPrev(api.canScrollPrev())
       setCanScrollNext(api.canScrollNext())
     }, [])
@@ -95,7 +83,6 @@ const Carousel = React.forwardRef<
 
     const scrollNext = React.useCallback(() => {
       api?.scrollNext()
->>>>>>> fix/dep-ci-uvicorn-port
     }, [api])
 
     const handleKeyDown = React.useCallback(
@@ -125,11 +112,8 @@ const Carousel = React.forwardRef<
       }
 
       onSelect(api)
-<<<<<<< HEAD
-      // api.on('reInit', onSelect) // Commented out for compatibility
-=======
       api.on('reInit', onSelect)
->>>>>>> fix/dep-ci-uvicorn-port
+      api.on('select', onSelect)
       api.on('select', onSelect)
 
       return () => {

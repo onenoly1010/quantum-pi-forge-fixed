@@ -3,10 +3,10 @@
  * Manages OINIO soul entities and their lifecycle
  */
 
-const { ethers } = require('ethers');
-const { dbManager } = require('../config/database');
-const { ApiError } = require('../shared/errors');
-const { generateId, hashData, verifySignature } = require('../shared/utils');
+const { ethers } = require("ethers");
+const { dbManager } = require("../config/database");
+const { ApiError } = require("../shared/errors");
+const { generateId, hashData, verifySignature } = require("../shared/utils");
 
 class SoulService {
   constructor() {
@@ -21,13 +21,16 @@ class SoulService {
     try {
       // Validate owner address
       if (!ethers.isAddress(ownerAddress)) {
-        throw new ApiError('Invalid owner address', 400);
+        throw new ApiError("Invalid owner address", 400);
       }
 
       // Check soul limit per user
       const existingSouls = await this.getSoulsByOwner(ownerAddress);
       if (existingSouls.length >= this.maxSoulsPerUser) {
-        throw new ApiError(`Maximum ${this.maxSoulsPerUser} souls allowed per user`, 400);
+        throw new ApiError(
+          `Maximum ${this.maxSoulsPerUser} souls allowed per user`,
+          400,
+        );
       }
 
       const soulId = generateId();
@@ -36,36 +39,36 @@ class SoulService {
         owner: ownerAddress.toLowerCase(),
         createdAt: new Date(),
         lastActivity: new Date(),
-        status: 'active',
+        status: "active",
         level: 1,
         experience: 0,
         metadata: {
           name: metadata.name || `Soul ${soulId.slice(-8)}`,
-          description: metadata.description || 'A quantum soul in the Pi Forge',
+          description: metadata.description || "A quantum soul in the Pi Forge",
           traits: metadata.traits || [],
           attributes: metadata.attributes || {},
-          ...metadata
+          ...metadata,
         },
         stats: {
           totalReadings: 0,
           totalINFTs: 0,
           totalEvolution: 0,
           lastReadingAt: null,
-          createdINFTs: []
+          createdINFTs: [],
         },
         blockchain: {
           registered: false,
           transactionHash: null,
-          blockNumber: null
-        }
+          blockNumber: null,
+        },
       };
 
-      const souls = dbManager.getCollection('souls');
+      const souls = dbManager.getCollection("souls");
       await souls.insertOne(soul);
 
       return soul;
     } catch (error) {
-      console.error('Soul creation error:', error);
+      console.error("Soul creation error:", error);
       throw error;
     }
   }
@@ -74,11 +77,11 @@ class SoulService {
    * Get soul by ID
    */
   async getSoulById(soulId) {
-    const souls = dbManager.getCollection('souls');
+    const souls = dbManager.getCollection("souls");
     const soul = await souls.findOne({ soulId });
 
     if (!soul) {
-      throw new ApiError('Soul not found', 404);
+      throw new ApiError("Soul not found", 404);
     }
 
     return soul;
@@ -88,11 +91,14 @@ class SoulService {
    * Get souls by owner
    */
   async getSoulsByOwner(ownerAddress) {
-    const souls = dbManager.getCollection('souls');
-    return await souls.find({
-      owner: ownerAddress.toLowerCase(),
-      status: 'active'
-    }).sort({ createdAt: -1 }).toArray();
+    const souls = dbManager.getCollection("souls");
+    return await souls
+      .find({
+        owner: ownerAddress.toLowerCase(),
+        status: "active",
+      })
+      .sort({ createdAt: -1 })
+      .toArray();
   }
 
   /**
@@ -101,13 +107,17 @@ class SoulService {
   async updateSoulMetadata(soulId, updates, signature, message) {
     try {
       // Verify ownership
-      const isOwner = await this.verifySoulOwnership(soulId, signature, message);
+      const isOwner = await this.verifySoulOwnership(
+        soulId,
+        signature,
+        message,
+      );
       if (!isOwner) {
-        throw new ApiError('Unauthorized: Not the soul owner', 403);
+        throw new ApiError("Unauthorized: Not the soul owner", 403);
       }
 
-      const souls = dbManager.getCollection('souls');
-      const allowedUpdates = ['name', 'description', 'traits', 'attributes'];
+      const souls = dbManager.getCollection("souls");
+      const allowedUpdates = ["name", "description", "traits", "attributes"];
 
       const updateData = {};
       for (const [key, value] of Object.entries(updates)) {
@@ -117,23 +127,20 @@ class SoulService {
       }
 
       if (Object.keys(updateData).length === 0) {
-        throw new ApiError('No valid metadata updates provided', 400);
+        throw new ApiError("No valid metadata updates provided", 400);
       }
 
       updateData.updatedAt = new Date();
 
-      const result = await souls.updateOne(
-        { soulId },
-        { $set: updateData }
-      );
+      const result = await souls.updateOne({ soulId }, { $set: updateData });
 
       if (result.matchedCount === 0) {
-        throw new ApiError('Soul not found', 404);
+        throw new ApiError("Soul not found", 404);
       }
 
       return await this.getSoulById(soulId);
     } catch (error) {
-      console.error('Soul metadata update error:', error);
+      console.error("Soul metadata update error:", error);
       throw error;
     }
   }
@@ -142,24 +149,24 @@ class SoulService {
    * Update soul activity
    */
   async updateSoulActivity(soulId, activityType, metadata = {}) {
-    const souls = dbManager.getCollection('souls');
+    const souls = dbManager.getCollection("souls");
 
     const updateData = {
       lastActivity: new Date(),
-      [`stats.last${activityType}At`]: new Date()
+      [`stats.last${activityType}At`]: new Date(),
     };
 
     // Update specific stats based on activity type
     switch (activityType) {
-      case 'Reading':
-        updateData.$inc = { 'stats.totalReadings': 1 };
+      case "Reading":
+        updateData.$inc = { "stats.totalReadings": 1 };
         break;
-      case 'INFTCreation':
-        updateData.$inc = { 'stats.totalINFTs': 1 };
-        updateData.$push = { 'stats.createdINFTs': metadata.inftId };
+      case "INFTCreation":
+        updateData.$inc = { "stats.totalINFTs": 1 };
+        updateData.$push = { "stats.createdINFTs": metadata.inftId };
         break;
-      case 'Evolution':
-        updateData.$inc = { 'stats.totalEvolution': 1, level: 1 };
+      case "Evolution":
+        updateData.$inc = { "stats.totalEvolution": 1, level: 1 };
         break;
     }
 
@@ -177,7 +184,7 @@ class SoulService {
 
       return recoveredAddress.toLowerCase() === soul.owner.toLowerCase();
     } catch (error) {
-      console.error('Soul ownership verification error:', error);
+      console.error("Soul ownership verification error:", error);
       return false;
     }
   }
@@ -188,41 +195,48 @@ class SoulService {
   async transferSoul(soulId, newOwner, signature, message) {
     try {
       // Verify current ownership
-      const isOwner = await this.verifySoulOwnership(soulId, signature, message);
+      const isOwner = await this.verifySoulOwnership(
+        soulId,
+        signature,
+        message,
+      );
       if (!isOwner) {
-        throw new ApiError('Unauthorized: Not the soul owner', 403);
+        throw new ApiError("Unauthorized: Not the soul owner", 403);
       }
 
       // Validate new owner address
       if (!ethers.isAddress(newOwner)) {
-        throw new ApiError('Invalid new owner address', 400);
+        throw new ApiError("Invalid new owner address", 400);
       }
 
       // Check soul limit for new owner
       const existingSouls = await this.getSoulsByOwner(newOwner);
       if (existingSouls.length >= this.maxSoulsPerUser) {
-        throw new ApiError(`New owner already has maximum ${this.maxSoulsPerUser} souls`, 400);
+        throw new ApiError(
+          `New owner already has maximum ${this.maxSoulsPerUser} souls`,
+          400,
+        );
       }
 
-      const souls = dbManager.getCollection('souls');
+      const souls = dbManager.getCollection("souls");
       const result = await souls.updateOne(
         { soulId },
         {
           $set: {
             owner: newOwner.toLowerCase(),
             transferredAt: new Date(),
-            previousOwner: (await this.getSoulById(soulId)).owner
-          }
-        }
+            previousOwner: (await this.getSoulById(soulId)).owner,
+          },
+        },
       );
 
       if (result.matchedCount === 0) {
-        throw new ApiError('Soul not found', 404);
+        throw new ApiError("Soul not found", 404);
       }
 
       return await this.getSoulById(soulId);
     } catch (error) {
-      console.error('Soul transfer error:', error);
+      console.error("Soul transfer error:", error);
       throw error;
     }
   }
@@ -233,29 +247,33 @@ class SoulService {
   async deactivateSoul(soulId, signature, message) {
     try {
       // Verify ownership
-      const isOwner = await this.verifySoulOwnership(soulId, signature, message);
+      const isOwner = await this.verifySoulOwnership(
+        soulId,
+        signature,
+        message,
+      );
       if (!isOwner) {
-        throw new ApiError('Unauthorized: Not the soul owner', 403);
+        throw new ApiError("Unauthorized: Not the soul owner", 403);
       }
 
-      const souls = dbManager.getCollection('souls');
+      const souls = dbManager.getCollection("souls");
       const result = await souls.updateOne(
         { soulId },
         {
           $set: {
-            status: 'inactive',
-            deactivatedAt: new Date()
-          }
-        }
+            status: "inactive",
+            deactivatedAt: new Date(),
+          },
+        },
       );
 
       if (result.matchedCount === 0) {
-        throw new ApiError('Soul not found', 404);
+        throw new ApiError("Soul not found", 404);
       }
 
       return { success: true, soulId };
     } catch (error) {
-      console.error('Soul deactivation error:', error);
+      console.error("Soul deactivation error:", error);
       throw error;
     }
   }
@@ -275,7 +293,9 @@ class SoulService {
     const baseExperience = 100;
     const experienceMultiplier = 1.5;
 
-    const requiredExperience = Math.floor(baseExperience * Math.pow(experienceMultiplier, currentLevel - 1));
+    const requiredExperience = Math.floor(
+      baseExperience * Math.pow(experienceMultiplier, currentLevel - 1),
+    );
 
     return {
       currentLevel,
@@ -283,10 +303,10 @@ class SoulService {
       requiredExperience,
       requirements: [
         `Complete ${requiredExperience} total activities`,
-        'Maintain active status for 30 days',
-        'Generate at least 10 oracle readings',
-        'Create 5 iNFTs'
-      ]
+        "Maintain active status for 30 days",
+        "Generate at least 10 oracle readings",
+        "Create 5 iNFTs",
+      ],
     };
   }
 
@@ -301,7 +321,7 @@ class SoulService {
       soul.stats.totalReadings >= 10 &&
       soul.stats.totalINFTs >= 5 &&
       soul.experience >= requirements.requiredExperience &&
-      soul.status === 'active';
+      soul.status === "active";
 
     return {
       canEvolve,
@@ -310,8 +330,8 @@ class SoulService {
       progress: {
         experience: soul.experience,
         readings: soul.stats.totalReadings,
-        infts: soul.stats.totalINFTs
-      }
+        infts: soul.stats.totalINFTs,
+      },
     };
   }
 
@@ -319,18 +339,19 @@ class SoulService {
    * Get souls with pagination
    */
   async getSoulsPaginated(page = 1, limit = 20, filters = {}) {
-    const souls = dbManager.getCollection('souls');
+    const souls = dbManager.getCollection("souls");
 
-    const query = { status: 'active', ...filters };
+    const query = { status: "active", ...filters };
     const skip = (page - 1) * limit;
 
     const [total, items] = await Promise.all([
       souls.countDocuments(query),
-      souls.find(query)
+      souls
+        .find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .toArray()
+        .toArray(),
     ]);
 
     return {
@@ -341,8 +362,8 @@ class SoulService {
         total,
         pages: Math.ceil(total / limit),
         hasNext: page * limit < total,
-        hasPrev: page > 1
-      }
+        hasPrev: page > 1,
+      },
     };
   }
 
@@ -350,26 +371,23 @@ class SoulService {
    * Search souls by metadata
    */
   async searchSouls(searchTerm, filters = {}) {
-    const souls = dbManager.getCollection('souls');
+    const souls = dbManager.getCollection("souls");
 
     const query = {
-      status: 'active',
+      status: "active",
       ...filters,
       $or: [
-        { 'metadata.name': { $regex: searchTerm, $options: 'i' } },
-        { 'metadata.description': { $regex: searchTerm, $options: 'i' } },
-        { soulId: { $regex: searchTerm, $options: 'i' } }
-      ]
+        { "metadata.name": { $regex: searchTerm, $options: "i" } },
+        { "metadata.description": { $regex: searchTerm, $options: "i" } },
+        { soulId: { $regex: searchTerm, $options: "i" } },
+      ],
     };
 
-    return await souls.find(query)
-      .sort({ createdAt: -1 })
-      .limit(50)
-      .toArray();
+    return await souls.find(query).sort({ createdAt: -1 }).limit(50).toArray();
   }
 }
 
 module.exports = {
   SoulService,
-  soulService: new SoulService()
+  soulService: new SoulService(),
 };

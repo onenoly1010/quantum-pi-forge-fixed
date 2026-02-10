@@ -30,24 +30,24 @@ This specification defines the endpoints, data models, and methods for interacti
 
 ### 1.1. Node Object
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | String (UUID) | Unique identifier for the Node. |
-| `type` | String | Node type (A21.1: Issue, Artifact, Commit, LogEntry). |
-| `state` | String | Current State-Transition Matrix state (A22.1). |
-| `title` | String | Human-readable title or summary. |
-| `content_hash` | String (SHA-256) | Hash of the content body. |
-| `timestamp` | UTC DateTime | Creation timestamp. |
-| `metadata` | Object | Arbitrary key-value pairs. |
+| Field          | Type             | Description                                           |
+| -------------- | ---------------- | ----------------------------------------------------- |
+| `id`           | String (UUID)    | Unique identifier for the Node.                       |
+| `type`         | String           | Node type (A21.1: Issue, Artifact, Commit, LogEntry). |
+| `state`        | String           | Current State-Transition Matrix state (A22.1).        |
+| `title`        | String           | Human-readable title or summary.                      |
+| `content_hash` | String (SHA-256) | Hash of the content body.                             |
+| `timestamp`    | UTC DateTime     | Creation timestamp.                                   |
+| `metadata`     | Object           | Arbitrary key-value pairs.                            |
 
 ### 1.2. Edge Object
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `source_id` | String (UUID) | ID of the source Node. |
-| `target_id` | String (UUID) | ID of the target Node. |
-| `type` | String | Edge type (A21.2: Parent-Child, Precedes-Succeeds, etc.). |
-| `weight` | Number | Numerical measure of connection strength. |
+| Field       | Type          | Description                                               |
+| ----------- | ------------- | --------------------------------------------------------- |
+| `source_id` | String (UUID) | ID of the source Node.                                    |
+| `target_id` | String (UUID) | ID of the target Node.                                    |
+| `type`      | String        | Edge type (A21.2: Parent-Child, Precedes-Succeeds, etc.). |
+| `weight`    | Number        | Numerical measure of connection strength.                 |
 
 ---
 
@@ -61,12 +61,12 @@ Initiates a forward-looking simulation run (A26) to predict **Σ** (A27) for a s
 
 ```json
 {
-    "current_state_id": "string",
-    "proposed_actions": [
-        {"agent_id": "string", "action_type": "string", "description": "string"}
-        // ... more actions
-    ],
-    "lookahead_steps": 3  // (k in A28.1)
+  "current_state_id": "string",
+  "proposed_actions": [
+    { "agent_id": "string", "action_type": "string", "description": "string" }
+    // ... more actions
+  ],
+  "lookahead_steps": 3 // (k in A28.1)
 }
 ```
 
@@ -113,6 +113,7 @@ Retrieves a specific **Node** object (A21).
 Retrieves the entire Canon graph structure (Nodes and Edges). Primarily used for visualization (A30).
 
 **Query Parameters:**
+
 - `state` (optional filter)
 - `node_type` (optional filter)
 
@@ -129,18 +130,18 @@ Retrieves the entire Canon graph structure (Nodes and Edges). Primarily used for
 
 ## Appendix: Cross-Reference Index
 
-| Artifact | Description |
-|----------|-------------|
-| **A21** | Genesis Data Structure (GDS) - Node/Edge type definitions |
-| **A21.1** | Node types: Issue, Artifact, Commit, LogEntry |
-| **A21.2** | Edge types: Parent-Child, Precedes-Succeeds |
-| **A22** | State-Transition Matrix (STM) |
-| **A22.1** | State enumeration |
-| **A26** | Simulation run protocol |
-| **A27** | Σ (Sigma) - Canon stability metric |
-| **A28** | Lookahead configuration |
-| **A28.1** | `k` parameter (lookahead steps) |
-| **A30** | Graph visualization layer |
+| Artifact  | Description                                               |
+| --------- | --------------------------------------------------------- |
+| **A21**   | Genesis Data Structure (GDS) - Node/Edge type definitions |
+| **A21.1** | Node types: Issue, Artifact, Commit, LogEntry             |
+| **A21.2** | Edge types: Parent-Child, Precedes-Succeeds               |
+| **A22**   | State-Transition Matrix (STM)                             |
+| **A22.1** | State enumeration                                         |
+| **A26**   | Simulation run protocol                                   |
+| **A27**   | Σ (Sigma) - Canon stability metric                        |
+| **A28**   | Lookahead configuration                                   |
+| **A28.1** | `k` parameter (lookahead steps)                           |
+| **A30**   | Graph visualization layer                                 |
 
 ---
 
@@ -156,12 +157,13 @@ Retrieves the entire Canon graph structure (Nodes and Edges). Primarily used for
 ### Authentication
 
 All endpoints require a valid `Authorization: Bearer <token>` header with appropriate scope:
+
 - `gds:read` - Read access to GDS endpoints
 - `qgse:simulate` - Permission to run simulations
 - `qgse:metrics` - Access to stability metrics
 
 ---
 
-*Specification Version: 1.0*  
-*Last Updated: Canonical*  
-*Status: RATIFIED*
+_Specification Version: 1.0_  
+_Last Updated: Canonical_  
+_Status: RATIFIED_

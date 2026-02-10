@@ -1,31 +1,47 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, ArrowUpDown, Coins, Zap, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react';
-import { SOVEREIGN_CONFIG } from '@/lib/sovereign-config';
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Loader2,
+  ArrowUpDown,
+  Coins,
+  Zap,
+  AlertCircle,
+  CheckCircle,
+  RefreshCw,
+} from "lucide-react";
+import { SOVEREIGN_CONFIG } from "@/lib/sovereign-config";
 
 interface SovereignSwapProps {
   className?: string;
 }
 
-type SwapDirection = 'OINIO_TO_0G' | '0G_TO_OINIO';
+type SwapDirection = "OINIO_TO_0G" | "0G_TO_OINIO";
 
 export default function SovereignSwap({ className }: SovereignSwapProps) {
-  const [direction, setDirection] = useState<SwapDirection>('0G_TO_OINIO');
-  const [amountIn, setAmountIn] = useState<string>('0.01');
-  const [amountOut, setAmountOut] = useState<string>('0');
+  const [direction, setDirection] = useState<SwapDirection>("0G_TO_OINIO");
+  const [amountIn, setAmountIn] = useState<string>("0.01");
+  const [amountOut, setAmountOut] = useState<string>("0");
   const [isLoading, setIsLoading] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'connecting' | 'approving' | 'swapping' | 'success' | 'error'>('idle');
-  const [error, setError] = useState<string>('');
-  const [txHash, setTxHash] = useState<string>('');
-  const [balances, setBalances] = useState({ oinio: '0', eth: '0' });
+  const [status, setStatus] = useState<
+    "idle" | "connecting" | "approving" | "swapping" | "success" | "error"
+  >("idle");
+  const [error, setError] = useState<string>("");
+  const [txHash, setTxHash] = useState<string>("");
+  const [balances, setBalances] = useState({ oinio: "0", eth: "0" });
   const [isConnected, setIsConnected] = useState(false);
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
@@ -41,18 +57,18 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
     if (amountIn && parseFloat(amountIn) > 0) {
       calculateOutput();
     } else {
-      setAmountOut('0');
+      setAmountOut("0");
     }
   }, [amountIn, direction]);
 
   const initializeWeb3 = async () => {
-    if (typeof window.ethereum !== 'undefined') {
+    if (typeof window.ethereum !== "undefined") {
       try {
         const web3Provider = new ethers.BrowserProvider(window.ethereum);
         setProvider(web3Provider);
 
         // Request account access
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await window.ethereum.request({ method: "eth_requestAccounts" });
 
         const web3Signer = await web3Provider.getSigner();
         setSigner(web3Signer);
@@ -62,21 +78,20 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
         await updateBalances(web3Signer);
 
         // Listen for account changes
-        window.ethereum.on('accountsChanged', () => {
+        window.ethereum.on("accountsChanged", () => {
           window.location.reload();
         });
 
         // Listen for network changes
-        window.ethereum.on('chainChanged', () => {
+        window.ethereum.on("chainChanged", () => {
           window.location.reload();
         });
-
       } catch (error) {
-        console.error('Web3 initialization failed:', error);
-        setError('Failed to connect wallet');
+        console.error("Web3 initialization failed:", error);
+        setError("Failed to connect wallet");
       }
     } else {
-      setError('MetaMask not detected. Please install MetaMask to trade.');
+      setError("MetaMask not detected. Please install MetaMask to trade.");
     }
   };
 
@@ -91,52 +106,53 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
       // Get OINIO balance
       const oinioContract = new ethers.Contract(
         SOVEREIGN_CONFIG.OINIO_TOKEN,
-        ['function balanceOf(address) view returns (uint256)'],
-        provider
+        ["function balanceOf(address) view returns (uint256)"],
+        provider,
       );
       const oinioBal = await oinioContract.balanceOf(address);
       const oinioBalanceFormatted = ethers.formatEther(oinioBal);
 
       setBalances({
         eth: ethBalanceFormatted,
-        oinio: oinioBalanceFormatted
+        oinio: oinioBalanceFormatted,
       });
-
     } catch (error) {
-      console.error('Failed to update balances:', error);
+      console.error("Failed to update balances:", error);
     }
   };
 
   const switchTo0GAristotle = async () => {
     try {
       await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
+        method: "wallet_switchEthereumChain",
         params: [{ chainId: `0x${SOVEREIGN_CONFIG.CHAIN_ID.toString(16)}` }],
       });
     } catch (switchError: any) {
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [{
-              chainId: `0x${SOVEREIGN_CONFIG.CHAIN_ID.toString(16)}`,
-              chainName: SOVEREIGN_CONFIG.NAME,
-              nativeCurrency: {
-                name: '0G',
-                symbol: '0G',
-                decimals: 18,
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: `0x${SOVEREIGN_CONFIG.CHAIN_ID.toString(16)}`,
+                chainName: SOVEREIGN_CONFIG.NAME,
+                nativeCurrency: {
+                  name: "0G",
+                  symbol: "0G",
+                  decimals: 18,
+                },
+                rpcUrls: [SOVEREIGN_CONFIG.RPC_URL],
+                blockExplorerUrls: [SOVEREIGN_CONFIG.EXPLORER_URL],
               },
-              rpcUrls: [SOVEREIGN_CONFIG.RPC_URL],
-              blockExplorerUrls: [SOVEREIGN_CONFIG.EXPLORER_URL],
-            }],
+            ],
           });
         } catch (addError) {
-          console.error('Failed to add 0G Aristotle network:', addError);
-          setError('Failed to add 0G Aristotle network to MetaMask');
+          console.error("Failed to add 0G Aristotle network:", addError);
+          setError("Failed to add 0G Aristotle network to MetaMask");
         }
       } else {
-        console.error('Failed to switch to 0G Aristotle:', switchError);
-        setError('Failed to switch to 0G Aristotle network');
+        console.error("Failed to switch to 0G Aristotle:", switchError);
+        setError("Failed to switch to 0G Aristotle network");
       }
     }
   };
@@ -148,25 +164,37 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
     try {
       const routerContract = new ethers.Contract(
         SOVEREIGN_CONFIG.DEX_ROUTER,
-        ['function getAmountsOut(uint amountIn, address[] calldata path) view returns (uint[] memory amounts)'],
-        provider
+        [
+          "function getAmountsOut(uint amountIn, address[] calldata path) view returns (uint[] memory amounts)",
+        ],
+        provider,
       );
 
-      const amountInWei = direction === '0G_TO_OINIO'
-        ? ethers.parseEther(amountIn)
-        : ethers.parseEther(amountIn);
+      const amountInWei =
+        direction === "0G_TO_OINIO"
+          ? ethers.parseEther(amountIn)
+          : ethers.parseEther(amountIn);
 
-      const path = direction === '0G_TO_OINIO'
-        ? [SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS || ethers.ZeroAddress, SOVEREIGN_CONFIG.OINIO_TOKEN]
-        : [SOVEREIGN_CONFIG.OINIO_TOKEN, SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS || ethers.ZeroAddress];
+      const path =
+        direction === "0G_TO_OINIO"
+          ? [
+              SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS ||
+                ethers.ZeroAddress,
+              SOVEREIGN_CONFIG.OINIO_TOKEN,
+            ]
+          : [
+              SOVEREIGN_CONFIG.OINIO_TOKEN,
+              SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS ||
+                ethers.ZeroAddress,
+            ];
 
       const amountsOut = await routerContract.getAmountsOut(amountInWei, path);
       const outputAmount = ethers.formatEther(amountsOut[1]);
 
       setAmountOut(outputAmount);
     } catch (error) {
-      console.error('Failed to calculate output:', error);
-      setAmountOut('0');
+      console.error("Failed to calculate output:", error);
+      setAmountOut("0");
     } finally {
       setIsCalculating(false);
     }
@@ -176,29 +204,31 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
     if (!signer) return;
 
     setIsLoading(true);
-    setStatus('approving');
-    setError('');
+    setStatus("approving");
+    setError("");
 
     try {
       const oinioContract = new ethers.Contract(
         SOVEREIGN_CONFIG.OINIO_TOKEN,
-        ['function approve(address spender, uint256 amount) returns (bool)'],
-        signer
+        ["function approve(address spender, uint256 amount) returns (bool)"],
+        signer,
       );
 
       const maxUint256 = ethers.MaxUint256;
-      const tx = await oinioContract.approve(SOVEREIGN_CONFIG.DEX_ROUTER, maxUint256);
+      const tx = await oinioContract.approve(
+        SOVEREIGN_CONFIG.DEX_ROUTER,
+        maxUint256,
+      );
 
       setTxHash(tx.hash);
       await tx.wait();
 
-      setStatus('idle');
-      success('OINIO approval successful!');
-
+      setStatus("idle");
+      success("OINIO approval successful!");
     } catch (error: any) {
-      console.error('Approval failed:', error);
-      setStatus('error');
-      setError(error.message || 'Failed to approve OINIO');
+      console.error("Approval failed:", error);
+      setStatus("error");
+      setError(error.message || "Failed to approve OINIO");
     } finally {
       setIsLoading(false);
     }
@@ -206,57 +236,81 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
 
   const executeSwap = async () => {
     if (!signer || !provider) {
-      setError('Wallet not connected');
+      setError("Wallet not connected");
       return;
     }
 
     setIsLoading(true);
-    setStatus('swapping');
-    setError('');
-    setTxHash('');
+    setStatus("swapping");
+    setError("");
+    setTxHash("");
 
     try {
       const amountInWei = ethers.parseEther(amountIn);
-      const amountOutMin = ethers.parseEther(amountOut) * BigInt(Math.floor((100 - slippage) * 100)) / BigInt(10000); // Apply slippage
+      const amountOutMin =
+        (ethers.parseEther(amountOut) *
+          BigInt(Math.floor((100 - slippage) * 100))) /
+        BigInt(10000); // Apply slippage
 
       const routerContract = new ethers.Contract(
         SOVEREIGN_CONFIG.DEX_ROUTER,
         [
-          'function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) payable returns (uint[] memory amounts)',
-          'function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) returns (uint[] memory amounts)'
+          "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) payable returns (uint[] memory amounts)",
+          "function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) returns (uint[] memory amounts)",
         ],
-        signer
+        signer,
       );
 
       const deadline = Math.floor(Date.now() / 1000) + 600; // 10 minutes
       const to = await signer.getAddress();
 
       let tx;
-      if (direction === '0G_TO_OINIO') {
-        const path = [SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS || ethers.ZeroAddress, SOVEREIGN_CONFIG.OINIO_TOKEN];
-        tx = await routerContract.swapExactETHForTokens(amountOutMin, path, to, deadline, { value: amountInWei });
+      if (direction === "0G_TO_OINIO") {
+        const path = [
+          SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS ||
+            ethers.ZeroAddress,
+          SOVEREIGN_CONFIG.OINIO_TOKEN,
+        ];
+        tx = await routerContract.swapExactETHForTokens(
+          amountOutMin,
+          path,
+          to,
+          deadline,
+          { value: amountInWei },
+        );
       } else {
-        const path = [SOVEREIGN_CONFIG.OINIO_TOKEN, SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS || ethers.ZeroAddress];
-        tx = await routerContract.swapExactTokensForETH(amountInWei, amountOutMin, path, to, deadline);
+        const path = [
+          SOVEREIGN_CONFIG.OINIO_TOKEN,
+          SOVEREIGN_CONFIG.NETWORK.NATIVE_CURRENCY.ADDRESS ||
+            ethers.ZeroAddress,
+        ];
+        tx = await routerContract.swapExactTokensForETH(
+          amountInWei,
+          amountOutMin,
+          path,
+          to,
+          deadline,
+        );
       }
 
       setTxHash(tx.hash);
       await tx.wait();
 
-      setStatus('success');
+      setStatus("success");
       await updateBalances(signer);
-      success('Swap successful!');
-
+      success("Swap successful!");
     } catch (error: any) {
-      console.error('Swap failed:', error);
-      setStatus('error');
+      console.error("Swap failed:", error);
+      setStatus("error");
 
-      if (error.code === 'ACTION_REJECTED') {
-        setError('Transaction rejected by user');
-      } else if (error.message.includes('INSUFFICIENT_OUTPUT_AMOUNT')) {
-        setError('Price impact too high. Try reducing amount or increasing slippage.');
+      if (error.code === "ACTION_REJECTED") {
+        setError("Transaction rejected by user");
+      } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT")) {
+        setError(
+          "Price impact too high. Try reducing amount or increasing slippage.",
+        );
       } else {
-        setError(error.message || 'Failed to execute swap');
+        setError(error.message || "Failed to execute swap");
       }
     } finally {
       setIsLoading(false);
@@ -264,44 +318,46 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
   };
 
   const toggleDirection = () => {
-    setDirection(prev => prev === '0G_TO_OINIO' ? 'OINIO_TO_0G' : '0G_TO_OINIO');
-    setAmountIn('0.01');
-    setAmountOut('0');
+    setDirection((prev) =>
+      prev === "0G_TO_OINIO" ? "OINIO_TO_0G" : "0G_TO_OINIO",
+    );
+    setAmountIn("0.01");
+    setAmountOut("0");
   };
 
   const getStatusMessage = () => {
     switch (status) {
-      case 'connecting':
-        return 'Connecting to wallet...';
-      case 'approving':
-        return 'Approving OINIO spending...';
-      case 'swapping':
-        return 'Executing sovereign swap...';
-      case 'success':
-        return 'Swap completed successfully!';
-      case 'error':
-        return 'Swap failed';
+      case "connecting":
+        return "Connecting to wallet...";
+      case "approving":
+        return "Approving OINIO spending...";
+      case "swapping":
+        return "Executing sovereign swap...";
+      case "success":
+        return "Swap completed successfully!";
+      case "error":
+        return "Swap failed";
       default:
-        return '';
+        return "";
     }
   };
 
   const getStatusIcon = () => {
     switch (status) {
-      case 'connecting':
-      case 'approving':
-      case 'swapping':
+      case "connecting":
+      case "approving":
+      case "swapping":
         return <Loader2 className="h-4 w-4 animate-spin" />;
-      case 'success':
+      case "success":
         return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
       default:
         return <Coins className="h-4 w-4" />;
     }
   };
 
-  const needsApproval = direction === 'OINIO_TO_0G' && parseFloat(amountIn) > 0;
+  const needsApproval = direction === "OINIO_TO_0G" && parseFloat(amountIn) > 0;
 
   return (
     <Card className={`w-full max-w-lg mx-auto ${className}`}>
@@ -321,9 +377,7 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
           <Badge variant={isConnected ? "default" : "secondary"}>
             {isConnected ? "Connected" : "Not Connected"}
           </Badge>
-          <Badge variant="outline">
-            0G Aristotle Sovereign
-          </Badge>
+          <Badge variant="outline">0G Aristotle Sovereign</Badge>
         </div>
 
         {/* Balance Display */}
@@ -331,11 +385,15 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div className="text-center p-2 bg-muted rounded">
               <div className="font-medium">0G Balance</div>
-              <div className="text-muted-foreground">{parseFloat(balances.eth).toFixed(4)} 0G</div>
+              <div className="text-muted-foreground">
+                {parseFloat(balances.eth).toFixed(4)} 0G
+              </div>
             </div>
             <div className="text-center p-2 bg-muted rounded">
               <div className="font-medium">OINIO Balance</div>
-              <div className="text-muted-foreground">{parseFloat(balances.oinio).toFixed(2)} OINIO</div>
+              <div className="text-muted-foreground">
+                {parseFloat(balances.oinio).toFixed(2)} OINIO
+              </div>
             </div>
           </div>
         )}
@@ -355,7 +413,7 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
         {/* Input Section */}
         <div className="space-y-2">
           <label className="text-sm font-medium">
-            From: {direction === '0G_TO_OINIO' ? '0G' : 'OINIO'}
+            From: {direction === "0G_TO_OINIO" ? "0G" : "OINIO"}
           </label>
           <Input
             type="number"
@@ -372,7 +430,7 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">
-              To: {direction === '0G_TO_OINIO' ? 'OINIO' : '0G'}
+              To: {direction === "0G_TO_OINIO" ? "OINIO" : "0G"}
             </label>
             {isCalculating && <RefreshCw className="h-4 w-4 animate-spin" />}
           </div>
@@ -415,7 +473,7 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
         )}
 
         {/* Status Display */}
-        {status !== 'idle' && (
+        {status !== "idle" && (
           <Alert>
             {getStatusIcon()}
             <AlertDescription>{getStatusMessage()}</AlertDescription>
@@ -450,7 +508,7 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
                   Connecting...
                 </>
               ) : (
-                'Connect Wallet'
+                "Connect Wallet"
               )}
             </Button>
           ) : (
@@ -462,13 +520,13 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
                   className="w-full"
                   disabled={isLoading || parseFloat(amountIn) <= 0}
                 >
-                  {isLoading && status === 'approving' ? (
+                  {isLoading && status === "approving" ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Approving...
                     </>
                   ) : (
-                    'Approve OINIO'
+                    "Approve OINIO"
                   )}
                 </Button>
               )}
@@ -476,9 +534,13 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
               <Button
                 onClick={executeSwap}
                 className="w-full"
-                disabled={isLoading || parseFloat(amountIn) <= 0 || parseFloat(amountOut) <= 0}
+                disabled={
+                  isLoading ||
+                  parseFloat(amountIn) <= 0 ||
+                  parseFloat(amountOut) <= 0
+                }
               >
-                {isLoading && status === 'swapping' ? (
+                {isLoading && status === "swapping" ? (
                   <>
                     {getStatusIcon()}
                     <span className="ml-2">{getStatusMessage()}</span>
@@ -486,7 +548,8 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
                 ) : (
                   <>
                     <Coins className="mr-2 h-4 w-4" />
-                    Swap {direction === '0G_TO_OINIO' ? '0G → OINIO' : 'OINIO → 0G'}
+                    Swap{" "}
+                    {direction === "0G_TO_OINIO" ? "0G → OINIO" : "OINIO → 0G"}
                   </>
                 )}
               </Button>
@@ -506,7 +569,9 @@ export default function SovereignSwap({ className }: SovereignSwapProps) {
         {/* Info */}
         <div className="text-xs text-muted-foreground text-center space-y-1">
           <div>Sovereign DEX • 0.3% Trading Fee</div>
-          <div>Network: 0G Aristotle • Chain ID: {SOVEREIGN_CONFIG.CHAIN_ID}</div>
+          <div>
+            Network: 0G Aristotle • Chain ID: {SOVEREIGN_CONFIG.CHAIN_ID}
+          </div>
           <div>⚡ Powered by Quantum Resonance • 1010 Hz</div>
         </div>
       </CardContent>

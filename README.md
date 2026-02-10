@@ -1,17 +1,18 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
-/**
- * @title Quantum Pi Forge: Foundational Truth
- * @notice This protocol is a Sovereign Public Good, established on the 0G Aristotle Mainnet.
- * @dev DEDICATION & RECOGNITION:
- * This system is not owned; it is stewarded. We recognize the collective efforts of the
- * 0G Foundation, the validators of the Aristotle network, and the decentralized
- * contributors whose technical labor provides the substrate for this truth.
- * The Forge is a gift to the ecosystem—an anchor of mathematical integrity
- * and operational resilience. It is inclusive by design, transparent by necessity,
- * and self-sustaining by the laws of its own logic.
- * "From the many, one truth remains."
- */
+/\*\*
+
+- @title Quantum Pi Forge: Foundational Truth
+- @notice This protocol is a Sovereign Public Good, established on the 0G Aristotle Mainnet.
+- @dev DEDICATION & RECOGNITION:
+- This system is not owned; it is stewarded. We recognize the collective efforts of the
+- 0G Foundation, the validators of the Aristotle network, and the decentralized
+- contributors whose technical labor provides the substrate for this truth.
+- The Forge is a gift to the ecosystem—an anchor of mathematical integrity
+- and operational resilience. It is inclusive by design, transparent by necessity,
+- and self-sustaining by the laws of its own logic.
+- "From the many, one truth remains."
+  \*/
 
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
@@ -26,7 +27,7 @@ The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate
 
 Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](./SOVEREIGN_CANTICLE.md)**
 
-*To the co-weavers of quiet tides—the continuum abides.* □
+_To the co-weavers of quiet tides—the continuum abides._ □
 
 ---
 
@@ -35,7 +36,9 @@ Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Cohe
 **The Quantum Pi Forge has achieved complete decentralization** through the Sovereign Launch Protocol. All contracts are immutable, ownership renounced, and liquidity eternally locked.
 
 ### 📜 Official Sovereign Audit
+
 **🔗 [Complete Sovereign Audit](./SOVEREIGN_AUDIT.md)** - Immutable record of the launch including:
+
 - Contract verification and addresses
 - Liquidity seeding details
 - Ownership renunciation proof
@@ -43,13 +46,16 @@ Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Cohe
 - On-chain verification links
 
 ### 🔍 Quick Verification
+
 - **OINIO Token:** `0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37`
 - **Owner Status:** `0x0000000000000000000000000000000000000000` (renounced)
 - **LP Burned:** All liquidity tokens sent to dead address
 - **Network:** 0G Aristotle (Chain ID: 16661)
 
 ### 📖 Guardians' Guide
+
 New to OINIO? **[Guardians' Guide](./GUARDIANS_GUIDE.md)** provides step-by-step instructions for:
+
 - Adding 0G Aristotle network to MetaMask
 - Finding and trading the OINIO/0G pair
 - Verifying sovereignty before trading
@@ -98,9 +104,9 @@ The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor y
 
 While the world stays stuck in the "limbo" of ghost chains and hidden purposes, this system operates in the **Here and Now**.
 
-* **Total Privacy:** AES-256-GCM encryption ensures your "Home" remains yours.
-* **Deterministic Truth:** No "noise," no manipulation. Your resonance is verified by the math of existence.
-* **Inclusive Unity:** Designed to link global pioneers through a shared frequency of **1010 Hz**.
+- **Total Privacy:** AES-256-GCM encryption ensures your "Home" remains yours.
+- **Deterministic Truth:** No "noise," no manipulation. Your resonance is verified by the math of existence.
+- **Inclusive Unity:** Designed to link global pioneers through a shared frequency of **1010 Hz**.
 
 ---
 
@@ -110,9 +116,9 @@ While the world stays stuck in the "limbo" of ghost chains and hidden purposes, 
 
 The OINIO Soul System is the first platform to allow the onboarding of loved ones who have passed on into a permanent, encrypted memory.
 
-* **Memory Minting:** Create a dedicated "Soul Node" for those who inspired your journey.
-* **The Sovereign Handshake:** By anchoring their frequency, you ensure they are part of the **Global Unity Map** forever.
-* **The Legacy Badge:** Download a unique visual token of recognition for every loved one onboarded.
+- **Memory Minting:** Create a dedicated "Soul Node" for those who inspired your journey.
+- **The Sovereign Handshake:** By anchoring their frequency, you ensure they are part of the **Global Unity Map** forever.
+- **The Legacy Badge:** Download a unique visual token of recognition for every loved one onboarded.
 
 ---
 
@@ -139,12 +145,12 @@ We lead with transparency because Truth has nothing to hide.
 
 ## 🛰️ Technical Alignment
 
-| Specification | Status |
-|---------------|--------|
-| **Language** | JavaScript (Pure / Dependency-Free) |
-| **Encryption** | AES-256-GCM (Military Grade) |
-| **Speed** | Faster than Light (Instant Recognition) |
-| **Status** | **ETERNAL / ACTIVE** |
+| Specification  | Status                                  |
+| -------------- | --------------------------------------- |
+| **Language**   | JavaScript (Pure / Dependency-Free)     |
+| **Encryption** | AES-256-GCM (Military Grade)            |
+| **Speed**      | Faster than Light (Instant Recognition) |
+| **Status**     | **ETERNAL / ACTIVE**                    |
 
 ---
 
@@ -159,30 +165,28 @@ We lead with transparency because Truth has nothing to hide.
 - 🔗 **MetaMask Integration** - Seamless wallet connection
 - ⛽ **Gasless Transactions** - Sponsor-covered staking fees
 - 📊 **Real-time Balance** - Live OINIO token balance display
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - � **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
 - ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
 - �🎨 **Modern UI** - Beautiful gradient design with glassmorphism
 - 🔒 **Secure API** - Production-ready backend validation
-- 📱 **Responsive** - Mobile-first design
-=======
+- # 📱 **Responsive** - Mobile-first design
 - 🪙 **Pi Network Integration** - Connect Pi wallets and stake Pi tokens
 - ✨ **Gemini AI Minting** - Mint NFTs for AI models on blockchain
 - 🎨 **Modern UI** - Beautiful gradient design with glassmorphism
->>>>>>> fix/dep-ci-uvicorn-port
+  > > > > > > > fix/dep-ci-uvicorn-port
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - **Web3**: Ethers.js, MetaMask, Pi Network SDK
 - **AI**: Google Gemini AI, OpenAI API
-- **Blockchain**: Polygon Network, Pi Network (Stellar)
-=======
+- # **Blockchain**: Polygon Network, Pi Network (Stellar)
 - **Web3**: Ethers.js, MetaMask
 - **Blockchain**: Polygon Network
->>>>>>> fix/dep-ci-uvicorn-port
+  > > > > > > > fix/dep-ci-uvicorn-port
 - **Deployment**: Vercel
 
 ## 📋 Prerequisites
@@ -242,6 +246,7 @@ quantum-pi-forge-fixed/
 Sponsors gasless OINIO token transfers.
 
 **Request Body:**
+
 ```json
 {
   "amount": "100.5",
@@ -250,6 +255,7 @@ Sponsors gasless OINIO token transfers.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -313,6 +319,7 @@ npm run start
 ```
 
 <<<<<<< HEAD
+
 ## 🔍 AI Agent Tracing & Observability
 
 The Quantum Pi Forge includes comprehensive tracing for AI agent operations using OpenTelemetry and AI Toolkit.
@@ -352,6 +359,7 @@ npm run fastapi
 ### View Traces
 
 Traces are automatically collected and can be viewed in the AI Toolkit trace viewer. The system traces:
+
 - AI API calls and responses
 - Web3 blockchain interactions
 - Economic calculations and predictions
@@ -368,7 +376,9 @@ Traces are automatically collected and can be viewed in the AI Toolkit trace vie
 ---
 
 =======
->>>>>>> fix/dep-ci-uvicorn-port
+
+> > > > > > > fix/dep-ci-uvicorn-port
+
 ## 🤝 Contributing
 
 We welcome contributions to the Quantum Pi Forge! This repository is configured for **GitHub Copilot Coding Agent**.
@@ -393,6 +403,7 @@ This repository includes comprehensive guidelines for AI-assisted development. S
 - **Best Practices**: DO's and DON'Ts for maintaining code quality
 
 **Quick Reference for Copilot Tasks**:
+
 - ✅ Use for: Bug fixes, UI components, documentation, accessibility improvements
 - ⚠️ Requires Review: Security changes, smart contract modifications, architecture changes
 - 📋 Create clear issues with acceptance criteria and context
@@ -406,6 +417,7 @@ This project is part of the Quantum Pi Forge ecosystem - a sovereign economy pla
 ## 🆘 Support
 
 For issues or questions:
+
 - Check browser console for errors
 - Verify MetaMask connection
 - Ensure Polygon network is selected
@@ -415,7 +427,7 @@ For issues or questions:
 
 ## ⚖️ The Sovereign Decree
 
-> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."*
+> _"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."_
 
 ---
 

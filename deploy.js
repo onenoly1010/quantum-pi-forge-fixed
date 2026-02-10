@@ -69,30 +69,36 @@ contract OINIOToken {
 `;
 
 async function deploy() {
-    // Connect to Polygon
-    const provider = new ethers.JsonRpcProvider(POLYGON_RPC);
-    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-    
-    console.log("Deploying from:", wallet.address);
-    console.log("Balance:", ethers.formatEther(await provider.getBalance(wallet.address)), "POL");
-    
-    // Compile and deploy
-    const factory = new ethers.ContractFactory(
-        contractCode,
-        wallet
-    );
-    
-    console.log("Deploying contract...");
-    const contract = await factory.deploy("0x335651BD160fDA89C9E7A095dF9Dc1BB9f3cF4DC");
-    
-    console.log("Transaction hash:", contract.deploymentTransaction().hash);
-    console.log("Waiting for confirmation...");
-    
-    await contract.waitForDeployment();
-    
-    console.log("✅ CONTRACT DEPLOYED!");
-    console.log("Contract address:", await contract.getAddress());
-    console.log("Check on Polygonscan: https://polygonscan.com/address/" + await contract.getAddress());
+  // Connect to Polygon
+  const provider = new ethers.JsonRpcProvider(POLYGON_RPC);
+  const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+
+  console.log("Deploying from:", wallet.address);
+  console.log(
+    "Balance:",
+    ethers.formatEther(await provider.getBalance(wallet.address)),
+    "POL",
+  );
+
+  // Compile and deploy
+  const factory = new ethers.ContractFactory(contractCode, wallet);
+
+  console.log("Deploying contract...");
+  const contract = await factory.deploy(
+    "0x335651BD160fDA89C9E7A095dF9Dc1BB9f3cF4DC",
+  );
+
+  console.log("Transaction hash:", contract.deploymentTransaction().hash);
+  console.log("Waiting for confirmation...");
+
+  await contract.waitForDeployment();
+
+  console.log("✅ CONTRACT DEPLOYED!");
+  console.log("Contract address:", await contract.getAddress());
+  console.log(
+    "Check on Polygonscan: https://polygonscan.com/address/" +
+      (await contract.getAddress()),
+  );
 }
 
 deploy().catch(console.error);

@@ -54,22 +54,22 @@ The architectural and strategic vision for the Forge's future is clear: to evolv
 
 ### 🏗️ Technical Directives
 
-| Directive | Description |
-|-----------|-------------|
-| **Decentralized Data Mesh (DDM)** | Implement a distributed microservices architecture for ultimate resilience and scaling. |
-| **PQC Readiness** | Proactively integrate Hybrid Post-Quantum Cryptography to future-proof key security layers. |
-| **Plug-and-Play Modules** | Ensure the core architecture allows verified third-party developers to seamlessly integrate certified business and social modules for exponential growth. |
+| Directive                         | Description                                                                                                                                               |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Decentralized Data Mesh (DDM)** | Implement a distributed microservices architecture for ultimate resilience and scaling.                                                                   |
+| **PQC Readiness**                 | Proactively integrate Hybrid Post-Quantum Cryptography to future-proof key security layers.                                                               |
+| **Plug-and-Play Modules**         | Ensure the core architecture allows verified third-party developers to seamlessly integrate certified business and social modules for exponential growth. |
 
 ---
 
 ### 💰 Economic & Community Directives
 
-| Directive | Description |
-|-----------|-------------|
-| **Pi-Backed Collateral** | Enable users to stake Pi Coin to secure high-value transactions and guarantee service delivery. |
-| **DAO Governance** | Establish a community vault governed by Pi staking, granting users voting power over platform features. |
-| **Reputation Mining** | Implement a transparent, public score based on positive community contributions, enhancing trust in the ecosystem. |
-| **Forge Guilds (Constellations)** | Support decentralized, private groups for collaboration, shared Pi funds, and private markets. |
+| Directive                         | Description                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Pi-Backed Collateral**          | Enable users to stake Pi Coin to secure high-value transactions and guarantee service delivery.                    |
+| **DAO Governance**                | Establish a community vault governed by Pi staking, granting users voting power over platform features.            |
+| **Reputation Mining**             | Implement a transparent, public score based on positive community contributions, enhancing trust in the ecosystem. |
+| **Forge Guilds (Constellations)** | Support decentralized, private groups for collaboration, shared Pi funds, and private markets.                     |
 
 ---
 
@@ -83,4 +83,4 @@ The architectural and strategic vision for the Forge's future is clear: to evolv
 
 ---
 
-*Archived as part of the Quantum Pi Forge historical record.*
+_Archived as part of the Quantum Pi Forge historical record._

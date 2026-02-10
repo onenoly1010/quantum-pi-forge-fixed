@@ -7,12 +7,14 @@ The Quantum Pi Forge operates as a sovereign, non-custodial staking platform for
 ## Protocol Parameters (Immutable)
 
 ### Reward System
+
 - **Reward Rate**: 0.01 OINIO tokens per second per staked token
 - **Maximum Total Rewards**: 1,000,000 OINIO tokens
 - **Staking Token**: OINIO (ERC20 standard)
 - **Reward Distribution**: Continuous, compound-free accrual
 
 ### Technical Architecture
+
 - **Primary Blockchain**: Polygon Mainnet (Chain ID: 137)
 - **Secondary Blockchain**: 0G Aristotle (Chain ID: 16661) - for wrapped OINIO
 - **Gasless Transactions**: EIP-2771 compliant via QuantumForwarder
@@ -23,6 +25,7 @@ The Quantum Pi Forge operates as a sovereign, non-custodial staking platform for
 ## Contract Addresses (Post-Deployment)
 
 ### Polygon Mainnet
+
 ```
 OINIO Token: [Deployed via Genesis Strike]
 Forwarder: [To be deployed]
@@ -30,6 +33,7 @@ Staking: [To be deployed]
 ```
 
 ### 0G Aristotle (Primary DEX Deployment)
+
 ```
 OINIO Token: 0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37
 DEX Router: 0x0ff65f38fa43f0aac51901381acd7a8908ae2537
@@ -50,17 +54,20 @@ Wrapped OINIO: [Bridged from Polygon]
 ## Genesis Strike Protocol
 
 ### Phase 1: Polygon Genesis (Immediate Deployment)
+
 1. Deploy OINIO contract to Polygon Mainnet using Remix or PolygonScan
 2. Verify contract on PolygonScan
 3. Confirm 1,000,000,000 OINIO tokens in deployer wallet
 4. Update all references to use new contract address
 
 ### Phase 2: 0G Bridge Integration
+
 1. Bridge OINIO tokens from Polygon to 0G Aristotle using official bridge
 2. Deploy wrapped OINIO contract on 0G
 3. Update staking contracts to support both native and wrapped tokens
 
 ### Phase 3: Sovereign Staking Launch
+
 1. Deploy QuantumForwarder and QuantumPiStaking to Polygon
 2. Verify contracts and renounce ownership
 3. Launch gasless staking interface
@@ -77,6 +84,7 @@ Wrapped OINIO: [Bridged from Polygon]
 ## Legal Framework
 
 This protocol operates under the principles of:
+
 - Sovereign individual rights
 - Non-custodial asset management
 - Immutable smart contract guarantees
@@ -87,6 +95,7 @@ This protocol operates under the principles of:
 ## Emergency Procedures
 
 In case of critical issues:
+
 1. Pause staking operations via governance (if implemented)
 2. Deploy patched contracts with migration path
 3. Maintain full user fund safety
@@ -101,4 +110,4 @@ In case of critical issues:
 
 ---
 
-*This manifest serves as the immutable record of the Quantum Pi Forge protocol. All parameters and guarantees are encoded in smart contracts, verifiable on-chain.*
+_This manifest serves as the immutable record of the Quantum Pi Forge protocol. All parameters and guarantees are encoded in smart contracts, verifiable on-chain._

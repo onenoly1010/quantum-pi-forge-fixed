@@ -38,7 +38,7 @@ export interface PersonalityTraits {
   adaptability: number;
 }
 
-export type Archetype = 'sage' | 'warrior' | 'artist' | 'scholar';
+export type Archetype = "sage" | "warrior" | "artist" | "scholar";
 
 export interface EvolutionEvent {
   type: EvolutionType;
@@ -50,13 +50,13 @@ export interface EvolutionEvent {
 }
 
 export type EvolutionType =
-  | 'oracle_reading'
-  | 'interaction'
-  | 'time_based'
-  | 'coherence_improvement'
-  | 'achievement_unlocked'
-  | 'soul_coherence_sync'
-  | 'pi_powered_evolution';
+  | "oracle_reading"
+  | "interaction"
+  | "time_based"
+  | "coherence_improvement"
+  | "achievement_unlocked"
+  | "soul_coherence_sync"
+  | "pi_powered_evolution";
 
 export interface EvolutionChanges {
   traitChanges: Partial<PersonalityTraits>;
@@ -80,15 +80,15 @@ export interface Memory {
 }
 
 export type MemoryType =
-  | 'oracle_reading'
-  | 'interaction'
-  | 'evolution'
-  | 'system_event'
-  | 'contract_interaction'
-  | 'social_interaction'
-  | 'personality_init'
-  | 'soul_binding'
-  | 'pi_minting';
+  | "oracle_reading"
+  | "interaction"
+  | "evolution"
+  | "system_event"
+  | "contract_interaction"
+  | "social_interaction"
+  | "personality_init"
+  | "soul_binding"
+  | "pi_minting";
 
 export interface EvolutionTrigger {
   id: string;
@@ -104,12 +104,12 @@ export interface EvolutionTrigger {
 }
 
 export type TriggerType =
-  | 'time_based'
-  | 'coherence_based'
-  | 'interaction_based'
-  | 'oracle_based'
-  | 'identity_based'
-  | 'pi_based';
+  | "time_based"
+  | "coherence_based"
+  | "interaction_based"
+  | "oracle_based"
+  | "identity_based"
+  | "pi_based";
 
 export interface TriggerCondition {
   timestamp?: number;
@@ -122,7 +122,11 @@ export interface TriggerCondition {
 }
 
 export interface TriggerAction {
-  type: 'evolve_personality' | 'update_coherence' | 'unlock_achievement' | 'trigger_memory';
+  type:
+    | "evolve_personality"
+    | "update_coherence"
+    | "unlock_achievement"
+    | "trigger_memory";
   experienceType?: string;
   intensity?: number;
   positivity?: number;
@@ -131,7 +135,12 @@ export interface TriggerAction {
   memoryContent?: string;
 }
 
-export type TriggerStatus = 'pending' | 'active' | 'executed' | 'failed' | 'expired';
+export type TriggerStatus =
+  | "pending"
+  | "active"
+  | "executed"
+  | "failed"
+  | "expired";
 
 export interface iNFTMetadata {
   name: string;
@@ -147,7 +156,7 @@ export interface MetadataAttribute {
   trait_type: string;
   value: string | number;
   max_value?: number;
-  display_type?: 'number' | 'boost_percentage' | 'boost_number';
+  display_type?: "number" | "boost_percentage" | "boost_number";
 }
 
 export interface iNFTProperties {
@@ -174,11 +183,11 @@ export interface InteractionData {
 }
 
 export type InteractionType =
-  | 'oracle_reading'
-  | 'user_message'
-  | 'system_event'
-  | 'contract_interaction'
-  | 'social_interaction';
+  | "oracle_reading"
+  | "user_message"
+  | "system_event"
+  | "contract_interaction"
+  | "social_interaction";
 
 export interface OracleReading {
   summary: string;
@@ -199,7 +208,7 @@ export interface ContractEvent {
 export interface EvolutionRecommendation {
   type: string;
   reason: string;
-  priority: 'high' | 'medium' | 'low';
+  priority: "high" | "medium" | "low";
   expectedGain: number;
   cost?: number;
 }

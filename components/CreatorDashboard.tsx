@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface CreatorDashboardData {
   creator_id: string;
@@ -23,7 +23,7 @@ interface RecentPayout {
 export default function CreatorDashboard() {
   const [dashboard, setDashboard] = useState<CreatorDashboardData | null>(null);
   const [recentPayouts, setRecentPayouts] = useState<RecentPayout[]>([]);
-  const [realtimeEarnings, ] = useState(0);
+  const [realtimeEarnings] = useState(0);
   const [loading, setLoading] = useState(true);
 
   // Fetch creator dashboard data
@@ -34,8 +34,8 @@ export default function CreatorDashboard() {
   const fetchDashboardData = async () => {
     try {
       const [dashboardRes, payoutsRes] = await Promise.all([
-        fetch('/api/creator/dashboard'),
-        fetch('/api/creator/recent-payouts')
+        fetch("/api/creator/dashboard"),
+        fetch("/api/creator/recent-payouts"),
       ]);
 
       if (dashboardRes.ok) {
@@ -48,7 +48,7 @@ export default function CreatorDashboard() {
         setRecentPayouts(payoutsData);
       }
     } catch (error) {
-      console.error('Failed to fetch dashboard data:', error);
+      console.error("Failed to fetch dashboard data:", error);
     } finally {
       setLoading(false);
     }
@@ -58,20 +58,20 @@ export default function CreatorDashboard() {
     if (!dashboard || dashboard.available_balance < 50) return;
 
     try {
-      const response = await fetch('/api/creator/request-payout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+      const response = await fetch("/api/creator/request-payout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (response.ok) {
-        alert('Payout initiated! Funds will arrive in 1-2 business days.');
+        alert("Payout initiated! Funds will arrive in 1-2 business days.");
         fetchDashboardData(); // Refresh data
       } else {
-        alert('Failed to initiate payout. Please try again.');
+        alert("Failed to initiate payout. Please try again.");
       }
     } catch (error) {
-      console.error('Payout request failed:', error);
-      alert('Failed to initiate payout. Please try again.');
+      console.error("Payout request failed:", error);
+      alert("Failed to initiate payout. Please try again.");
     }
   };
 
@@ -156,9 +156,14 @@ export default function CreatorDashboard() {
             </thead>
             <tbody>
               {recentPayouts.map((payout) => (
-                <tr key={payout.id} className="border-t border-gray-700 hover:bg-gray-750">
+                <tr
+                  key={payout.id}
+                  className="border-t border-gray-700 hover:bg-gray-750"
+                >
                   <td className="p-4">{payout.template_name}</td>
-                  <td className="p-4">{payout.user_email.substring(0, 8)}...</td>
+                  <td className="p-4">
+                    {payout.user_email.substring(0, 8)}...
+                  </td>
                   <td className="p-4 text-green-400 font-semibold">
                     +${payout.creator_share.toFixed(2)}
                   </td>
@@ -170,7 +175,8 @@ export default function CreatorDashboard() {
               {recentPayouts.length === 0 && (
                 <tr>
                   <td colSpan={4} className="p-8 text-center text-gray-400">
-                    No earnings yet. Create templates and share them to start earning!
+                    No earnings yet. Create templates and share them to start
+                    earning!
                   </td>
                 </tr>
               )}
@@ -181,8 +187,8 @@ export default function CreatorDashboard() {
 
       <div className="mt-8 text-center">
         <p className="text-gray-400 mb-4">
-          Earnings are paid automatically when your balance reaches $50.
-          Manual payouts available above that threshold.
+          Earnings are paid automatically when your balance reaches $50. Manual
+          payouts available above that threshold.
         </p>
         <div className="text-sm text-gray-500">
           Platform takes 5% fee, you keep 10% of every burn on your templates.

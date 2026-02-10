@@ -1,17 +1,17 @@
 #!/usr/bin/env node
-require('dotenv').config({ path: '.env.launch' });
-const { ethers } = require('ethers');
+require("dotenv").config({ path: ".env.launch" });
+const { ethers } = require("ethers");
 
 async function main() {
-  const rpcUrl = process.env.ZERO_G_RPC_URL || 'https://evmrpc.0g.ai';
+  const rpcUrl = process.env.ZERO_G_RPC_URL || "https://evmrpc.0g.ai";
   const address = process.env.DEPLOYER_ADDRESS;
 
   if (!address) {
-    console.error('❌ DEPLOYER_ADDRESS not found in .env.launch');
+    console.error("❌ DEPLOYER_ADDRESS not found in .env.launch");
     process.exit(1);
   }
 
-  console.log('\n🔍 Checking wallet balance...');
+  console.log("\n🔍 Checking wallet balance...");
   console.log(`📍 Network: ${rpcUrl}`);
   console.log(`💳 Address: ${address}\n`);
 
@@ -21,23 +21,23 @@ async function main() {
     const balanceInEth = ethers.formatEther(balance);
 
     console.log(`💰 Balance: ${balanceInEth} GAS`);
-    
+
     if (parseFloat(balanceInEth) >= 2.0) {
-      console.log('✅ Sufficient balance for DEX deployment');
+      console.log("✅ Sufficient balance for DEX deployment");
       process.exit(0);
     } else if (parseFloat(balanceInEth) > 0) {
-      console.log('⚠️  Low balance - recommend 2-5 GAS for deployment');
+      console.log("⚠️  Low balance - recommend 2-5 GAS for deployment");
       process.exit(1);
     } else {
-      console.log('❌ Zero balance - wallet needs funding');
-      console.log('\n📝 Funding Instructions:');
-      console.log('   1. Visit 0G Aristotle faucet or request from team');
-      console.log('   2. Send GAS tokens to:', address);
-      console.log('   3. Wait for confirmation, then re-run this script');
+      console.log("❌ Zero balance - wallet needs funding");
+      console.log("\n📝 Funding Instructions:");
+      console.log("   1. Visit 0G Aristotle faucet or request from team");
+      console.log("   2. Send GAS tokens to:", address);
+      console.log("   3. Wait for confirmation, then re-run this script");
       process.exit(1);
     }
   } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error("❌ Error:", error.message);
     process.exit(1);
   }
 }

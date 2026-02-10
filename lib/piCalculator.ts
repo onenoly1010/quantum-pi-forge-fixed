@@ -19,14 +19,12 @@ export class PiCalculator {
         let pi = 0;
 
         for (let k = 0; k < iterations; k++) {
-          const term = (
-            1 / Math.pow(16, k) * (
-              4 / (8 * k + 1) -
+          const term =
+            (1 / Math.pow(16, k)) *
+            (4 / (8 * k + 1) -
               2 / (8 * k + 4) -
               1 / (8 * k + 5) -
-              1 / (8 * k + 6)
-            )
-          );
+              1 / (8 * k + 6));
           pi += term;
         }
 
@@ -52,14 +50,9 @@ export class PiCalculator {
   static *generateDigits(iterations: number = 100): Generator<string> {
     let pi = 0;
     for (let k = 0; k < iterations; k++) {
-      pi += (
-        1 / Math.pow(16, k) * (
-          4 / (8 * k + 1) -
-          2 / (8 * k + 4) -
-          1 / (8 * k + 5) -
-          1 / (8 * k + 6)
-        )
-      );
+      pi +=
+        (1 / Math.pow(16, k)) *
+        (4 / (8 * k + 1) - 2 / (8 * k + 4) - 1 / (8 * k + 5) - 1 / (8 * k + 6));
       yield pi.toFixed(Math.min(k + 1, 100));
     }
   }
@@ -68,5 +61,5 @@ export class PiCalculator {
 // Quick test function
 export function testBBPFormula(): void {
   const pi = PiCalculator.computeDigits(10);
-  console.log('BBP Pi (10 digits):', pi);
+  console.log("BBP Pi (10 digits):", pi);
 }

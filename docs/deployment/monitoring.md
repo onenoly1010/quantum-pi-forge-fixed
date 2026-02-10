@@ -8,27 +8,29 @@
 
 ## 🚀 Live Deployments (7/8)
 
-| # | Repository | Deployment | URL | Status |
-|---|-----------|------------|-----|--------|
-| 1 | `quantum-pi-forge-site` | Vercel + Custom Domain | https://quantumpiforge.com | ✅ LIVE |
-| 2 | `quantum-pi-forge-fixed` | Vercel | https://quantum-pi-forge-fixed.vercel.app | ✅ LIVE |
-| 3 | `pi-forge-quantum-genesis` | Render | https://pi-forge-quantum-genesis-1.onrender.com | ✅ LIVE |
-| 4 | `quantum-resonance-clean` | Vercel | https://quantum-resonance-clean.vercel.app | ⚠️ LIVE (429) |
-| 5 | `Ai-forge-` | GitHub Pages | https://onenoly1010.github.io/Ai-forge-/ | ✅ LIVE 🆕 |
-| 6 | `pi-forge-quantum-genesis-OPEN` | Render | Deploying... | ⏳ PROPAGATING |
-| 7 | `quantum-pi-forge-ignited` | Netlify | Deploying... | ⏳ PROPAGATING |
-| 8 | `countdown` | GitHub Pages | https://onenoly1010.github.io/countdown | ✅ LIVE |
+| #   | Repository                      | Deployment             | URL                                             | Status         |
+| --- | ------------------------------- | ---------------------- | ----------------------------------------------- | -------------- |
+| 1   | `quantum-pi-forge-site`         | Vercel + Custom Domain | https://quantumpiforge.com                      | ✅ LIVE        |
+| 2   | `quantum-pi-forge-fixed`        | Vercel                 | https://quantum-pi-forge-fixed.vercel.app       | ✅ LIVE        |
+| 3   | `pi-forge-quantum-genesis`      | Render                 | https://pi-forge-quantum-genesis-1.onrender.com | ✅ LIVE        |
+| 4   | `quantum-resonance-clean`       | Vercel                 | https://quantum-resonance-clean.vercel.app      | ⚠️ LIVE (429)  |
+| 5   | `Ai-forge-`                     | GitHub Pages           | https://onenoly1010.github.io/Ai-forge-/        | ✅ LIVE 🆕     |
+| 6   | `pi-forge-quantum-genesis-OPEN` | Render                 | Deploying...                                    | ⏳ PROPAGATING |
+| 7   | `quantum-pi-forge-ignited`      | Netlify                | Deploying...                                    | ⏳ PROPAGATING |
+| 8   | `countdown`                     | GitHub Pages           | https://onenoly1010.github.io/countdown         | ✅ LIVE        |
 
 ---
 
 ## ⏳ Pending Deployments (2/10)
 
 ### 1. **Ai-forge-** (Ethical AI App Builder)
+
 - **Type:** Static HTML/CSS/JS
 - **Solution:** GitHub Pages
 - **Action Required:** Enable GitHub Pages in repo settings
 
 **Manual Steps:**
+
 1. Go to https://github.com/onenoly1010/Ai-forge-/settings/pages
 2. Under "Source", select **Deploy from a branch**
 3. Select **main** branch, **/ (root)** folder
@@ -38,11 +40,13 @@
 ---
 
 ### 2. **pi-forge-quantum-genesis-OPEN** (Gargoura Engine Gateway)
+
 - **Type:** Node.js/Docker server
 - **Solution:** Render.com (free tier)
 - **Status:** `render.yaml` created, ready to deploy
 
 **Manual Steps:**
+
 1. Go to https://dashboard.render.com/new/blueprint
 2. Connect GitHub repo: `onenoly1010/pi-forge-quantum-genesis-OPEN`
 3. Render will auto-detect `render.yaml` and deploy
@@ -53,14 +57,16 @@
 ## 🔗 Smart Contract Deployment (Pending Wallet Funding)
 
 ### **pi-mr-nft-contracts** (ModelRoyaltyNFT)
+
 - **Contract:** `ModelRoyaltyNFT.sol` (ERC-721 with royalty distribution)
-- **Target Networks:** 
+- **Target Networks:**
   - 0G Mainnet (Chain ID: 16661)
-  - Pi Network Mainnet (Chain ID: 314159) - *blocked by multisig requirement*
+  - Pi Network Mainnet (Chain ID: 314159) - _blocked by multisig requirement_
 - **Deployer Wallet:** `0x353663cd664bB3e034Dc0f308D8896C0a242e4cd`
 - **Current Balance:** 0 (waiting for Kraken withdrawal)
 
 **Deployment Commands (when funded):**
+
 ```bash
 # Set environment variables
 export DEPLOYER_ADDRESS="0x353663cd664bB3e034Dc0f308D8896C0a242e4cd"
@@ -111,6 +117,7 @@ cd pi-mr-nft-contracts
 ## ✅ Verification Checklist
 
 ### Live Services Health Check
+
 ```bash
 # Run all health checks
 curl -s -o /dev/null -w "%{http_code}" https://quantumpiforge.com
@@ -121,6 +128,7 @@ curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-v6.netlify.app
 ```
 
 ### Cross-Service Integration
+
 - [x] DEX → Polygon RPC connection
 - [x] Portal → API health endpoints
 - [x] Resonance → Harmonic ledger
@@ -132,6 +140,7 @@ curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-v6.netlify.app
 ## 🎯 Next Actions
 
 ### Immediate (No blockers)
+
 1. **Enable GitHub Pages for Ai-forge-**
    - Settings → Pages → Enable from main branch
 
@@ -139,6 +148,7 @@ curl -s -o /dev/null -w "%{http_code}" https://quantum-pi-forge-v6.netlify.app
    - Use existing `render.yaml` blueprint
 
 ### Pending Wallet Funding
+
 3. **Deploy ModelRoyaltyNFT to 0G Mainnet**
    - Requires Kraken withdrawal to complete
    - Deployer: `0x353663cd664bB3e034Dc0f308D8896C0a242e4cd`

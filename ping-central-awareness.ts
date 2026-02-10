@@ -5,7 +5,7 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   const awareness = await ethers.getContractAt(
     "CentralAwareness",
-    "0x84bbc67b11881fdaffb4f0ca10a3a07300a151a6"
+    "0x84bbc67b11881fdaffb4f0ca10a3a07300a151a6",
   );
 
   console.log("🔍 Checking CentralAwareness contract accessibility...");
@@ -22,14 +22,13 @@ async function main() {
     console.log("📝 Attempting to trigger indexing with a test transaction...");
     const tx = await awareness.forgeAgent(
       deployer.address,
-      "ipfs://QmTestIndexTrigger" // Test pointer to trigger indexing
+      "ipfs://QmTestIndexTrigger", // Test pointer to trigger indexing
     );
     console.log("🚀 Transaction sent:", tx.hash);
     console.log("⏳ Waiting for confirmation...");
     await tx.wait();
     console.log("✅ Transaction confirmed - indexing should be triggered!");
     console.log("🔄 Check explorer in 2-5 minutes for Contract tab");
-
   } catch (error: any) {
     console.log("⚠️ Contract interaction failed:", error.message);
     if (error.message.includes("contract not deployed")) {

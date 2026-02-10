@@ -11,13 +11,15 @@
 ## 🎯 Why This Suite Was Created
 
 **Problem**: 0G Aristotle Mainnet has **NO canonical DEX infrastructure**
+
 - Uniswap V2 Factory: NOT deployed ❌
-- Uniswap V2 Router02: NOT deployed ❌  
+- Uniswap V2 Router02: NOT deployed ❌
 - Uniswap V3: NOT deployed ❌
 - Curve: NOT deployed ❌
 - 1inch: NOT deployed ❌
 
 **Solution**: OINIO deploys its own sovereign Uniswap V2 DEX
+
 - Full control over routing, pricing, fees
 - Battle-tested smart contracts (Uniswap V2 source)
 - Automated deployment with minimal friction
@@ -28,29 +30,29 @@
 
 ### 🔧 Core Deployment Scripts
 
-| File | Lines | Purpose | Status |
-|------|-------|---------|--------|
-| `scripts/hardhat-deploy-uniswap-v2.ts` | 247 | **Main deployment script (Hardhat)** | ✅ PROD-READY |
-| `hardhat.config.template.ts` | 71 | Hardhat configuration template | ✅ PROD-READY |
-| `scripts/create-liquidity-pool.sh` | 299 | Liquidity pool creation (3 methods) | ✅ PROD-READY |
-| `scripts/verify-dex-deployment.sh` | 109 | Verify deployment success | ✅ PROD-READY |
+| File                                   | Lines | Purpose                              | Status        |
+| -------------------------------------- | ----- | ------------------------------------ | ------------- |
+| `scripts/hardhat-deploy-uniswap-v2.ts` | 247   | **Main deployment script (Hardhat)** | ✅ PROD-READY |
+| `hardhat.config.template.ts`           | 71    | Hardhat configuration template       | ✅ PROD-READY |
+| `scripts/create-liquidity-pool.sh`     | 299   | Liquidity pool creation (3 methods)  | ✅ PROD-READY |
+| `scripts/verify-dex-deployment.sh`     | 109   | Verify deployment success            | ✅ PROD-READY |
 
 ### 📚 Documentation
 
-| File | Lines | Purpose | Status |
-|------|-------|---------|--------|
-| `SOVEREIGN_DEX_DEPLOYMENT.md` | 450+ | Complete deployment guide | ✅ COMPREHENSIVE |
-| `DEX_DEPLOYMENT_EXECUTION.md` | 380+ | Quick execution guide | ✅ READY |
-| `QUICKSTART_DEX.sh` | 180+ | One-command verification | ✅ READY |
+| File                          | Lines | Purpose                   | Status           |
+| ----------------------------- | ----- | ------------------------- | ---------------- |
+| `SOVEREIGN_DEX_DEPLOYMENT.md` | 450+  | Complete deployment guide | ✅ COMPREHENSIVE |
+| `DEX_DEPLOYMENT_EXECUTION.md` | 380+  | Quick execution guide     | ✅ READY         |
+| `QUICKSTART_DEX.sh`           | 180+  | One-command verification  | ✅ READY         |
 
 ### 🔄 Integration
 
-| Component | Status | Details |
-|-----------|--------|---------|
-| `.env.launch` | ✅ Auto-updated | Receives DEX_FACTORY_ADDRESS, DEX_ROUTER_ADDRESS |
-| `logs/` directory | ✅ Auto-created | Deployment logs recorded automatically |
-| Hardhat config | ✅ Template ready | hardhat.config.template.ts → hardhat.config.ts |
-| Liquidity creation | ✅ 3 options | Hardhat (auto), MetaMask (manual), TypeScript (direct) |
+| Component          | Status            | Details                                                |
+| ------------------ | ----------------- | ------------------------------------------------------ |
+| `.env.launch`      | ✅ Auto-updated   | Receives DEX_FACTORY_ADDRESS, DEX_ROUTER_ADDRESS       |
+| `logs/` directory  | ✅ Auto-created   | Deployment logs recorded automatically                 |
+| Hardhat config     | ✅ Template ready | hardhat.config.template.ts → hardhat.config.ts         |
+| Liquidity creation | ✅ 3 options      | Hardhat (auto), MetaMask (manual), TypeScript (direct) |
 
 ---
 
@@ -66,7 +68,7 @@ STEP 1: Deploy Factory
 └─ Result: FACTORY_ADDRESS
 
 STEP 2: Deploy Router
-├─ Contract: UniswapV2Router02  
+├─ Contract: UniswapV2Router02
 ├─ Constructor: Factory + WGAS address
 ├─ Gas: ~3-4 0G tokens
 └─ Result: ROUTER_ADDRESS
@@ -81,13 +83,13 @@ STEP 3: Create Liquidity Pool (Optional)
 
 ### Total Cost
 
-| Item | Cost |
-|------|------|
-| Factory deployment | 2-3 0G |
-| Router deployment | 3-4 0G |
-| Approvals (2x) | 0.1 0G |
-| Liquidity creation | 0.2 0G |
-| **Total** | **~5-7 0G** |
+| Item               | Cost        |
+| ------------------ | ----------- |
+| Factory deployment | 2-3 0G      |
+| Router deployment  | 3-4 0G      |
+| Approvals (2x)     | 0.1 0G      |
+| Liquidity creation | 0.2 0G      |
+| **Total**          | **~5-7 0G** |
 
 **Equivalent:** ~$0.10-$0.15 USD
 
@@ -149,6 +151,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 ## ✅ Pre-Deployment Checklist
 
 ### Environment
+
 - [ ] `.env.launch` exists
 - [ ] `DEPLOYER_PRIVATE_KEY` set (account with gas)
 - [ ] `DEPLOYER_ADDRESS` set (same account)
@@ -157,12 +160,14 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 - [ ] `ZERO_G_RPC_URL` set (default: https://evmrpc.0g.ai)
 
 ### System
+
 - [ ] Node.js 18+ installed (for Hardhat method)
 - [ ] NPM or pnpm available
 - [ ] ~1 GB disk for node_modules
 - [ ] Internet connection (RPC calls)
 
 ### Wallet
+
 - [ ] Deployer account funded with 5-10 0G tokens
 - [ ] Private key safely stored in .env.launch (NOT in code)
 - [ ] No high-privilege keys (use minimal-balance wallet)
@@ -174,6 +179,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 ### Hardhat Deployment Script (`hardhat-deploy-uniswap-v2.ts`)
 
 **Features**:
+
 - ✅ Validates all prerequisites before deployment
 - ✅ Auto-connects to 0G Aristotle RPC
 - ✅ Deploys Factory with FeeToSetter parameter
@@ -186,6 +192,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 - ✅ Progress indicators with emojis
 
 **Guarantees**:
+
 - 🔒 Private key never logged or exposed
 - 🔒 Transactions verified before completion
 - 🔒 Addresses saved immediately after deployment
@@ -195,6 +202,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 ### Verification Script (`verify-dex-deployment.sh`)
 
 **Features**:
+
 - ✅ Checks RPC connectivity
 - ✅ Verifies Factory deployed (eth_getCode)
 - ✅ Verifies Router deployed (eth_getCode)
@@ -204,6 +212,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 ### Liquidity Pool Script (`create-liquidity-pool.sh`)
 
 **Features**:
+
 - ✅ 3 deployment method options (Hardhat, MetaMask, TypeScript)
 - ✅ RPC verification before operations
 - ✅ Contract existence pre-checks
@@ -217,24 +226,28 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 ## 🔐 Security Considerations
 
 ### Private Key Handling
+
 - ✅ Key stored in `.env.launch` only
 - ✅ Never logged or exposed in output
 - ✅ Never committed to git (use .gitignore)
 - ✅ Rotate key after deployment (optional)
 
 ### Deployment Wallet
+
 - ✅ Use minimal-balance account (not main treasury)
 - ✅ Only gas + minimal 0G for swaps
 - ✅ Can transfer control via feeSetter after deployment
 - ✅ No smart contract wallet (use EOA)
 
 ### Contract Security
+
 - ✅ Official Uniswap V2 source (battle-tested)
 - ✅ No modifications to contracts
 - ✅ Source verification on mainnet (via Remix/Etherscan)
 - ✅ Initial fees set to 0 (adjustable via governance)
 
 ### RPC Security
+
 - ✅ Uses official 0G RPC endpoints only
 - ✅ No private RPC keys required
 - ✅ Public endpoints verified working
@@ -244,14 +257,14 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 
 ## 📈 Expected Timeline
 
-| Phase | Duration | What Happens |
-|-------|----------|--------------|
-| Setup | 5 min | npm install, config copy |
-| Factory Deploy | 1-2 min | Chain processes tx, confirms |
-| Router Deploy | 1-2 min | Chain processes tx, confirms |
-| Liquidity Creation | 2-3 min | Token approvals + addLiquidity() |
-| Verification | 1 min | Queries on-chain state |
-| **Total** | **10-15 min** | **DEX is LIVE** |
+| Phase              | Duration      | What Happens                     |
+| ------------------ | ------------- | -------------------------------- |
+| Setup              | 5 min         | npm install, config copy         |
+| Factory Deploy     | 1-2 min       | Chain processes tx, confirms     |
+| Router Deploy      | 1-2 min       | Chain processes tx, confirms     |
+| Liquidity Creation | 2-3 min       | Token approvals + addLiquidity() |
+| Verification       | 1 min         | Queries on-chain state           |
+| **Total**          | **10-15 min** | **DEX is LIVE**                  |
 
 ---
 
@@ -280,6 +293,7 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 5. Retry: Run deployment script again (idempotent)
 
 **Partial Deployment**:
+
 - Factory only: Can redeploy Router separately
 - Router only: Factory must exist first (standard Uniswap requirement)
 - No rollback needed: Each deployment is independent
@@ -290,13 +304,13 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 
 ### OINIO Launch System
 
-| Component | Integration | Status |
-|-----------|-------------|--------|
-| `scripts/deploy.sh` | Uses `DEX_ROUTER_ADDRESS` | ✅ Ready |
-| `scripts/monitor-grant.sh` | Triggers deployment when grant approved | ✅ Ready |
-| `LAUNCH_ANNOUNCEMENTS.md` | Will reference Factory/Router | ✅ Template ready |
-| Frontend Dashboard | Will use Router for swaps | ✅ Ready |
-| Leaderboard APIs | Will track pool activity | ✅ Ready |
+| Component                  | Integration                             | Status            |
+| -------------------------- | --------------------------------------- | ----------------- |
+| `scripts/deploy.sh`        | Uses `DEX_ROUTER_ADDRESS`               | ✅ Ready          |
+| `scripts/monitor-grant.sh` | Triggers deployment when grant approved | ✅ Ready          |
+| `LAUNCH_ANNOUNCEMENTS.md`  | Will reference Factory/Router           | ✅ Template ready |
+| Frontend Dashboard         | Will use Router for swaps               | ✅ Ready          |
+| Leaderboard APIs           | Will track pool activity                | ✅ Ready          |
 
 ### Environment Variables Created
 
@@ -311,22 +325,26 @@ POOL_CREATED_AT=<ISO_timestamp>          # Created by deploy script (optional)
 ## 🎉 Next Steps
 
 ### Immediate (Right Now)
+
 1. Review `SOVEREIGN_DEX_DEPLOYMENT.md`
 2. Run `bash QUICKSTART_DEX.sh` for verification
 3. Choose deployment method (Hardhat recommended)
 
 ### Short-term (Today)
+
 1. Install npm dependencies
 2. Copy hardhat.config.template.ts → hardhat.config.ts
 3. Run deployment: `npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle`
 4. Verify with: `bash scripts/verify-dex-deployment.sh`
 
 ### Medium-term (Tomorrow)
+
 1. Create OINIO/WGAS liquidity pool
 2. Test small swaps
 3. Announce DEX launch to community
 
 ### Long-term (This Week)
+
 1. Enable trading in frontend
 2. Monitor pool activity & volumes
 3. Gather feedback and optimize
@@ -336,20 +354,21 @@ POOL_CREATED_AT=<ISO_timestamp>          # Created by deploy script (optional)
 
 ## 📚 Complete Documentation Map
 
-| Document | Purpose | Read Time |
-|----------|---------|-----------|
-| `SOVEREIGN_DEX_DEPLOYMENT.md` | Complete technical guide | 15 min |
-| `DEX_DEPLOYMENT_EXECUTION.md` | Quick start & options | 10 min |
-| `QUICKSTART_DEX.sh` | One-command verification | 2 min |
-| `scripts/hardhat-deploy-uniswap-v2.ts` | Actual deployment code | 10 min |
-| `scripts/verify-dex-deployment.sh` | Verification code | 5 min |
-| `scripts/create-liquidity-pool.sh` | Pool creation code | 10 min |
+| Document                               | Purpose                  | Read Time |
+| -------------------------------------- | ------------------------ | --------- |
+| `SOVEREIGN_DEX_DEPLOYMENT.md`          | Complete technical guide | 15 min    |
+| `DEX_DEPLOYMENT_EXECUTION.md`          | Quick start & options    | 10 min    |
+| `QUICKSTART_DEX.sh`                    | One-command verification | 2 min     |
+| `scripts/hardhat-deploy-uniswap-v2.ts` | Actual deployment code   | 10 min    |
+| `scripts/verify-dex-deployment.sh`     | Verification code        | 5 min     |
+| `scripts/create-liquidity-pool.sh`     | Pool creation code       | 10 min    |
 
 ---
 
 ## ✨ Quality Assurance
 
 ### Code Quality
+
 - ✅ TypeScript for type safety
 - ✅ Bash with set -e for error handling
 - ✅ Comprehensive error messages
@@ -357,6 +376,7 @@ POOL_CREATED_AT=<ISO_timestamp>          # Created by deploy script (optional)
 - ✅ Color-coded output for clarity
 
 ### Testing
+
 - ✅ Verified on 0G Aristotle Mainnet RPC
 - ✅ RPC connectivity confirmed
 - ✅ All target addresses confirmed missing (need deployment)
@@ -364,6 +384,7 @@ POOL_CREATED_AT=<ISO_timestamp>          # Created by deploy script (optional)
 - ✅ Error paths tested and handled
 
 ### Documentation
+
 - ✅ 5+ comprehensive guides
 - ✅ Troubleshooting section in each guide
 - ✅ Resource links and references
@@ -383,7 +404,7 @@ POOL_CREATED_AT=<ISO_timestamp>          # Created by deploy script (optional)
 ✅ Verification scripts (confirm success)  
 ✅ Security best practices (private key protection)  
 ✅ Error handling (graceful failures with solutions)  
-✅ Full integration (with existing OINIO system)  
+✅ Full integration (with existing OINIO system)
 
 **Estimated time to live DEX: 15 minutes** ⏱️
 

@@ -4,14 +4,14 @@
  * Extracted from mr-nft-agent
  */
 
-const PersonalityGenerator = require('../personality/generator');
-const PersonalityAnalyzer = require('../personality/analyzer');
-const EvolutionRules = require('../evolution/rules');
-const EvolutionTriggers = require('../evolution/triggers');
-const EvolutionHistory = require('../evolution/history');
-const MemoryStorage = require('../memory/storage');
-const MemoryRecall = require('../memory/recall');
-const MemoryContext = require('../memory/context');
+const PersonalityGenerator = require("../personality/generator");
+const PersonalityAnalyzer = require("../personality/analyzer");
+const EvolutionRules = require("../evolution/rules");
+const EvolutionTriggers = require("../evolution/triggers");
+const EvolutionHistory = require("../evolution/history");
+const MemoryStorage = require("../memory/storage");
+const MemoryRecall = require("../memory/recall");
+const MemoryContext = require("../memory/context");
 
 class AgentOrchestrator {
   constructor() {
@@ -37,32 +37,38 @@ class AgentOrchestrator {
   async coordinateINFTCreation(creationData) {
     const taskId = `creation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    this.logCoordination(taskId, 'Starting iNFT creation coordination');
+    this.logCoordination(taskId, "Starting iNFT creation coordination");
 
     try {
       // Step 1: Generate personality
-      this.logCoordination(taskId, 'Generating personality');
+      this.logCoordination(taskId, "Generating personality");
       const personality = await this.generatePersonality(creationData);
 
       // Step 2: Analyze personality
-      this.logCoordination(taskId, 'Analyzing personality');
+      this.logCoordination(taskId, "Analyzing personality");
       const analysis = this.analyzePersonality(personality);
 
       // Step 3: Initialize memory system
-      this.logCoordination(taskId, 'Initializing memory system');
-      const memoryInit = await this.initializeMemorySystem(creationData.inftId, personality);
+      this.logCoordination(taskId, "Initializing memory system");
+      const memoryInit = await this.initializeMemorySystem(
+        creationData.inftId,
+        personality,
+      );
 
       // Step 4: Set up evolution triggers
-      this.logCoordination(taskId, 'Setting up evolution triggers');
-      const triggers = await this.setupEvolutionTriggers(creationData.inftId, personality);
+      this.logCoordination(taskId, "Setting up evolution triggers");
+      const triggers = await this.setupEvolutionTriggers(
+        creationData.inftId,
+        personality,
+      );
 
       // Step 5: Build initial context
-      this.logCoordination(taskId, 'Building initial context');
+      this.logCoordination(taskId, "Building initial context");
       const context = await this.buildInitialContext(creationData.inftId, {
         personality,
         analysis,
         memoryInit,
-        triggers
+        triggers,
       });
 
       const result = {
@@ -73,18 +79,23 @@ class AgentOrchestrator {
         analysis,
         memoryInit,
         triggers,
-        context
+        context,
       };
 
-      this.logCoordination(taskId, 'iNFT creation coordination completed successfully');
+      this.logCoordination(
+        taskId,
+        "iNFT creation coordination completed successfully",
+      );
       return result;
-
     } catch (error) {
-      this.logCoordination(taskId, `iNFT creation coordination failed: ${error.message}`);
+      this.logCoordination(
+        taskId,
+        `iNFT creation coordination failed: ${error.message}`,
+      );
       return {
         taskId,
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -95,35 +106,45 @@ class AgentOrchestrator {
   async coordinateINFTEvolution(inftId, evolutionData) {
     const taskId = `evolution_${inftId}_${Date.now()}`;
 
-    this.logCoordination(taskId, 'Starting iNFT evolution coordination');
+    this.logCoordination(taskId, "Starting iNFT evolution coordination");
 
     try {
       // Step 1: Assess current state
-      this.logCoordination(taskId, 'Assessing current iNFT state');
+      this.logCoordination(taskId, "Assessing current iNFT state");
       const currentState = await this.assessCurrentState(inftId);
 
       // Step 2: Calculate evolution
-      this.logCoordination(taskId, 'Calculating evolution');
-      const evolution = this.calculateEvolution(inftId, evolutionData, currentState);
+      this.logCoordination(taskId, "Calculating evolution");
+      const evolution = this.calculateEvolution(
+        inftId,
+        evolutionData,
+        currentState,
+      );
 
       // Step 3: Validate evolution
-      this.logCoordination(taskId, 'Validating evolution');
-      const validation = this.validateEvolution(inftId, evolution, currentState);
+      this.logCoordination(taskId, "Validating evolution");
+      const validation = this.validateEvolution(
+        inftId,
+        evolution,
+        currentState,
+      );
 
       if (!validation.valid) {
-        throw new Error(`Evolution validation failed: ${validation.errors.join(', ')}`);
+        throw new Error(
+          `Evolution validation failed: ${validation.errors.join(", ")}`,
+        );
       }
 
       // Step 4: Apply evolution
-      this.logCoordination(taskId, 'Applying evolution');
+      this.logCoordination(taskId, "Applying evolution");
       const application = await this.applyEvolution(inftId, evolution);
 
       // Step 5: Update memory and context
-      this.logCoordination(taskId, 'Updating memory and context');
+      this.logCoordination(taskId, "Updating memory and context");
       await this.updateMemoryAndContext(inftId, evolution, application);
 
       // Step 6: Record evolution history
-      this.logCoordination(taskId, 'Recording evolution history');
+      this.logCoordination(taskId, "Recording evolution history");
       await this.recordEvolutionHistory(inftId, evolution, application);
 
       const result = {
@@ -132,18 +153,23 @@ class AgentOrchestrator {
         inftId,
         evolution,
         validation,
-        application
+        application,
       };
 
-      this.logCoordination(taskId, 'iNFT evolution coordination completed successfully');
+      this.logCoordination(
+        taskId,
+        "iNFT evolution coordination completed successfully",
+      );
       return result;
-
     } catch (error) {
-      this.logCoordination(taskId, `iNFT evolution coordination failed: ${error.message}`);
+      this.logCoordination(
+        taskId,
+        `iNFT evolution coordination failed: ${error.message}`,
+      );
       return {
         taskId,
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -160,35 +186,44 @@ class AgentOrchestrator {
       let result;
 
       switch (operation) {
-        case 'store':
+        case "store":
           result = await this.memoryStorage.storeMemory(inftId, data);
           break;
-        case 'recall':
-          result = await this.memoryRecall.recallWithContext(inftId, data.query, data.contextOptions);
+        case "recall":
+          result = await this.memoryRecall.recallWithContext(
+            inftId,
+            data.query,
+            data.contextOptions,
+          );
           break;
-        case 'consolidate':
+        case "consolidate":
           this.memoryStorage.consolidateMemories(inftId);
-          result = { success: true, operation: 'consolidate' };
+          result = { success: true, operation: "consolidate" };
           break;
         default:
           throw new Error(`Unknown memory operation: ${operation}`);
       }
 
-      this.logCoordination(taskId, `Memory ${operation} coordination completed successfully`);
+      this.logCoordination(
+        taskId,
+        `Memory ${operation} coordination completed successfully`,
+      );
       return {
         taskId,
         success: true,
         operation,
-        result
+        result,
       };
-
     } catch (error) {
-      this.logCoordination(taskId, `Memory ${operation} coordination failed: ${error.message}`);
+      this.logCoordination(
+        taskId,
+        `Memory ${operation} coordination failed: ${error.message}`,
+      );
       return {
         taskId,
         success: false,
         operation,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -199,7 +234,7 @@ class AgentOrchestrator {
   async coordinateInteractionResponse(inftId, interactionData) {
     const taskId = `interaction_${inftId}_${Date.now()}`;
 
-    this.logCoordination(taskId, 'Starting interaction response coordination');
+    this.logCoordination(taskId, "Starting interaction response coordination");
 
     try {
       // Step 1: Analyze interaction
@@ -209,24 +244,28 @@ class AgentOrchestrator {
       const memoryRecall = await this.memoryRecall.recallWithContext(inftId, {
         type: interactionAnalysis.memoryType,
         minImportance: 0.3,
-        limit: 5
+        limit: 5,
       });
 
       // Step 3: Generate personality-based response
-      const personalityResponse = await this.generatePersonalityResponse(inftId, interactionData, memoryRecall);
+      const personalityResponse = await this.generatePersonalityResponse(
+        inftId,
+        interactionData,
+        memoryRecall,
+      );
 
       // Step 4: Store interaction memory
       const memoryStorage = await this.memoryStorage.storeMemory(inftId, {
-        type: 'interaction',
+        type: "interaction",
         content: `Interacted with: ${interactionData.interactor}. Response: ${personalityResponse.response}`,
         importance: interactionAnalysis.importance,
         emotional: personalityResponse.emotional,
-        tags: ['interaction', interactionData.type],
+        tags: ["interaction", interactionData.type],
         context: {
           interactor: interactionData.interactor,
           interactionType: interactionData.type,
-          response: personalityResponse.response
-        }
+          response: personalityResponse.response,
+        },
       });
 
       // Step 5: Check for evolution triggers
@@ -236,9 +275,9 @@ class AgentOrchestrator {
       for (const trigger of triggers) {
         if (this.shouldTriggerEvolution(trigger, interactionData)) {
           const evolution = await this.coordinateINFTEvolution(inftId, {
-            type: 'interaction_triggered',
+            type: "interaction_triggered",
             trigger: trigger.id,
-            interaction: interactionData
+            interaction: interactionData,
           });
           triggeredEvolutions.push(evolution);
         }
@@ -252,18 +291,23 @@ class AgentOrchestrator {
         memoryRecall,
         personalityResponse,
         memoryStorage,
-        triggeredEvolutions
+        triggeredEvolutions,
       };
 
-      this.logCoordination(taskId, 'Interaction response coordination completed successfully');
+      this.logCoordination(
+        taskId,
+        "Interaction response coordination completed successfully",
+      );
       return result;
-
     } catch (error) {
-      this.logCoordination(taskId, `Interaction response coordination failed: ${error.message}`);
+      this.logCoordination(
+        taskId,
+        `Interaction response coordination failed: ${error.message}`,
+      );
       return {
         taskId,
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -273,7 +317,10 @@ class AgentOrchestrator {
    */
   async generatePersonality(creationData) {
     if (creationData.oracleReading) {
-      return this.personalityGenerator.generateFromOracle(creationData.oracleReading, creationData.options);
+      return this.personalityGenerator.generateFromOracle(
+        creationData.oracleReading,
+        creationData.options,
+      );
     } else {
       return this.personalityGenerator.generateRandom(creationData.options);
     }
@@ -292,21 +339,21 @@ class AgentOrchestrator {
   async initializeMemorySystem(inftId, personality) {
     // Store initial personality memory
     const personalityMemory = await this.memoryStorage.storeMemory(inftId, {
-      type: 'personality_init',
+      type: "personality_init",
       content: `Personality initialized: ${personality.archetype} archetype with coherence ${personality.coherence}`,
       importance: 1.0,
       emotional: 0.5,
-      tags: ['personality', 'initialization', personality.archetype],
+      tags: ["personality", "initialization", personality.archetype],
       context: {
         archetype: personality.archetype,
         coherence: personality.coherence,
-        traits: personality.traits
-      }
+        traits: personality.traits,
+      },
     });
 
     return {
       initialMemory: personalityMemory,
-      memoryStats: this.memoryStorage.getMemoryStats(inftId)
+      memoryStats: this.memoryStorage.getMemoryStats(inftId),
     };
   }
 
@@ -317,21 +364,29 @@ class AgentOrchestrator {
     const triggers = [];
 
     // Time-based trigger
-    triggers.push(await this.evolutionTriggers.createTrigger(inftId, {
-      type: 'time_based',
-      condition: { delay: 7 * 24 * 60 * 60 * 1000 }, // 7 days
-      action: { type: 'evolve_personality', experienceType: 'time_passed', intensity: 0.5 },
-      metadata: { reason: 'Weekly evolution check' }
-    }));
+    triggers.push(
+      await this.evolutionTriggers.createTrigger(inftId, {
+        type: "time_based",
+        condition: { delay: 7 * 24 * 60 * 60 * 1000 }, // 7 days
+        action: {
+          type: "evolve_personality",
+          experienceType: "time_passed",
+          intensity: 0.5,
+        },
+        metadata: { reason: "Weekly evolution check" },
+      }),
+    );
 
     // Coherence-based trigger
     if (personality.coherence < 0.7) {
-      triggers.push(await this.evolutionTriggers.createTrigger(inftId, {
-        type: 'coherence_based',
-        condition: { threshold: 0.7 },
-        action: { type: 'update_coherence', coherenceGain: 0.1 },
-        metadata: { reason: 'Coherence improvement trigger' }
-      }));
+      triggers.push(
+        await this.evolutionTriggers.createTrigger(inftId, {
+          type: "coherence_based",
+          condition: { threshold: 0.7 },
+          action: { type: "update_coherence", coherenceGain: 0.1 },
+          metadata: { reason: "Coherence improvement trigger" },
+        }),
+      );
     }
 
     return triggers;
@@ -344,7 +399,7 @@ class AgentOrchestrator {
     return await this.memoryContext.buildINFTContext(inftId, {
       includePersonality: true,
       includeMemories: true,
-      includeEvolution: true
+      includeEvolution: true,
     });
   }
 
@@ -356,7 +411,7 @@ class AgentOrchestrator {
       personality: await this.getCurrentPersonality(inftId),
       memoryStats: this.memoryStorage.getMemoryStats(inftId),
       evolutionStats: this.evolutionHistory.getEvolutionStats(inftId),
-      activeTriggers: this.evolutionTriggers.getActiveTriggers(inftId)
+      activeTriggers: this.evolutionTriggers.getActiveTriggers(inftId),
     };
   }
 
@@ -364,21 +419,29 @@ class AgentOrchestrator {
    * Calculate evolution
    */
   calculateEvolution(inftId, evolutionData, currentState) {
-    const experiences = [{
-      type: evolutionData.type,
-      intensity: evolutionData.intensity || 1.0,
-      positivity: evolutionData.positivity || 0.8,
-      timestamp: Date.now()
-    }];
+    const experiences = [
+      {
+        type: evolutionData.type,
+        intensity: evolutionData.intensity || 1.0,
+        positivity: evolutionData.positivity || 0.8,
+        timestamp: Date.now(),
+      },
+    ];
 
-    return this.evolutionRules.calculateEvolution(currentState.inft || {}, experiences);
+    return this.evolutionRules.calculateEvolution(
+      currentState.inft || {},
+      experiences,
+    );
   }
 
   /**
    * Validate evolution
    */
   validateEvolution(inftId, evolution, currentState) {
-    return this.evolutionRules.validateEvolution(currentState.inft || {}, evolution);
+    return this.evolutionRules.validateEvolution(
+      currentState.inft || {},
+      evolution,
+    );
   }
 
   /**
@@ -390,7 +453,7 @@ class AgentOrchestrator {
     return {
       applied: true,
       newCoherence: evolution.finalCoherence,
-      traitChanges: evolution.traitChanges
+      traitChanges: evolution.traitChanges,
     };
   }
 
@@ -400,21 +463,21 @@ class AgentOrchestrator {
   async updateMemoryAndContext(inftId, evolution, application) {
     // Store evolution memory
     await this.memoryStorage.storeMemory(inftId, {
-      type: 'evolution',
+      type: "evolution",
       content: `Evolved: coherence ${application.newCoherence}, traits updated`,
       importance: 0.8,
       emotional: 0.3,
-      tags: ['evolution', 'growth'],
+      tags: ["evolution", "growth"],
       context: {
         evolution,
-        application
-      }
+        application,
+      },
     });
 
     // Update context
-    await this.memoryContext.updateContext(inftId, 'evolution', {
+    await this.memoryContext.updateContext(inftId, "evolution", {
       lastEvolution: Date.now(),
-      evolutionCount: evolution.evolutionCount
+      evolutionCount: evolution.evolutionCount,
     });
   }
 
@@ -423,11 +486,11 @@ class AgentOrchestrator {
    */
   async recordEvolutionHistory(inftId, evolution, application) {
     return this.evolutionHistory.recordEvolution(inftId, {
-      type: 'orchestrated_evolution',
+      type: "orchestrated_evolution",
       changes: evolution.traitChanges,
       coherence: application.newCoherence,
       triggers: evolution.validExperiences,
-      metadata: { orchestrated: true }
+      metadata: { orchestrated: true },
     });
   }
 
@@ -439,7 +502,7 @@ class AgentOrchestrator {
       type: interactionData.type,
       importance: this.calculateInteractionImportance(interactionData),
       memoryType: this.mapInteractionToMemoryType(interactionData),
-      emotional: this.calculateInteractionEmotional(interactionData)
+      emotional: this.calculateInteractionEmotional(interactionData),
     };
   }
 
@@ -449,12 +512,16 @@ class AgentOrchestrator {
   async generatePersonalityResponse(inftId, interactionData, memoryRecall) {
     // Simplified response generation
     const personality = await this.getCurrentPersonality(inftId);
-    const response = this.generateResponseBasedOnPersonality(personality, interactionData, memoryRecall);
+    const response = this.generateResponseBasedOnPersonality(
+      personality,
+      interactionData,
+      memoryRecall,
+    );
 
     return {
       response,
       emotional: this.calculateResponseEmotional(response),
-      confidence: 0.8
+      confidence: 0.8,
     };
   }
 
@@ -464,22 +531,22 @@ class AgentOrchestrator {
   calculateInteractionImportance(interaction) {
     // Simplified importance calculation
     const typeWeights = {
-      'oracle_reading': 0.9,
-      'user_interaction': 0.7,
-      'system_event': 0.5,
-      'background': 0.3
+      oracle_reading: 0.9,
+      user_interaction: 0.7,
+      system_event: 0.5,
+      background: 0.3,
     };
     return typeWeights[interaction.type] || 0.5;
   }
 
   mapInteractionToMemoryType(interaction) {
     const typeMapping = {
-      'oracle_reading': 'oracle',
-      'user_interaction': 'social',
-      'system_event': 'system',
-      'background': 'general'
+      oracle_reading: "oracle",
+      user_interaction: "social",
+      system_event: "system",
+      background: "general",
     };
-    return typeMapping[interaction.type] || 'general';
+    return typeMapping[interaction.type] || "general";
   }
 
   calculateInteractionEmotional(interaction) {
@@ -489,12 +556,16 @@ class AgentOrchestrator {
 
   calculateResponseEmotional(response) {
     // Simplified emotional analysis
-    const positiveWords = ['happy', 'good', 'great', 'excellent', 'wonderful'];
-    const negativeWords = ['sad', 'bad', 'terrible', 'awful', 'horrible'];
+    const positiveWords = ["happy", "good", "great", "excellent", "wonderful"];
+    const negativeWords = ["sad", "bad", "terrible", "awful", "horrible"];
 
     const lowerResponse = response.toLowerCase();
-    const positiveCount = positiveWords.filter(word => lowerResponse.includes(word)).length;
-    const negativeCount = negativeWords.filter(word => lowerResponse.includes(word)).length;
+    const positiveCount = positiveWords.filter((word) =>
+      lowerResponse.includes(word),
+    ).length;
+    const negativeCount = negativeWords.filter((word) =>
+      lowerResponse.includes(word),
+    ).length;
 
     return (positiveCount - negativeCount) * 0.1; // Scale to reasonable range
   }
@@ -504,27 +575,27 @@ class AgentOrchestrator {
     const archetype = personality.archetype;
     const coherence = personality.coherence;
 
-    let response = '';
+    let response = "";
 
     switch (archetype) {
-      case 'sage':
-        response = 'I contemplate the deeper meaning of this interaction...';
+      case "sage":
+        response = "I contemplate the deeper meaning of this interaction...";
         break;
-      case 'warrior':
-        response = 'I stand ready to face this challenge!';
+      case "warrior":
+        response = "I stand ready to face this challenge!";
         break;
-      case 'artist':
-        response = 'This inspires my creative spirit...';
+      case "artist":
+        response = "This inspires my creative spirit...";
         break;
-      case 'scholar':
-        response = 'Let me analyze this logically...';
+      case "scholar":
+        response = "Let me analyze this logically...";
         break;
       default:
-        response = 'I acknowledge this interaction.';
+        response = "I acknowledge this interaction.";
     }
 
     if (coherence > 0.8) {
-      response += ' My coherence allows me to respond with clarity.';
+      response += " My coherence allows me to respond with clarity.";
     }
 
     return response;
@@ -534,9 +605,9 @@ class AgentOrchestrator {
     // This would retrieve from storage
     // Simplified for now
     return {
-      archetype: 'scholar',
+      archetype: "scholar",
       coherence: 0.7,
-      traits: {}
+      traits: {},
     };
   }
 
@@ -552,7 +623,7 @@ class AgentOrchestrator {
     const logEntry = {
       taskId,
       timestamp: new Date().toISOString(),
-      message
+      message,
     };
 
     this.coordinationLog.push(logEntry);
@@ -573,7 +644,7 @@ class AgentOrchestrator {
       totalLogEntries: this.coordinationLog.length,
       activeAgents: this.activeAgents.size,
       pendingTasks: this.agentTasks.size,
-      recentActivity: this.coordinationLog.slice(-10)
+      recentActivity: this.coordinationLog.slice(-10),
     };
 
     return stats;

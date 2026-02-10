@@ -1,5 +1,4 @@
-Symfony HttpClient Contracts
-============================
+# Symfony HttpClient Contracts
 
 A set of abstractions extracted out of the Symfony components.
 

@@ -18,19 +18,25 @@ class InteractionHandlers {
    */
   registerDefaultHandlers() {
     // Oracle reading handler
-    this.registerHandler('oracle_reading', this.handleOracleReading.bind(this));
+    this.registerHandler("oracle_reading", this.handleOracleReading.bind(this));
 
     // User message handler
-    this.registerHandler('user_message', this.handleUserMessage.bind(this));
+    this.registerHandler("user_message", this.handleUserMessage.bind(this));
 
     // System event handler
-    this.registerHandler('system_event', this.handleSystemEvent.bind(this));
+    this.registerHandler("system_event", this.handleSystemEvent.bind(this));
 
     // Contract interaction handler
-    this.registerHandler('contract_interaction', this.handleContractInteraction.bind(this));
+    this.registerHandler(
+      "contract_interaction",
+      this.handleContractInteraction.bind(this),
+    );
 
     // Social interaction handler
-    this.registerHandler('social_interaction', this.handleSocialInteraction.bind(this));
+    this.registerHandler(
+      "social_interaction",
+      this.handleSocialInteraction.bind(this),
+    );
   }
 
   /**
@@ -47,7 +53,9 @@ class InteractionHandlers {
     const handler = this.handlers.get(interactionData.type);
 
     if (!handler) {
-      throw new Error(`No handler registered for interaction type: ${interactionData.type}`);
+      throw new Error(
+        `No handler registered for interaction type: ${interactionData.type}`,
+      );
     }
 
     const startTime = Date.now();
@@ -56,12 +64,22 @@ class InteractionHandlers {
       const result = await handler(inftId, interactionData);
 
       // Record statistics
-      this.recordInteractionStats(inftId, interactionData.type, Date.now() - startTime, true);
+      this.recordInteractionStats(
+        inftId,
+        interactionData.type,
+        Date.now() - startTime,
+        true,
+      );
 
       return result;
     } catch (error) {
       // Record failed statistics
-      this.recordInteractionStats(inftId, interactionData.type, Date.now() - startTime, false);
+      this.recordInteractionStats(
+        inftId,
+        interactionData.type,
+        Date.now() - startTime,
+        false,
+      );
 
       throw error;
     }
@@ -74,30 +92,37 @@ class InteractionHandlers {
     const oracleReading = interactionData.oracleReading;
 
     // Coordinate personality evolution based on oracle reading
-    const evolutionResult = await this.orchestrator.coordinateINFTEvolution(inftId, {
-      type: 'oracle_reading',
-      intensity: oracleReading.intensity || 1.0,
-      positivity: oracleReading.positivity || 0.8,
-      oracleData: oracleReading
-    });
+    const evolutionResult = await this.orchestrator.coordinateINFTEvolution(
+      inftId,
+      {
+        type: "oracle_reading",
+        intensity: oracleReading.intensity || 1.0,
+        positivity: oracleReading.positivity || 0.8,
+        oracleData: oracleReading,
+      },
+    );
 
     // Store oracle reading memory
-    await this.orchestrator.coordinateMemoryOperation(inftId, 'store', {
-      type: 'oracle_reading',
+    await this.orchestrator.coordinateMemoryOperation(inftId, "store", {
+      type: "oracle_reading",
       content: `Oracle reading: ${oracleReading.summary}`,
       importance: 0.9,
       emotional: oracleReading.positivity || 0.5,
-      tags: ['oracle', 'reading', 'evolution'],
+      tags: ["oracle", "reading", "evolution"],
       context: {
         reading: oracleReading,
-        evolution: evolutionResult
-      }
+        evolution: evolutionResult,
+      },
     });
 
     return {
-      type: 'oracle_reading',
+      type: "oracle_reading",
       evolution: evolutionResult,
-      response: this.generateOracleResponse(inftId, oracleReading, evolutionResult)
+      response: this.generateOracleResponse(
+        inftId,
+        oracleReading,
+        evolutionResult,
+      ),
     };
   }
 
@@ -109,19 +134,22 @@ class InteractionHandlers {
     const userId = interactionData.userId;
 
     // Get full interaction response from orchestrator
-    const response = await this.orchestrator.coordinateInteractionResponse(inftId, {
-      type: 'user_message',
-      interactor: userId,
-      message: userMessage,
-      timestamp: Date.now()
-    });
+    const response = await this.orchestrator.coordinateInteractionResponse(
+      inftId,
+      {
+        type: "user_message",
+        interactor: userId,
+        message: userMessage,
+        timestamp: Date.now(),
+      },
+    );
 
     return {
-      type: 'user_message',
+      type: "user_message",
       userId,
       message: userMessage,
       response: response.personalityResponse,
-      memoryStored: response.memoryStorage
+      memoryStored: response.memoryStorage,
     };
   }
 
@@ -133,26 +161,30 @@ class InteractionHandlers {
     const eventData = interactionData.eventData;
 
     // Process system event
-    const eventResponse = await this.processSystemEvent(inftId, eventType, eventData);
+    const eventResponse = await this.processSystemEvent(
+      inftId,
+      eventType,
+      eventData,
+    );
 
     // Store system event memory
-    await this.orchestrator.coordinateMemoryOperation(inftId, 'store', {
-      type: 'system_event',
-      content: `System event: ${eventType} - ${eventData.description || 'No description'}`,
+    await this.orchestrator.coordinateMemoryOperation(inftId, "store", {
+      type: "system_event",
+      content: `System event: ${eventType} - ${eventData.description || "No description"}`,
       importance: eventData.importance || 0.6,
       emotional: eventData.emotional || 0,
-      tags: ['system', eventType],
+      tags: ["system", eventType],
       context: {
         eventType,
-        eventData
-      }
+        eventData,
+      },
     });
 
     return {
-      type: 'system_event',
+      type: "system_event",
       eventType,
       eventData,
-      response: eventResponse
+      response: eventResponse,
     };
   }
 
@@ -164,26 +196,30 @@ class InteractionHandlers {
     const contractAddress = interactionData.contractAddress;
 
     // Process contract event
-    const contractResponse = await this.processContractEvent(inftId, contractEvent, contractAddress);
+    const contractResponse = await this.processContractEvent(
+      inftId,
+      contractEvent,
+      contractAddress,
+    );
 
     // Store contract interaction memory
-    await this.orchestrator.coordinateMemoryOperation(inftId, 'store', {
-      type: 'contract_interaction',
+    await this.orchestrator.coordinateMemoryOperation(inftId, "store", {
+      type: "contract_interaction",
       content: `Contract interaction: ${contractEvent.event} on ${contractAddress}`,
       importance: 0.7,
       emotional: contractEvent.emotional || 0.1,
-      tags: ['contract', contractEvent.event],
+      tags: ["contract", contractEvent.event],
       context: {
         contractEvent,
-        contractAddress
-      }
+        contractAddress,
+      },
     });
 
     return {
-      type: 'contract_interaction',
+      type: "contract_interaction",
       contractEvent,
       contractAddress,
-      response: contractResponse
+      response: contractResponse,
     };
   }
 
@@ -195,19 +231,20 @@ class InteractionHandlers {
     const interactionType = interactionData.interactionType;
 
     // Coordinate social interaction response
-    const socialResponse = await this.orchestrator.coordinateInteractionResponse(inftId, {
-      type: 'social_interaction',
-      interactor: otherINFT,
-      interactionType,
-      timestamp: Date.now()
-    });
+    const socialResponse =
+      await this.orchestrator.coordinateInteractionResponse(inftId, {
+        type: "social_interaction",
+        interactor: otherINFT,
+        interactionType,
+        timestamp: Date.now(),
+      });
 
     return {
-      type: 'social_interaction',
+      type: "social_interaction",
       otherINFT,
       interactionType,
       response: socialResponse.personalityResponse,
-      memoryStored: socialResponse.memoryStorage
+      memoryStored: socialResponse.memoryStorage,
     };
   }
 
@@ -215,7 +252,7 @@ class InteractionHandlers {
    * Generate oracle reading response
    */
   generateOracleResponse(inftId, oracleReading, evolutionResult) {
-    let response = 'I have received an oracle reading. ';
+    let response = "I have received an oracle reading. ";
 
     if (evolutionResult.success && evolutionResult.evolution) {
       const coherenceGain = evolutionResult.evolution.coherenceGain;
@@ -225,11 +262,11 @@ class InteractionHandlers {
 
       const traitChanges = Object.keys(evolutionResult.evolution.traitChanges);
       if (traitChanges.length > 0) {
-        response += `My traits have evolved: ${traitChanges.join(', ')}. `;
+        response += `My traits have evolved: ${traitChanges.join(", ")}. `;
       }
     }
 
-    response += 'I feel more aligned with my true nature.';
+    response += "I feel more aligned with my true nature.";
 
     return response;
   }
@@ -239,27 +276,39 @@ class InteractionHandlers {
    */
   async processSystemEvent(inftId, eventType, eventData) {
     switch (eventType) {
-      case 'maintenance':
-        return { message: 'System maintenance acknowledged.', action: 'none' };
+      case "maintenance":
+        return { message: "System maintenance acknowledged.", action: "none" };
 
-      case 'upgrade':
-        return { message: 'Upgrade detected. Adapting to new capabilities.', action: 'adapt' };
+      case "upgrade":
+        return {
+          message: "Upgrade detected. Adapting to new capabilities.",
+          action: "adapt",
+        };
 
-      case 'error':
-        return { message: 'Error condition detected. Attempting to recover.', action: 'recover' };
+      case "error":
+        return {
+          message: "Error condition detected. Attempting to recover.",
+          action: "recover",
+        };
 
-      case 'achievement':
+      case "achievement":
         // Trigger evolution for achievement
         await this.orchestrator.coordinateINFTEvolution(inftId, {
-          type: 'achievement_unlocked',
+          type: "achievement_unlocked",
           intensity: 1.0,
           positivity: 0.9,
-          achievement: eventData.achievement
+          achievement: eventData.achievement,
         });
-        return { message: 'Achievement unlocked! I feel more capable.', action: 'celebrate' };
+        return {
+          message: "Achievement unlocked! I feel more capable.",
+          action: "celebrate",
+        };
 
       default:
-        return { message: 'Unknown system event processed.', action: 'acknowledge' };
+        return {
+          message: "Unknown system event processed.",
+          action: "acknowledge",
+        };
     }
   }
 
@@ -268,20 +317,32 @@ class InteractionHandlers {
    */
   async processContractEvent(inftId, contractEvent, contractAddress) {
     switch (contractEvent.event) {
-      case 'Transfer':
+      case "Transfer":
         if (contractEvent.to === inftId) {
-          return { message: 'I have been transferred to a new owner.', action: 'acknowledge_transfer' };
+          return {
+            message: "I have been transferred to a new owner.",
+            action: "acknowledge_transfer",
+          };
         }
         break;
 
-      case 'Evolution':
-        return { message: 'Evolution event detected on the blockchain.', action: 'acknowledge_evolution' };
+      case "Evolution":
+        return {
+          message: "Evolution event detected on the blockchain.",
+          action: "acknowledge_evolution",
+        };
 
-      case 'MemoryAdded':
-        return { message: 'New memory added to my blockchain record.', action: 'acknowledge_memory' };
+      case "MemoryAdded":
+        return {
+          message: "New memory added to my blockchain record.",
+          action: "acknowledge_memory",
+        };
 
       default:
-        return { message: 'Contract event acknowledged.', action: 'acknowledge' };
+        return {
+          message: "Contract event acknowledged.",
+          action: "acknowledge",
+        };
     }
   }
 
@@ -296,7 +357,7 @@ class InteractionHandlers {
       failureCount: 0,
       totalDuration: 0,
       averageDuration: 0,
-      lastInteraction: null
+      lastInteraction: null,
     };
 
     stats.count++;
@@ -326,7 +387,7 @@ class InteractionHandlers {
     const inftStats = {};
     for (const [key, stats] of this.interactionStats.entries()) {
       if (key.startsWith(`${inftId}_`)) {
-        const type = key.replace(`${inftId}_`, '');
+        const type = key.replace(`${inftId}_`, "");
         inftStats[type] = stats;
       }
     }
@@ -340,7 +401,7 @@ class InteractionHandlers {
   getHandlerInfo() {
     return {
       registeredHandlers: Array.from(this.handlers.keys()),
-      totalHandlers: this.handlers.size
+      totalHandlers: this.handlers.size,
     };
   }
 
@@ -356,7 +417,7 @@ class InteractionHandlers {
           keysToDelete.push(key);
         }
       }
-      keysToDelete.forEach(key => this.interactionStats.delete(key));
+      keysToDelete.forEach((key) => this.interactionStats.delete(key));
     } else {
       // Clear all stats
       this.interactionStats.clear();

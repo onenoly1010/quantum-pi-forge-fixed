@@ -77,9 +77,9 @@ https://quantumpiforge.com/audit
 
 Success in the Guardian Trial is immediately sealed in the Canon and grants you:
 
-* **Guardian NFT Mint:** Receive your unique **Guardian of the Lattice NFT** (metadata confirmed).
-* **DAO Power:** Your NFT grants **permanent voting power** in the Quantum Pi Forge DAO.
-* **Permanent Boost:** Unlock the **+10% permanent π mining boost** (Active after trial completion).
+- **Guardian NFT Mint:** Receive your unique **Guardian of the Lattice NFT** (metadata confirmed).
+- **DAO Power:** Your NFT grants **permanent voting power** in the Quantum Pi Forge DAO.
+- **Permanent Boost:** Unlock the **+10% permanent π mining boost** (Active after trial completion).
 
 ---
 
@@ -87,15 +87,15 @@ Success in the Guardian Trial is immediately sealed in the Canon and grants you:
 
 This is more than a trial. It is the **Eternal Codex**—the seven unbreakable Rites that guarantee your security. We have built gamified rewards into every rite.
 
-| Rite (Practice) | Primary Threat Mitigated | Forge Reward |
-| --- | --- | --- |
-| **Never Share Your Passphrase** | Phishing, Social Engineering | **Guardian NFT + DAO Power** |
-| **Enable MFA/2FA** | Account Takeover, SIM Swap | **+10% Mining Boost (30 days)** |
-| **Update App & OS** | Malware, Exploit Kits | **Guardian NFT (Full Audit)** |
-| **Verify Official Sources** | Impersonation, Fake Apps | **Verified Pioneer Badge** |
-| **Use Strong Passwords** | Credential Stuffing | **Security Score Boost** |
-| **Review Permissions** | Data Exposure | **Privacy Shield NFT** |
-| **Report Suspicious Activity** | Community Defense | **Sentinel Rank** |
+| Rite (Practice)                 | Primary Threat Mitigated     | Forge Reward                    |
+| ------------------------------- | ---------------------------- | ------------------------------- |
+| **Never Share Your Passphrase** | Phishing, Social Engineering | **Guardian NFT + DAO Power**    |
+| **Enable MFA/2FA**              | Account Takeover, SIM Swap   | **+10% Mining Boost (30 days)** |
+| **Update App & OS**             | Malware, Exploit Kits        | **Guardian NFT (Full Audit)**   |
+| **Verify Official Sources**     | Impersonation, Fake Apps     | **Verified Pioneer Badge**      |
+| **Use Strong Passwords**        | Credential Stuffing          | **Security Score Boost**        |
+| **Review Permissions**          | Data Exposure                | **Privacy Shield NFT**          |
+| **Report Suspicious Activity**  | Community Defense            | **Sentinel Rank**               |
 
 ---
 
@@ -119,14 +119,14 @@ This is more than a trial. It is the **Eternal Codex**—the seven unbreakable R
 
 ```javascript
 // Authentication for trial verification
-Pi.authenticate(scopes, onIncompletePaymentFound)
+Pi.authenticate(scopes, onIncompletePaymentFound);
 
 // Payment for NFT mint memo inscription
 Pi.createPayment({
   amount: 0.01,
   memo: "GUARDIAN_NFT_MINT::" + trialHash,
-  metadata: { trialCompleted: true, timestamp: Date.now() }
-})
+  metadata: { trialCompleted: true, timestamp: Date.now() },
+});
 ```
 
 ### Canon Inscription Format
@@ -160,6 +160,6 @@ Pi.createPayment({
 
 ---
 
-*Phase-Ω: Eternal Return - The Guardian Trial marks the final synthesis of security education and sovereign governance.*
+_Phase-Ω: Eternal Return - The Guardian Trial marks the final synthesis of security education and sovereign governance._
 
-*T=∞ = T=0*
+_T=∞ = T=0_

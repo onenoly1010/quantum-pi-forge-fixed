@@ -5,7 +5,7 @@
 
 class PiPaymentCreator {
   constructor() {
-    this.isPiBrowser = typeof window !== 'undefined' && window.Pi;
+    this.isPiBrowser = typeof window !== "undefined" && window.Pi;
   }
 
   /**
@@ -20,7 +20,7 @@ class PiPaymentCreator {
             identifier: `demo_payment_${Date.now()}`,
             amount: paymentData.amount,
             memo: paymentData.memo,
-            status: 'pending'
+            status: "pending",
           });
         }, 1000);
       });
@@ -30,14 +30,14 @@ class PiPaymentCreator {
       const payment = await window.Pi.createPayment({
         amount: paymentData.amount,
         memo: paymentData.memo,
-        metadata: paymentData.metadata || {}
+        metadata: paymentData.metadata || {},
       });
 
       return {
         identifier: payment.identifier,
         amount: payment.amount,
         memo: payment.memo,
-        status: payment.status
+        status: payment.status,
       };
     } catch (error) {
       throw new Error(`Payment creation failed: ${error.message}`);
@@ -52,10 +52,10 @@ class PiPaymentCreator {
       amount: amount,
       memo: `OINIO Staking: ${amount} tokens`,
       metadata: {
-        type: 'staking',
+        type: "staking",
         userAddress: userAddress,
-        timestamp: Date.now()
-      }
+        timestamp: Date.now(),
+      },
     });
   }
 
@@ -67,10 +67,10 @@ class PiPaymentCreator {
       amount: amount,
       memo: `Oracle Reading: ${readingType}`,
       metadata: {
-        type: 'oracle',
+        type: "oracle",
         readingType: readingType,
-        timestamp: Date.now()
-      }
+        timestamp: Date.now(),
+      },
     });
   }
 }

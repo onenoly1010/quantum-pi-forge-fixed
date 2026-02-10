@@ -1,11 +1,11 @@
 /**
  * Frontend Evaluation Utilities for Quantum Pi Forge
- * 
+ *
  * Provides client-side evaluation metrics collection and reporting
  * for Next.js/React components in the Sacred Trinity architecture.
  */
 
-import { createSpan } from './tracing';
+import { createSpan } from "./tracing";
 
 // Evaluation metrics types
 export interface ComponentMetrics {
@@ -49,10 +49,13 @@ const metricsStore: {
 /**
  * Measure component render time
  */
-export function measureRenderTime(componentName: string, startTime: number): ComponentMetrics {
+export function measureRenderTime(
+  componentName: string,
+  startTime: number,
+): ComponentMetrics {
   const endTime = performance.now();
   const renderTime = endTime - startTime;
-  
+
   const metrics: ComponentMetrics = {
     componentName,
     renderTime,
@@ -61,17 +64,17 @@ export function measureRenderTime(componentName: string, startTime: number): Com
     performanceScore: calculatePerformanceScore(renderTime),
     timestamp: new Date().toISOString(),
   };
-  
+
   metricsStore.components.push(metrics);
-  
+
   // Create tracing span
-  const span = createSpan('component.render', {
-    'component.name': componentName,
-    'component.render_time_ms': renderTime,
-    'component.performance_score': metrics.performanceScore,
+  const span = createSpan("component.render", {
+    "component.name": componentName,
+    "component.render_time_ms": renderTime,
+    "component.performance_score": metrics.performanceScore,
   });
   span?.end();
-  
+
   return metrics;
 }
 
@@ -82,10 +85,10 @@ export function trackInteraction(
   eventType: string,
   targetComponent: string,
   startTime: number,
-  success: boolean = true
+  success: boolean = true,
 ): UserInteractionMetrics {
   const responseTime = performance.now() - startTime;
-  
+
   const metrics: UserInteractionMetrics = {
     eventType,
     targetComponent,
@@ -93,27 +96,29 @@ export function trackInteraction(
     success,
     timestamp: new Date().toISOString(),
   };
-  
+
   metricsStore.interactions.push(metrics);
-  
+
   // Create tracing span
-  const span = createSpan('user.interaction', {
-    'interaction.type': eventType,
-    'interaction.target': targetComponent,
-    'interaction.response_time_ms': responseTime,
-    'interaction.success': success,
+  const span = createSpan("user.interaction", {
+    "interaction.type": eventType,
+    "interaction.target": targetComponent,
+    "interaction.response_time_ms": responseTime,
+    "interaction.success": success,
   });
   span?.end();
-  
+
   return metrics;
 }
 
 /**
  * Collect Web Vitals metrics
  */
-export function collectWebVitals(route: string): Promise<PagePerformanceMetrics> {
+export function collectWebVitals(
+  route: string,
+): Promise<PagePerformanceMetrics> {
   return new Promise((resolve) => {
-    if (typeof window === 'undefined' || !window.performance) {
+    if (typeof window === "undefined" || !window.performance) {
       resolve({
         route,
         loadTime: 0,
@@ -125,35 +130,40 @@ export function collectWebVitals(route: string): Promise<PagePerformanceMetrics>
       });
       return;
     }
-    
+
     // Wait for page to fully load
     setTimeout(() => {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      const paint = performance.getEntriesByType('paint');
-      
-      const fcpEntry = paint.find(entry => entry.name === 'first-contentful-paint');
-      
+      const navigation = performance.getEntriesByType(
+        "navigation",
+      )[0] as PerformanceNavigationTiming;
+      const paint = performance.getEntriesByType("paint");
+
+      const fcpEntry = paint.find(
+        (entry) => entry.name === "first-contentful-paint",
+      );
+
       const metrics: PagePerformanceMetrics = {
         route,
         loadTime: navigation?.loadEventEnd - navigation?.startTime || 0,
         firstContentfulPaint: fcpEntry?.startTime || 0,
         largestContentfulPaint: 0, // Requires PerformanceObserver
         cumulativeLayoutShift: 0, // Requires PerformanceObserver
-        timeToInteractive: navigation?.domInteractive - navigation?.startTime || 0,
+        timeToInteractive:
+          navigation?.domInteractive - navigation?.startTime || 0,
         timestamp: new Date().toISOString(),
       };
-      
+
       metricsStore.pagePerformance.push(metrics);
-      
+
       // Create tracing span
-      const span = createSpan('page.performance', {
-        'page.route': route,
-        'page.load_time_ms': metrics.loadTime,
-        'page.fcp_ms': metrics.firstContentfulPaint,
-        'page.tti_ms': metrics.timeToInteractive,
+      const span = createSpan("page.performance", {
+        "page.route": route,
+        "page.load_time_ms": metrics.loadTime,
+        "page.fcp_ms": metrics.firstContentfulPaint,
+        "page.tti_ms": metrics.timeToInteractive,
       });
       span?.end();
-      
+
       resolve(metrics);
     }, 1000);
   });
@@ -182,9 +192,15 @@ export function getAllMetrics() {
       totalComponents: metricsStore.components.length,
       totalInteractions: metricsStore.interactions.length,
       totalPageViews: metricsStore.pagePerformance.length,
-      averageRenderTime: calculateAverage(metricsStore.components.map(m => m.renderTime)),
-      averageInteractionTime: calculateAverage(metricsStore.interactions.map(m => m.responseTime)),
-      averageLoadTime: calculateAverage(metricsStore.pagePerformance.map(m => m.loadTime)),
+      averageRenderTime: calculateAverage(
+        metricsStore.components.map((m) => m.renderTime),
+      ),
+      averageInteractionTime: calculateAverage(
+        metricsStore.interactions.map((m) => m.responseTime),
+      ),
+      averageLoadTime: calculateAverage(
+        metricsStore.pagePerformance.map((m) => m.loadTime),
+      ),
     },
     collectedAt: new Date().toISOString(),
   };
@@ -220,11 +236,13 @@ export function clearMetrics() {
  */
 export function useComponentMetrics(componentName: string) {
   const startTime = performance.now();
-  
+
   return {
     recordRender: () => measureRenderTime(componentName, startTime),
-    trackClick: (success?: boolean) => trackInteraction('click', componentName, performance.now(), success),
-    trackSubmit: (success?: boolean) => trackInteraction('submit', componentName, performance.now(), success),
+    trackClick: (success?: boolean) =>
+      trackInteraction("click", componentName, performance.now(), success),
+    trackSubmit: (success?: boolean) =>
+      trackInteraction("submit", componentName, performance.now(), success),
   };
 }
 
@@ -233,18 +251,18 @@ export function useComponentMetrics(componentName: string) {
  */
 export function withMetrics<P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  componentName: string
+  componentName: string,
 ) {
   return function MetricsWrapper(props: P) {
     const startTime = performance.now();
-    
+
     // Record render on mount
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       requestAnimationFrame(() => {
         measureRenderTime(componentName, startTime);
       });
     }
-    
+
     return <WrappedComponent {...props} />;
   };
 }

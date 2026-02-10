@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface RevenueStats {
   total_revenue: number;
@@ -29,7 +29,7 @@ export default function RevenueMonitor() {
 
   const fetchRevenueStats = async () => {
     try {
-      const response = await fetch('/api/admin/revenue-monitor');
+      const response = await fetch("/api/admin/revenue-monitor");
       if (response.ok) {
         const data = await response.json();
         setStats(data);
@@ -37,7 +37,7 @@ export default function RevenueMonitor() {
         setTimeout(() => setRealtime(false), 2000); // Show "live" indicator for 2 seconds
       }
     } catch (error) {
-      console.error('Failed to fetch revenue stats:', error);
+      console.error("Failed to fetch revenue stats:", error);
     } finally {
       setLoading(false);
     }
@@ -75,10 +75,14 @@ export default function RevenueMonitor() {
         <div className="flex items-center gap-3">
           <span className="text-2xl">💰</span>
           <div>
-            <h2 className="text-xl font-bold text-white">Live Revenue Engine</h2>
+            <h2 className="text-xl font-bold text-white">
+              Live Revenue Engine
+            </h2>
             <div className="flex items-center gap-2 text-sm text-gray-400">
-              <div className={`w-2 h-2 rounded-full ${realtime ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`}></div>
-              {realtime ? 'Live Update' : 'Auto-refreshing every 30s'}
+              <div
+                className={`w-2 h-2 rounded-full ${realtime ? "bg-green-400 animate-pulse" : "bg-gray-600"}`}
+              ></div>
+              {realtime ? "Live Update" : "Auto-refreshing every 30s"}
             </div>
           </div>
         </div>
@@ -148,7 +152,8 @@ export default function RevenueMonitor() {
                 <strong>{stats.top_creator.username}</strong> is on fire!
               </div>
               <div className="text-gray-300 text-sm">
-                Earned ${stats.top_creator.daily_earnings.toFixed(2)} from template burns
+                Earned ${stats.top_creator.daily_earnings.toFixed(2)} from
+                template burns
               </div>
             </div>
             <div className="text-right">

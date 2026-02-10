@@ -4,11 +4,11 @@
 
 ## 📋 Verified Addresses
 
-| Contract | Address | Status |
-|----------|---------|--------|
+| Contract             | Address                                      | Status      |
+| -------------------- | -------------------------------------------- | ----------- |
 | **W0G (Wrapped 0G)** | `0x1Cd0690fF9a693f5EF2dD976660a8dAFc81A109c` | ✅ VERIFIED |
-| UniswapV2Factory | TBD | ⏳ Deploy |
-| UniswapV2Router02 | TBD | ⏳ Deploy |
+| UniswapV2Factory     | TBD                                          | ⏳ Deploy   |
+| UniswapV2Router02    | TBD                                          | ⏳ Deploy   |
 
 ## 🔍 W0G Verification
 

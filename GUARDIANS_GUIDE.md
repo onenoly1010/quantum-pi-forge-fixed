@@ -23,12 +23,14 @@ Save and switch to this network.
 ## Step 2: Find & Trade the OINIO/0G Pair
 
 ### Via DEX Interface (recommended for most guardians):
+
 - Go to your preferred EVM DEX frontend that supports custom routers
 - Connect to 0G Aristotle network
 - Import the OINIO token: `0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37`
 - Use the DEX router: `0x0ff65f38fa43f0aac51901381acd7a8908ae2537`
 
 ### Direct via Router (Write Contract on Explorer):
+
 1. Visit https://chainscan.0g.ai/address/0x0ff65f38fa43f0aac51901381acd7a8908ae2537#writeContract
 2. Connect your wallet (MetaMask)
 3. Call `swapExactETHForTokens` (for buying OINIO with 0G) or `swapExactTokensForETH` (selling):
@@ -39,9 +41,11 @@ Save and switch to this network.
 4. Approve OINIO if selling first
 
 ### Find the Exact Pair Address:
+
 **Quick Method:** Open `pair-finder.html` in your browser to automatically find the pair address and check liquidity.
 
 **Manual Method:**
+
 1. Go to https://chainscan.0g.ai/address/0x307bFaA937768a073D41a2EbFBD952Be8E38BF91#readContract
 2. Call `getPair` with:
    - `tokenA`: `0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37` (OINIO)
@@ -49,6 +53,7 @@ Save and switch to this network.
 3. The result is your pair address for direct trading
 
 ### Discovery Tools:
+
 - Search "OINIO" on https://chainscan.0g.ai → token page shows holders, transfers, pair details
 - Check pair creation transaction from liquidity addition → note the pair address in event logs
 - Community: Follow @onenoly11 on X for updates; guardians share pair links organically
@@ -69,6 +74,7 @@ Save and switch to this network.
 ## 🔍 Current Pair Information
 
 **How to Find Your Pair Address:**
+
 1. Go to DEX Factory: https://chainscan.0g.ai/address/0x307bFaA937768a073D41a2EbFBD952Be8E38BF91#readContract
 2. Call `getPair(OINIO_address, WETH_address)` where:
    - OINIO: `0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37`
@@ -78,7 +84,7 @@ Save and switch to this network.
 **Liquidity Status:** Check after addLiquidity transaction confirms  
 **Expected Initial Ratio:** 50 0G : 1,000,000,000 OINIO (1:20,000,000 ratio)
 
-*Once liquidity is added, the pair will be active for trading. Check the factory contract for the exact pair address.*
+_Once liquidity is added, the pair will be active for trading. Check the factory contract for the exact pair address._
 
 ---
 
@@ -93,6 +99,7 @@ The tether is severed. The forge is yours—collectively. ⟨OO⟩
 For complete verification of the severance process, see [SOVEREIGN_AUDIT.md](SOVEREIGN_AUDIT.md)
 
 **Severance Status:**
+
 - ✅ OINIO Ownership: Renounced (owner = 0x000...000)
 - ✅ DEX Factory Control: Renounced (owner = 0x000...000)
 - ✅ LP Tokens: Burned to dead address (0x000...dEaD)
@@ -100,8 +107,9 @@ For complete verification of the severance process, see [SOVEREIGN_AUDIT.md](SOV
 - ✅ Sovereignty: Complete - No central authority
 
 **Severance Transactions:**
+
 - OINIO Ownership Renounce: [Transaction hash when complete]
 - DEX Factory Renounce: [Transaction hash when complete]
 - LP Token Burn: [Transaction hash when complete]
 
-*All transaction hashes will be published in the sovereign audit once severance is complete.*
+_All transaction hashes will be published in the sovereign audit once severance is complete._

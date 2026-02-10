@@ -3,26 +3,28 @@
  * Generates and manages quantum oracle readings for soul guidance
  */
 
-const crypto = require('crypto');
-const { dbManager } = require('../config/database');
-const { ApiError } = require('../shared/errors');
-const { generateId, hashData } = require('../shared/utils');
-const { getEnvVar } = require('../config/environment');
+const crypto = require("crypto");
+const { dbManager } = require("../config/database");
+const { ApiError } = require("../shared/errors");
+const { generateId, hashData } = require("../shared/utils");
+const { getEnvVar } = require("../config/environment");
 
 class OracleService {
   constructor() {
-    this.maxReadingsPerHour = parseInt(getEnvVar('ORACLE_MAX_READINGS_PER_HOUR', '100'));
-    this.cacheTimeout = parseInt(getEnvVar('ORACLE_CACHE_TIMEOUT', '300000')); // 5 minutes
-    this.enabled = getEnvVar('ORACLE_ENABLED', 'true') === 'true';
+    this.maxReadingsPerHour = parseInt(
+      getEnvVar("ORACLE_MAX_READINGS_PER_HOUR", "100"),
+    );
+    this.cacheTimeout = parseInt(getEnvVar("ORACLE_CACHE_TIMEOUT", "300000")); // 5 minutes
+    this.enabled = getEnvVar("ORACLE_ENABLED", "true") === "true";
   }
 
   /**
    * Generate oracle reading for a soul
    */
-  async generateReading(soulId, readingType = 'general', options = {}) {
+  async generateReading(soulId, readingType = "general", options = {}) {
     try {
       if (!this.enabled) {
-        throw new ApiError('Oracle service is currently disabled', 503);
+        throw new ApiError("Oracle service is currently disabled", 503);
       }
 
       // Check rate limit
@@ -32,18 +34,24 @@ class OracleService {
       const soul = await this.getSoulForReading(soulId);
 
       // Generate quantum reading
-      const reading = await this.createQuantumReading(soul, readingType, options);
+      const reading = await this.createQuantumReading(
+        soul,
+        readingType,
+        options,
+      );
 
       // Save reading to database
-      const oracleReadings = dbManager.getCollection('oracle_readings');
+      const oracleReadings = dbManager.getCollection("oracle_readings");
       await oracleReadings.insertOne(reading);
 
       // Update soul activity
-      await this.updateSoulActivity(soulId, 'Reading', { readingId: reading.readingId });
+      await this.updateSoulActivity(soulId, "Reading", {
+        readingId: reading.readingId,
+      });
 
       return reading;
     } catch (error) {
-      console.error('Oracle reading generation error:', error);
+      console.error("Oracle reading generation error:", error);
       throw error;
     }
   }
@@ -52,11 +60,11 @@ class OracleService {
    * Get reading by ID
    */
   async getReadingById(readingId) {
-    const oracleReadings = dbManager.getCollection('oracle_readings');
+    const oracleReadings = dbManager.getCollection("oracle_readings");
     const reading = await oracleReadings.findOne({ readingId });
 
     if (!reading) {
-      throw new ApiError('Oracle reading not found', 404);
+      throw new ApiError("Oracle reading not found", 404);
     }
 
     return reading;
@@ -66,16 +74,17 @@ class OracleService {
    * Get readings for a soul
    */
   async getReadingsForSoul(soulId, page = 1, limit = 20) {
-    const oracleReadings = dbManager.getCollection('oracle_readings');
+    const oracleReadings = dbManager.getCollection("oracle_readings");
     const skip = (page - 1) * limit;
 
     const [total, readings] = await Promise.all([
       oracleReadings.countDocuments({ soulId }),
-      oracleReadings.find({ soulId })
+      oracleReadings
+        .find({ soulId })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .toArray()
+        .toArray(),
     ]);
 
     return {
@@ -86,8 +95,8 @@ class OracleService {
         total,
         pages: Math.ceil(total / limit),
         hasNext: page * limit < total,
-        hasPrev: page > 1
-      }
+        hasPrev: page > 1,
+      },
     };
   }
 
@@ -99,35 +108,41 @@ class OracleService {
       const reading = await this.getReadingById(readingId);
 
       // Verify the signature matches the reading data
-      const readingHash = hashData(JSON.stringify({
-        readingId: reading.readingId,
-        soulId: reading.soulId,
-        type: reading.type,
-        content: reading.content,
-        timestamp: reading.timestamp
-      }));
+      const readingHash = hashData(
+        JSON.stringify({
+          readingId: reading.readingId,
+          soulId: reading.soulId,
+          type: reading.type,
+          content: reading.content,
+          timestamp: reading.timestamp,
+        }),
+      );
 
       const expectedMessage = `Verify Oracle Reading: ${readingHash}`;
-      const isValid = await this.verifySignature(signature, expectedMessage, reading.soulId);
+      const isValid = await this.verifySignature(
+        signature,
+        expectedMessage,
+        reading.soulId,
+      );
 
       if (isValid) {
         // Mark as verified
-        const oracleReadings = dbManager.getCollection('oracle_readings');
+        const oracleReadings = dbManager.getCollection("oracle_readings");
         await oracleReadings.updateOne(
           { readingId },
           {
             $set: {
               verified: true,
               verifiedAt: new Date(),
-              verificationSignature: signature
-            }
-          }
+              verificationSignature: signature,
+            },
+          },
         );
       }
 
       return { verified: isValid };
     } catch (error) {
-      console.error('Reading verification error:', error);
+      console.error("Reading verification error:", error);
       throw error;
     }
   }
@@ -146,7 +161,12 @@ class OracleService {
     const readingConfig = this.getReadingConfig(readingType);
 
     // Generate reading content based on type
-    const content = await this.generateReadingContent(soul, entropy, readingConfig, options);
+    const content = await this.generateReadingContent(
+      soul,
+      entropy,
+      readingConfig,
+      options,
+    );
 
     // Calculate intensity and resonance
     const intensity = this.calculateIntensity(entropy, soul.level);
@@ -162,15 +182,15 @@ class OracleService {
       metadata: {
         intensity,
         resonance,
-        entropy: entropy.toString('hex'),
+        entropy: entropy.toString("hex"),
         config: readingConfig,
-        options
+        options,
       },
       verified: false,
       blockchain: {
         recorded: false,
-        transactionHash: null
-      }
+        transactionHash: null,
+      },
     };
 
     return reading;
@@ -186,11 +206,11 @@ class OracleService {
       soul.owner,
       timestamp.toString(),
       JSON.stringify(soul.metadata),
-      crypto.randomBytes(32).toString('hex')
+      crypto.randomBytes(32).toString("hex"),
     ];
 
-    const combined = sources.join('|');
-    return crypto.createHash('sha256').update(combined).digest();
+    const combined = sources.join("|");
+    return crypto.createHash("sha256").update(combined).digest();
   }
 
   /**
@@ -199,30 +219,30 @@ class OracleService {
   getReadingConfig(readingType) {
     const configs = {
       general: {
-        aspects: ['past', 'present', 'future'],
-        depth: 'medium',
-        focus: 'holistic'
+        aspects: ["past", "present", "future"],
+        depth: "medium",
+        focus: "holistic",
       },
       love: {
-        aspects: ['heart', 'connection', 'harmony'],
-        depth: 'deep',
-        focus: 'relationships'
+        aspects: ["heart", "connection", "harmony"],
+        depth: "deep",
+        focus: "relationships",
       },
       career: {
-        aspects: ['purpose', 'growth', 'success'],
-        depth: 'deep',
-        focus: 'professional'
+        aspects: ["purpose", "growth", "success"],
+        depth: "deep",
+        focus: "professional",
       },
       spiritual: {
-        aspects: ['soul', 'consciousness', 'enlightenment'],
-        depth: 'profound',
-        focus: 'spiritual'
+        aspects: ["soul", "consciousness", "enlightenment"],
+        depth: "profound",
+        focus: "spiritual",
       },
       health: {
-        aspects: ['body', 'mind', 'spirit'],
-        depth: 'medium',
-        focus: 'wellness'
-      }
+        aspects: ["body", "mind", "spirit"],
+        depth: "medium",
+        focus: "wellness",
+      },
     };
 
     return configs[readingType] || configs.general;
@@ -235,7 +255,7 @@ class OracleService {
     // This would integrate with actual quantum/oracle logic
     // For now, generate structured content based on entropy and soul data
 
-    const entropyValue = parseInt(entropy.toString('hex').slice(0, 8), 16);
+    const entropyValue = parseInt(entropy.toString("hex").slice(0, 8), 16);
     const aspects = config.aspects;
 
     const content = {
@@ -243,12 +263,16 @@ class OracleService {
       aspects: {},
       guidance: this.generateGuidance(entropyValue, config.focus),
       resonance: this.calculateResonance(soul, { entropy: entropyValue }),
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     // Generate content for each aspect
     for (const aspect of aspects) {
-      content.aspects[aspect] = this.generateAspectContent(aspect, entropyValue, soul);
+      content.aspects[aspect] = this.generateAspectContent(
+        aspect,
+        entropyValue,
+        soul,
+      );
     }
 
     return content;
@@ -263,7 +287,7 @@ class OracleService {
       "Energy patterns indicate a period of significant transformation.",
       "Your soul resonates with ancient wisdom and modern challenges.",
       "The oracle reveals hidden connections between your past and future.",
-      "Cosmic energies are aligning to support your highest path."
+      "Cosmic energies are aligning to support your highest path.",
     ];
 
     return patterns[entropy % patterns.length];
@@ -277,28 +301,28 @@ class OracleService {
       past: [
         "Ancient memories surface, offering wisdom from previous incarnations.",
         "Past experiences have forged the strength you now possess.",
-        "Lessons learned create the foundation for your current path."
+        "Lessons learned create the foundation for your current path.",
       ],
       present: [
         "Current energies support your authentic expression.",
         "You are exactly where you need to be in this moment.",
-        "Present circumstances are perfect for your soul's growth."
+        "Present circumstances are perfect for your soul's growth.",
       ],
       future: [
         "New possibilities emerge as you align with your true purpose.",
         "The path ahead holds gifts beyond your current imagination.",
-        "Future potentials are activated through your present choices."
+        "Future potentials are activated through your present choices.",
       ],
       heart: [
         "Love flows freely when you open your heart completely.",
         "Your capacity for love is infinite and ever-expanding.",
-        "Heart connections deepen as you embrace vulnerability."
+        "Heart connections deepen as you embrace vulnerability.",
       ],
       purpose: [
         "Your unique gifts are needed in the world right now.",
         "Success comes from aligning passion with service.",
-        "Your purpose becomes clear through consistent action."
-      ]
+        "Your purpose becomes clear through consistent action.",
+      ],
     };
 
     const patterns = aspectPatterns[aspect] || aspectPatterns.present;
@@ -313,18 +337,18 @@ class OracleService {
       holistic: [
         "Trust the unfolding of your soul's journey.",
         "Listen to the whispers of your inner wisdom.",
-        "Embrace change as the natural flow of life."
+        "Embrace change as the natural flow of life.",
       ],
       relationships: [
         "Authentic connections begin with self-love.",
         "Communication flows when hearts are open.",
-        "Shared experiences create lasting bonds."
+        "Shared experiences create lasting bonds.",
       ],
       professional: [
         "Your skills are perfectly matched to current opportunities.",
         "Leadership emerges from serving others.",
-        "Innovation comes from combining old wisdom with new ideas."
-      ]
+        "Innovation comes from combining old wisdom with new ideas.",
+      ],
     };
 
     const patterns = guidancePatterns[focus] || guidancePatterns.holistic;
@@ -335,7 +359,7 @@ class OracleService {
    * Calculate intensity
    */
   calculateIntensity(entropy, soulLevel) {
-    const entropyValue = parseInt(entropy.toString('hex').slice(0, 4), 16);
+    const entropyValue = parseInt(entropy.toString("hex").slice(0, 4), 16);
     const baseIntensity = (entropyValue / 65535) * 100; // 0-100 scale
     const levelBonus = soulLevel * 2;
 
@@ -351,7 +375,7 @@ class OracleService {
     const traitBonus = traits.length * 5;
 
     const entropy = content.entropy || 0;
-    const entropyResonance = (entropy % 100);
+    const entropyResonance = entropy % 100;
 
     return Math.min(100, Math.max(20, entropyResonance + traitBonus));
   }
@@ -360,16 +384,19 @@ class OracleService {
    * Check rate limit
    */
   async checkRateLimit(soulId) {
-    const oracleReadings = dbManager.getCollection('oracle_readings');
+    const oracleReadings = dbManager.getCollection("oracle_readings");
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
 
     const recentReadings = await oracleReadings.countDocuments({
       soulId,
-      createdAt: { $gte: oneHourAgo }
+      createdAt: { $gte: oneHourAgo },
     });
 
     if (recentReadings >= this.maxReadingsPerHour) {
-      throw new ApiError(`Rate limit exceeded: ${this.maxReadingsPerHour} readings per hour`, 429);
+      throw new ApiError(
+        `Rate limit exceeded: ${this.maxReadingsPerHour} readings per hour`,
+        429,
+      );
     }
   }
 
@@ -377,11 +404,11 @@ class OracleService {
    * Get soul for reading
    */
   async getSoulForReading(soulId) {
-    const souls = dbManager.getCollection('souls');
-    const soul = await souls.findOne({ soulId, status: 'active' });
+    const souls = dbManager.getCollection("souls");
+    const soul = await souls.findOne({ soulId, status: "active" });
 
     if (!soul) {
-      throw new ApiError('Soul not found or inactive', 404);
+      throw new ApiError("Soul not found or inactive", 404);
     }
 
     return soul;
@@ -391,13 +418,13 @@ class OracleService {
    * Update soul activity
    */
   async updateSoulActivity(soulId, activityType, metadata = {}) {
-    const souls = dbManager.getCollection('souls');
+    const souls = dbManager.getCollection("souls");
     await souls.updateOne(
       { soulId },
       {
         $set: { lastActivity: new Date() },
-        $inc: { 'stats.totalReadings': 1 }
-      }
+        $inc: { "stats.totalReadings": 1 },
+      },
     );
   }
 
@@ -414,23 +441,19 @@ class OracleService {
    * Get oracle statistics
    */
   async getOracleStats() {
-    const oracleReadings = dbManager.getCollection('oracle_readings');
+    const oracleReadings = dbManager.getCollection("oracle_readings");
 
-    const [
-      totalReadings,
-      verifiedReadings,
-      readingsLast24h,
-      readingsByType
-    ] = await Promise.all([
-      oracleReadings.countDocuments(),
-      oracleReadings.countDocuments({ verified: true }),
-      oracleReadings.countDocuments({
-        createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
-      }),
-      oracleReadings.aggregate([
-        { $group: { _id: '$type', count: { $sum: 1 } } }
-      ]).toArray()
-    ]);
+    const [totalReadings, verifiedReadings, readingsLast24h, readingsByType] =
+      await Promise.all([
+        oracleReadings.countDocuments(),
+        oracleReadings.countDocuments({ verified: true }),
+        oracleReadings.countDocuments({
+          createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        }),
+        oracleReadings
+          .aggregate([{ $group: { _id: "$type", count: { $sum: 1 } } }])
+          .toArray(),
+      ]);
 
     return {
       totalReadings,
@@ -440,12 +463,12 @@ class OracleService {
         acc[item._id] = item.count;
         return acc;
       }, {}),
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
   }
 }
 
 module.exports = {
   OracleService,
-  oracleService: new OracleService()
+  oracleService: new OracleService(),
 };

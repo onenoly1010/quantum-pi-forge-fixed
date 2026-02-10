@@ -9,12 +9,11 @@
 
 **A builder for Multipart PSR-7 Streams. The builder create streams independenly form any PSR-7 implementation.**
 
-
 ## Install
 
 Via Composer
 
-``` bash
+```bash
 $ composer require php-http/multipart-stream-builder
 ```
 
@@ -22,16 +21,13 @@ $ composer require php-http/multipart-stream-builder
 
 Please see the [official documentation](http://php-http.readthedocs.org/en/latest/components/multipart-stream-builder.html).
 
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
-
 ## Security
 
 If you discover any security related issues, please contact us at [security@php-http.org](mailto:security@php-http.org).
-
 
 ## License
 

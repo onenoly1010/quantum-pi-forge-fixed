@@ -7,16 +7,19 @@ The AI Agent Autonomous Runbook is an automated system that monitors, manages, a
 ## Features
 
 ### 1. Automated Monitoring
+
 - **Schedule-based**: Runs every 6 hours to check system health
 - **Event-driven**: Triggers on code pushes, deployments, and workflow completions
 - **Service Health Checks**: Monitors FastAPI, Flask, and Gradio services
 
 ### 2. Status Issue Management
+
 - **Auto-creation**: Creates a GitHub issue to track deployment status
 - **Auto-update**: Updates the issue with latest status on every run
 - **AI Agent Instructions**: Provides clear commands for AI agents to interact with the system
 
 ### 3. Operational Actions
+
 - **Update Status**: Refresh deployment status and health checks
 - **Rollback**: Revert to a previous version if issues arise
 - **Update Component**: Update specific services (FastAPI, Flask, Gradio)
@@ -39,25 +42,30 @@ Safety Gate → CI Pipeline → Deployment
 ### Job Descriptions
 
 #### 🛡️ Safety Gate
+
 - Performs initial safety checks before proceeding
 - Validates that the environment is safe for deployment
 
 #### 🔧 CI Pipeline
+
 - Installs dependencies
 - Builds the project
 - Ensures code quality
 
 #### 🚀 Deployment
+
 - Triggers only on push to main or manual component updates
 - Handles the actual deployment process
 - Reports deployment status
 
 #### 📊 Monitoring
+
 - Checks health of all services
 - Generates health check reports
 - Uploads monitoring artifacts
 
 #### 🔄 Rollback
+
 - Executes only if triggered manually or on failure
 - Reverts to a specified previous version
 - Creates rollback branch for safety
@@ -69,16 +77,19 @@ Safety Gate → CI Pipeline → Deployment
 The status issue provides commands that AI agents can execute:
 
 #### Check Deployment Status
+
 ```bash
 gh run view <run_id>
 ```
 
 #### Download Monitoring Reports
+
 ```bash
 gh run download <run_id> -n monitoring-report
 ```
 
 #### Trigger Rollback
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=rollback \
@@ -86,6 +97,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ```
 
 #### Update Specific Component
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=update-component \
@@ -93,6 +105,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ```
 
 #### Emergency Stop
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=emergency-stop
@@ -101,11 +114,13 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ### For Humans
 
 #### View Status
+
 1. Navigate to the repository's Issues tab
 2. Look for "🤖 AI Agent Autonomous Runbook Status"
 3. Review the current operational status and health checks
 
 #### Manual Workflow Trigger
+
 1. Go to Actions → AI Agent Handoff & Autonomous Runbook
 2. Click "Run workflow"
 3. Select desired action from dropdown
@@ -117,6 +132,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 The status issue contains:
 
 ### Header
+
 - **Operational Status**: ✅ OPERATIONAL, ⚠️ DEGRADED, or 🔴 CRITICAL
 - **Last Updated**: Timestamp of last update
 - **Run Link**: Link to the workflow run
@@ -124,7 +140,9 @@ The status issue contains:
 - **Branch**: Current branch
 
 ### Job Status Summary
+
 Table showing the status of each job:
+
 - Safety Gate
 - CI Pipeline
 - Deployment
@@ -132,15 +150,19 @@ Table showing the status of each job:
 - Rollback
 
 ### System Health
+
 Status of each monitored service:
+
 - FastAPI Quantum Conduit (Port 8000)
 - Flask Glyph Weaver (Port 5000)
 - Gradio Truth Mirror (Port 7860)
 
 ### AI Agent Instructions
+
 Copy-paste ready commands for common operations
 
 ### Configuration
+
 Labels, update frequency, and emergency procedures
 
 ## Configuration
@@ -179,6 +201,7 @@ See `scripts/runbook/README.md` for detailed script documentation.
 **Symptoms**: Workflow runs but issue is not updated
 
 **Solutions**:
+
 1. Check that `issues: write` permission is granted in workflow
 2. Verify the issue hasn't been closed or deleted
 3. Check workflow logs for API errors
@@ -188,6 +211,7 @@ See `scripts/runbook/README.md` for detailed script documentation.
 **Symptoms**: Services always show as unavailable
 
 **Solutions**:
+
 1. Verify services are actually running
 2. Check service URLs in environment variables
 3. Ensure health check endpoints exist
@@ -198,6 +222,7 @@ See `scripts/runbook/README.md` for detailed script documentation.
 **Symptoms**: Rollback job fails or doesn't revert changes
 
 **Solutions**:
+
 1. Verify the target version exists in git history
 2. Check that working directory is clean
 3. Ensure proper git permissions
@@ -206,12 +231,14 @@ See `scripts/runbook/README.md` for detailed script documentation.
 ## Best Practices
 
 ### For AI Agents
+
 1. Always check the status issue before performing actions
 2. Download monitoring reports when investigating issues
 3. Use rollback conservatively - only when necessary
 4. Document actions taken in issue comments
 
 ### For Humans
+
 1. Review the status issue regularly
 2. Keep the runbook workflow enabled
 3. Respond to CRITICAL or DEGRADED statuses promptly

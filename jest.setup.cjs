@@ -1,7 +1,7 @@
-require('@testing-library/jest-dom');
+require("@testing-library/jest-dom");
 
 // Mock window.ethereum (MetaMask)
-Object.defineProperty(window, 'ethereum', {
+Object.defineProperty(window, "ethereum", {
   writable: true,
   value: {
     request: jest.fn(),
@@ -12,7 +12,7 @@ Object.defineProperty(window, 'ethereum', {
 });
 
 // Mock window.Pi (Pi Network SDK)
-Object.defineProperty(window, 'Pi', {
+Object.defineProperty(window, "Pi", {
   writable: true,
   value: null, // Will be set in individual tests
 });
@@ -25,8 +25,8 @@ const originalError = console.error;
 beforeAll(() => {
   console.error = (...args) => {
     if (
-      typeof args[0] === 'string' &&
-      args[0].includes('Warning: ReactDOM.render')
+      typeof args[0] === "string" &&
+      args[0].includes("Warning: ReactDOM.render")
     ) {
       return;
     }

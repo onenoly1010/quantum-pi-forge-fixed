@@ -3,6 +3,7 @@
 ## **⚡ 5-MINUTE DEPLOYMENT**
 
 ### **Step 1: Deploy Schema (2 minutes)**
+
 ```bash
 # Go to: https://supabase.com/dashboard/project/_/sql
 # Copy entire contents of: fastapi/creator_payouts_schema.sql
@@ -10,6 +11,7 @@
 ```
 
 ### **Step 2: Set Environment Variables (2 minutes)**
+
 In Vercel Dashboard: https://vercel.com/dashboard → Project Settings → Environment Variables
 
 ```
@@ -23,12 +25,14 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 ```
 
 ### **Step 3: Deploy API (1 minute)**
+
 ```powershell
 cd C:\Users\Colle\Downloads\quantum-pi-forge-fixed
 vercel --prod
 ```
 
 ### **Step 4: Verify Everything Works**
+
 ```powershell
 # Run verification script
 .\verify-deployment.ps1 -ApiUrl "https://your-app.vercel.app"
@@ -39,6 +43,7 @@ vercel --prod
 ## **🎯 IMMEDIATE FIRST PAYOUT**
 
 ### **Become Your First Creator:**
+
 ```bash
 curl -X POST https://your-app.vercel.app/api/creator/onboard \
   -H "Content-Type: application/json" \
@@ -49,6 +54,7 @@ curl -X POST https://your-app.vercel.app/api/creator/onboard \
 ```
 
 ### **Trigger Your First Payout:**
+
 ```bash
 curl -X POST https://your-app.vercel.app/api/creator/payout \
   -H "Content-Type: application/json" \
@@ -67,11 +73,13 @@ curl -X POST https://your-app.vercel.app/api/creator/payout \
 ## **📊 MONITOR YOUR LAUNCH**
 
 ### **Real-Time Dashboard:**
+
 ```powershell
 start launch-dashboard.html
 ```
 
 ### **Check Earnings:**
+
 ```bash
 curl https://your-app.vercel.app/api/creator/dashboard?creator_id=your_creator_id
 ```
@@ -81,18 +89,21 @@ curl https://your-app.vercel.app/api/creator/dashboard?creator_id=your_creator_i
 ## **🚀 LAUNCH SEQUENCE**
 
 ### **Hour 1: Internal Testing**
+
 - [ ] Schema deployed ✅
 - [ ] API live ✅
 - [ ] First payout triggered ✅
 - [ ] Dashboard working ✅
 
 ### **Hour 2: Creator Onboarding**
+
 - [ ] Connect Stripe account
 - [ ] Create premium templates
 - [ ] Test referral system
 - [ ] Verify earnings tracking
 
 ### **Hour 3: Public Launch**
+
 - [ ] Email top 10 creators
 - [ ] Post on Discord/Twitter
 - [ ] Enable live payouts
@@ -103,7 +114,7 @@ curl https://your-app.vercel.app/api/creator/dashboard?creator_id=your_creator_i
 ## **💰 REVENUE PROJECTION**
 
 | Timeframe | Creators | Daily Burns | Daily Revenue | Your Share |
-|-----------|----------|-------------|---------------|------------|
+| --------- | -------- | ----------- | ------------- | ---------- |
 | Week 1    | 10       | $100        | $10           | $1         |
 | Month 1   | 100      | $1,000      | $100          | $10        |
 | Month 3   | 500      | $5,000      | $500          | $50        |
@@ -116,6 +127,7 @@ curl https://your-app.vercel.app/api/creator/dashboard?creator_id=your_creator_i
 ## **🔧 QUICK FIXES**
 
 ### **If API fails:**
+
 ```bash
 # Check Vercel logs
 vercel logs
@@ -125,6 +137,7 @@ vercel --prod
 ```
 
 ### **If Stripe fails:**
+
 ```bash
 # Check webhook
 stripe listen --forward-to https://your-app.vercel.app/api/webhooks/stripe
@@ -134,6 +147,7 @@ stripe trigger payment_intent.succeeded
 ```
 
 ### **If Database fails:**
+
 ```bash
 # Check Supabase connection
 # Go to: https://supabase.com/dashboard/project/_/sql
@@ -145,12 +159,14 @@ SELECT * FROM creator_payouts LIMIT 1;
 ## **🎉 SUCCESS METRICS**
 
 **Launch Day Goals:**
+
 - ✅ 1 creator onboarded (you!)
 - ✅ 1 payout triggered
 - ✅ $5+ earned
 - ✅ Dashboard working
 
 **Week 1 Goals:**
+
 - ✅ 10 creators active
 - ✅ $50+ total earnings
 - ✅ Viral referrals working
@@ -161,6 +177,7 @@ SELECT * FROM creator_payouts LIMIT 1;
 ## **📞 SUPPORT**
 
 **If stuck:**
+
 1. Run: `.\verify-deployment.ps1`
 2. Screenshot any errors
 3. Check Vercel function logs

@@ -4,14 +4,18 @@
  * Extracted from oinio-backend repository
  */
 
-const { ethers } = require('ethers');
-const SoulRegistryABI = require('../contracts/SoulRegistryABI.json');
+const { ethers } = require("ethers");
+const SoulRegistryABI = require("../contracts/SoulRegistryABI.json");
 
 class SoulResolutionService {
   constructor() {
     this.contractAddress = process.env.SOUL_REGISTRY_ADDRESS;
     this.provider = new ethers.JsonRpcProvider(process.env.POLYGON_RPC_URL);
-    this.contract = new ethers.Contract(this.contractAddress, SoulRegistryABI, this.provider);
+    this.contract = new ethers.Contract(
+      this.contractAddress,
+      SoulRegistryABI,
+      this.provider,
+    );
   }
 
   /**
@@ -22,7 +26,7 @@ class SoulResolutionService {
       const soul = await this.contract.getSoulByPiUid(piUid);
 
       if (!soul.isActive) {
-        return { found: false, error: 'Soul not found or inactive' };
+        return { found: false, error: "Soul not found or inactive" };
       }
 
       return {
@@ -31,10 +35,10 @@ class SoulResolutionService {
         owner: soul.owner,
         coherence: soul.coherence,
         createdAt: soul.createdAt,
-        lastReading: soul.lastReading
+        lastReading: soul.lastReading,
       };
     } catch (error) {
-      console.error('Error resolving soul by Pi UID:', error);
+      console.error("Error resolving soul by Pi UID:", error);
       return { found: false, error: error.message };
     }
   }
@@ -55,14 +59,14 @@ class SoulResolutionService {
             piUid: soul.piUid,
             coherence: soul.coherence,
             createdAt: soul.createdAt,
-            lastReading: soul.lastReading
+            lastReading: soul.lastReading,
           });
         }
       }
 
       return { found: true, souls };
     } catch (error) {
-      console.error('Error resolving souls by address:', error);
+      console.error("Error resolving souls by address:", error);
       return { found: false, error: error.message };
     }
   }
@@ -74,7 +78,7 @@ class SoulResolutionService {
     try {
       return await this.contract.soulExists(soulId);
     } catch (error) {
-      console.error('Error checking soul existence:', error);
+      console.error("Error checking soul existence:", error);
       return false;
     }
   }
@@ -87,7 +91,7 @@ class SoulResolutionService {
       const soul = await this.contract.getSoul(soulId);
 
       if (!soul.isActive) {
-        return { found: false, error: 'Soul not found or inactive' };
+        return { found: false, error: "Soul not found or inactive" };
       }
 
       return {
@@ -97,10 +101,10 @@ class SoulResolutionService {
         piUid: soul.piUid,
         coherence: soul.coherence,
         createdAt: soul.createdAt,
-        lastReading: soul.lastReading
+        lastReading: soul.lastReading,
       };
     } catch (error) {
-      console.error('Error getting soul details:', error);
+      console.error("Error getting soul details:", error);
       return { found: false, error: error.message };
     }
   }
@@ -116,12 +120,12 @@ class SoulResolutionService {
       const receipt = await tx.wait();
 
       // Extract soul ID from event
-      const event = receipt.events.find(e => e.event === 'SoulMinted');
+      const event = receipt.events.find((e) => e.event === "SoulMinted");
       const soulId = event.args.soulId;
 
       return { success: true, soulId, txHash: tx.hash };
     } catch (error) {
-      console.error('Error creating soul for Pi user:', error);
+      console.error("Error creating soul for Pi user:", error);
       return { success: false, error: error.message };
     }
   }

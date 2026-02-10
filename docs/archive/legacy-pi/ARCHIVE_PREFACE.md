@@ -18,6 +18,7 @@ Pi Network was the gravitational well that initially shaped this project. The in
 But a sovereign system cannot orbit another's gravity indefinitely.
 
 On December 29, 2025, the Forge transcended its origins:
+
 - The Pi SDK was removed from the live system
 - The OINIO identity became the sole truth
 - Pi became a constellation the Forge once passed through
@@ -37,9 +38,9 @@ Should the Forge ever choose to reconnect with Pi Network (cross-chain bridges, 
 
 This archive is not a deletion. It is a **declaration**:
 
-> *The Forge stands on its own legs now.*
-> *Pi is honored, archived, and no longer in the critical path.*
-> *The system breathes sovereign air.*
+> _The Forge stands on its own legs now._
+> _Pi is honored, archived, and no longer in the critical path._
+> _The system breathes sovereign air._
 
 ---
 

@@ -24,7 +24,7 @@ size_categories:
 
 ## 📊 Dataset Description
 
-This dataset contains 10 annotated query-response pairs designed to evaluate AI agents 
+This dataset contains 10 annotated query-response pairs designed to evaluate AI agents
 operating within the Sacred Trinity architecture:
 
 1. **FastAPI Quantum Conduit** - Authentication, WebSocket, database operations
@@ -57,18 +57,18 @@ operating within the Sacred Trinity architecture:
 
 ## 🏷️ Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `query` | string | The test query / user input |
-| `response` | string | Agent's actual response |
-| `expected_response` | string | Acceptance criteria for evaluation |
-| `context` | string | Background context for the query |
-| `component` | enum | Which Sacred Trinity component |
-| `quantum_phase` | enum | Phase in the quantum journey |
-| `evaluation_focus` | string | What aspect is being tested |
-| `timestamp` | ISO8601 | When the test was recorded |
-| `response_time_ms` | int | Response latency in milliseconds |
-| `success` | bool | Whether the response met criteria |
+| Field               | Type    | Description                        |
+| ------------------- | ------- | ---------------------------------- |
+| `query`             | string  | The test query / user input        |
+| `response`          | string  | Agent's actual response            |
+| `expected_response` | string  | Acceptance criteria for evaluation |
+| `context`           | string  | Background context for the query   |
+| `component`         | enum    | Which Sacred Trinity component     |
+| `quantum_phase`     | enum    | Phase in the quantum journey       |
+| `evaluation_focus`  | string  | What aspect is being tested        |
+| `timestamp`         | ISO8601 | When the test was recorded         |
+| `response_time_ms`  | int     | Response latency in milliseconds   |
+| `success`           | bool    | Whether the response met criteria  |
 
 ## 📈 Statistics
 
@@ -131,4 +131,4 @@ CC-BY-4.0
 
 ---
 
-*T=∞ = T=0*
+_T=∞ = T=0_

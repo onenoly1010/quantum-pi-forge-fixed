@@ -14,12 +14,12 @@ QuantumPiForge Phase 3 focuses on scaling from a niche platform to a global, pro
 
 ## 📅 TIMELINE OVERVIEW
 
-|Quarter|Focus|Key Milestones|Responsible Team|Dependencies|
-|-------|-----|--------------|----------------|------------|
-|Q1 2026|Foundation Scaling|Mobile app, Advanced AI oracles, Cross-chain bridges, Enterprise clients|Mobile Dev, AI/ML, Blockchain Eng, Biz Dev|Pi SDK, AI frameworks, Multi-chain libs, Sales pipeline|
-|Q2 2026|Ecosystem Growth|DAO launch, iNFT marketplace, Developer SDK, Grant expansion|Governance, Marketplace, Dev Relations, Community|Token contracts, Frontend frameworks, API docs, Treasury|
-|Q3 2026|Monetization Maturity|Subscription tiers, Enterprise licensing, API monetization, Premium features|Product, Enterprise Sales, Backend, Feature Dev|Payment gateways, Legal, API infra, Core features|
-|Q4 2026|Global Expansion|Localization, Regional managers, Wallet partnerships, Institutional management|Localization, Community, Partnerships, Enterprise|i18n libs, HR, Wallet SDKs, Enterprise tools|
+| Quarter | Focus                 | Key Milestones                                                                 | Responsible Team                                  | Dependencies                                             |
+|-------|---------------------|------------------------------------------------------------------------------|-------------------------------------------------|--------------------------------------------------------|
+| Q1 2026 | Foundation Scaling    | Mobile app, Advanced AI oracles, Cross-chain bridges, Enterprise clients       | Mobile Dev, AI/ML, Blockchain Eng, Biz Dev        | Pi SDK, AI frameworks, Multi-chain libs, Sales pipeline  |
+| Q2 2026 | Ecosystem Growth      | DAO launch, iNFT marketplace, Developer SDK, Grant expansion                   | Governance, Marketplace, Dev Relations, Community | Token contracts, Frontend frameworks, API docs, Treasury |
+| Q3 2026 | Monetization Maturity | Subscription tiers, Enterprise licensing, API monetization, Premium features   | Product, Enterprise Sales, Backend, Feature Dev   | Payment gateways, Legal, API infra, Core features        |
+| Q4 2026 | Global Expansion      | Localization, Regional managers, Wallet partnerships, Institutional management | Localization, Community, Partnerships, Enterprise | i18n libs, HR, Wallet SDKs, Enterprise tools             |
 
 **Visual Suggestion:** Use a Gantt chart tool (e.g., Microsoft Project, Asana, or Lucidchart) to visualize dependencies and progress. Example ASCII Timeline:
 
@@ -70,6 +70,7 @@ Q4 2026: [Localization]---[Managers]---[Partnerships]---[Institutional]
 - Decentralized oracle network
 
 ### Mobile Experience
+
 - React Native app for iOS/Android
 - Pi Wallet deep integration
 - Offline capabilities

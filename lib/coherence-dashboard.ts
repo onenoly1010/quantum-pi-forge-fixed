@@ -5,9 +5,9 @@
 export interface NodeState {
   id: string;
   alias: string;
-  presence: 'present' | 'quiet' | 'withdrawing';
-  integrity: 'aligned' | 'unclear';
-  consent: 'open' | 'paused';
+  presence: "present" | "quiet" | "withdrawing";
+  integrity: "aligned" | "unclear";
+  consent: "open" | "paused";
   // Invariant: No performance, engagement, or contribution fields
 }
 
@@ -15,9 +15,9 @@ export interface RelationState {
   id: string;
   from: string;
   to: string;
-  mutuality: 'reciprocal' | 'one-sided';
-  recency: 'recent' | 'aging' | 'dormant';
-  tone: 'supportive' | 'neutral' | 'strained';
+  mutuality: "reciprocal" | "one-sided";
+  recency: "recent" | "aging" | "dormant";
+  tone: "supportive" | "neutral" | "strained";
   // Validation method to enforce rules
   isValid(): boolean;
 }
@@ -25,16 +25,16 @@ export interface RelationState {
 export interface MotifState {
   id: string;
   nodeIds: string[];
-  state: 'emerging' | 'steady' | 'dissolving';
-  openness: 'open' | 'closed';
+  state: "emerging" | "steady" | "dissolving";
+  openness: "open" | "closed";
   // Invariant: No leader/owner fields, no percentage contributions
 }
 
 export interface FieldState {
-  distribution: 'diffuse' | 'clustered';
-  activity: 'quiet' | 'active';
-  reciprocity: 'low' | 'high';
-  emergence: 'none' | 'localized';
+  distribution: "diffuse" | "clustered";
+  activity: "quiet" | "active";
+  reciprocity: "low" | "high";
+  emergence: "none" | "localized";
   transitions: Array<{
     timestamp: number;
     from: FieldState;
@@ -46,7 +46,9 @@ export interface FieldState {
 // Example usage enforcement (for reference, not part of schema)
 export function validateRelation(relation: RelationState): void {
   if (!relation.isValid()) {
-    throw new Error('Invalid relation state: Recent one-sided relations disallowed');
+    throw new Error(
+      "Invalid relation state: Recent one-sided relations disallowed",
+    );
   }
 }
 
@@ -55,17 +57,17 @@ export class RelationStateImpl implements RelationState {
   id: string;
   from: string;
   to: string;
-  mutuality: 'reciprocal' | 'one-sided';
-  recency: 'recent' | 'aging' | 'dormant';
-  tone: 'supportive' | 'neutral' | 'strained';
+  mutuality: "reciprocal" | "one-sided";
+  recency: "recent" | "aging" | "dormant";
+  tone: "supportive" | "neutral" | "strained";
 
   constructor(
     id: string,
     from: string,
     to: string,
-    mutuality: 'reciprocal' | 'one-sided',
-    recency: 'recent' | 'aging' | 'dormant',
-    tone: 'supportive' | 'neutral' | 'strained'
+    mutuality: "reciprocal" | "one-sided",
+    recency: "recent" | "aging" | "dormant",
+    tone: "supportive" | "neutral" | "strained",
   ) {
     this.id = id;
     this.from = from;
@@ -77,7 +79,7 @@ export class RelationStateImpl implements RelationState {
 
   isValid(): boolean {
     // Rule: Recent one-sided relations cannot imply reciprocity growth
-    if (this.mutuality === 'one-sided' && this.recency === 'recent') {
+    if (this.mutuality === "one-sided" && this.recency === "recent") {
       return false;
     }
     // Additional checks can be added here if needed
@@ -94,11 +96,11 @@ export class CoherenceDashboard {
 
   constructor() {
     this.fieldState = {
-      distribution: 'diffuse',
-      activity: 'quiet',
-      reciprocity: 'low',
-      emergence: 'none',
-      transitions: []
+      distribution: "diffuse",
+      activity: "quiet",
+      reciprocity: "low",
+      emergence: "none",
+      transitions: [],
     };
   }
 
@@ -175,35 +177,37 @@ export class CoherenceDashboard {
     // Calculate distribution
     const nodeCount = this.nodes.size;
     const activeNodes = Array.from(this.nodes.values()).filter(
-      node => node.presence === 'present'
+      (node) => node.presence === "present",
     ).length;
-    this.fieldState.distribution = activeNodes > nodeCount * 0.7 ? 'clustered' : 'diffuse';
+    this.fieldState.distribution =
+      activeNodes > nodeCount * 0.7 ? "clustered" : "diffuse";
 
     // Calculate activity
     const recentRelations = Array.from(this.relations.values()).filter(
-      rel => rel.recency === 'recent'
+      (rel) => rel.recency === "recent",
     ).length;
-    this.fieldState.activity = recentRelations > 5 ? 'active' : 'quiet';
+    this.fieldState.activity = recentRelations > 5 ? "active" : "quiet";
 
     // Calculate reciprocity
     const reciprocalRelations = Array.from(this.relations.values()).filter(
-      rel => rel.mutuality === 'reciprocal'
+      (rel) => rel.mutuality === "reciprocal",
     ).length;
     const totalRelations = this.relations.size;
-    this.fieldState.reciprocity = reciprocalRelations > totalRelations * 0.5 ? 'high' : 'low';
+    this.fieldState.reciprocity =
+      reciprocalRelations > totalRelations * 0.5 ? "high" : "low";
 
     // Calculate emergence
     const emergingMotifs = Array.from(this.motifs.values()).filter(
-      motif => motif.state === 'emerging'
+      (motif) => motif.state === "emerging",
     ).length;
-    this.fieldState.emergence = emergingMotifs > 0 ? 'localized' : 'none';
+    this.fieldState.emergence = emergingMotifs > 0 ? "localized" : "none";
 
     // Record transition
     this.fieldState.transitions.push({
       timestamp: Date.now(),
       from: previousState,
       to: { ...this.fieldState },
-      triggeredBy: 'state_update'
+      triggeredBy: "state_update",
     });
 
     // Keep only last 10 transitions
@@ -240,7 +244,7 @@ export class CoherenceDashboard {
       nodes: this.getNodes(),
       relations: this.getRelations(),
       motifs: this.getMotifs(),
-      fieldState: this.getFieldState()
+      fieldState: this.getFieldState(),
     };
   }
 
@@ -254,9 +258,11 @@ export class CoherenceDashboard {
     this.relations.clear();
     this.motifs.clear();
 
-    state.nodes.forEach(node => this.nodes.set(node.id, node));
-    state.relations.forEach(relation => this.relations.set(relation.id, relation));
-    state.motifs.forEach(motif => this.motifs.set(motif.id, motif));
+    state.nodes.forEach((node) => this.nodes.set(node.id, node));
+    state.relations.forEach((relation) =>
+      this.relations.set(relation.id, relation),
+    );
+    state.motifs.forEach((motif) => this.motifs.set(motif.id, motif));
     this.fieldState = { ...state.fieldState };
   }
 }

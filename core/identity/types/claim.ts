@@ -16,12 +16,12 @@ export interface Claim {
 }
 
 export type ClaimType =
-  | 'identity'
-  | 'achievement'
-  | 'experience'
-  | 'skill'
-  | 'endorsement'
-  | 'custom';
+  | "identity"
+  | "achievement"
+  | "experience"
+  | "skill"
+  | "endorsement"
+  | "custom";
 
 export interface ClaimContent {
   title: string;
@@ -33,7 +33,7 @@ export interface ClaimContent {
 }
 
 export interface Evidence {
-  type: 'text' | 'image' | 'document' | 'link' | 'witness';
+  type: "text" | "image" | "document" | "link" | "witness";
   content: string;
   url?: string;
   verified?: boolean;
@@ -50,11 +50,11 @@ export interface VerificationResult {
 }
 
 export type VerificationMethod =
-  | 'oracle'
-  | 'community'
-  | 'automated'
-  | 'manual'
-  | 'blockchain';
+  | "oracle"
+  | "community"
+  | "automated"
+  | "manual"
+  | "blockchain";
 
 export interface ClaimSubmission {
   soulId: string;

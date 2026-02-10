@@ -18,6 +18,7 @@ To add custom agent instructions:
 ## Main Repository Instructions
 
 For general repository-wide Copilot instructions, see:
+
 - **Primary**: `.github/copilot-instructions.md` - Comprehensive guide for all Copilot interactions
 
 ## Example Structure

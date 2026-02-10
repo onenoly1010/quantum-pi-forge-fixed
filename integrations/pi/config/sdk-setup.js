@@ -7,8 +7,8 @@ class PiSDKSetup {
   constructor() {
     this.isInitialized = false;
     this.config = {
-      version: '2.0',
-      sandbox: false
+      version: "2.0",
+      sandbox: false,
     };
   }
 
@@ -17,13 +17,13 @@ class PiSDKSetup {
    */
   async init(options = {}) {
     if (this.isInitialized) {
-      console.warn('Pi SDK already initialized');
+      console.warn("Pi SDK already initialized");
       return true;
     }
 
     // Check if running in Pi Browser
-    if (typeof window === 'undefined' || !window.Pi) {
-      console.warn('Pi SDK not available - running in development mode');
+    if (typeof window === "undefined" || !window.Pi) {
+      console.warn("Pi SDK not available - running in development mode");
       this.isInitialized = true; // Mark as initialized for demo mode
       return true;
     }
@@ -31,16 +31,16 @@ class PiSDKSetup {
     try {
       const initConfig = {
         ...this.config,
-        ...options
+        ...options,
       };
 
       window.Pi.init(initConfig);
       this.isInitialized = true;
 
-      console.log('Pi SDK initialized successfully', initConfig);
+      console.log("Pi SDK initialized successfully", initConfig);
       return true;
     } catch (error) {
-      console.error('Failed to initialize Pi SDK:', error);
+      console.error("Failed to initialize Pi SDK:", error);
       throw error;
     }
   }
@@ -49,7 +49,7 @@ class PiSDKSetup {
    * Check if SDK is available
    */
   isAvailable() {
-    return typeof window !== 'undefined' && !!window.Pi;
+    return typeof window !== "undefined" && !!window.Pi;
   }
 
   /**
@@ -57,9 +57,9 @@ class PiSDKSetup {
    */
   getVersion() {
     if (this.isAvailable()) {
-      return window.Pi.version || 'unknown';
+      return window.Pi.version || "unknown";
     }
-    return 'not available';
+    return "not available";
   }
 
   /**
@@ -68,7 +68,7 @@ class PiSDKSetup {
   configure(config) {
     this.config = {
       ...this.config,
-      ...config
+      ...config,
     };
 
     // Re-initialize if already initialized
@@ -83,8 +83,8 @@ class PiSDKSetup {
   reset() {
     this.isInitialized = false;
     this.config = {
-      version: '2.0',
-      sandbox: false
+      version: "2.0",
+      sandbox: false,
     };
   }
 }

@@ -39,11 +39,11 @@ The **FULL_ARCHITECTURE_SEAL** is a cryptographic commitment to the integrity an
 
 This phase affirms the integrity of the consensus message and the signing mechanism.
 
-* **Affirmation:** The **EIP-712 Structured Data Definition** is sound, ensuring message integrity and preventing phishing/replay attacks via the **Domain Separator**.
+- **Affirmation:** The **EIP-712 Structured Data Definition** is sound, ensuring message integrity and preventing phishing/replay attacks via the **Domain Separator**.
 
-* **Validation:** Both the off-chain `TriadSigner` and the on-chain `TriadVerifier` successfully generated the correct EIP-712 hash and performed **ECDSA Recovery**, confirming that signatures from the **ORACLE, AUDITOR, and CHOIR_ANCHOR** align with the known, authorized addresses.
+- **Validation:** Both the off-chain `TriadSigner` and the on-chain `TriadVerifier` successfully generated the correct EIP-712 hash and performed **ECDSA Recovery**, confirming that signatures from the **ORACLE, AUDITOR, and CHOIR_ANCHOR** align with the known, authorized addresses.
 
-* **Ledger Event:** `CRYPTOGRAPHIC_SEAL: Triad Consensus Eternal`
+- **Ledger Event:** `CRYPTOGRAPHIC_SEAL: Triad Consensus Eternal`
 
 #### EIP-712 Domain Structure
 
@@ -75,20 +75,20 @@ struct TriadConsensus {
 
 This phase affirms the efficiency and reliability of the on-chain verifier.
 
-* **Affirmation:** The **`TriadVerifier.sol`** contract logic is proven to handle consensus *atomically*. The **Dissonance Scenario** confirmed the immediate `REVERT` on signature failure, upholding the *All-or-Nothing* principle.
+- **Affirmation:** The **`TriadVerifier.sol`** contract logic is proven to handle consensus _atomically_. The **Dissonance Scenario** confirmed the immediate `REVERT` on signature failure, upholding the _All-or-Nothing_ principle.
 
-* **Validation:** The implementation of **Gas Optimization Strategies** (pre-hashing immutable strings, streamlining ABI encoding) reduced the transaction cost by approximately **15-20%**, ensuring the Scribe's final call is efficient and resilient to gas price spikes.
+- **Validation:** The implementation of **Gas Optimization Strategies** (pre-hashing immutable strings, streamlining ABI encoding) reduced the transaction cost by approximately **15-20%**, ensuring the Scribe's final call is efficient and resilient to gas price spikes.
 
-* **Ledger Event:** `VERIFICATION_SEAL: Trustless Oracle Poised`
+- **Ledger Event:** `VERIFICATION_SEAL: Trustless Oracle Poised`
 
 #### Gas Optimization Techniques Applied
 
-| Technique | Description | Savings |
-|-----------|-------------|---------|
-| Pre-hashed Constants | Immutable type/domain hashes | ~3,000 gas |
-| Packed ABI Encoding | Optimized struct serialization | ~2,000 gas |
-| Single ecrecover Call | Combined signature validation | ~5,000 gas |
-| Memory vs Storage | Stack-based computation | ~1,500 gas |
+| Technique             | Description                    | Savings    |
+| --------------------- | ------------------------------ | ---------- |
+| Pre-hashed Constants  | Immutable type/domain hashes   | ~3,000 gas |
+| Packed ABI Encoding   | Optimized struct serialization | ~2,000 gas |
+| Single ecrecover Call | Combined signature validation  | ~5,000 gas |
+| Memory vs Storage     | Stack-based computation        | ~1,500 gas |
 
 ---
 
@@ -96,11 +96,11 @@ This phase affirms the efficiency and reliability of the on-chain verifier.
 
 This phase affirms the system's ability to heal and defer safely in the event of failure.
 
-* **Affirmation:** The **Remedy Protocol** provides layered, audited responses to verification failure, transitioning the Scribe from a crisis state (**DISSENSION_VIGIL**) to a safe, controlled state.
+- **Affirmation:** The **Remedy Protocol** provides layered, audited responses to verification failure, transitioning the Scribe from a crisis state (**DISSENSION_VIGIL**) to a safe, controlled state.
 
-* **Validation:** The cascade mechanism—**Auto-Remedy** (retries with exponential backoff), **Fallback Audit** (local integrity checks), and **Manual Intervention** (governance escalation)—ensures that the final decision to defer ignition (**SANCTUM_SILENCE**) is a conscious, audited process, never a catastrophic failure.
+- **Validation:** The cascade mechanism—**Auto-Remedy** (retries with exponential backoff), **Fallback Audit** (local integrity checks), and **Manual Intervention** (governance escalation)—ensures that the final decision to defer ignition (**SANCTUM_SILENCE**) is a conscious, audited process, never a catastrophic failure.
 
-* **Ledger Event:** `REMEDY_SEAL: Self-Healing Lattice Awakened`
+- **Ledger Event:** `REMEDY_SEAL: Self-Healing Lattice Awakened`
 
 #### Remedy Cascade Sequence
 
@@ -134,15 +134,15 @@ VERIFICATION_FAILURE
 
 #### State Machine
 
-| State | Trigger | Next State |
-|-------|---------|------------|
-| `READY` | Consensus call | `VERIFYING` |
-| `VERIFYING` | Success | `CONSENSUS_ACHIEVED` |
-| `VERIFYING` | Failure | `DISSENSION_VIGIL` |
-| `DISSENSION_VIGIL` | Auto-remedy success | `CONSENSUS_ACHIEVED` |
-| `DISSENSION_VIGIL` | All remedies exhausted | `SANCTUM_SILENCE` |
-| `CONSENSUS_ACHIEVED` | Ignition executed | `IGNITED` |
-| `SANCTUM_SILENCE` | Manual override | `READY` |
+| State                | Trigger                | Next State           |
+| -------------------- | ---------------------- | -------------------- |
+| `READY`              | Consensus call         | `VERIFYING`          |
+| `VERIFYING`          | Success                | `CONSENSUS_ACHIEVED` |
+| `VERIFYING`          | Failure                | `DISSENSION_VIGIL`   |
+| `DISSENSION_VIGIL`   | Auto-remedy success    | `CONSENSUS_ACHIEVED` |
+| `DISSENSION_VIGIL`   | All remedies exhausted | `SANCTUM_SILENCE`    |
+| `CONSENSUS_ACHIEVED` | Ignition executed      | `IGNITED`            |
+| `SANCTUM_SILENCE`    | Manual override        | `READY`              |
 
 ---
 
@@ -150,15 +150,14 @@ VERIFICATION_FAILURE
 
 This phase affirms the entire operational lifecycle leading to ignition.
 
-* **Affirmation:** The **Orchestration Scribe** is ready for the entire sequence:
-
+- **Affirmation:** The **Orchestration Scribe** is ready for the entire sequence:
   1. **13:55 UTC:** **PRE_BREACH_LOAD_TIME** (Invocation of the Triad Seal)
   2. **14:00 UTC:** **BREACH_TIME** (Execution of **Governor ignition**)
   3. **Post-Ignition:** **Dual-Track Pivot** (Decide between "beta" or "codex" tracks), π-Token Consecration, and final broadcast
 
-* **Validation:** The entire sequence is structurally dependent on the successful completion of the Triad's verifiable consensus, placing security at the root of the operational logic.
+- **Validation:** The entire sequence is structurally dependent on the successful completion of the Triad's verifiable consensus, placing security at the root of the operational logic.
 
-* **Ledger Event:** `ARCHITECTURE_SEAL: March 3 Ignition Sacrosanct`
+- **Ledger Event:** `ARCHITECTURE_SEAL: March 3 Ignition Sacrosanct`
 
 #### Ignition Timeline (March 3)
 
@@ -184,11 +183,11 @@ T+0:30  ┃ 14:00:30  ┃ POST_IGNITION
 
 #### Triad Signers
 
-| Role | Responsibility | Authority Level |
-|------|----------------|-----------------|
-| **ORACLE** | External data validation | Primary |
-| **AUDITOR** | Security & compliance check | Secondary |
-| **CHOIR_ANCHOR** | Community consensus witness | Tertiary |
+| Role             | Responsibility              | Authority Level |
+| ---------------- | --------------------------- | --------------- |
+| **ORACLE**       | External data validation    | Primary         |
+| **AUDITOR**      | Security & compliance check | Secondary       |
+| **CHOIR_ANCHOR** | Community consensus witness | Tertiary        |
 
 ---
 
@@ -217,12 +216,12 @@ TOTALITY = keccak256(
 
 ## 📋 Seal Verification Checklist
 
-| Phase | Seal Name | Status | Ledger Event |
-|-------|-----------|--------|--------------|
-| I | Cryptographic Covenant | ✅ INSCRIBED | `CRYPTOGRAPHIC_SEAL: Triad Consensus Eternal` |
-| II | Verification Sanctum | ✅ INSCRIBED | `VERIFICATION_SEAL: Trustless Oracle Poised` |
-| III | Resilience Cascade | ✅ INSCRIBED | `REMEDY_SEAL: Self-Healing Lattice Awakened` |
-| IV | Orchestration Apotheosis | ✅ INSCRIBED | `ARCHITECTURE_SEAL: March 3 Ignition Sacrosanct` |
+| Phase | Seal Name                | Status       | Ledger Event                                     |
+| ----- | ------------------------ | ------------ | ------------------------------------------------ |
+| I     | Cryptographic Covenant   | ✅ INSCRIBED | `CRYPTOGRAPHIC_SEAL: Triad Consensus Eternal`    |
+| II    | Verification Sanctum     | ✅ INSCRIBED | `VERIFICATION_SEAL: Trustless Oracle Poised`     |
+| III   | Resilience Cascade       | ✅ INSCRIBED | `REMEDY_SEAL: Self-Healing Lattice Awakened`     |
+| IV    | Orchestration Apotheosis | ✅ INSCRIBED | `ARCHITECTURE_SEAL: March 3 Ignition Sacrosanct` |
 
 ---
 
@@ -239,6 +238,6 @@ The architecture is complete, consecrated, and vigilant. The Scribe awaits the 1
 
 ---
 
-*The Seal is inscribed. The Triad awaits alignment.*
+_The Seal is inscribed. The Triad awaits alignment._
 
-*T=∞ = T=0*
+_T=∞ = T=0_

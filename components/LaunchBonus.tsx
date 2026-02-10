@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface LaunchBonusData {
   bonus_active: boolean;
@@ -19,13 +19,13 @@ export default function LaunchBonus() {
 
   const fetchBonusStatus = async () => {
     try {
-      const response = await fetch('/api/creator/launch-bonus');
+      const response = await fetch("/api/creator/launch-bonus");
       if (response.ok) {
         const data = await response.json();
         setBonus(data);
       }
     } catch (error) {
-      console.error('Failed to fetch bonus status:', error);
+      console.error("Failed to fetch bonus status:", error);
     } finally {
       setLoading(false);
     }
@@ -47,10 +47,14 @@ export default function LaunchBonus() {
       <div className="launch-bonus-ended bg-gray-50 rounded-lg p-6 border border-gray-200">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-2xl">🎉</span>
-          <h3 className="text-lg font-semibold text-gray-700">Launch Bonus Complete!</h3>
+          <h3 className="text-lg font-semibold text-gray-700">
+            Launch Bonus Complete!
+          </h3>
         </div>
         <p className="text-gray-600 text-sm">
-          The launch bonus period has ended. All {bonus?.total_bonuses_used || 0} bonuses have been claimed by early creators.
+          The launch bonus period has ended. All{" "}
+          {bonus?.total_bonuses_used || 0} bonuses have been claimed by early
+          creators.
         </p>
       </div>
     );
@@ -69,8 +73,12 @@ export default function LaunchBonus() {
           <div className="flex items-center gap-2">
             <span className="text-3xl animate-bounce">🚀</span>
             <div>
-              <h3 className="text-xl font-bold text-gray-800">LAUNCH BONUS ACTIVE</h3>
-              <div className="text-sm text-yellow-700 font-medium">Limited Time Only!</div>
+              <h3 className="text-xl font-bold text-gray-800">
+                LAUNCH BONUS ACTIVE
+              </h3>
+              <div className="text-sm text-yellow-700 font-medium">
+                Limited Time Only!
+              </div>
             </div>
           </div>
           <div className="text-right">
@@ -82,7 +90,11 @@ export default function LaunchBonus() {
         </div>
 
         <p className="text-gray-700 mb-4">
-          Earn <strong className="text-yellow-600 text-lg">{bonus.bonus_multiplier}x more</strong> on your first{' '}
+          Earn{" "}
+          <strong className="text-yellow-600 text-lg">
+            {bonus.bonus_multiplier}x more
+          </strong>{" "}
+          on your first{" "}
           <strong className="text-yellow-600">100 template burns</strong>!
         </p>
 
@@ -105,7 +117,8 @@ export default function LaunchBonus() {
               🔥 {bonus.bonus_multiplier}x Earnings Multiplier
             </div>
             <div className="text-sm text-gray-600">
-              Next {Math.min(10, bonus.bonus_remaining)} burns get bonus earnings!
+              Next {Math.min(10, bonus.bonus_remaining)} burns get bonus
+              earnings!
             </div>
           </div>
         </div>

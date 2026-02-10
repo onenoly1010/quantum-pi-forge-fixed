@@ -4,7 +4,7 @@
  * Extracted from mr-nft-agent
  */
 
-const EvolutionRules = require('./rules');
+const EvolutionRules = require("./rules");
 
 class EvolutionTriggers {
   constructor() {
@@ -29,8 +29,8 @@ class EvolutionTriggers {
       createdAt: Date.now(),
       activatedAt: null,
       executedAt: null,
-      status: 'pending',
-      metadata: triggerConfig.metadata || {}
+      status: "pending",
+      metadata: triggerConfig.metadata || {},
     };
 
     this.triggers.set(triggerId, trigger);
@@ -48,15 +48,15 @@ class EvolutionTriggers {
    */
   activateTrigger(triggerId) {
     const trigger = this.triggers.get(triggerId);
-    if (!trigger || trigger.status !== 'pending') return;
+    if (!trigger || trigger.status !== "pending") return;
 
-    trigger.status = 'active';
+    trigger.status = "active";
     trigger.activatedAt = Date.now();
 
     this.activeTriggers.set(triggerId, trigger);
 
     // Set up monitoring for time-based triggers
-    if (trigger.type === 'time_based') {
+    if (trigger.type === "time_based") {
       this.scheduleTimeBasedTrigger(triggerId);
     }
   }
@@ -66,14 +66,14 @@ class EvolutionTriggers {
    */
   async executeTrigger(triggerId, context = {}) {
     const trigger = this.triggers.get(triggerId);
-    if (!trigger || trigger.status !== 'active') return null;
+    if (!trigger || trigger.status !== "active") return null;
 
     try {
       // Execute the trigger action
       const result = await this.executeTriggerAction(trigger, context);
 
       // Update trigger status
-      trigger.status = 'executed';
+      trigger.status = "executed";
       trigger.executedAt = Date.now();
 
       // Remove from active triggers
@@ -87,7 +87,7 @@ class EvolutionTriggers {
       console.error(`Trigger execution failed for ${triggerId}:`, error);
 
       // Mark as failed
-      trigger.status = 'failed';
+      trigger.status = "failed";
       trigger.error = error.message;
 
       return { success: false, error: error.message };
@@ -99,19 +99,19 @@ class EvolutionTriggers {
    */
   shouldActivate(trigger) {
     switch (trigger.type) {
-      case 'immediate':
+      case "immediate":
         return true;
 
-      case 'time_based':
+      case "time_based":
         return this.checkTimeCondition(trigger.condition);
 
-      case 'coherence_based':
+      case "coherence_based":
         return this.checkCoherenceCondition(trigger.condition);
 
-      case 'interaction_based':
+      case "interaction_based":
         return this.checkInteractionCondition(trigger.condition);
 
-      case 'oracle_based':
+      case "oracle_based":
         return this.checkOracleCondition(trigger.condition);
 
       default:
@@ -124,16 +124,16 @@ class EvolutionTriggers {
    */
   async executeTriggerAction(trigger, context) {
     switch (trigger.action.type) {
-      case 'evolve_personality':
+      case "evolve_personality":
         return await this.executePersonalityEvolution(trigger, context);
 
-      case 'update_coherence':
+      case "update_coherence":
         return await this.executeCoherenceUpdate(trigger, context);
 
-      case 'unlock_achievement':
+      case "unlock_achievement":
         return await this.executeAchievementUnlock(trigger, context);
 
-      case 'trigger_memory':
+      case "trigger_memory":
         return await this.executeMemoryTrigger(trigger, context);
 
       default:
@@ -145,20 +145,25 @@ class EvolutionTriggers {
    * Execute personality evolution
    */
   async executePersonalityEvolution(trigger, context) {
-    const experiences = [{
-      type: trigger.action.experienceType,
-      intensity: trigger.action.intensity || 1.0,
-      positivity: trigger.action.positivity || 0.8,
-      timestamp: Date.now()
-    }];
+    const experiences = [
+      {
+        type: trigger.action.experienceType,
+        intensity: trigger.action.intensity || 1.0,
+        positivity: trigger.action.positivity || 0.8,
+        timestamp: Date.now(),
+      },
+    ];
 
-    const evolution = this.evolutionRules.calculateEvolution(context.inft, experiences);
+    const evolution = this.evolutionRules.calculateEvolution(
+      context.inft,
+      experiences,
+    );
 
     return {
       success: true,
-      type: 'personality_evolution',
+      type: "personality_evolution",
       evolution,
-      trigger: trigger.id
+      trigger: trigger.id,
     };
   }
 
@@ -170,9 +175,9 @@ class EvolutionTriggers {
 
     return {
       success: true,
-      type: 'coherence_update',
+      type: "coherence_update",
       coherenceGain,
-      trigger: trigger.id
+      trigger: trigger.id,
     };
   }
 
@@ -184,14 +189,14 @@ class EvolutionTriggers {
       id: trigger.action.achievementId,
       name: trigger.action.achievementName,
       description: trigger.action.achievementDescription,
-      unlockedAt: Date.now()
+      unlockedAt: Date.now(),
     };
 
     return {
       success: true,
-      type: 'achievement_unlock',
+      type: "achievement_unlock",
       achievement,
-      trigger: trigger.id
+      trigger: trigger.id,
     };
   }
 
@@ -200,17 +205,17 @@ class EvolutionTriggers {
    */
   async executeMemoryTrigger(trigger, context) {
     const memory = {
-      type: 'triggered_memory',
+      type: "triggered_memory",
       content: trigger.action.memoryContent,
       importance: trigger.action.memoryImportance || 0.5,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
 
     return {
       success: true,
-      type: 'memory_creation',
+      type: "memory_creation",
       memory,
-      trigger: trigger.id
+      trigger: trigger.id,
     };
   }
 
@@ -219,7 +224,8 @@ class EvolutionTriggers {
    */
   checkTimeCondition(condition) {
     const now = Date.now();
-    const triggerTime = condition.timestamp || (Date.now() + (condition.delay || 0));
+    const triggerTime =
+      condition.timestamp || Date.now() + (condition.delay || 0);
 
     return now >= triggerTime;
   }
@@ -261,7 +267,7 @@ class EvolutionTriggers {
     const delay = trigger.condition.delay || 0;
 
     setTimeout(async () => {
-      if (trigger.status === 'active') {
+      if (trigger.status === "active") {
         await this.executeTrigger(triggerId);
       }
     }, delay);
@@ -299,7 +305,7 @@ class EvolutionTriggers {
       type: trigger.type,
       action: trigger.action.type,
       executedAt: trigger.executedAt,
-      result
+      result,
     });
 
     // Keep only last 100 entries
@@ -319,12 +325,15 @@ class EvolutionTriggers {
 
     for (const [triggerId, trigger] of this.triggers.entries()) {
       // Remove triggers older than 30 days that are not executed
-      if (trigger.status !== 'executed' && (now - trigger.createdAt) > 30 * 24 * 60 * 60 * 1000) {
+      if (
+        trigger.status !== "executed" &&
+        now - trigger.createdAt > 30 * 24 * 60 * 60 * 1000
+      ) {
         toRemove.push(triggerId);
       }
     }
 
-    toRemove.forEach(triggerId => {
+    toRemove.forEach((triggerId) => {
       this.triggers.delete(triggerId);
       this.activeTriggers.delete(triggerId);
     });
@@ -341,7 +350,7 @@ class EvolutionTriggers {
       active: this.activeTriggers.size,
       executed: 0,
       failed: 0,
-      byType: {}
+      byType: {},
     };
 
     for (const trigger of this.triggers.values()) {
@@ -350,8 +359,8 @@ class EvolutionTriggers {
       }
       stats.byType[trigger.type]++;
 
-      if (trigger.status === 'executed') stats.executed++;
-      if (trigger.status === 'failed') stats.failed++;
+      if (trigger.status === "executed") stats.executed++;
+      if (trigger.status === "failed") stats.failed++;
     }
 
     return stats;

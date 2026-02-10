@@ -1,80 +1,80 @@
 // iNFT Protocol - Unified Exports
 
 // Smart Contracts (source files - compile with Hardhat)
-const HybridNFT = './contracts/HybridNFT.sol';
-const EvolutionManager = './contracts/EvolutionManager.sol';
-const MetadataRegistry = './contracts/MetadataRegistry.sol';
+const HybridNFT = "./contracts/HybridNFT.sol";
+const EvolutionManager = "./contracts/EvolutionManager.sol";
+const MetadataRegistry = "./contracts/MetadataRegistry.sol";
 
 // Intelligence Systems
-const PersonalityGenerator = require('./intelligence/personality/generator');
-const PersonalityAnalyzer = require('./intelligence/personality/analyzer');
-const EvolutionRules = require('./intelligence/evolution/rules');
-const EvolutionTriggers = require('./intelligence/evolution/triggers');
-const EvolutionHistory = require('./intelligence/evolution/history');
-const MemoryStorage = require('./intelligence/memory/storage');
-const MemoryRecall = require('./intelligence/memory/recall');
-const MemoryContext = require('./intelligence/memory/context');
-const AgentOrchestrator = require('./intelligence/orchestration/coordinator');
-const InteractionHandlers = require('./intelligence/orchestration/handlers');
-const ResponseGenerator = require('./intelligence/orchestration/responses');
+const PersonalityGenerator = require("./intelligence/personality/generator");
+const PersonalityAnalyzer = require("./intelligence/personality/analyzer");
+const EvolutionRules = require("./intelligence/evolution/rules");
+const EvolutionTriggers = require("./intelligence/evolution/triggers");
+const EvolutionHistory = require("./intelligence/evolution/history");
+const MemoryStorage = require("./intelligence/memory/storage");
+const MemoryRecall = require("./intelligence/memory/recall");
+const MemoryContext = require("./intelligence/memory/context");
+const AgentOrchestrator = require("./intelligence/orchestration/coordinator");
+const InteractionHandlers = require("./intelligence/orchestration/handlers");
+const ResponseGenerator = require("./intelligence/orchestration/responses");
 
 // Integration Hooks
-const OracleHooks = require('./integration/oracle-hooks');
-const IdentityHooks = require('./integration/identity-hooks');
-const PiHooks = require('./integration/pi-hooks');
+const OracleHooks = require("./integration/oracle-hooks");
+const IdentityHooks = require("./integration/identity-hooks");
+const PiHooks = require("./integration/pi-hooks");
 
 // Metadata System
-const MetadataGenerator = require('./metadata/generator');
+const MetadataGenerator = require("./metadata/generator");
 
 // Types
-const iNFTTypes = require('./types/inft');
+const iNFTTypes = require("./types/inft");
 
 // Configuration
-const { modelConfigs, getModelConfig } = require('./config/models');
-const { evolutionParams, getArchetypeParams } = require('./config/evolution');
-const { inftConfig, validateINFTConfig } = require('./config/environment');
+const { modelConfigs, getModelConfig } = require("./config/models");
+const { evolutionParams, getArchetypeParams } = require("./config/evolution");
+const { inftConfig, validateINFTConfig } = require("./config/environment");
 
 module.exports = {
   // Smart Contracts
   contracts: {
     HybridNFT,
     EvolutionManager,
-    MetadataRegistry
+    MetadataRegistry,
   },
 
   // Intelligence Systems
   intelligence: {
     personality: {
       generator: PersonalityGenerator,
-      analyzer: PersonalityAnalyzer
+      analyzer: PersonalityAnalyzer,
     },
     evolution: {
       rules: EvolutionRules,
       triggers: EvolutionTriggers,
-      history: EvolutionHistory
+      history: EvolutionHistory,
     },
     memory: {
       storage: MemoryStorage,
       recall: MemoryRecall,
-      context: MemoryContext
+      context: MemoryContext,
     },
     orchestration: {
       coordinator: AgentOrchestrator,
       handlers: InteractionHandlers,
-      responses: ResponseGenerator
-    }
+      responses: ResponseGenerator,
+    },
   },
 
   // Integration Hooks
   integration: {
     oracle: OracleHooks,
     identity: IdentityHooks,
-    pi: PiHooks
+    pi: PiHooks,
   },
 
   // Metadata System
   metadata: {
-    generator: MetadataGenerator
+    generator: MetadataGenerator,
   },
 
   // Type Definitions
@@ -85,7 +85,7 @@ module.exports = {
     models: { configs: modelConfigs, getModelConfig },
     evolution: { params: evolutionParams, getArchetypeParams },
     environment: inftConfig,
-    validateConfig: validateINFTConfig
+    validateConfig: validateINFTConfig,
   },
 
   // Utility Functions
@@ -102,7 +102,10 @@ module.exports = {
 
     interactWithINFT: async (inftId, interactionData) => {
       const orchestrator = new AgentOrchestrator();
-      return await orchestrator.coordinateInteractionResponse(inftId, interactionData);
-    }
-  }
+      return await orchestrator.coordinateInteractionResponse(
+        inftId,
+        interactionData,
+      );
+    },
+  },
 };

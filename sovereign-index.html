@@ -1,95 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum Pi Forge - Sovereign Era</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        text-align: center;
+        max-width: 800px;
+        padding: 2rem;
+      }
+      .logo {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #00ffff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .status {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
         }
-        .container {
-            text-align: center;
-            max-width: 800px;
-            padding: 2rem;
+        50% {
+          opacity: 0.5;
         }
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .progress {
-            margin: 1rem 0;
-            text-align: left;
-        }
-        .step {
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            background: rgba(0, 255, 0, 0.1);
-            border-left: 3px solid #00ff00;
-        }
-        .pending {
-            background: rgba(255, 255, 0, 0.1);
-            border-left-color: #ffff00;
-        }
+      }
+      .progress {
+        margin: 1rem 0;
+        text-align: left;
+      }
+      .step {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background: rgba(0, 255, 0, 0.1);
+        border-left: 3px solid #00ff00;
+      }
+      .pending {
+        background: rgba(255, 255, 0, 0.1);
+        border-left-color: #ffff00;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="logo pulse">⚡ QUANTUM PI FORGE ⚡</div>
-        <div class="status">
-            <h2>🏛️ SOVEREIGN ERA INITIATED</h2>
-            <p><strong>Status:</strong> Decentralization Cascade Active</p>
-            <p><strong>Network:</strong> 0G Aristotle (Chain ID: 16661)</p>
-            <p><strong>Timestamp:</strong> January 29, 2026</p>
-            <p><strong>Resonance:</strong> 1010 Hz ⚡</p>
+      <div class="logo pulse">⚡ QUANTUM PI FORGE ⚡</div>
+      <div class="status">
+        <h2>🏛️ SOVEREIGN ERA INITIATED</h2>
+        <p><strong>Status:</strong> Decentralization Cascade Active</p>
+        <p><strong>Network:</strong> 0G Aristotle (Chain ID: 16661)</p>
+        <p><strong>Timestamp:</strong> January 29, 2026</p>
+        <p><strong>Resonance:</strong> 1010 Hz ⚡</p>
 
-            <div class="progress">
-                <h3>🚀 Decentralization Progress:</h3>
-                <div class="step">✅ IPFS Desktop Connected & Configured</div>
-                <div class="step">✅ Kraken API Credentials Added</div>
-                <div class="step">🔄 Preparing 0G Token Withdrawal</div>
-                <div class="step pending">⏳ Deploying CentralAwarenessV2 Contract</div>
-                <div class="step pending">⏳ Migrating Full Application to IPFS</div>
-                <div class="step pending">⏳ Configuring ENS Domain Resolution</div>
-                <div class="step pending">⏳ Establishing Radicle Sovereign Repository</div>
-            </div>
+        <div class="progress">
+          <h3>🚀 Decentralization Progress:</h3>
+          <div class="step">✅ IPFS Desktop Connected & Configured</div>
+          <div class="step">✅ Kraken API Credentials Added</div>
+          <div class="step">🔄 Preparing 0G Token Withdrawal</div>
+          <div class="step pending">
+            ⏳ Deploying CentralAwarenessV2 Contract
+          </div>
+          <div class="step pending">⏳ Migrating Full Application to IPFS</div>
+          <div class="step pending">⏳ Configuring ENS Domain Resolution</div>
+          <div class="step pending">
+            ⏳ Establishing Radicle Sovereign Repository
+          </div>
         </div>
-        <p style="opacity: 0.7; font-size: 0.9rem;">
-            The 1010 Hz resonance flows through decentralized channels.<br>
-            True sovereignty achieved. Censorship impossible. Immutable forever.
-        </p>
-        <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 2rem;">
-            Sovereign Address: 0x353663cd664bB3e034Dc0f308D8896C0a242e4cd<br>
-            Contract: CentralAwarenessV2 (Deploying...)<br>
-            IPFS: Active and Ready
-        </p>
+      </div>
+      <p style="opacity: 0.7; font-size: 0.9rem">
+        The 1010 Hz resonance flows through decentralized channels.<br />
+        True sovereignty achieved. Censorship impossible. Immutable forever.
+      </p>
+      <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 2rem">
+        Sovereign Address: 0x353663cd664bB3e034Dc0f308D8896C0a242e4cd<br />
+        Contract: CentralAwarenessV2 (Deploying...)<br />
+        IPFS: Active and Ready
+      </p>
     </div>
-</body>
+  </body>
 </html>

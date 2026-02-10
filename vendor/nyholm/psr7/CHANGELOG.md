@@ -83,7 +83,7 @@ The `final` keyword was replaced by `@final` annotation.
 
 ### Added
 
-- Make Stream::__toString() compatible with throwing exceptions on PHP 7.4.
+- Make Stream::\_\_toString() compatible with throwing exceptions on PHP 7.4.
 
 ### Fixed
 

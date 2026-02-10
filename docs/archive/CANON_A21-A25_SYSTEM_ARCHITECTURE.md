@@ -23,21 +23,27 @@
 The GDS is the **immutable data model** for all Canon artifacts and operational logs.
 
 ### A21.1: Node Types
+
 Must include:
+
 - `Issue`
 - `Artifact`
 - `Commit`
 - `LogEntry`
 
 ### A21.2: Edge Types
+
 Must include:
+
 - `Parent-Child`
 - `Precedes-Succeeds`
 - `Validates-Invalidates`
 - `Refines-Refines`
 
 ### A21.3: Immutability Constraint
+
 All entries are:
+
 - **Time-stamped**
 - **Cryptographically linked**
 - **Indexed by hash**
@@ -52,13 +58,13 @@ The STM defines all **permissible state changes** within the Core System and is 
 
 ### A22.1: Primary States
 
-| State | Description |
-|-------|-------------|
-| `DORMANT` | Inactive, awaiting activation |
-| `IN-GESTATION` | Being formed, not yet ready |
-| `ITERATING` | Active development/refinement |
-| `CLOSURE-IMMINENT` | Approaching finalization |
-| `CLOSED` | Finalized, immutable |
+| State              | Description                   |
+| ------------------ | ----------------------------- |
+| `DORMANT`          | Inactive, awaiting activation |
+| `IN-GESTATION`     | Being formed, not yet ready   |
+| `ITERATING`        | Active development/refinement |
+| `CLOSURE-IMMINENT` | Approaching finalization      |
+| `CLOSED`           | Finalized, immutable          |
 
 ### A22.2: Permissible Transitions
 
@@ -78,18 +84,19 @@ The AAP mandates the **required metadata and format** for any action executed by
 
 ### A23.1: Required Fields
 
-| Field | Description |
-|-------|-------------|
-| `agent_id` | Unique identifier of the acting agent |
-| `action_type` | Type of action being performed |
-| `gds_reference` | Reference to GDS node (A21) |
-| `pre_state_hash` | Hash of state before action |
-| `post_state_hash` | Hash of state after action |
-| `timestamp_utc` | UTC timestamp of action |
+| Field             | Description                           |
+| ----------------- | ------------------------------------- |
+| `agent_id`        | Unique identifier of the acting agent |
+| `action_type`     | Type of action being performed        |
+| `gds_reference`   | Reference to GDS node (A21)           |
+| `pre_state_hash`  | Hash of state before action           |
+| `post_state_hash` | Hash of state after action            |
+| `timestamp_utc`   | UTC timestamp of action               |
 
 ### A23.2: Execution Environment
 
 All agent actions must be:
+
 1. **Logged** before execution
 2. **Validated** before modifying the canonical state
 
@@ -101,15 +108,16 @@ Defines how **deviations** from the STM (A22) or the AAP (A23) are handled.
 
 ### A24.1: Violation Severity
 
-| Level | Description | Response |
-|-------|-------------|----------|
-| `MINOR` | Small deviation | Auto-correctable |
-| `MAJOR` | Significant deviation | Requires human review/override |
-| `CRITICAL` | System integrity threat | System halt/rollback |
+| Level      | Description             | Response                       |
+| ---------- | ----------------------- | ------------------------------ |
+| `MINOR`    | Small deviation         | Auto-correctable               |
+| `MAJOR`    | Significant deviation   | Requires human review/override |
+| `CRITICAL` | System integrity threat | System halt/rollback           |
 
 ### A24.2: Reconciliation
 
 For `MAJOR` violations:
+
 1. A new **Reconciliation Artifact** must be generated
 2. Linked by a `Validates-Invalidates` edge (A21.2)
 3. Documents the forced state correction
@@ -122,10 +130,10 @@ Specifies the **communication layer** between the Forge (Execution Environment) 
 
 ### A25.1: Read/Write Access
 
-| Entity | Canon Access | Action Log Access |
-|--------|--------------|-------------------|
-| **Forge-Core** | READ + WRITE | READ + WRITE |
-| **Agents** | READ only | WRITE only |
+| Entity         | Canon Access | Action Log Access |
+| -------------- | ------------ | ----------------- |
+| **Forge-Core** | READ + WRITE | READ + WRITE      |
+| **Agents**     | READ only    | WRITE only        |
 
 > Only Forge-Core has write access to the Canon.
 
@@ -137,14 +145,14 @@ Implements **throttles for queries** to prevent self-DDOS during high-complexity
 
 ## Artifact Index
 
-| Artifact | Name | Purpose |
-|----------|------|---------|
-| A21 | Genesis Data Structure (GDS) | Immutable data model |
-| A22 | State-Transition Matrix (STM) | Permissible state changes |
-| A23 | Agent-Action Protocol (AAP) | Agent execution metadata |
-| A24 | Violation and Reconciliation Protocol (VRP) | Deviation handling |
-| A25 | Forge-API Gateway | Communication layer |
+| Artifact | Name                                        | Purpose                   |
+| -------- | ------------------------------------------- | ------------------------- |
+| A21      | Genesis Data Structure (GDS)                | Immutable data model      |
+| A22      | State-Transition Matrix (STM)               | Permissible state changes |
+| A23      | Agent-Action Protocol (AAP)                 | Agent execution metadata  |
+| A24      | Violation and Reconciliation Protocol (VRP) | Deviation handling        |
+| A25      | Forge-API Gateway                           | Communication layer       |
 
 ---
 
-*Archived as part of the Quantum Pi Forge Canon.*
+_Archived as part of the Quantum Pi Forge Canon._

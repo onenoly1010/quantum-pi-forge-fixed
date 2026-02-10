@@ -8,19 +8,23 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  // Move outputFileTracingExcludes out of experimental (Next.js 16+ requirement)
+  outputFileTracingExcludes: {
+    "*": ["pi-forge-quantum-genesis/**/*", "contracts/**/*", "docs/**/*"],
   },
-  // Exclude directories from file tracing
-  experimental: {
-    outputFileTracingExcludes: {
-      '*': ['pi-forge-quantum-genesis/**/*', 'contracts/**/*', 'docs/**/*'],
-    },
+  // Turbopack configuration
+  turbopack: {
+    root: ".",
   },
   // Webpack configuration to exclude submodule
   webpack: (config) => {
     config.watchOptions = {
-      ignored: ['**/pi-forge-quantum-genesis/**', '**/node_modules/**', '**/contracts/**', '**/docs/**'],
+      ignored: [
+        "**/pi-forge-quantum-genesis/**",
+        "**/node_modules/**",
+        "**/contracts/**",
+        "**/docs/**",
+      ],
     };
     return config;
   },

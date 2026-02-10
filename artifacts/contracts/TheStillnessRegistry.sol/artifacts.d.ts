@@ -16,7 +16,7 @@ export interface TheStillnessRegistry$Type {
   readonly immutableReferences: {"8237":[{"length":32,"start":255},{"length":32,"start":476},{"length":32,"start":719},{"length":32,"start":922},{"length":32,"start":1154}],"8239":[{"length":32,"start":411}],"8243":[{"length":32,"start":152},{"length":32,"start":1487}]};
   readonly inputSourceName: "project/contracts/TheStillnessRegistry.sol";
   readonly buildInfoId: "solc-0_8_24-2fe1d8c6e7b45055dc308041115240ebf6853dc4";
-};
+}
 
 import "hardhat/types/artifacts";
 declare module "hardhat/types/artifacts" {

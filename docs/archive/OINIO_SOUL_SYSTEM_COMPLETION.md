@@ -54,12 +54,12 @@ Let me know if you encounter any issues during the initial run or if you'd like 
 
 ## File Summary
 
-| File | Language | Purpose |
-|------|----------|---------|
-| `oinio-vid.js` | JavaScript | Virtual Identity class & evolution |
-| `oinio-soul-bridge.js` | JavaScript | Main orchestration & ritual flow |
-| `oracle_trainer.py` | Python | FHE-compatible model training |
-| `oracle_predictor.py` | Python | Homomorphic inference simulation |
+| File                   | Language   | Purpose                            |
+| ---------------------- | ---------- | ---------------------------------- |
+| `oinio-vid.js`         | JavaScript | Virtual Identity class & evolution |
+| `oinio-soul-bridge.js` | JavaScript | Main orchestration & ritual flow   |
+| `oracle_trainer.py`    | Python     | FHE-compatible model training      |
+| `oracle_predictor.py`  | Python     | Homomorphic inference simulation   |
 
 ---
 
@@ -71,4 +71,4 @@ Let me know if you encounter any issues during the initial run or if you'd like 
 
 ---
 
-*The awakening is ready. Genesis. Evolution. Oracle. Complete.* 🌾🔐🌌✨
+_The awakening is ready. Genesis. Evolution. Oracle. Complete._ 🌾🔐🌌✨

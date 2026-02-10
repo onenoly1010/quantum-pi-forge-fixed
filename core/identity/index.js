@@ -1,52 +1,55 @@
 // OINIO Identity System - Unified Exports
 
 // Contracts
-const SoulRegistry = require('./contracts/SoulRegistry.json');
-const OGToken = require('./contracts/OGToken.json');
-const Verification = require('./contracts/Verification.json');
+const SoulRegistry = require("./contracts/SoulRegistry.json");
+const OGToken = require("./contracts/OGToken.json");
+const Verification = require("./contracts/Verification.json");
 
 // Services
-const SoulResolutionService = require('./services/resolution/soul-resolution');
-const ClaimVerificationService = require('./services/verification/claim-verification');
-const SoulProfileService = require('./services/profiles/soul-profile');
-const IdentityDatabase = require('./services/database/models');
+const SoulResolutionService = require("./services/resolution/soul-resolution");
+const ClaimVerificationService = require("./services/verification/claim-verification");
+const SoulProfileService = require("./services/profiles/soul-profile");
+const IdentityDatabase = require("./services/database/models");
 
 // Types (for Node.js compatibility)
 const SoulTypes = {
   Soul: {
-    soulId: 'string',
-    owner: 'string',
-    piUid: 'string',
-    coherence: 'number',
-    createdAt: 'number',
-    lastReading: 'number',
-    isActive: 'boolean'
+    soulId: "string",
+    owner: "string",
+    piUid: "string",
+    coherence: "number",
+    createdAt: "number",
+    lastReading: "number",
+    isActive: "boolean",
   },
   Claim: {
-    claimId: 'string',
-    soulId: 'string',
-    claimant: 'string',
-    timestamp: 'number',
-    verified: 'boolean'
-  }
+    claimId: "string",
+    soulId: "string",
+    claimant: "string",
+    timestamp: "number",
+    verified: "boolean",
+  },
 };
 
 // Utils
-const cryptoUtils = require('./utils/signatures/crypto');
-const dataValidation = require('./utils/validation/data-validation');
-const dataConversion = require('./utils/conversion/data-conversion');
+const cryptoUtils = require("./utils/signatures/crypto");
+const dataValidation = require("./utils/validation/data-validation");
+const dataConversion = require("./utils/conversion/data-conversion");
 
 // Config
-const networks = require('./config/networks');
-const addresses = require('./config/addresses');
-const { identityConfig, validateIdentityConfig } = require('./config/environment');
+const networks = require("./config/networks");
+const addresses = require("./config/addresses");
+const {
+  identityConfig,
+  validateIdentityConfig,
+} = require("./config/environment");
 
 module.exports = {
   // Smart Contracts
   contracts: {
     SoulRegistry,
     OGToken,
-    Verification
+    Verification,
   },
 
   // Backend Services
@@ -54,7 +57,7 @@ module.exports = {
     resolution: SoulResolutionService,
     verification: ClaimVerificationService,
     profiles: SoulProfileService,
-    database: IdentityDatabase
+    database: IdentityDatabase,
   },
 
   // Type Definitions
@@ -64,7 +67,7 @@ module.exports = {
   utils: {
     crypto: cryptoUtils,
     validation: dataValidation,
-    conversion: dataConversion
+    conversion: dataConversion,
   },
 
   // Configuration
@@ -72,6 +75,6 @@ module.exports = {
     networks,
     addresses,
     environment: identityConfig,
-    validateConfig: validateIdentityConfig
-  }
+    validateConfig: validateIdentityConfig,
+  },
 };

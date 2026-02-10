@@ -3,13 +3,13 @@
  * Common functions used across the unified API
  */
 
-const crypto = require('crypto');
-const { ethers } = require('ethers');
+const crypto = require("crypto");
+const { ethers } = require("ethers");
 
 /**
  * Generate unique ID
  */
-function generateId(prefix = '') {
+function generateId(prefix = "") {
   const timestamp = Date.now().toString(36);
   const random = Math.random().toString(36).substr(2, 9);
   return `${prefix}${timestamp}${random}`;
@@ -19,9 +19,9 @@ function generateId(prefix = '') {
  * Generate UUID v4
  */
 function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
@@ -30,7 +30,7 @@ function generateUUID() {
  * Hash data using SHA-256
  */
 function hashData(data) {
-  return crypto.createHash('sha256').update(JSON.stringify(data)).digest('hex');
+  return crypto.createHash("sha256").update(JSON.stringify(data)).digest("hex");
 }
 
 /**
@@ -59,7 +59,7 @@ function verifySignature(message, signature, address) {
  * Sleep/delay function
  */
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -71,7 +71,7 @@ async function retry(fn, options = {}) {
     baseDelay = 1000,
     maxDelay = 30000,
     backoffFactor = 2,
-    retryCondition = () => true
+    retryCondition = () => true,
   } = options;
 
   let lastError;
@@ -86,7 +86,10 @@ async function retry(fn, options = {}) {
         throw error;
       }
 
-      const delay = Math.min(baseDelay * Math.pow(backoffFactor, attempt - 1), maxDelay);
+      const delay = Math.min(
+        baseDelay * Math.pow(backoffFactor, attempt - 1),
+        maxDelay,
+      );
       await sleep(delay);
     }
   }
@@ -115,7 +118,7 @@ function safeJsonParse(str, defaultValue = null) {
 /**
  * Safe JSON stringify
  */
-function safeJsonStringify(obj, defaultValue = '{}') {
+function safeJsonStringify(obj, defaultValue = "{}") {
   try {
     return JSON.stringify(obj);
   } catch (error) {
@@ -146,7 +149,7 @@ function isValidUrl(url) {
 /**
  * Format currency amount
  */
-function formatCurrency(amount, currency = 'PI') {
+function formatCurrency(amount, currency = "PI") {
   return `${amount.toFixed(2)} ${currency}`;
 }
 
@@ -188,7 +191,7 @@ function paginateArray(array, page = 1, limit = 20) {
     total: array.length,
     page,
     limit,
-    pages: Math.ceil(array.length / limit)
+    pages: Math.ceil(array.length / limit),
   };
 }
 
@@ -196,16 +199,18 @@ function paginateArray(array, page = 1, limit = 20) {
  * Sanitize string for logging
  */
 function sanitizeString(str, maxLength = 100) {
-  if (typeof str !== 'string') return String(str);
+  if (typeof str !== "string") return String(str);
 
   // Remove sensitive patterns
   const sanitized = str
-    .replace(/\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/g, '[CARD_NUMBER]') // Credit cards
-    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, '[EMAIL]') // Emails
-    .replace(/\b\d{10,15}\b/g, '[PHONE]') // Phone numbers
-    .replace(/\b[A-Fa-f0-9]{64}\b/g, '[PRIVATE_KEY]'); // Private keys
+    .replace(/\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/g, "[CARD_NUMBER]") // Credit cards
+    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, "[EMAIL]") // Emails
+    .replace(/\b\d{10,15}\b/g, "[PHONE]") // Phone numbers
+    .replace(/\b[A-Fa-f0-9]{64}\b/g, "[PRIVATE_KEY]"); // Private keys
 
-  return sanitized.length > maxLength ? sanitized.substring(0, maxLength) + '...' : sanitized;
+  return sanitized.length > maxLength
+    ? sanitized.substring(0, maxLength) + "..."
+    : sanitized;
 }
 
 /**
@@ -219,14 +224,14 @@ function getEnvVar(key, defaultValue = null) {
  * Check if running in production
  */
 function isProduction() {
-  return process.env.NODE_ENV === 'production';
+  return process.env.NODE_ENV === "production";
 }
 
 /**
  * Check if running in development
  */
 function isDevelopment() {
-  return process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
+  return process.env.NODE_ENV === "development" || !process.env.NODE_ENV;
 }
 
 /**
@@ -267,5 +272,5 @@ module.exports = {
   getEnvVar,
   isProduction,
   isDevelopment,
-  getServiceUrl
+  getServiceUrl,
 };

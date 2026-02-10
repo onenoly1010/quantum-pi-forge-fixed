@@ -3,15 +3,15 @@
  * Environment variable validation and loading utilities
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 /**
  * Get environment variable with optional default
  */
 function getEnvVar(key, defaultValue = null) {
   const value = process.env[key];
-  if (value !== undefined && value !== null && value !== '') {
+  if (value !== undefined && value !== null && value !== "") {
     return value;
   }
   return defaultValue;
@@ -20,10 +20,12 @@ function getEnvVar(key, defaultValue = null) {
 /**
  * Get required environment variable
  */
-function getRequiredEnvVar(key, description = '') {
+function getRequiredEnvVar(key, description = "") {
   const value = getEnvVar(key);
-  if (value === null || value === undefined || value === '') {
-    throw new Error(`Required environment variable ${key} is not set${description ? `: ${description}` : ''}`);
+  if (value === null || value === undefined || value === "") {
+    throw new Error(
+      `Required environment variable ${key} is not set${description ? `: ${description}` : ""}`,
+    );
   }
   return value;
 }
@@ -36,7 +38,7 @@ function getEnvBool(key, defaultValue = false) {
   if (value === null) return defaultValue;
 
   const lowerValue = value.toLowerCase();
-  return ['true', '1', 'yes', 'on', 'enabled'].includes(lowerValue);
+  return ["true", "1", "yes", "on", "enabled"].includes(lowerValue);
 }
 
 /**
@@ -48,7 +50,9 @@ function getEnvNumber(key, defaultValue = 0) {
 
   const parsed = parseFloat(value);
   if (isNaN(parsed)) {
-    throw new Error(`Environment variable ${key} is not a valid number: ${value}`);
+    throw new Error(
+      `Environment variable ${key} is not a valid number: ${value}`,
+    );
   }
   return parsed;
 }
@@ -62,7 +66,9 @@ function getEnvInt(key, defaultValue = 0) {
 
   const parsed = parseInt(value, 10);
   if (isNaN(parsed)) {
-    throw new Error(`Environment variable ${key} is not a valid integer: ${value}`);
+    throw new Error(
+      `Environment variable ${key} is not a valid integer: ${value}`,
+    );
   }
   return parsed;
 }
@@ -74,52 +80,55 @@ function getEnvArray(key, defaultValue = []) {
   const value = getEnvVar(key);
   if (value === null) return defaultValue;
 
-  return value.split(',').map(item => item.trim()).filter(item => item.length > 0);
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
 }
 
 /**
  * Check if running in production
  */
 function isProduction() {
-  return getEnvVar('NODE_ENV', 'development') === 'production';
+  return getEnvVar("NODE_ENV", "development") === "production";
 }
 
 /**
  * Check if running in development
  */
 function isDevelopment() {
-  return getEnvVar('NODE_ENV', 'development') === 'development';
+  return getEnvVar("NODE_ENV", "development") === "development";
 }
 
 /**
  * Check if running in test environment
  */
 function isTest() {
-  return getEnvVar('NODE_ENV', 'development') === 'test';
+  return getEnvVar("NODE_ENV", "development") === "test";
 }
 
 /**
  * Load environment variables from .env file
  */
-function loadEnvFile(filePath = '.env') {
+function loadEnvFile(filePath = ".env") {
   try {
     const envPath = path.resolve(process.cwd(), filePath);
     if (!fs.existsSync(envPath)) {
       return false;
     }
 
-    const envContent = fs.readFileSync(envPath, 'utf8');
-    const lines = envContent.split('\n');
+    const envContent = fs.readFileSync(envPath, "utf8");
+    const lines = envContent.split("\n");
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
+      if (!trimmed || trimmed.startsWith("#")) continue;
 
-      const [key, ...valueParts] = trimmed.split('=');
+      const [key, ...valueParts] = trimmed.split("=");
       if (key && valueParts.length > 0) {
-        const value = valueParts.join('=').trim();
+        const value = valueParts.join("=").trim();
         // Remove quotes if present
-        const cleanValue = value.replace(/^["']|["']$/g, '');
+        const cleanValue = value.replace(/^["']|["']$/g, "");
         process.env[key.trim()] = cleanValue;
       }
     }
@@ -141,12 +150,12 @@ function validateRequiredEnvVars(requiredVars) {
   for (const [key, validator] of Object.entries(requiredVars)) {
     const value = getEnvVar(key);
 
-    if (value === null || value === undefined || value === '') {
+    if (value === null || value === undefined || value === "") {
       missing.push(key);
       continue;
     }
 
-    if (validator && typeof validator === 'function') {
+    if (validator && typeof validator === "function") {
       try {
         if (!validator(value)) {
           invalid.push(`${key}: ${value}`);
@@ -160,7 +169,7 @@ function validateRequiredEnvVars(requiredVars) {
   return {
     valid: missing.length === 0 && invalid.length === 0,
     missing,
-    invalid
+    invalid,
   };
 }
 
@@ -172,12 +181,12 @@ function getEnvInfo() {
     nodeVersion: process.version,
     platform: process.platform,
     arch: process.arch,
-    nodeEnv: getEnvVar('NODE_ENV', 'development'),
-    port: getEnvVar('PORT', '3001'),
-    host: getEnvVar('HOST', 'localhost'),
+    nodeEnv: getEnvVar("NODE_ENV", "development"),
+    port: getEnvVar("PORT", "3001"),
+    host: getEnvVar("HOST", "localhost"),
     isProduction: isProduction(),
     isDevelopment: isDevelopment(),
-    isTest: isTest()
+    isTest: isTest(),
   };
 }
 
@@ -186,12 +195,22 @@ function getEnvInfo() {
  */
 function sanitizeEnvVar(key, value) {
   const sensitiveKeys = [
-    'secret', 'password', 'token', 'key', 'private', 'auth',
-    'database_url', 'redis_url', 'rpc_url', 'api_key'
+    "secret",
+    "password",
+    "token",
+    "key",
+    "private",
+    "auth",
+    "database_url",
+    "redis_url",
+    "rpc_url",
+    "api_key",
   ];
 
   const lowerKey = key.toLowerCase();
-  const isSensitive = sensitiveKeys.some(sensitive => lowerKey.includes(sensitive));
+  const isSensitive = sensitiveKeys.some((sensitive) =>
+    lowerKey.includes(sensitive),
+  );
 
   if (isSensitive && value && value.length > 0) {
     return `${value.substring(0, 4)}****`;
@@ -213,5 +232,5 @@ module.exports = {
   loadEnvFile,
   validateRequiredEnvVars,
   getEnvInfo,
-  sanitizeEnvVar
+  sanitizeEnvVar,
 };

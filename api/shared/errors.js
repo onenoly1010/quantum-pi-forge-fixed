@@ -6,7 +6,7 @@
 class ApiError extends Error {
   constructor(message, status = 500, details = null) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
     this.status = status;
     this.details = details;
     this.timestamp = new Date().toISOString();
@@ -24,8 +24,8 @@ class ApiError extends Error {
         message: this.message,
         status: this.status,
         details: this.details,
-        timestamp: this.timestamp
-      }
+        timestamp: this.timestamp,
+      },
     };
   }
 }
@@ -33,72 +33,74 @@ class ApiError extends Error {
 class ValidationError extends ApiError {
   constructor(message, details = null) {
     super(message, 400, details);
-    this.name = 'ValidationError';
+    this.name = "ValidationError";
   }
 }
 
 class AuthenticationError extends ApiError {
-  constructor(message = 'Authentication required', details = null) {
+  constructor(message = "Authentication required", details = null) {
     super(message, 401, details);
-    this.name = 'AuthenticationError';
+    this.name = "AuthenticationError";
   }
 }
 
 class AuthorizationError extends ApiError {
-  constructor(message = 'Access denied', details = null) {
+  constructor(message = "Access denied", details = null) {
     super(message, 403, details);
-    this.name = 'AuthorizationError';
+    this.name = "AuthorizationError";
   }
 }
 
 class NotFoundError extends ApiError {
-  constructor(resource = 'Resource', details = null) {
+  constructor(resource = "Resource", details = null) {
     super(`${resource} not found`, 404, details);
-    this.name = 'NotFoundError';
+    this.name = "NotFoundError";
   }
 }
 
 class ConflictError extends ApiError {
-  constructor(message = 'Resource conflict', details = null) {
+  constructor(message = "Resource conflict", details = null) {
     super(message, 409, details);
-    this.name = 'ConflictError';
+    this.name = "ConflictError";
   }
 }
 
 class RateLimitError extends ApiError {
-  constructor(message = 'Too many requests', retryAfter = null) {
+  constructor(message = "Too many requests", retryAfter = null) {
     super(message, 429, { retryAfter });
-    this.name = 'RateLimitError';
+    this.name = "RateLimitError";
   }
 }
 
 class ExternalServiceError extends ApiError {
   constructor(service, message, status = 502) {
-    super(`External service error: ${service} - ${message}`, status, { service });
-    this.name = 'ExternalServiceError';
+    super(`External service error: ${service} - ${message}`, status, {
+      service,
+    });
+    this.name = "ExternalServiceError";
   }
 }
 
 class BlockchainError extends ExternalServiceError {
   constructor(message, details = null) {
-    super('blockchain', message, 502);
-    this.name = 'BlockchainError';
+    super("blockchain", message, 502);
+    this.name = "BlockchainError";
     this.details = details;
   }
 }
 
 class PiNetworkError extends ExternalServiceError {
   constructor(message, details = null) {
-    super('pi-network', message, 502);
-    this.name = 'PiNetworkError';
+    super("pi-network", message, 502);
+    this.name = "PiNetworkError";
     this.details = details;
   }
 }
 
 class OracleError extends ExternalServiceError {
   constructor(message, details = null) {
-    super('oracle', message, 502);
-    this.name = 'OracleError';
+    super("oracle", message, 502);
+    this.name = "OracleError";
     this.details = details;
   }
 }
@@ -108,7 +110,7 @@ class OracleError extends ExternalServiceError {
  */
 function errorHandler(error, req, res, next) {
   // Log error
-  console.error('API Error:', {
+  console.error("API Error:", {
     name: error.name,
     message: error.message,
     status: error.status,
@@ -116,19 +118,19 @@ function errorHandler(error, req, res, next) {
     url: req.url,
     method: req.method,
     ip: req.ip,
-    requestId: req.requestId
+    requestId: req.requestId,
   });
 
   // Don't leak error details in production
-  const isDevelopment = process.env.NODE_ENV !== 'production';
+  const isDevelopment = process.env.NODE_ENV !== "production";
 
   const response = {
     success: false,
     error: {
       message: error.message,
       status: error.status || 500,
-      timestamp: new Date().toISOString()
-    }
+      timestamp: new Date().toISOString(),
+    },
   };
 
   // Add error details in development
@@ -139,8 +141,8 @@ function errorHandler(error, req, res, next) {
   }
 
   // Add retry-after for rate limiting
-  if (error.name === 'RateLimitError' && error.details?.retryAfter) {
-    res.set('Retry-After', error.details.retryAfter);
+  if (error.name === "RateLimitError" && error.details?.retryAfter) {
+    res.set("Retry-After", error.details.retryAfter);
   }
 
   res.status(error.status || 500).json(response);
@@ -168,5 +170,5 @@ module.exports = {
   PiNetworkError,
   OracleError,
   errorHandler,
-  asyncHandler
+  asyncHandler,
 };

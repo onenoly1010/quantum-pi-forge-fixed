@@ -1,31 +1,61 @@
 {
-<<<<<<< HEAD
   "buildCommand": "npm run build && npm run postbuild",
   "devCommand": "npm run dev",
   "installCommand": "npm ci --include=dev",
   "framework": "nextjs",
   "outputDirectory": ".next",
   "functions": {
-    "api/*.js": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    },
+    "api/**/*.ts": {
       "maxDuration": 30
     }
   },
   "env": {
-    "ALCHEMY_API_KEY": {
-      "description": "Alchemy API Key for Polygon RPC",
-      "value": ""
+    "SPONSOR_PRIVATE_KEY": {
+      "description": "Private key for gasless transaction sponsor wallet",
+      "value": "@sponsor-private-key"
     },
-    "WALLETCONNECT_PROJECT_ID": {
-      "description": "WalletConnect Project ID",
-      "value": ""
+    "POLYGON_RPC_URL": {
+      "description": "Polygon RPC URL (Alchemy or public)",
+      "value": "https://polygon-rpc.com"
     },
     "OINIO_TOKEN_ADDRESS": {
-      "description": "OINIO Token Contract Address",
-      "value": ""
+      "description": "OINIO Token Contract Address on Polygon",
+      "value": "0x07f43E5B1A8a0928B364E40d5885f81A543B05C7"
     },
-    "SENTRY_AUTH_TOKEN": {
-      "description": "Sentry authentication token",
-      "value": ""
+    "DEPLOYER_PRIVATE_KEY": {
+      "description": "Deployer wallet private key for smart contracts",
+      "value": "@deployer-private-key"
+    },
+    "DEEPSEEK_API_KEY": {
+      "description": "DeepSeek AI API Key",
+      "value": "@deepseek-api-key"
+    },
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API Key",
+      "value": "@openai-api-key"
+    },
+    "SUPABASE_URL": {
+      "description": "Supabase Project URL",
+      "value": "@supabase-url"
+    },
+    "SUPABASE_SERVICE_ROLE_KEY": {
+      "description": "Supabase Service Role Key",
+      "value": "@supabase-service-key"
+    },
+    "SUPABASE_ANON_KEY": {
+      "description": "Supabase Anonymous Key",
+      "value": "@supabase-anon-key"
+    },
+    "NEXTAUTH_SECRET": {
+      "description": "NextAuth.js secret for session encryption",
+      "value": "@nextauth-secret"
+    },
+    "NEXTAUTH_URL": {
+      "description": "NextAuth.js canonical URL",
+      "value": "https://quantumpiforget.com"
     }
   },
   "redirects": [
@@ -44,10 +74,6 @@
     {
       "source": "/api/:path*",
       "destination": "/api/:path*"
-    },
-    {
-      "source": "/quantum/:path*",
-      "destination": "/api/quantum/:path*"
     }
   ],
   "headers": [
@@ -69,6 +95,10 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
         }
       ]
     }
@@ -78,8 +108,5 @@
     "autoAlias": true
   },
   "regions": ["sfo1"],
-  "public": true
-=======
-  "outputDirectory": "public"
->>>>>>> fix/dep-ci-uvicorn-port
+  "public": false
 }

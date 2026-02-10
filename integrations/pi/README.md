@@ -32,18 +32,18 @@ PI_CACHE_TIMEOUT=300000
 ## Usage
 
 ```javascript
-import pi from './integrations/pi';
+import pi from "./integrations/pi";
 
 // Initialize SDK
 await pi.config.initSDK();
 
 // Authenticate user
-const auth = await pi.auth.connect.authenticate(['username']);
+const auth = await pi.auth.connect.authenticate(["username"]);
 
 // Create payment
 const payment = await pi.payments.createPayment({
-  amount: 1.00,
-  memo: 'OINIO Staking'
+  amount: 1.0,
+  memo: "OINIO Staking",
 });
 
 // Map Pi profile to OINIO identity
@@ -70,6 +70,7 @@ Payment webhooks are handled at `/api/pi/webhooks` endpoint. Ensure `PI_WEBHOOK_
 ## Integration with Oracle
 
 The Pi integration connects to the OINIO Oracle Engine for:
+
 - Soul signature verification during authentication
 - Personality trait mapping for new users
 - Payment validation for oracle readings

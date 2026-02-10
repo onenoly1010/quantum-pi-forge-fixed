@@ -24,7 +24,6 @@ Or, if using [uv](https://docs.astral.sh/uv/):
 uv sync
 ```
 
-
 ## Running Locally
 
 Start the development server on http://0.0.0.0:5001

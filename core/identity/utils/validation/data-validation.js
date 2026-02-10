@@ -8,7 +8,7 @@
  * Validate soul ID format
  */
 function validateSoulId(soulId) {
-  if (!soulId || typeof soulId !== 'string') return false;
+  if (!soulId || typeof soulId !== "string") return false;
 
   // Soul IDs are 66-character hex strings (0x + 64 hex chars)
   const soulIdRegex = /^0x[a-fA-F0-9]{64}$/;
@@ -19,7 +19,7 @@ function validateSoulId(soulId) {
  * Validate Pi UID format
  */
 function validatePiUid(piUid) {
-  if (!piUid || typeof piUid !== 'string') return false;
+  if (!piUid || typeof piUid !== "string") return false;
 
   // Pi UIDs are typically hex strings, 64+ characters
   const piUidRegex = /^[a-fA-F0-9]{64,}$/;
@@ -30,7 +30,7 @@ function validatePiUid(piUid) {
  * Validate Ethereum address
  */
 function validateEthereumAddress(address) {
-  if (!address || typeof address !== 'string') return false;
+  if (!address || typeof address !== "string") return false;
 
   // Check basic format
   const addressRegex = /^0x[a-fA-F0-9]{40}$/;
@@ -48,18 +48,21 @@ function validateEthereumAddress(address) {
  * Validate personality traits
  */
 function validatePersonalityTraits(traits) {
-  if (!traits || typeof traits !== 'object') return false;
+  if (!traits || typeof traits !== "object") return false;
 
   const requiredTraits = [
-    'openness', 'conscientiousness', 'extraversion',
-    'agreeableness', 'neuroticism'
+    "openness",
+    "conscientiousness",
+    "extraversion",
+    "agreeableness",
+    "neuroticism",
   ];
 
   for (const trait of requiredTraits) {
     if (!(trait in traits)) return false;
 
     const value = traits[trait];
-    if (typeof value !== 'number' || value < 0 || value > 1) {
+    if (typeof value !== "number" || value < 0 || value > 1) {
       return false;
     }
   }
@@ -71,15 +74,22 @@ function validatePersonalityTraits(traits) {
  * Validate claim data
  */
 function validateClaimData(claimData) {
-  if (!claimData || typeof claimData !== 'object') return false;
+  if (!claimData || typeof claimData !== "object") return false;
 
   // Required fields
   if (!claimData.title || !claimData.description) return false;
-  if (!claimData.type || !['identity', 'achievement', 'experience', 'skill', 'custom'].includes(claimData.type)) return false;
+  if (
+    !claimData.type ||
+    !["identity", "achievement", "experience", "skill", "custom"].includes(
+      claimData.type,
+    )
+  )
+    return false;
 
   // Title and description length
   if (claimData.title.length < 3 || claimData.title.length > 100) return false;
-  if (claimData.description.length < 10 || claimData.description.length > 1000) return false;
+  if (claimData.description.length < 10 || claimData.description.length > 1000)
+    return false;
 
   return true;
 }
@@ -88,17 +98,25 @@ function validateClaimData(claimData) {
  * Validate reading data
  */
 function validateReadingData(readingData) {
-  if (!readingData || typeof readingData !== 'object') return false;
+  if (!readingData || typeof readingData !== "object") return false;
 
   // Required fields
   if (!readingData.type || !readingData.content) return false;
 
   // Validate reading type
-  const validTypes = ['personality', 'compatibility', 'future', 'past', 'present', 'custom'];
+  const validTypes = [
+    "personality",
+    "compatibility",
+    "future",
+    "past",
+    "present",
+    "custom",
+  ];
   if (!validTypes.includes(readingData.type)) return false;
 
   // Validate content
-  if (!readingData.content.summary || !readingData.content.details) return false;
+  if (!readingData.content.summary || !readingData.content.details)
+    return false;
 
   return true;
 }
@@ -107,13 +125,10 @@ function validateReadingData(readingData) {
  * Sanitize user input
  */
 function sanitizeInput(input) {
-  if (typeof input !== 'string') return input;
+  if (typeof input !== "string") return input;
 
   // Remove potentially dangerous characters
-  return input
-    .replace(/[<>]/g, '')
-    .trim()
-    .substring(0, 10000); // Max length
+  return input.replace(/[<>]/g, "").trim().substring(0, 10000); // Max length
 }
 
 module.exports = {
@@ -123,5 +138,5 @@ module.exports = {
   validatePersonalityTraits,
   validateClaimData,
   validateReadingData,
-  sanitizeInput
+  sanitizeInput,
 };

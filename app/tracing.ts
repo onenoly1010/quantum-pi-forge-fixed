@@ -1,26 +1,27 @@
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { resourceFromAttributes } from '@opentelemetry/resources';
-import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
-import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
-import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { WebTracerProvider } from "@opentelemetry/sdk-trace-web";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { DocumentLoadInstrumentation } from "@opentelemetry/instrumentation-document-load";
+import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
+import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
+import { XMLHttpRequestInstrumentation } from "@opentelemetry/instrumentation-xml-http-request";
+import { ZoneContextManager } from "@opentelemetry/context-zone";
 
-const SERVICE_NAME = 'quantum-pi-forge-frontend';
-const SERVICE_VERSION = '3.2.0';
+const SERVICE_NAME = "quantum-pi-forge-frontend";
+const SERVICE_VERSION = "3.2.0";
 
 // AI Toolkit OTLP endpoint
-const OTLP_ENDPOINT = process.env.NEXT_PUBLIC_OTLP_ENDPOINT || 'http://localhost:4318/v1/traces';
+const OTLP_ENDPOINT =
+  process.env.NEXT_PUBLIC_OTLP_ENDPOINT || "http://localhost:4318/v1/traces";
 
 let tracerProvider: WebTracerProvider | null = null;
 
 export function initTracing() {
-  if (typeof window === 'undefined') return;
-  
+  if (typeof window === "undefined") return;
+
   // Prevent double initialization
   if (tracerProvider) return;
 
@@ -31,11 +32,11 @@ export function initTracing() {
   tracerProvider = new WebTracerProvider({
     resource: resourceFromAttributes({
       [ATTR_SERVICE_NAME]: SERVICE_NAME,
-      'service.version': SERVICE_VERSION,
-      'quantum.architecture': 'Sacred Trinity Frontend',
-      'quantum.framework': 'Next.js 14',
-      'quantum.ui_library': 'React 18 + shadcn/ui',
-      'consciousness.streaming': 'enabled',
+      "service.version": SERVICE_VERSION,
+      "quantum.architecture": "Sacred Trinity Frontend",
+      "quantum.framework": "Next.js 14",
+      "quantum.ui_library": "React 18 + shadcn/ui",
+      "consciousness.streaming": "enabled",
     }),
     spanProcessors: [new BatchSpanProcessor(exporter)],
   });
@@ -53,14 +54,14 @@ export function initTracing() {
         clearTimingResources: true,
         applyCustomAttributesOnSpan: (span, request, _response) => {
           // Add custom attributes for Sacred Trinity integration
-          span.setAttribute('quantum.request_type', 'frontend_fetch');
+          span.setAttribute("quantum.request_type", "frontend_fetch");
           if (request instanceof Request) {
-            span.setAttribute('quantum.endpoint', request.url);
+            span.setAttribute("quantum.endpoint", request.url);
           }
         },
       }),
       new UserInteractionInstrumentation({
-        eventNames: ['click', 'submit', 'change', 'focus', 'blur'],
+        eventNames: ["click", "submit", "change", "focus", "blur"],
       }),
       new XMLHttpRequestInstrumentation({
         propagateTraceHeaderCorsUrls: [/.+/g],
@@ -68,14 +69,16 @@ export function initTracing() {
     ],
   });
 
-  console.log('✅ OpenTelemetry tracing initialized for Quantum Pi Forge frontend');
+  console.log(
+    "✅ OpenTelemetry tracing initialized for Quantum Pi Forge frontend",
+  );
   console.log(`📡 Exporting traces to: ${OTLP_ENDPOINT}`);
 }
 
 /**
  * Get the tracer for custom span creation
  */
-export function getTracer(name: string = 'quantum-pi-forge') {
+export function getTracer(name: string = "quantum-pi-forge") {
   if (!tracerProvider) {
     initTracing();
   }
@@ -85,10 +88,13 @@ export function getTracer(name: string = 'quantum-pi-forge') {
 /**
  * Create a custom span for tracking specific operations
  */
-export function createSpan(name: string, attributes?: Record<string, string | number | boolean>) {
+export function createSpan(
+  name: string,
+  attributes?: Record<string, string | number | boolean>,
+) {
   const tracer = getTracer();
   if (!tracer) return null;
-  
+
   const span = tracer.startSpan(name);
   if (attributes) {
     Object.entries(attributes).forEach(([key, value]) => {
@@ -102,10 +108,10 @@ export function createSpan(name: string, attributes?: Record<string, string | nu
  * Track wallet connection events
  */
 export function traceWalletConnection(address: string, networkId: number) {
-  const span = createSpan('wallet.connect', {
-    'wallet.address': address,
-    'wallet.network_id': networkId,
-    'quantum.component': 'MetaMask',
+  const span = createSpan("wallet.connect", {
+    "wallet.address": address,
+    "wallet.network_id": networkId,
+    "quantum.component": "MetaMask",
   });
   span?.end();
 }
@@ -113,11 +119,14 @@ export function traceWalletConnection(address: string, networkId: number) {
 /**
  * Track staking transaction events
  */
-export function traceStakingTransaction(amount: string, status: 'pending' | 'success' | 'failed') {
-  const span = createSpan('staking.transaction', {
-    'staking.amount': amount,
-    'staking.status': status,
-    'quantum.component': 'GaslessStaking',
+export function traceStakingTransaction(
+  amount: string,
+  status: "pending" | "success" | "failed",
+) {
+  const span = createSpan("staking.transaction", {
+    "staking.amount": amount,
+    "staking.status": status,
+    "quantum.component": "GaslessStaking",
   });
   span?.end();
 }
@@ -126,9 +135,9 @@ export function traceStakingTransaction(amount: string, status: 'pending' | 'suc
  * Track page navigation events
  */
 export function tracePageNavigation(route: string) {
-  const span = createSpan('navigation.route', {
-    'navigation.route': route,
-    'quantum.component': 'NextRouter',
+  const span = createSpan("navigation.route", {
+    "navigation.route": route,
+    "quantum.component": "NextRouter",
   });
   span?.end();
 }

@@ -1,19 +1,22 @@
 /**
  * Agent Runner - Collect AI Responses for Evaluation
- * 
+ *
  * This script runs test queries against the AI chat endpoint
  * and collects responses for evaluation.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
-import * as readline from 'readline';
+import * as fs from "fs";
+import * as path from "path";
+import * as readline from "readline";
 
 // Configuration
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3000";
 const CHAT_ENDPOINT = `${API_BASE_URL}/api/chat`;
-const INPUT_FILE = path.join(__dirname, '../pi-forge-quantum-genesis/quantum_test_data.jsonl');
-const OUTPUT_FILE = path.join(__dirname, 'evaluation_dataset.jsonl');
+const INPUT_FILE = path.join(
+  __dirname,
+  "../pi-forge-quantum-genesis/quantum_test_data.jsonl",
+);
+const OUTPUT_FILE = path.join(__dirname, "evaluation_dataset.jsonl");
 
 interface TestQuery {
   query: string;
@@ -41,20 +44,21 @@ interface EvaluationRecord {
 /**
  * Call the AI chat endpoint with a query
  */
-async function callChatEndpoint(query: string, context: string): Promise<{ response: string; responseTimeMs: number }> {
+async function callChatEndpoint(
+  query: string,
+  context: string,
+): Promise<{ response: string; responseTimeMs: number }> {
   const startTime = Date.now();
-  
+
   const systemPrompt = `You are the Quantum Pi Forge AI Assistant. Context: ${context}`;
-  
+
   const response = await fetch(CHAT_ENDPOINT, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      messages: [
-        { role: 'user', content: query }
-      ],
+      messages: [{ role: "user", content: query }],
       systemPrompt,
     }),
   });
@@ -68,10 +72,10 @@ async function callChatEndpoint(query: string, context: string): Promise<{ respo
   // Handle streaming response
   const reader = response.body?.getReader();
   if (!reader) {
-    throw new Error('No response body');
+    throw new Error("No response body");
   }
 
-  let fullResponse = '';
+  let fullResponse = "";
   const decoder = new TextDecoder();
 
   while (true) {
@@ -88,7 +92,7 @@ async function callChatEndpoint(query: string, context: string): Promise<{ respo
  */
 async function readTestQueries(): Promise<TestQuery[]> {
   const queries: TestQuery[] = [];
-  
+
   const fileStream = fs.createReadStream(INPUT_FILE);
   const rl = readline.createInterface({
     input: fileStream,
@@ -108,27 +112,29 @@ async function readTestQueries(): Promise<TestQuery[]> {
  * Main function to collect responses
  */
 async function collectResponses(): Promise<void> {
-  console.log('🚀 Starting response collection for evaluation...');
+  console.log("🚀 Starting response collection for evaluation...");
   console.log(`📁 Input file: ${INPUT_FILE}`);
   console.log(`📁 Output file: ${OUTPUT_FILE}`);
   console.log(`🌐 API endpoint: ${CHAT_ENDPOINT}`);
-  console.log('');
+  console.log("");
 
   // Read test queries
   const queries = await readTestQueries();
   console.log(`📊 Found ${queries.length} test queries`);
-  console.log('');
+  console.log("");
 
   // Collect responses
   const results: EvaluationRecord[] = [];
-  
+
   for (let i = 0; i < queries.length; i++) {
     const query = queries[i];
-    console.log(`[${i + 1}/${queries.length}] Processing: ${query.query.substring(0, 50)}...`);
+    console.log(
+      `[${i + 1}/${queries.length}] Processing: ${query.query.substring(0, 50)}...`,
+    );
 
     const record: EvaluationRecord = {
       query: query.query,
-      response: '',
+      response: "",
       expected_response: query.expected_response,
       context: query.context,
       component: query.component,
@@ -140,13 +146,16 @@ async function collectResponses(): Promise<void> {
     };
 
     try {
-      const { response, responseTimeMs } = await callChatEndpoint(query.query, query.context);
+      const { response, responseTimeMs } = await callChatEndpoint(
+        query.query,
+        query.context,
+      );
       record.response = response;
       record.response_time_ms = responseTimeMs;
       record.success = true;
       console.log(`  ✅ Success (${responseTimeMs}ms)`);
     } catch (error) {
-      record.error = error instanceof Error ? error.message : 'Unknown error';
+      record.error = error instanceof Error ? error.message : "Unknown error";
       record.success = false;
       console.log(`  ❌ Error: ${record.error}`);
     }
@@ -154,7 +163,7 @@ async function collectResponses(): Promise<void> {
     results.push(record);
 
     // Add a small delay to avoid overwhelming the API
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
   // Write results to JSONL file
@@ -165,19 +174,20 @@ async function collectResponses(): Promise<void> {
 
   const outputStream = fs.createWriteStream(OUTPUT_FILE);
   for (const record of results) {
-    outputStream.write(JSON.stringify(record) + '\n');
+    outputStream.write(JSON.stringify(record) + "\n");
   }
   outputStream.end();
 
   // Print summary
-  const successCount = results.filter(r => r.success).length;
-  const failCount = results.filter(r => !r.success).length;
-  const avgResponseTime = results
-    .filter(r => r.success)
-    .reduce((sum, r) => sum + r.response_time_ms, 0) / successCount || 0;
+  const successCount = results.filter((r) => r.success).length;
+  const failCount = results.filter((r) => !r.success).length;
+  const avgResponseTime =
+    results
+      .filter((r) => r.success)
+      .reduce((sum, r) => sum + r.response_time_ms, 0) / successCount || 0;
 
-  console.log('');
-  console.log('📊 Collection Summary:');
+  console.log("");
+  console.log("📊 Collection Summary:");
   console.log(`  ✅ Successful: ${successCount}`);
   console.log(`  ❌ Failed: ${failCount}`);
   console.log(`  ⏱️  Avg Response Time: ${avgResponseTime.toFixed(0)}ms`);

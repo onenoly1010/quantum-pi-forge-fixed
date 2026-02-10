@@ -4,7 +4,7 @@
  * Extracted from mr-nft-agent
  */
 
-const MemoryStorage = require('./storage');
+const MemoryStorage = require("./storage");
 
 class MemoryRecall {
   constructor(memoryStorage) {
@@ -23,12 +23,16 @@ class MemoryRecall {
       return {
         ...recallResult,
         context: null,
-        insights: []
+        insights: [],
       };
     }
 
     // Build context from recalled memories
-    const context = await this.buildContext(inftId, recallResult.memories, contextOptions);
+    const context = await this.buildContext(
+      inftId,
+      recallResult.memories,
+      contextOptions,
+    );
 
     // Generate insights from memory patterns
     const insights = this.generateInsights(recallResult.memories, query);
@@ -39,7 +43,7 @@ class MemoryRecall {
     return {
       ...recallResult,
       context,
-      insights
+      insights,
     };
   }
 
@@ -48,35 +52,41 @@ class MemoryRecall {
    */
   async buildContext(inftId, memories, options = {}) {
     const context = {
-      summary: '',
+      summary: "",
       keyThemes: [],
       emotionalTone: 0,
       temporalSpan: { start: null, end: null },
       relationships: [],
-      patterns: []
+      patterns: [],
     };
 
     if (memories.length === 0) return context;
 
     // Calculate temporal span
-    const timestamps = memories.map(m => m.createdAt).sort();
+    const timestamps = memories.map((m) => m.createdAt).sort();
     context.temporalSpan.start = new Date(timestamps[0]).toISOString();
-    context.temporalSpan.end = new Date(timestamps[timestamps.length - 1]).toISOString();
+    context.temporalSpan.end = new Date(
+      timestamps[timestamps.length - 1],
+    ).toISOString();
 
     // Calculate emotional tone
-    const emotions = memories.map(m => m.emotional).filter(e => e !== undefined);
-    context.emotionalTone = emotions.length > 0 ?
-      emotions.reduce((a, b) => a + b, 0) / emotions.length : 0;
+    const emotions = memories
+      .map((m) => m.emotional)
+      .filter((e) => e !== undefined);
+    context.emotionalTone =
+      emotions.length > 0
+        ? emotions.reduce((a, b) => a + b, 0) / emotions.length
+        : 0;
 
     // Extract key themes from tags
-    const allTags = memories.flatMap(m => m.tags);
+    const allTags = memories.flatMap((m) => m.tags);
     const tagFrequency = {};
-    allTags.forEach(tag => {
+    allTags.forEach((tag) => {
       tagFrequency[tag] = (tagFrequency[tag] || 0) + 1;
     });
 
     context.keyThemes = Object.entries(tagFrequency)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .map(([tag, count]) => ({ tag, frequency: count }));
 
@@ -94,7 +104,7 @@ class MemoryRecall {
     this.contextCache.set(cacheKey, {
       context,
       timestamp: Date.now(),
-      memoryCount: memories.length
+      memoryCount: memories.length,
     });
 
     return context;
@@ -106,25 +116,33 @@ class MemoryRecall {
   generateContextSummary(memories, context) {
     const memoryCount = memories.length;
     const timeSpan = this.calculateTimeSpan(context.temporalSpan);
-    const avgImportance = memories.reduce((sum, m) => sum + m.importance, 0) / memoryCount;
+    const avgImportance =
+      memories.reduce((sum, m) => sum + m.importance, 0) / memoryCount;
 
     let summary = `This context spans ${memoryCount} memories over ${timeSpan}. `;
 
     if (context.keyThemes.length > 0) {
-      const topThemes = context.keyThemes.slice(0, 3).map(t => t.tag).join(', ');
+      const topThemes = context.keyThemes
+        .slice(0, 3)
+        .map((t) => t.tag)
+        .join(", ");
       summary += `Key themes include: ${topThemes}. `;
     }
 
-    const emotionalDesc = context.emotionalTone > 0.2 ? 'positive' :
-                         context.emotionalTone < -0.2 ? 'negative' : 'neutral';
+    const emotionalDesc =
+      context.emotionalTone > 0.2
+        ? "positive"
+        : context.emotionalTone < -0.2
+          ? "negative"
+          : "neutral";
     summary += `Overall emotional tone is ${emotionalDesc}. `;
 
     if (avgImportance > 0.7) {
-      summary += 'These are highly significant memories.';
+      summary += "These are highly significant memories.";
     } else if (avgImportance > 0.4) {
-      summary += 'These are moderately important memories.';
+      summary += "These are moderately important memories.";
     } else {
-      summary += 'These are less significant memories.';
+      summary += "These are less significant memories.";
     }
 
     return summary;
@@ -134,14 +152,14 @@ class MemoryRecall {
    * Calculate human-readable time span
    */
   calculateTimeSpan(temporalSpan) {
-    if (!temporalSpan.start || !temporalSpan.end) return 'unknown period';
+    if (!temporalSpan.start || !temporalSpan.end) return "unknown period";
 
     const start = new Date(temporalSpan.start);
     const end = new Date(temporalSpan.end);
     const diffMs = end - start;
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    if (diffDays < 1) return 'less than a day';
+    if (diffDays < 1) return "less than a day";
     if (diffDays < 7) return `${diffDays} days`;
     if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks`;
     if (diffDays < 365) return `${Math.floor(diffDays / 30)} months`;
@@ -157,7 +175,7 @@ class MemoryRecall {
 
     // Group memories by type
     const byType = {};
-    memories.forEach(memory => {
+    memories.forEach((memory) => {
       if (!byType[memory.type]) byType[memory.type] = [];
       byType[memory.type].push(memory);
     });
@@ -166,9 +184,9 @@ class MemoryRecall {
     Object.entries(byType).forEach(([type, typeMemories]) => {
       if (typeMemories.length >= 3) {
         relationships.push({
-          type: 'type_cluster',
+          type: "type_cluster",
           description: `${typeMemories.length} ${type} memories clustered together`,
-          memories: typeMemories.map(m => m.id)
+          memories: typeMemories.map((m) => m.id),
         });
       }
     });
@@ -179,8 +197,10 @@ class MemoryRecall {
     let currentCluster = [sortedByTime[0]];
 
     for (let i = 1; i < sortedByTime.length; i++) {
-      const timeDiff = sortedByTime[i].createdAt - sortedByTime[i - 1].createdAt;
-      if (timeDiff < 24 * 60 * 60 * 1000) { // Within 24 hours
+      const timeDiff =
+        sortedByTime[i].createdAt - sortedByTime[i - 1].createdAt;
+      if (timeDiff < 24 * 60 * 60 * 1000) {
+        // Within 24 hours
         currentCluster.push(sortedByTime[i]);
       } else {
         if (currentCluster.length >= 2) {
@@ -194,11 +214,11 @@ class MemoryRecall {
       clusters.push(currentCluster);
     }
 
-    clusters.forEach(cluster => {
+    clusters.forEach((cluster) => {
       relationships.push({
-        type: 'temporal_cluster',
+        type: "temporal_cluster",
         description: `${cluster.length} memories from the same time period`,
-        memories: cluster.map(m => m.id)
+        memories: cluster.map((m) => m.id),
       });
     });
 
@@ -212,27 +232,30 @@ class MemoryRecall {
     const patterns = [];
 
     // Emotional pattern
-    const emotions = memories.map(m => m.emotional).filter(e => e !== undefined);
+    const emotions = memories
+      .map((m) => m.emotional)
+      .filter((e) => e !== undefined);
     if (emotions.length >= 3) {
       const trend = this.calculateTrend(emotions);
       if (Math.abs(trend) > 0.1) {
         patterns.push({
-          type: 'emotional_trend',
-          description: `Emotional state ${trend > 0 ? 'improving' : 'declining'} over time`,
-          strength: Math.abs(trend)
+          type: "emotional_trend",
+          description: `Emotional state ${trend > 0 ? "improving" : "declining"} over time`,
+          strength: Math.abs(trend),
         });
       }
     }
 
     // Importance pattern
-    const importances = memories.map(m => m.importance);
+    const importances = memories.map((m) => m.importance);
     if (importances.length >= 3) {
-      const avgImportance = importances.reduce((a, b) => a + b, 0) / importances.length;
+      const avgImportance =
+        importances.reduce((a, b) => a + b, 0) / importances.length;
       if (avgImportance > 0.8) {
         patterns.push({
-          type: 'high_importance',
-          description: 'Consistently high-importance memories',
-          average: avgImportance
+          type: "high_importance",
+          description: "Consistently high-importance memories",
+          average: avgImportance,
         });
       }
     }
@@ -246,14 +269,15 @@ class MemoryRecall {
         timeDiffs.push(sorted[i].createdAt - sorted[i - 1].createdAt);
       }
 
-      const avgInterval = timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
+      const avgInterval =
+        timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
       const regularity = this.calculateRegularity(timeDiffs, avgInterval);
 
       if (regularity > 0.7) {
         patterns.push({
-          type: 'regular_frequency',
-          description: 'Memories created at regular intervals',
-          regularity: regularity
+          type: "regular_frequency",
+          description: "Memories created at regular intervals",
+          regularity: regularity,
         });
       }
     }
@@ -286,7 +310,9 @@ class MemoryRecall {
   calculateRegularity(intervals, average) {
     if (intervals.length < 2) return 0;
 
-    const variances = intervals.map(interval => Math.pow((interval - average) / average, 2));
+    const variances = intervals.map((interval) =>
+      Math.pow((interval - average) / average, 2),
+    );
     const avgVariance = variances.reduce((a, b) => a + b, 0) / variances.length;
 
     // Return regularity score (1 = perfectly regular, 0 = completely irregular)
@@ -300,44 +326,54 @@ class MemoryRecall {
     const insights = [];
 
     if (memories.length === 0) {
-      return ['No memories found matching the query'];
+      return ["No memories found matching the query"];
     }
 
     // Query effectiveness insight
     const queryEffectiveness = memories.length / (query.limit || 10);
     if (queryEffectiveness < 0.5) {
-      insights.push('Query returned fewer results than requested - consider broadening search criteria');
+      insights.push(
+        "Query returned fewer results than requested - consider broadening search criteria",
+      );
     }
 
     // Memory age insight
     const now = Date.now();
-    const avgAge = memories.reduce((sum, m) => sum + (now - m.createdAt), 0) / memories.length;
+    const avgAge =
+      memories.reduce((sum, m) => sum + (now - m.createdAt), 0) /
+      memories.length;
     const avgAgeDays = avgAge / (1000 * 60 * 60 * 24);
 
     if (avgAgeDays < 1) {
-      insights.push('These are very recent memories');
+      insights.push("These are very recent memories");
     } else if (avgAgeDays < 7) {
-      insights.push('These memories are from the past week');
+      insights.push("These memories are from the past week");
     } else if (avgAgeDays < 30) {
-      insights.push('These memories are from the past month');
+      insights.push("These memories are from the past month");
     } else {
-      insights.push(`These memories average ${Math.round(avgAgeDays)} days old`);
+      insights.push(
+        `These memories average ${Math.round(avgAgeDays)} days old`,
+      );
     }
 
     // Emotional insight
-    const avgEmotion = memories.reduce((sum, m) => sum + (m.emotional || 0), 0) / memories.length;
+    const avgEmotion =
+      memories.reduce((sum, m) => sum + (m.emotional || 0), 0) /
+      memories.length;
     if (Math.abs(avgEmotion) > 0.3) {
-      const tone = avgEmotion > 0 ? 'positive' : 'negative';
+      const tone = avgEmotion > 0 ? "positive" : "negative";
       insights.push(`Overall emotional tone of these memories is ${tone}`);
     }
 
     // Pattern insights
     const typeCounts = {};
-    memories.forEach(m => {
+    memories.forEach((m) => {
       typeCounts[m.type] = (typeCounts[m.type] || 0) + 1;
     });
 
-    const dominantType = Object.entries(typeCounts).sort(([,a], [,b]) => b - a)[0];
+    const dominantType = Object.entries(typeCounts).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
     if (dominantType && dominantType[1] > memories.length * 0.5) {
       insights.push(`Most of these memories are of type: ${dominantType[0]}`);
     }
@@ -353,7 +389,7 @@ class MemoryRecall {
       totalRecalls: 0,
       totalMemoriesReturned: 0,
       queryTypes: {},
-      averageRecallSize: 0
+      averageRecallSize: 0,
     };
 
     stats.totalRecalls++;
@@ -372,12 +408,14 @@ class MemoryRecall {
    * Get recall statistics
    */
   getRecallStats(inftId) {
-    return this.recallStats.get(inftId) || {
-      totalRecalls: 0,
-      totalMemoriesReturned: 0,
-      queryTypes: {},
-      averageRecallSize: 0
-    };
+    return (
+      this.recallStats.get(inftId) || {
+        totalRecalls: 0,
+        totalMemoriesReturned: 0,
+        queryTypes: {},
+        averageRecallSize: 0,
+      }
+    );
   }
 
   /**
@@ -393,7 +431,7 @@ class MemoryRecall {
   getCacheStats() {
     return {
       contextCacheSize: this.contextCache.size,
-      recallStatsSize: this.recallStats.size
+      recallStatsSize: this.recallStats.size,
     };
   }
 }

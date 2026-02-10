@@ -13,10 +13,10 @@ class EvolutionRules {
         traitImpacts: {
           intelligence: 0.05,
           intuition: 0.03,
-          openness: 0.02
+          openness: 0.02,
         },
         cooldown: 24 * 60 * 60 * 1000, // 24 hours
-        maxApplications: 10
+        maxApplications: 10,
       },
 
       interaction_positive: {
@@ -24,10 +24,10 @@ class EvolutionRules {
         traitImpacts: {
           empathy: 0.04,
           agreeableness: 0.03,
-          extraversion: 0.02
+          extraversion: 0.02,
         },
         cooldown: 6 * 60 * 60 * 1000, // 6 hours
-        maxApplications: 50
+        maxApplications: 50,
       },
 
       interaction_negative: {
@@ -35,10 +35,10 @@ class EvolutionRules {
         traitImpacts: {
           neuroticism: 0.03,
           adaptability: 0.02,
-          conscientiousness: -0.01
+          conscientiousness: -0.01,
         },
         cooldown: 12 * 60 * 60 * 1000, // 12 hours
-        maxApplications: 20
+        maxApplications: 20,
       },
 
       achievement_unlocked: {
@@ -46,10 +46,10 @@ class EvolutionRules {
         traitImpacts: {
           conscientiousness: 0.06,
           intelligence: 0.04,
-          creativity: 0.03
+          creativity: 0.03,
         },
         cooldown: 7 * 24 * 60 * 60 * 1000, // 7 days
-        maxApplications: 5
+        maxApplications: 5,
       },
 
       // Time-based evolution
@@ -57,10 +57,10 @@ class EvolutionRules {
         weight: 0.3,
         traitImpacts: {
           adaptability: 0.01,
-          conscientiousness: 0.005
+          conscientiousness: 0.005,
         },
         cooldown: 24 * 60 * 60 * 1000, // 24 hours
-        maxApplications: 365 // 1 year
+        maxApplications: 365, // 1 year
       },
 
       // Coherence-based evolution
@@ -69,18 +69,18 @@ class EvolutionRules {
         traitImpacts: {
           intuition: 0.03,
           intelligence: 0.02,
-          creativity: 0.02
+          creativity: 0.02,
         },
         cooldown: 48 * 60 * 60 * 1000, // 48 hours
-        maxApplications: 25
-      }
+        maxApplications: 25,
+      },
     };
 
     this.archetypeEvolutionPaths = {
-      sage: ['intelligence', 'intuition', 'openness'],
-      warrior: ['conscientiousness', 'adaptability', 'extraversion'],
-      artist: ['creativity', 'openness', 'empathy'],
-      scholar: ['intelligence', 'conscientiousness', 'openness']
+      sage: ["intelligence", "intuition", "openness"],
+      warrior: ["conscientiousness", "adaptability", "extraversion"],
+      artist: ["creativity", "openness", "empathy"],
+      scholar: ["intelligence", "conscientiousness", "openness"],
     };
   }
 
@@ -93,23 +93,34 @@ class EvolutionRules {
       coherenceGain: 0,
       experiencePoints: 0,
       validExperiences: 0,
-      rejectedExperiences: []
+      rejectedExperiences: [],
     };
 
     // Initialize trait changes
-    const baseTraits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism', 'creativity', 'empathy', 'intelligence', 'intuition', 'adaptability'];
-    baseTraits.forEach(trait => {
+    const baseTraits = [
+      "openness",
+      "conscientiousness",
+      "extraversion",
+      "agreeableness",
+      "neuroticism",
+      "creativity",
+      "empathy",
+      "intelligence",
+      "intuition",
+      "adaptability",
+    ];
+    baseTraits.forEach((trait) => {
       evolution.traitChanges[trait] = 0;
     });
 
     // Process each experience
-    experiences.forEach(experience => {
+    experiences.forEach((experience) => {
       const result = this.processExperience(inft, experience);
       if (result.valid) {
         evolution.validExperiences++;
 
         // Apply trait changes
-        Object.keys(result.traitChanges).forEach(trait => {
+        Object.keys(result.traitChanges).forEach((trait) => {
           evolution.traitChanges[trait] += result.traitChanges[trait];
         });
 
@@ -118,7 +129,7 @@ class EvolutionRules {
       } else {
         evolution.rejectedExperiences.push({
           experience,
-          reason: result.reason
+          reason: result.reason,
         });
       }
     });
@@ -127,7 +138,10 @@ class EvolutionRules {
     this.applyArchetypeBonus(inft, evolution);
 
     // Calculate final coherence
-    evolution.finalCoherence = Math.min(100, inft.coherence + evolution.coherenceGain);
+    evolution.finalCoherence = Math.min(
+      100,
+      inft.coherence + evolution.coherenceGain,
+    );
 
     return evolution;
   }
@@ -139,30 +153,31 @@ class EvolutionRules {
     const rule = this.rules[experience.type];
 
     if (!rule) {
-      return { valid: false, reason: 'Unknown experience type' };
+      return { valid: false, reason: "Unknown experience type" };
     }
 
     // Check cooldown
     if (this.checkCooldown(inft, experience, rule)) {
-      return { valid: false, reason: 'Cooldown active' };
+      return { valid: false, reason: "Cooldown active" };
     }
 
     // Check max applications
     if (this.checkMaxApplications(inft, experience, rule)) {
-      return { valid: false, reason: 'Max applications reached' };
+      return { valid: false, reason: "Max applications reached" };
     }
 
     // Calculate trait changes
     const traitChanges = {};
     const baseImpacts = rule.traitImpacts;
 
-    Object.keys(baseImpacts).forEach(trait => {
+    Object.keys(baseImpacts).forEach((trait) => {
       // Apply experience weight and iNFT evolution stage modifier
       const baseChange = baseImpacts[trait];
       const weightMultiplier = rule.weight;
-      const stageMultiplier = 1 + (inft.evolutionStage * 0.1); // 10% bonus per stage
+      const stageMultiplier = 1 + inft.evolutionStage * 0.1; // 10% bonus per stage
 
-      traitChanges[trait] = baseChange * weightMultiplier * stageMultiplier * experience.intensity;
+      traitChanges[trait] =
+        baseChange * weightMultiplier * stageMultiplier * experience.intensity;
     });
 
     // Calculate coherence and experience points
@@ -173,7 +188,7 @@ class EvolutionRules {
       valid: true,
       traitChanges,
       coherenceGain,
-      experiencePoints
+      experiencePoints,
     };
   }
 
@@ -203,7 +218,8 @@ class EvolutionRules {
 
     // Bonus for positive experiences
     const positivityBonus = experience.positivity || 0.5;
-    const coherenceBonus = positivityBonus > 0.7 ? 1 : (positivityBonus < 0.3 ? -0.5 : 0);
+    const coherenceBonus =
+      positivityBonus > 0.7 ? 1 : positivityBonus < 0.3 ? -0.5 : 0;
 
     return baseGain + coherenceBonus;
   }
@@ -218,7 +234,7 @@ class EvolutionRules {
 
     if (evolutionPath) {
       // Give bonus to archetype's primary traits
-      evolutionPath.forEach(trait => {
+      evolutionPath.forEach((trait) => {
         if (evolution.traitChanges[trait]) {
           evolution.traitChanges[trait] *= 1.2; // 20% bonus
         }
@@ -232,13 +248,25 @@ class EvolutionRules {
   determineArchetypeFromTraits(traitChanges) {
     // Simplified archetype determination
     const scores = {
-      sage: (traitChanges.intelligence || 0) + (traitChanges.intuition || 0) + (traitChanges.openness || 0),
-      warrior: (traitChanges.conscientiousness || 0) + (traitChanges.adaptability || 0) + (traitChanges.extraversion || 0),
-      artist: (traitChanges.creativity || 0) + (traitChanges.openness || 0) + (traitChanges.empathy || 0),
-      scholar: (traitChanges.intelligence || 0) + (traitChanges.conscientiousness || 0) + (traitChanges.openness || 0)
+      sage:
+        (traitChanges.intelligence || 0) +
+        (traitChanges.intuition || 0) +
+        (traitChanges.openness || 0),
+      warrior:
+        (traitChanges.conscientiousness || 0) +
+        (traitChanges.adaptability || 0) +
+        (traitChanges.extraversion || 0),
+      artist:
+        (traitChanges.creativity || 0) +
+        (traitChanges.openness || 0) +
+        (traitChanges.empathy || 0),
+      scholar:
+        (traitChanges.intelligence || 0) +
+        (traitChanges.conscientiousness || 0) +
+        (traitChanges.openness || 0),
     };
 
-    let maxArchetype = 'scholar';
+    let maxArchetype = "scholar";
     let maxScore = 0;
 
     Object.entries(scores).forEach(([archetype, score]) => {
@@ -260,27 +288,27 @@ class EvolutionRules {
     // Time-based trigger
     if (Date.now() - inft.lastEvolution > 24 * 60 * 60 * 1000) {
       triggers.push({
-        type: 'time_passed',
-        description: 'Daily evolution opportunity',
-        potentialGain: 0.5
+        type: "time_passed",
+        description: "Daily evolution opportunity",
+        potentialGain: 0.5,
       });
     }
 
     // Coherence-based trigger
     if (inft.coherence < 80) {
       triggers.push({
-        type: 'coherence_improvement',
-        description: 'Coherence enhancement available',
-        potentialGain: 2.0
+        type: "coherence_improvement",
+        description: "Coherence enhancement available",
+        potentialGain: 2.0,
       });
     }
 
     // Achievement-based trigger (simplified)
     if (inft.evolutionStage > 10) {
       triggers.push({
-        type: 'achievement_unlocked',
-        description: 'Evolution milestone reached',
-        potentialGain: 3.0
+        type: "achievement_unlocked",
+        description: "Evolution milestone reached",
+        potentialGain: 3.0,
       });
     }
 
@@ -294,27 +322,27 @@ class EvolutionRules {
     const errors = [];
 
     // Check trait bounds
-    Object.values(evolution.traitChanges).forEach(change => {
+    Object.values(evolution.traitChanges).forEach((change) => {
       if (Math.abs(change) > 0.5) {
-        errors.push('Trait change too large');
+        errors.push("Trait change too large");
       }
     });
 
     // Check coherence bounds
     if (evolution.finalCoherence < 0 || evolution.finalCoherence > 100) {
-      errors.push('Invalid final coherence');
+      errors.push("Invalid final coherence");
     }
 
     // Check evolution stage progression
     if (evolution.finalCoherence > 90 && inft.evolutionStage < 10) {
       // Allow faster progression for high coherence
     } else if (evolution.finalCoherence - inft.coherence > 10) {
-      errors.push('Coherence gain too large');
+      errors.push("Coherence gain too large");
     }
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -326,9 +354,14 @@ class EvolutionRules {
       currentStage: inft.evolutionStage,
       maxStage: 100,
       coherence: inft.coherence,
-      daysSinceLastEvolution: Math.floor((Date.now() - inft.lastEvolution) / (24 * 60 * 60 * 1000)),
+      daysSinceLastEvolution: Math.floor(
+        (Date.now() - inft.lastEvolution) / (24 * 60 * 60 * 1000),
+      ),
       availableTriggers: this.getAvailableTriggers(inft).length,
-      archetypePath: this.archetypeEvolutionPaths[this.determineArchetypeFromTraits(inft.personality || {})]
+      archetypePath:
+        this.archetypeEvolutionPaths[
+          this.determineArchetypeFromTraits(inft.personality || {})
+        ],
     };
   }
 }

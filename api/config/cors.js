@@ -3,57 +3,54 @@
  * Cross-Origin Resource Sharing settings for the unified API
  */
 
-const { getEnvVar, isProduction } = require('../shared/utils');
+const { getEnvVar, isProduction } = require("../shared/utils");
 
 function getCorsConfig() {
   const config = {
     // Basic CORS settings
     origin: isProduction()
-      ? getEnvVar('CORS_ORIGIN', 'https://quantumpiforge.com').split(',')
-      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
+      ? getEnvVar("CORS_ORIGIN", "https://quantumpiforge.com").split(",")
+      : [
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:3002",
+        ],
 
     credentials: true,
 
-    methods: [
-      'GET',
-      'POST',
-      'PUT',
-      'DELETE',
-      'PATCH',
-      'OPTIONS'
-    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
 
     allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-      'X-Session-Token',
-      'X-Pi-Token',
-      'X-Soul-Signature',
-      'X-API-Key',
-      'X-Client-Version',
-      'Accept',
-      'Accept-Encoding',
-      'Accept-Language',
-      'Cache-Control',
-      'Connection',
-      'Host',
-      'Origin',
-      'Referer',
-      'User-Agent'
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "X-Session-Token",
+      "X-Pi-Token",
+      "X-Soul-Signature",
+      "X-API-Key",
+      "X-Client-Version",
+      "Accept",
+      "Accept-Encoding",
+      "Accept-Language",
+      "Cache-Control",
+      "Connection",
+      "Host",
+      "Origin",
+      "Referer",
+      "User-Agent",
     ],
 
     exposedHeaders: [
-      'X-Rate-Limit-Remaining',
-      'X-Rate-Limit-Reset',
-      'X-Session-Expires',
-      'X-Request-ID'
+      "X-Rate-Limit-Remaining",
+      "X-Rate-Limit-Reset",
+      "X-Session-Expires",
+      "X-Request-ID",
     ],
 
     // Security options
     optionsSuccessStatus: 200, // Some legacy browsers choke on 204
     preflightContinue: false,
-    strictPreflight: true
+    strictPreflight: true,
   };
 
   // Additional production security
@@ -77,7 +74,7 @@ function isValidOrigin(origin, allowedOrigins) {
 
   // Check wildcard patterns (e.g., *.quantumpiforge.com)
   for (const allowed of allowedOrigins) {
-    if (allowed.startsWith('*.')) {
+    if (allowed.startsWith("*.")) {
       const domain = allowed.slice(2);
       if (origin.endsWith(domain)) {
         return true;
@@ -95,15 +92,15 @@ function getCorsHeaders(requestOrigin, config = null) {
   if (!config) config = getCorsConfig();
 
   const headers = {
-    'Access-Control-Allow-Origin': requestOrigin,
-    'Access-Control-Allow-Credentials': config.credentials.toString(),
-    'Access-Control-Allow-Methods': config.methods.join(', '),
-    'Access-Control-Allow-Headers': config.allowedHeaders.join(', '),
-    'Access-Control-Expose-Headers': config.exposedHeaders.join(', ')
+    "Access-Control-Allow-Origin": requestOrigin,
+    "Access-Control-Allow-Credentials": config.credentials.toString(),
+    "Access-Control-Allow-Methods": config.methods.join(", "),
+    "Access-Control-Allow-Headers": config.allowedHeaders.join(", "),
+    "Access-Control-Expose-Headers": config.exposedHeaders.join(", "),
   };
 
   if (config.maxAge) {
-    headers['Access-Control-Max-Age'] = config.maxAge.toString();
+    headers["Access-Control-Max-Age"] = config.maxAge.toString();
   }
 
   return headers;
@@ -112,5 +109,5 @@ function getCorsHeaders(requestOrigin, config = null) {
 module.exports = {
   getCorsConfig,
   isValidOrigin,
-  getCorsHeaders
+  getCorsHeaders,
 };

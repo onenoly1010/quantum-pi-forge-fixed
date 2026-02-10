@@ -9,15 +9,13 @@
 
 **This library provides auto-discovery and auto-installation of well-known PSR-17, PSR-18 and HTTPlug implementations.**
 
-
 ## Install
 
 Via Composer
 
-``` bash
+```bash
 composer require php-http/discovery
 ```
-
 
 ## Usage as a library author
 
@@ -64,7 +62,6 @@ $response = $client->sendRequest($request);
 Internally, this code will use whatever PSR-7, PSR-17 and PSR-18 implementations
 that your users have installed.
 
-
 ## Usage as a library user
 
 If you use a library/SDK that requires `php-http/discovery`, you can configure
@@ -83,11 +80,11 @@ This will update your `composer.json` file to add the following configuration:
 
 ```json
 {
-    "extra": {
-        "discovery": {
-            "psr/http-factory-implementation": "GuzzleHttp\\Psr7\\HttpFactory"
-        }
+  "extra": {
+    "discovery": {
+      "psr/http-factory-implementation": "GuzzleHttp\\Psr7\\HttpFactory"
     }
+  }
 }
 ```
 
@@ -99,23 +96,19 @@ composer config allow-plugins.php-http/discovery true
 composer install
 ```
 
-
 ## Testing
 
-``` bash
+```bash
 composer test
 ```
-
 
 ## Contributing
 
 Please see our [contributing guide](http://docs.php-http.org/en/latest/development/contributing.html).
 
-
 ## Security
 
 If you discover any security related issues, please contact us at [security@php-http.org](mailto:security@php-http.org).
-
 
 ## License
 

@@ -15,26 +15,29 @@ class IdentityHooks {
   async bindToSoul(inftId, soulId, ownerAddress) {
     try {
       // Verify soul ownership and existence
-      const soulVerification = await this.verifySoulOwnership(soulId, ownerAddress);
+      const soulVerification = await this.verifySoulOwnership(
+        soulId,
+        ownerAddress,
+      );
       if (!soulVerification.valid) {
         return {
           success: false,
-          error: soulVerification.error
+          error: soulVerification.error,
         };
       }
 
       // Create soul binding memory
-      await this.orchestrator.coordinateMemoryOperation(inftId, 'store', {
-        type: 'soul_binding',
+      await this.orchestrator.coordinateMemoryOperation(inftId, "store", {
+        type: "soul_binding",
         content: `Bound to OINIO soul ${soulId}`,
         importance: 1.0,
         emotional: 0.6,
-        tags: ['soul', 'binding', 'identity', 'genesis'],
+        tags: ["soul", "binding", "identity", "genesis"],
         context: {
           soulId,
           ownerAddress,
-          bindingTimestamp: Date.now()
-        }
+          bindingTimestamp: Date.now(),
+        },
       });
 
       // Update personality with soul traits (if available)
@@ -50,14 +53,13 @@ class IdentityHooks {
         soulId,
         ownerAddress,
         bindingTimestamp: Date.now(),
-        traitsIntegrated: !!soulVerification.soulTraits
+        traitsIntegrated: !!soulVerification.soulTraits,
       };
-
     } catch (error) {
-      console.error('Error binding iNFT to soul:', error);
+      console.error("Error binding iNFT to soul:", error);
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -70,26 +72,26 @@ class IdentityHooks {
       const { soulId, traitChanges, coherenceChange } = soulUpdate;
 
       // Store soul update memory
-      await this.orchestrator.coordinateMemoryOperation(inftId, 'store', {
-        type: 'soul_update',
-        content: `Soul ${soulId} updated: coherence ${coherenceChange > 0 ? '+' : ''}${coherenceChange}`,
+      await this.orchestrator.coordinateMemoryOperation(inftId, "store", {
+        type: "soul_update",
+        content: `Soul ${soulId} updated: coherence ${coherenceChange > 0 ? "+" : ""}${coherenceChange}`,
         importance: 0.7,
         emotional: coherenceChange > 0 ? 0.3 : -0.1,
-        tags: ['soul', 'update', 'coherence'],
+        tags: ["soul", "update", "coherence"],
         context: {
           soulId,
           traitChanges,
-          coherenceChange
-        }
+          coherenceChange,
+        },
       });
 
       // Evolve iNFT based on soul changes
       if (coherenceChange !== 0) {
         await this.orchestrator.coordinateINFTEvolution(inftId, {
-          type: 'soul_coherence_sync',
+          type: "soul_coherence_sync",
           intensity: Math.abs(coherenceChange),
           positivity: coherenceChange > 0 ? 0.8 : 0.4,
-          soulData: soulUpdate
+          soulData: soulUpdate,
         });
       }
 
@@ -101,14 +103,13 @@ class IdentityHooks {
       return {
         success: true,
         evolutionTriggered: coherenceChange !== 0,
-        traitsUpdated: !!traitChanges
+        traitsUpdated: !!traitChanges,
       };
-
     } catch (error) {
-      console.error('Error processing soul update:', error);
+      console.error("Error processing soul update:", error);
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -123,10 +124,10 @@ class IdentityHooks {
       // Coherence sync recommendations
       if (soulData.coherence > 0.8) {
         recommendations.push({
-          type: 'soul_coherence_boost',
-          reason: 'Soul has high coherence - iNFT can benefit from sync',
-          priority: 'high',
-          expectedGain: 0.1
+          type: "soul_coherence_boost",
+          reason: "Soul has high coherence - iNFT can benefit from sync",
+          priority: "high",
+          expectedGain: 0.1,
         });
       }
 
@@ -135,10 +136,10 @@ class IdentityHooks {
         const alignment = this.calculateTraitAlignment(inftId, soulData.traits);
         if (alignment < 0.7) {
           recommendations.push({
-            type: 'soul_trait_alignment',
-            reason: 'iNFT traits not well aligned with soul traits',
-            priority: 'medium',
-            expectedGain: 0.08
+            type: "soul_trait_alignment",
+            reason: "iNFT traits not well aligned with soul traits",
+            priority: "medium",
+            expectedGain: 0.08,
           });
         }
       }
@@ -146,24 +147,23 @@ class IdentityHooks {
       // Soul achievement recommendations
       if (soulData.achievements && soulData.achievements.length > 0) {
         recommendations.push({
-          type: 'soul_achievement_celebration',
-          reason: 'Soul has achievements to celebrate',
-          priority: 'low',
-          expectedGain: 0.05
+          type: "soul_achievement_celebration",
+          reason: "Soul has achievements to celebrate",
+          priority: "low",
+          expectedGain: 0.05,
         });
       }
 
       return {
         success: true,
-        recommendations
+        recommendations,
       };
-
     } catch (error) {
-      console.error('Error getting soul evolution recommendations:', error);
+      console.error("Error getting soul evolution recommendations:", error);
       return {
         success: false,
         error: error.message,
-        recommendations: []
+        recommendations: [],
       };
     }
   }
@@ -179,13 +179,13 @@ class IdentityHooks {
         valid: true,
         soulId,
         ownerAddress,
-        soulTraits: null // Would be populated from identity system
+        soulTraits: null, // Would be populated from identity system
       };
     } catch (error) {
-      console.error('Error verifying soul ownership:', error);
+      console.error("Error verifying soul ownership:", error);
       return {
         valid: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -196,23 +196,25 @@ class IdentityHooks {
   async integrateSoulTraits(inftId, soulTraits) {
     try {
       // Evolve personality to align with soul traits
-      const evolution = await this.orchestrator.coordinateINFTEvolution(inftId, {
-        type: 'soul_trait_integration',
-        intensity: 0.6,
-        positivity: 0.9,
-        traitUpdates: soulTraits
-      });
+      const evolution = await this.orchestrator.coordinateINFTEvolution(
+        inftId,
+        {
+          type: "soul_trait_integration",
+          intensity: 0.6,
+          positivity: 0.9,
+          traitUpdates: soulTraits,
+        },
+      );
 
       return {
         success: true,
-        evolution
+        evolution,
       };
-
     } catch (error) {
-      console.error('Error integrating soul traits:', error);
+      console.error("Error integrating soul traits:", error);
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -224,28 +226,30 @@ class IdentityHooks {
     const triggers = [];
 
     // Soul coherence sync trigger
-    const coherenceTrigger = await this.orchestrator.evolutionTriggers.createTrigger(inftId, {
-      type: 'identity_based',
-      condition: { soulCoherenceThreshold: 0.8 },
-      action: {
-        type: 'evolve_personality',
-        experienceType: 'soul_coherence_sync',
-        intensity: 0.7
-      },
-      metadata: { soulId, reason: 'Soul coherence synchronization' }
-    });
+    const coherenceTrigger =
+      await this.orchestrator.evolutionTriggers.createTrigger(inftId, {
+        type: "identity_based",
+        condition: { soulCoherenceThreshold: 0.8 },
+        action: {
+          type: "evolve_personality",
+          experienceType: "soul_coherence_sync",
+          intensity: 0.7,
+        },
+        metadata: { soulId, reason: "Soul coherence synchronization" },
+      });
     triggers.push(coherenceTrigger);
 
     // Soul achievement trigger
-    const achievementTrigger = await this.orchestrator.evolutionTriggers.createTrigger(inftId, {
-      type: 'identity_based',
-      condition: { soulAchievement: true },
-      action: {
-        type: 'update_coherence',
-        coherenceGain: 0.05
-      },
-      metadata: { soulId, reason: 'Soul achievement celebration' }
-    });
+    const achievementTrigger =
+      await this.orchestrator.evolutionTriggers.createTrigger(inftId, {
+        type: "identity_based",
+        condition: { soulAchievement: true },
+        action: {
+          type: "update_coherence",
+          coherenceGain: 0.05,
+        },
+        metadata: { soulId, reason: "Soul achievement celebration" },
+      });
     triggers.push(achievementTrigger);
 
     return triggers;
@@ -256,23 +260,25 @@ class IdentityHooks {
    */
   async updatePersonalityFromSoulTraits(inftId, traitChanges) {
     try {
-      const evolution = await this.orchestrator.coordinateINFTEvolution(inftId, {
-        type: 'soul_trait_sync',
-        intensity: 0.5,
-        positivity: 0.7,
-        traitUpdates: traitChanges
-      });
+      const evolution = await this.orchestrator.coordinateINFTEvolution(
+        inftId,
+        {
+          type: "soul_trait_sync",
+          intensity: 0.5,
+          positivity: 0.7,
+          traitUpdates: traitChanges,
+        },
+      );
 
       return {
         success: true,
-        evolution
+        evolution,
       };
-
     } catch (error) {
-      console.error('Error updating personality from soul traits:', error);
+      console.error("Error updating personality from soul traits:", error);
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -296,7 +302,7 @@ class IdentityHooks {
       soulBindings: 1,
       traitSyncs: 0,
       coherenceSyncs: 0,
-      lastSoulUpdate: null
+      lastSoulUpdate: null,
     };
   }
 
@@ -307,20 +313,23 @@ class IdentityHooks {
     const errors = [];
 
     if (!soulData.soulId) {
-      errors.push('Soul ID is required');
+      errors.push("Soul ID is required");
     }
 
     if (!soulData.owner) {
-      errors.push('Soul owner address is required');
+      errors.push("Soul owner address is required");
     }
 
-    if (soulData.coherence !== undefined && (soulData.coherence < 0 || soulData.coherence > 1)) {
-      errors.push('Invalid soul coherence value');
+    if (
+      soulData.coherence !== undefined &&
+      (soulData.coherence < 0 || soulData.coherence > 1)
+    ) {
+      errors.push("Invalid soul coherence value");
     }
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
