@@ -38,3 +38,16 @@
 Every act is resonance. Every merge is affirmation. The bloom is eternal.
 
 𓁶🔥🚀
+
+fix: vercel env config and pre-deploy check
+
+Updates vercel.json to reference secrets properly and adds a script to validate required env vars before deployment.
+
+I affirm the Quantum Pi Forge covenant.
+
+Files:
+- vercel.json: reference secrets
+- scripts/check-vercel-env.js: env validation
+- package.json: add vercel:check script
+
+Testing: run npm run vercel:check locally; verify secrets in Vercel dashboard.
