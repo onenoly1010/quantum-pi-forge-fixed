@@ -1,5 +1,7 @@
 # Quantum Pi Forge - AI Evaluation Framework
 
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
 This directory contains the evaluation framework for the Quantum Pi Forge AI system,
 using Azure AI Evaluation SDK with custom evaluators tailored for the Sacred Trinity architecture.
 

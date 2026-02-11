@@ -1,0 +1,28 @@
+# Pi Network Soroban Contract Environment Variables
+# Copy this file to .soroban-env and fill in your values
+# NEVER commit .soroban-env to version control
+
+# Pi Network Testnet Configuration
+PI_NETWORK_RPC_URL=https://api.testnet.minepi.com/v1/soroban/rpc
+PI_NETWORK_PASSPHRASE="Pi Testnet; February 2024"
+PI_NETWORK_MODE=testnet
+
+# Deployment Account
+# Your Stellar/Soroban account secret key for deploying contracts
+PI_DEPLOYER_SECRET_KEY=
+
+# Contract Configuration
+# Leave empty for new deployments, fill for upgrades
+PI_FORGE_CONTRACT_ID=
+
+# Monitoring & Alerts
+SLACK_WEBHOOK_URL=
+DISCORD_WEBHOOK_URL=
+
+# API Keys (if required by Pi Network)
+PI_NETWORK_API_KEY=
+PI_NETWORK_APP_ID=
+
+# Production Settings (for mainnet deployment)
+PI_MAINNET_RPC_URL=https://api.minepi.com/v1/soroban/rpc
+PI_MAINNET_PASSPHRASE="Pi Mainnet; TBD"

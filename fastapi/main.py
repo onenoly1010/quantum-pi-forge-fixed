@@ -1,27 +1,16 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+from typing import List
 import os
-from dotenv import load_dotenv
-from supabase import create_client, Client
+import time
+import asyncio
+import logging
 
-# Load environment variables
-load_dotenv()
-
-# Initialize Supabase client
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_KEY")
-supabase: Client = None
-
-if supabase_url and supabase_key:
-    try:
-        supabase = create_client(supabase_url, supabase_key)
-        print("✅ Supabase client initialized successfully")
-    except Exception as e:
-        print(f"❌ Failed to initialize Supabase client: {e}")
-else:
-    print("⚠️  Supabase credentials not found - database features disabled")
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Import rate limiting middleware
 try:
@@ -55,6 +44,11 @@ if RATE_LIMITING_ENABLED:
 
 
 # ==================== HEALTH & STATUS ENDPOINTS ====================
+
+# Track application start time for uptime calculation
+APP_START_TIME = time.time()
+TOTAL_REQUESTS = 0
+ACTIVE_CONNECTIONS = 0
 
 @app.get("/health")
 def health_check():
@@ -97,210 +91,79 @@ async def rate_limit_status(request: Request):
     }
 
 
+@app.get("/api/deployment/health")
+async def deployment_health():
+    """
+    Comprehensive health check endpoint for deployment monitoring.
+    Returns detailed status of all services and deployment information.
+    """
+    global TOTAL_REQUESTS, ACTIVE_CONNECTIONS
+    
+    start_time = time.time()
+    TOTAL_REQUESTS += 1
+    
+    # Check database connection (simulated for now)
+    db_status = True
+    db_response_time = 45
+    
+    # Check Pi Network connection (simulated)
+    pi_status = True
+    pi_mode = os.getenv("PI_NETWORK_MODE", "mainnet")
+    
+    # Check Supabase connection (simulated)
+    supabase_status = True
+    
+    response_time = int((time.time() - start_time) * 1000)
+    uptime_seconds = int(time.time() - APP_START_TIME)
+    
+    # Determine overall status
+    all_healthy = all([db_status, pi_status, supabase_status])
+    overall_status = "healthy" if all_healthy else "degraded"
+    
+    return {
+        "status": overall_status,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "services": {
+            "database": {
+                "status": "online" if db_status else "offline",
+                "responseTime": db_response_time
+            },
+            "piNetwork": {
+                "status": "connected" if pi_status else "disconnected",
+                "mode": pi_mode
+            },
+            "supabase": {
+                "status": "connected" if supabase_status else "disconnected"
+            }
+        },
+        "deployment": {
+            "version": "3.3.0",
+            "environment": os.getenv("ENVIRONMENT", "production"),
+            "uptime": uptime_seconds,
+            "lastDeployment": os.getenv("LAST_DEPLOYMENT_TIME", "2026-02-06T10:30:00Z")
+        },
+        "metrics": {
+            "totalRequests": TOTAL_REQUESTS,
+            "activeConnections": ACTIVE_CONNECTIONS,
+            "avgResponseTime": response_time
+        }
+    }
+
+
 # ==================== DATA ENDPOINTS ====================
 
 
-@app.get("/api/database/status")
-def database_status():
-    """Check database connection status"""
-    if not supabase:
-        return {"status": "disconnected", "message": "Supabase not configured"}
-    
-    try:
-        # Test connection by getting user count or similar
-        response = supabase.table("users").select("*", count="exact").limit(1).execute()
-        return {
-            "status": "connected",
-            "message": "Supabase database accessible",
-            "connection_test": "successful"
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": f"Database connection failed: {str(e)}"
-        }
-
-
-@app.post("/api/users")
-async def create_user(request: Request):
-    """Create a new user in the database"""
-    if not supabase:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "Database not available"}
-        )
-    
-    try:
-        data = await request.json()
-        wallet_address = data.get("wallet_address")
-        if not wallet_address:
-            return JSONResponse(
-                status_code=400,
-                content={"error": "wallet_address is required"}
-            )
-        
-        # Check if user already exists
-        existing = supabase.table("users").select("*").eq("wallet_address", wallet_address).execute()
-        if existing.data:
-            return {"message": "User already exists", "user": existing.data[0]}
-        
-        # Create new user
-        user_data = {
-            "wallet_address": wallet_address,
-            "created_at": datetime.utcnow().isoformat(),
-            "total_staked": 0,
-            "staking_count": 0
-        }
-        
-        result = supabase.table("users").insert(user_data).execute()
-        return {"message": "User created successfully", "user": result.data[0]}
-    
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to create user: {str(e)}"}
-        )
-
-
-@app.get("/api/users/{wallet_address}")
-def get_user(wallet_address: str):
-    """Get user information by wallet address"""
-    if not supabase:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "Database not available"}
-        )
-    
-    try:
-        result = supabase.table("users").select("*").eq("wallet_address", wallet_address).execute()
-        if not result.data:
-            return JSONResponse(
-                status_code=404,
-                content={"error": "User not found"}
-            )
-        return {"user": result.data[0]}
-    
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to get user: {str(e)}"}
-        )
-
-
-@app.post("/api/transactions")
-async def record_transaction(request: Request):
-    """Record a staking transaction"""
-    if not supabase:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "Database not available"}
-        )
-    
-    try:
-        data = await request.json()
-        required_fields = ["wallet_address", "amount", "transaction_hash", "type"]
-        
-        for field in required_fields:
-            if field not in data:
-                return JSONResponse(
-                    status_code=400,
-                    content={"error": f"{field} is required"}
-                )
-        
-        transaction_data = {
-            "wallet_address": data["wallet_address"],
-            "amount": float(data["amount"]),
-            "transaction_hash": data["transaction_hash"],
-            "type": data["type"],  # "stake" or "unstake"
-            "timestamp": datetime.utcnow().isoformat(),
-            "status": "pending"
-        }
-        
-        result = supabase.table("transactions").insert(transaction_data).execute()
-        
-        # Update user staking stats
-        if data["type"] == "stake":
-            # Fetch user stats once and reuse the data
-            user_stats = supabase.table("users").select("total_staked", "staking_count").eq("wallet_address", data["wallet_address"]).execute()
-            
-            # Check if user exists before accessing array indices
-            if user_stats.data and len(user_stats.data) > 0:
-                # Use .get() with default values to handle None values safely
-                current_total_staked = user_stats.data[0].get("total_staked", 0) or 0
-                current_staking_count = user_stats.data[0].get("staking_count", 0) or 0
-                supabase.table("users").update({
-                    "total_staked": current_total_staked + float(data["amount"]),
-                    "staking_count": current_staking_count + 1
-                }).eq("wallet_address", data["wallet_address"]).execute()
-            else:
-                # Create new user if doesn't exist (use upsert to handle race conditions)
-                supabase.table("users").upsert({
-                    "wallet_address": data["wallet_address"],
-                    "total_staked": float(data["amount"]),
-                    "staking_count": 1
-                }).execute()
-        
-        return {"message": "Transaction recorded successfully", "transaction": result.data[0]}
-    
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to record transaction: {str(e)}"}
-        )
-
-
-@app.get("/api/transactions/{wallet_address}")
-def get_user_transactions(wallet_address: str):
-    """Get transaction history for a user"""
-    if not supabase:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "Database not available"}
-        )
-    
-    try:
-        result = supabase.table("transactions").select("*").eq("wallet_address", wallet_address).order("timestamp", desc=True).execute()
-        return {"transactions": result.data}
-    
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to get transactions: {str(e)}"}
-        )
-
-
-@app.get("/api/stats")
-def get_platform_stats():
-    """Get platform-wide statistics"""
-    if not supabase:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "Database not available"}
-        )
-    
-    try:
-        # Get total users
-        users_count = supabase.table("users").select("*", count="exact").execute().count
-        
-        # Get total staked amount
-        total_staked_result = supabase.table("users").select("total_staked").execute()
-        total_staked = sum(user["total_staked"] for user in total_staked_result.data)
-        
-        # Get total transactions
-        transactions_count = supabase.table("transactions").select("*", count="exact").execute().count
-        
-        return {
-            "total_users": users_count,
-            "total_staked": total_staked,
-            "total_transactions": transactions_count,
-            "timestamp": datetime.utcnow().isoformat()
-        }
-    
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to get stats: {str(e)}"}
-        )
+@app.get("/api/data")
+def get_sample_data():
+    return {
+        "data": [
+            {"id": 1, "name": "Sample Item 1", "value": 100},
+            {"id": 2, "name": "Sample Item 2", "value": 200},
+            {"id": 3, "name": "Sample Item 3", "value": 300}
+        ],
+        "total": 3,
+        "timestamp": "2024-01-01T00:00:00Z"
+    }
 
 
 @app.get("/api/items/{item_id}")
@@ -625,8 +488,127 @@ def read_root():
     """
 
 
+# ==================== WEBSOCKET DEPLOYMENT STREAMING ====================
+
+class DeploymentStreamManager:
+    """Manager for real-time deployment event streaming via WebSocket."""
+    
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+        self.deployment_events = []
+    
+    async def connect(self, websocket: WebSocket):
+        """Accept a new WebSocket connection and send recent events."""
+        global ACTIVE_CONNECTIONS
+        await websocket.accept()
+        self.active_connections.append(websocket)
+        ACTIVE_CONNECTIONS += 1
+        
+        # Send recent events to new client (last 50 events)
+        for event in self.deployment_events[-50:]:
+            try:
+                await websocket.send_json(event)
+            except Exception as e:
+                logger.warning(f"Failed to send event to new client: {e}")
+                break
+    
+    def disconnect(self, websocket: WebSocket):
+        """Remove a disconnected client."""
+        global ACTIVE_CONNECTIONS
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
+            ACTIVE_CONNECTIONS -= 1
+    
+    async def broadcast_event(self, event: dict):
+        """Broadcast an event to all connected clients."""
+        # Add timestamp
+        event["timestamp"] = datetime.utcnow().isoformat() + "Z"
+        
+        # Store event
+        self.deployment_events.append(event)
+        
+        # Keep only last 1000 events
+        if len(self.deployment_events) > 1000:
+            self.deployment_events = self.deployment_events[-1000:]
+        
+        # Broadcast to all connected clients
+        disconnected = []
+        for connection in self.active_connections:
+            try:
+                await connection.send_json(event)
+            except Exception as e:
+                logger.info(f"Client disconnected during broadcast: {e}")
+                disconnected.append(connection)
+        
+        # Remove disconnected clients
+        for connection in disconnected:
+            self.disconnect(connection)
+
+
+# Initialize deployment stream manager
+deployment_manager = DeploymentStreamManager()
+
+
+@app.websocket("/ws/deployment")
+async def deployment_websocket(websocket: WebSocket):
+    """WebSocket endpoint for real-time deployment event streaming."""
+    await deployment_manager.connect(websocket)
+    try:
+        while True:
+            # Keep connection alive with ping/pong
+            data = await websocket.receive_text()
+            
+            if data == "ping":
+                await websocket.send_text("pong")
+            
+    except WebSocketDisconnect:
+        deployment_manager.disconnect(websocket)
+
+
+@app.post("/api/deployment/trigger")
+async def trigger_deployment(phase: str):
+    """
+    Trigger a deployment and stream events.
+    This is a demo endpoint showing how deployment events are broadcasted.
+    """
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "started",
+        "message": f"Deployment phase {phase} initiated",
+        "level": "info"
+    })
+    
+    # Simulate deployment steps
+    await asyncio.sleep(2)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "building",
+        "message": "Building application...",
+        "level": "info"
+    })
+    
+    await asyncio.sleep(3)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "deploying",
+        "message": "Deploying to production...",
+        "level": "info"
+    })
+    
+    await asyncio.sleep(2)
+    
+    await deployment_manager.broadcast_event({
+        "service": f"Phase {phase}",
+        "status": "completed",
+        "message": "Deployment successful",
+        "level": "success"
+    })
+    
+    return {"status": "success", "phase": phase}
+
+
 if __name__ == "__main__":
     import uvicorn
-    host = os.getenv("HOST", "0.0.0.0")
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host=host, port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)

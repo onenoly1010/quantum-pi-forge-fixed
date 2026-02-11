@@ -28,7 +28,7 @@ async function main() {
     const balanceInEth = ethers.formatEther(balance);
 
     console.log(`💰 Balance: ${balanceInEth} GAS`);
-
+    
     if (parseFloat(balanceInEth) >= 2.0) {
       console.log('✅ Sufficient balance for DEX deployment');
       process.exit(0);

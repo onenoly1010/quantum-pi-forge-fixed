@@ -2,6 +2,26 @@
 
 > Genesis Launch - December 30, 2025 (Updated Dec 27)
 
+## 🌐 RELATED REPOSITORIES
+
+### Core Repositories
+
+| Repository | Description | URL |
+|------------|-------------|-----|
+| **quantum-pi-forge-fixed** | Main production codebase (this repo) | <https://github.com/onenoly1010/quantum-pi-forge-fixed> |
+| **quantum-pi-forge-site** | Marketing and landing pages | <https://github.com/onenoly1010/quantum-pi-forge-site> |
+| **pi-forge-quantum-genesis** | Legacy code and historical documentation | <https://github.com/onenoly1010/pi-forge-quantum-genesis> |
+
+### AI Components
+
+| Component | Description | URL |
+|-----------|-------------|-----|
+| **LLM Coherence Auditor** | LLM preference stability auditing framework | <https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor> |
+| **QMIX Theorem Viz** | Interactive multi-agent RL visualization | <https://huggingface.co/spaces/onenoly1010/qmix-theorem-viz> |
+| **Evaluation Dataset** | Annotated AI agent test cases | <https://huggingface.co/datasets/onenoly1010/quantum-forge-eval> |
+
+---
+
 ## 🎯 PRIMARY ENDPOINTS
 
 ### User-Facing

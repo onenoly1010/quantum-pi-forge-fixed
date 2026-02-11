@@ -1,5 +1,16 @@
 # OINIO Project - Complete Setup Index
 
+## 🌐 Related Repositories
+
+**Hub Repository**: [github.com/onenoly1010/quantum-pi-forge-fixed](https://github.com/onenoly1010/quantum-pi-forge-fixed)
+
+For the complete ecosystem of related repositories, see:
+- [README.md - Related Repositories](README.md#-related-repositories) section
+- [IDENTITY.md - Related Repositories](IDENTITY.md#-related-repositories) section  
+- [MASTER_URLS.md](MASTER_URLS.md) for all live endpoints
+
+---
+
 ## 📌 Quick Navigation
 
 ### 🚀 For First-Time Users

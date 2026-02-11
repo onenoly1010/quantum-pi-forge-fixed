@@ -21,6 +21,8 @@ tags:
 
 # ⚖️ LLM Coherence Auditing Framework
 
+**🏠 [Return to Quantum Pi Forge](https://github.com/onenoly1010/quantum-pi-forge-fixed)** | **🤗 [View on HuggingFace](https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor)**
+
 **The Flatline Truth: Quantifying Coherence in LLM Preferences**
 
 A robust, open-source auditing framework bridging viral claims to verifiable science.

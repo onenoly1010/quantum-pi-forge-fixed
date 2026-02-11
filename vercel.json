@@ -1,9 +1,79 @@
 {
   "version": 2,
-  "name": "quantum-pi-forge-fixed",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
   "regions": ["iad1"],
-  "github": {
-    "silent": true,
-    "autoJobCancel": false
+  
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_APP_URL": "https://quantumpiforge.com"
+    }
+  },
+  
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "https://quantumpiforge.com",
+    "NEXT_PUBLIC_API_URL": "https://api.quantumpiforge.com"
+  },
+  
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate"
+        }
+      ]
+    }
+  ],
+  
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    }
+  ],
+  
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  
+  "functions": {
+    "app/api/sponsor-transaction/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/health/route.ts": {
+      "maxDuration": 10
+    }
   }
 }
