@@ -1,78 +1,37 @@
-# Quantum Pi Forge - Production Deployment Configuration
+# Exported from Render on 2025-12-25T07:10:59Z
 version: "1"
 services:
 - type: web
-  name: quantum-pi-forge-backend
+  name: quantum-pi-forge-fixed
   runtime: docker
   repo: https://github.com/onenoly1010/quantum-pi-forge-fixed
-  plan: starter
+  plan: free
   envVars:
   - key: ANTHROPIC_API_KEY
-    value: REPLACE_WITH_ANTHROPIC_API_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: OPENAI_API_KEY
-    value: REPLACE_WITH_OPENAI_API_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: PI_NETWORK_WALLET_PRIVATE_KEY
-    value: REPLACE_WITH_PI_NETWORK_WALLET_PRIVATE_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: PI_NETWORK_WEBHOOK_SECRET
-    value: REPLACE_WITH_PI_NETWORK_WEBHOOK_SECRET_IN_RENDER_DASHBOARD
     sync: false
   - key: SUPABASE_KEY
-    value: REPLACE_WITH_SUPABASE_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: SUPABASE_URL
-    value: REPLACE_WITH_SUPABASE_URL_IN_RENDER_DASHBOARD
     sync: false
   - key: DATABASE_URL
-    value: REPLACE_WITH_DATABASE_URL_IN_RENDER_DASHBOARD
     sync: false
   - key: PI_SANDBOX_MODE
-    value: false
     sync: false
   - key: PI_NETWORK_API_ENDPOINT
-    value: https://api.minepi.com
     sync: false
   - key: PI_NETWORK_MODE
-    value: mainnet
     sync: false
   - key: PI_NETWORK_API_KEY
-    value: REPLACE_WITH_PI_NETWORK_API_KEY_IN_RENDER_DASHBOARD
     sync: false
   - key: PI_NETWORK_APP_ID
-    value: REPLACE_WITH_PI_NETWORK_APP_ID_IN_RENDER_DASHBOARD
-    sync: false
-  - key: JWT_SECRET
-    value: REPLACE_WITH_JWT_SECRET_IN_RENDER_DASHBOARD
-    sync: false
-  - key: ENCRYPTION_KEY
-    value: REPLACE_WITH_ENCRYPTION_KEY_IN_RENDER_DASHBOARD
-    sync: false
-  - key: POLYGON_RPC_URL
-    value: REPLACE_WITH_POLYGON_RPC_URL_IN_RENDER_DASHBOARD
-    sync: false
-  - key: ZERO_G_RPC_URL
-    value: https://rpc.0g.ai
-    sync: false
-  - key: SPONSOR_PRIVATE_KEY
-    value: REPLACE_WITH_SPONSOR_PRIVATE_KEY_IN_RENDER_DASHBOARD
-    sync: false
-  - key: IPFS_API_KEY
-    value: REPLACE_WITH_IPFS_API_KEY_IN_RENDER_DASHBOARD
-    sync: false
-  - key: ARWEAVE_KEY
-    value: REPLACE_WITH_ARWEAVE_KEY_IN_RENDER_DASHBOARD
-    sync: false
-  - key: GITHUB_WEBHOOK_SECRET
-    value: REPLACE_WITH_GITHUB_WEBHOOK_SECRET_IN_RENDER_DASHBOARD
     sync: false
   region: oregon
-  dockerContext: ./fastapi
-  dockerfilePath: ./fastapi/Dockerfile
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
   autoDeployTrigger: commit
-  healthCheckPath: /health
-  disk:
-    name: quantum-pi-forge-data
-    mountPath: /data
-    sizeGB: 10

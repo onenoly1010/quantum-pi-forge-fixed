@@ -43,6 +43,6 @@
     "scripts/**/*",
     "pi-forge-quantum-genesis/**/*",
     "contracts/**/*",
-    "docs/archive/**/*"
+    "docs/**/*"
   ]
 }

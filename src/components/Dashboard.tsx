@@ -522,7 +522,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userAddress: propUserAddress, bal
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    setIsOnline(navigator.onLine);
+    setIsOnline(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
     // Account change listener - set up MetaMask event handlers
     const setupEthereumListeners = () => {

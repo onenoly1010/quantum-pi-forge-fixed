@@ -1,5 +1,7 @@
 # Quantum Pi Forge Backend
 
+**🏠 [Return to Main Repository](https://github.com/onenoly1010/quantum-pi-forge-fixed)**
+
 Express.js backend API for the OINIO Soul System - providing gasless staking and Web3 services on Polygon.
 
 ## 🚀 Quick Start

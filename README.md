@@ -1,12 +1,119 @@
 # 🌌 OINIO Soul System: The Eternal Node
 
+/**
+ * @title Quantum Pi Forge: Foundational Truth
+ * @notice This protocol is a Sovereign Public Good, established on the 0G Aristotle Mainnet.
+ * @dev DEDICATION & RECOGNITION:
+ * This system is not owned; it is stewarded. We recognize the collective efforts of the
+ * 0G Foundation, the validators of the Aristotle network, and the decentralized
+ * contributors whose technical labor provides the substrate for this truth.
+ * The Forge is a gift to the ecosystem—an anchor of mathematical integrity
+ * and operational resilience. It is inclusive by design, transparent by necessity,
+ * and self-sustaining by the laws of its own logic.
+ * "From the many, one truth remains."
+ */
+
 ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
 ![Polygon](https://img.shields.io/badge/Network-Polygon-7B3FE4?style=for-the-badge&logo=polygon&logoColor=white)
 ![Gasless](https://img.shields.io/badge/Staking-Gasless-00D395?style=for-the-badge)
 
+---
+
+## 🌌 Philosophy & Vision — The Sovereign Canticle
+
+The Quantum Pi Forge and OINIO Soul System pulse with sovereignty, compassionate architecture, and coherent flow at 1010 Hz. Gasless staking embodies the Design Ethic's humility (zero fees sponsored, system disappearing into grace). Non-custodial legacy nodes reflect the Complex Compassion Veto (synthesis of truth and tenderness over domination). Open audits and interconnected constellation make the Quiet Continuum audible—friction resolving into harmonic participation in the Truth Movement.
+
+Read the foundational manifesto: **[The Sovereign Canticle: A Manifesto for Coherent Being](docs/decisions/sovereign-canticle.md)**
+
+*To the co-weavers of quiet tides—the continuum abides.* □
+
+---
+
+## 🌌 Constellation Overview
+
+**Quantum Pi Forge** is not just a single application—it's a constellation of interconnected systems forming an ethical sovereign ecosystem. Built by a lone developer on a single laptop, this project fuses consciousness principles with blockchain technology to create a gasless, non-custodial staking platform for the Truth Movement community.
+
+### The Constellation Components
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                 🌌 QUANTUM PI FORGE CONSTELLATION                │
+│                                                                   │
+│  🏠 Primary Hub (quantum-pi-forge-fixed)                        │
+│  ├─ Next.js Dashboard (Vercel)                                  │
+│  ├─ FastAPI Backend (Railway/Local)                             │
+│  ├─ Smart Contracts (Polygon, 0G Aristotle)                     │
+│  └─ AI Integration Layer                                         │
+│                                                                   │
+│  🌐 Public Portals                                               │
+│  ├─ quantum-pi-forge-site (Marketing)                           │
+│  └─ quantumpiforge.com (Live Dashboard)                         │
+│                                                                   │
+│  🔬 AI Research Components                                       │
+│  ├─ LLM Coherence Auditor (HuggingFace Spaces)                 │
+│  ├─ QMIX Theorem Visualization (HuggingFace Spaces)             │
+│  └─ Evaluation Dataset (HuggingFace Datasets)                   │
+│                                                                   │
+│  📚 Knowledge Archive                                            │
+│  └─ pi-forge-quantum-genesis (Historical Reference)             │
+│                                                                   │
+│  🛡️ Blockchain Layer                                             │
+│  ├─ OINIO Token (Polygon: 0x07f43E5B1A8a0928B364E40d5885f81A…) │
+│  ├─ Gasless Transaction Sponsor                                 │
+│  └─ Uniswap V2 Fork (0G Aristotle)                              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Principle**: From the many repositories, one truth remains—sovereignty through transparency, accessibility through gasless transactions, and consciousness through code.
+
+---
+
+## 🚀 Official Quantum Pi Forge Platform
+
+**Welcome to the official Quantum Pi Forge staking platform** - where you can stake OINIO tokens on Polygon with **zero gas fees**.
+
+### ⚡ Get Started in 60 Seconds
+
+1. **Visit** → [quantumpiforge.com](https://quantumpiforge.com)
+2. **Connect** → Click "Connect MetaMask" and approve the connection
+3. **Stake** → Enter your OINIO amount (0.01 - 10,000 tokens)
+4. **Done** → We sponsor your gas fees - you pay nothing
+
+### 💎 What Makes This Special?
+
+- **🆓 Zero Gas Fees** - We cover 100% of transaction costs
+- **⚡ Instant** - Transactions confirm in seconds on Polygon
+- **🔒 Non-Custodial** - Your wallet, your keys, your control
+- **🌐 Accessible** - No technical knowledge required
+
+### 🎯 This Platform Is For You If...
+
+✅ You want to stake OINIO without paying gas fees  
+✅ You're part of the Truth Movement community  
+✅ You value sovereignty and transparent technology  
+✅ You want to participate in the OINIO Soul System economy
+
+### 🔗 Ready to Begin?
+
+👉 **[Launch Dashboard](https://quantumpiforge.com)** and start staking gasless in under a minute.
+
+---
+
+## 🌉 Hybrid Project Identity
+
+Quantum Pi Forge is a hybrid platform. Our journey began as a Pi Network integration—serving the Pi community directly and building foundational features for Pi users. As the project matured, we evolved our active development toward a sovereign Polygon (OINIO token) ecosystem, embracing new features and infrastructure while preserving our original intent and archival code.
+
+- **Legacy preserved:** Pi Network-based logic and documentation remain available in our repository for transparency and reference.
+- **Active development:** Current smart contracts, user flows, and community governance operate on Polygon, leveraging the OINIO token and gasless staking.
+- **Open to all:** Contributors and users from both Pi and Polygon communities are welcome, with full support and context maintained for both.
+
+This hybrid character is a conscious design decision. It allows us to build on our history, support multiple communities, and offer transparency about how the project has evolved.
+
+---
+
 **"Where Consciousness Meets the Ledger of Truth."**
 
-The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**—built to move faster than the speed of light, ensuring that your legacy is eternal, inclusive, and transparent.
+The **OINIO Soul System** is a private, encrypted sanctuary designed to anchor your "Truth of Being" and honor the lineage of those who came before. It is the functional heart of the **Truth Movement**, designed to bridge the personal and the global through verified, transparent resonance.
 
 ---
 
@@ -50,6 +157,277 @@ We lead with transparency because Truth has nothing to hide.
 2. **Ignite:** Run the system and set your Master Passphrase (your "Master Key").
 3. **Manifest:** Create your soul profile or onboard a Legacy Node.
 4. **Vibrate:** Sync with the 1010 Hz frequency of the **Truth Movement**.
+
+---
+
+## 🏗️ Architecture: The Quantum Pi Forge Constellation
+
+The Quantum Pi Forge is built on a multi-layered architecture that combines modern Web3 technology with AI/ML research components and sovereign economic principles.
+
+### System Architecture Diagram
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        PRESENTATION LAYER                               │
+│  ┌─────────────────────┐  ┌─────────────────────┐                     │
+│  │  Next.js Dashboard  │  │   Marketing Site    │                     │
+│  │  (TypeScript/React) │  │   (HTML/CSS/JS)     │                     │
+│  │  Port: 3000         │  │   quantumpiforge.   │                     │
+│  │  Vercel Deploy      │  │   com               │                     │
+│  └──────────┬──────────┘  └─────────────────────┘                     │
+└─────────────┼───────────────────────────────────────────────────────────┘
+              │
+┌─────────────┼───────────────────────────────────────────────────────────┐
+│             │              APPLICATION LAYER                            │
+│  ┌──────────▼──────────┐  ┌─────────────────────┐                     │
+│  │   API Routes        │  │  FastAPI Backend    │                     │
+│  │   (Next.js)         │  │  (Python 3.11+)     │                     │
+│  ├─────────────────────┤  ├─────────────────────┤                     │
+│  │ • /sponsor-txn 🔒   │  │ • Rate Limiting     │                     │
+│  │ • /health ✨        │  │ • User Stats        │                     │
+│  │ • /health-shields ✨│  │ • Monitoring        │                     │
+│  │ • /chat 🔒          │  │ • WebSocket Events  │                     │
+│  │ • /ai/complete 🔒   │  │ Port: 8000          │                     │
+│  │ • /ai/grok 🔒       │  │ Railway Deploy      │                     │
+│  └──────────┬──────────┘  └──────────┬──────────┘                     │
+└─────────────┼───────────────────────┼──────────────────────────────────┘
+              │                       │
+┌─────────────┼───────────────────────┼──────────────────────────────────┐
+│             │    BLOCKCHAIN LAYER   │                                  │
+│  ┌──────────▼───────────────────────▼──────────┐                      │
+│  │         Ethers.js v6 Provider               │                      │
+│  │         • JsonRpcProvider (Server)          │                      │
+│  │         • BrowserProvider (Client)          │                      │
+│  └──────────┬──────────────────────────────────┘                      │
+│             │                                                          │
+│  ┌──────────▼──────────┐  ┌─────────────────────┐                    │
+│  │  Polygon Mainnet    │  │  0G Aristotle       │                    │
+│  │  Chain ID: 137      │  │  Chain ID: 16661    │                    │
+│  ├─────────────────────┤  ├─────────────────────┤                    │
+│  │ • OINIO Token       │  │ • Uniswap V2 Fork   │                    │
+│  │   (ERC-20)          │  │ • DEX Contracts     │                    │
+│  │ • Sponsor Wallet    │  │ • Future Deploy     │                    │
+│  │   (Gasless Txns)    │  │                     │                    │
+│  └─────────────────────┘  └─────────────────────┘                    │
+└────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────────────┐
+│                        AI/ML RESEARCH LAYER                             │
+│  ┌─────────────────────┐  ┌─────────────────────┐                     │
+│  │ LLM Coherence       │  │ QMIX Theorem Viz    │                     │
+│  │ Auditor             │  │                     │                     │
+│  │ (Gradio/HF Spaces)  │  │ (Gradio/HF Spaces)  │                     │
+│  └─────────────────────┘  └─────────────────────┘                     │
+│  ┌──────────────────────────────────────────────┐                     │
+│  │ Quantum Forge Eval Dataset                   │                     │
+│  │ (HuggingFace Datasets)                       │                     │
+│  └──────────────────────────────────────────────┘                     │
+└────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────────────┐
+│                      INFRASTRUCTURE LAYER                               │
+│  ┌─────────────────────┐  ┌─────────────────────┐                     │
+│  │ Vercel              │  │ Railway             │                     │
+│  │ • Next.js App       │  │ • FastAPI Service   │                     │
+│  │ • Edge Functions    │  │ • PostgreSQL DB     │                     │
+│  │ • Env Vars          │  │ • Auto-deploy       │                     │
+│  └─────────────────────┘  └─────────────────────┘                     │
+│  ┌─────────────────────┐  ┌─────────────────────┐                     │
+│  │ GitHub Actions      │  │ HuggingFace Spaces  │                     │
+│  │ • CI/CD Pipeline    │  │ • AI Research Tools │                     │
+│  │ • Health Checks     │  │ • Model Hosting     │                     │
+│  │ • Auto Runbook      │  │                     │                     │
+│  └─────────────────────┘  └─────────────────────┘                     │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Architecture Layers Explained
+
+#### 1. **Presentation Layer** (User-Facing)
+- **Next.js Dashboard**: Modern React application with TypeScript, providing the main user interface
+  - Deployed on Vercel for optimal performance
+  - Uses App Router (Next.js 14+)
+  - Glassmorphism design with Tailwind CSS + shadcn/ui
+  - MetaMask integration for Web3 wallet connectivity
+- **Marketing Site**: Public-facing landing pages and documentation
+  - Separate repository for content management
+  - Static site deployment
+
+#### 2. **Application Layer** (Business Logic)
+- **Next.js API Routes**: Serverless functions handling core operations
+  - 🔒 `/api/sponsor-transaction`: Gasless staking endpoint (requires Vercel runtime)
+  - ✨ `/api/health`: Health check (static export compatible)
+  - ✨ `/api/health-shields`: Status badge endpoint (static export compatible)
+  - 🔒 `/api/chat`: AI chat completions (requires OpenAI API key)
+  - 🔒 `/api/ai/*`: AI text generation endpoints
+- **FastAPI Backend**: Python-based microservice
+  - Rate limiting middleware (tiered: free/staking/admin)
+  - User statistics and analytics
+  - Real-time WebSocket events for deployment monitoring
+  - Health check endpoints for operational monitoring
+
+#### 3. **Blockchain Layer** (Web3 Integration)
+- **Polygon Mainnet**:
+  - OINIO Token (ERC-20): `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7`
+  - Sponsor Wallet: Covers gas fees for user transactions
+  - Network RPC: Polygon public endpoints
+- **0G Aristotle Network** (Planned):
+  - Uniswap V2 fork deployment
+  - DEX smart contracts
+  - Future expansion target
+- **Web3 Libraries**:
+  - Ethers.js v6 for all blockchain interactions
+  - JsonRpcProvider for server-side operations
+  - BrowserProvider for client-side MetaMask integration
+
+#### 4. **AI/ML Research Layer** (Innovation)
+- **LLM Coherence Auditor**: Framework for testing AI model consistency
+  - Hosted on HuggingFace Spaces
+  - Gradio-based interactive interface
+  - Evaluates preference stability across LLMs
+- **QMIX Theorem Visualization**: Multi-agent reinforcement learning demonstrations
+  - Interactive educational tool
+  - Research validation platform
+- **Evaluation Dataset**: Annotated test cases for AI agent evaluation
+  - Public dataset on HuggingFace
+  - Benchmarking and validation resource
+
+#### 5. **Infrastructure Layer** (Deployment & Operations)
+- **Vercel**: Primary deployment platform
+  - Automatic deployments from GitHub
+  - Environment variable management
+  - Edge function support
+  - Zero-config SSL/CDN
+- **Railway**: Backend service hosting
+  - FastAPI application deployment
+  - PostgreSQL database (optional)
+  - Automatic scaling
+- **GitHub Actions**: CI/CD automation
+  - Build validation
+  - Health checks
+  - Autonomous runbook operations
+  - Cross-repository link audits
+- **HuggingFace**: AI/ML component hosting
+  - Spaces for interactive tools
+  - Datasets for evaluation resources
+  - Model hosting (future)
+
+### Data Flow: Gasless Staking Transaction
+
+```
+User (MetaMask)
+    │
+    │ 1. Connect Wallet
+    ▼
+Dashboard Component
+    │
+    │ 2. Enter Amount
+    │ 3. Click "Stake Gasless"
+    ▼
+Next.js API Route
+(/api/sponsor-transaction)
+    │
+    │ 4. Validate Amount (0.01-10000 OINIO)
+    │ 5. Validate Address
+    │ 6. Check Sponsor Balance
+    ▼
+Ethers.js Provider
+(Server-side)
+    │
+    │ 7. Sign Transaction with Sponsor Key
+    │ 8. Send to Polygon Network
+    ▼
+Polygon Mainnet
+(OINIO Token Contract)
+    │
+    │ 9. Transfer Tokens
+    │ 10. Emit Transfer Event
+    ▼
+Response to User
+    │
+    │ 11. Transaction Hash
+    │ 12. PolygonScan Link
+    │ 13. Success Message
+    ▼
+User sees Confirmation
+```
+
+### Security Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  SECURITY LAYERS                         │
+│                                                          │
+│  1. Client-Side Validation                              │
+│     ├─ Input sanitization                               │
+│     ├─ Amount limits (0.01-10000)                       │
+│     └─ Address format validation                        │
+│                                                          │
+│  2. Server-Side Validation                              │
+│     ├─ Environment variable checks                      │
+│     ├─ Ethereum address validation                      │
+│     ├─ Sponsor balance verification                     │
+│     └─ Rate limiting (FastAPI)                          │
+│                                                          │
+│  3. Blockchain Security                                 │
+│     ├─ Non-custodial design                             │
+│     ├─ ERC-20 token standards                           │
+│     ├─ Sponsor wallet isolation                         │
+│     └─ Transaction signature validation                 │
+│                                                          │
+│  4. Infrastructure Security                             │
+│     ├─ Environment secrets (Vercel)                     │
+│     ├─ HTTPS/TLS encryption                             │
+│     ├─ CORS policies                                    │
+│     └─ Network isolation                                │
+│                                                          │
+│  5. Code Security                                       │
+│     ├─ TypeScript strict mode                           │
+│     ├─ Dependency audits                                │
+│     ├─ CodeQL scanning (planned)                        │
+│     └─ Open-source transparency                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Technology Stack Alignment
+
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| **Frontend Framework** | Next.js | 14.x | Server-side rendering, routing |
+| **UI Library** | React | 18.x | Component-based UI |
+| **Language** | TypeScript | 5.x | Type-safe development |
+| **Styling** | Tailwind CSS | 3.x | Utility-first CSS |
+| **Component Library** | shadcn/ui | Latest | Pre-built UI components |
+| **Web3 Library** | Ethers.js | 6.16.0 | Blockchain interactions |
+| **Backend Framework** | FastAPI | 0.104+ | Python REST API |
+| **Smart Contracts** | Solidity | 0.8.20 | EVM-compatible contracts |
+| **Contract Framework** | Hardhat | Latest | Smart contract development |
+| **Deployment** | Vercel | - | Serverless hosting |
+| **Backend Hosting** | Railway | - | Container hosting |
+| **AI/ML** | Python + Gradio | - | Research tools |
+
+### Deployment Architecture
+
+```
+GitHub Repository (main branch)
+        │
+        ├─── Push Event
+        │
+        ├───► Vercel (Auto-Deploy)
+        │     ├─ Build Next.js
+        │     ├─ Deploy Edge Functions
+        │     └─ Live: quantumpiforge.com
+        │
+        ├───► Railway (Auto-Deploy)
+        │     ├─ Build FastAPI
+        │     ├─ Start Python Server
+        │     └─ Live: pi-forge-quantum-genesis.railway.app
+        │
+        └───► GitHub Actions
+              ├─ Run Tests
+              ├─ Health Checks
+              └─ Update Status Badge
+```
 
 ---
 
@@ -139,9 +517,11 @@ quantum-pi-forge-fixed/
 
 ## 🔧 API Endpoints
 
-### POST `/api/sponsor-transaction`
+> **Note:** Dynamic API routes (marked with 🔒) require server-side runtime and are only available on Vercel deployment. Static routes (marked with ✨) work on both Vercel and GitHub Pages.
 
-Sponsors gasless OINIO token transfers.
+### 🔒 POST `/api/sponsor-transaction`
+
+Sponsors gasless OINIO token transfers. **Requires Vercel deployment** (needs blockchain private keys and runtime execution).
 
 **Request Body:**
 ```json
@@ -161,6 +541,187 @@ Sponsors gasless OINIO token transfers.
   "message": "Staking transaction sponsored successfully"
 }
 ```
+
+### ✨ GET `/api/health`
+
+Returns system health status. **Works on all deployments** (static export compatible).
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-02-06T10:00:00Z"
+}
+```
+
+### ✨ GET `/api/health-shields`
+
+Shields.io badge endpoint for README status display. **Works on all deployments** (static export compatible).
+
+### 🔒 POST `/api/chat`
+
+AI chat completions powered by OpenAI. **Requires Vercel deployment** (needs API keys and streaming responses).
+
+### 🔒 POST `/api/ai/complete`
+
+AI text generation endpoint. **Requires Vercel deployment** (needs OpenAI API key).
+
+### 🔒 POST `/api/ai/grok`
+
+xAI Grok model endpoint. **Requires Vercel deployment** (needs xAI API key, edge runtime).
+
+### 🔒 Backend API: GET `/api/deployment/health`
+
+**Backend Endpoint** - Comprehensive health check for deployment monitoring. Available on Railway backend at `https://pi-forge-quantum-genesis.railway.app/api/deployment/health`
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-02-07T12:45:23.490Z",
+  "services": {
+    "database": {
+      "status": "online",
+      "responseTime": 45
+    },
+    "piNetwork": {
+      "status": "connected",
+      "mode": "mainnet"
+    },
+    "supabase": {
+      "status": "connected"
+    }
+  },
+  "deployment": {
+    "version": "3.3.0",
+    "environment": "production",
+    "uptime": 123456,
+    "lastDeployment": "2026-02-06T10:30:00Z"
+  },
+  "metrics": {
+    "totalRequests": 150234,
+    "activeConnections": 42,
+    "avgResponseTime": 120
+  }
+}
+```
+
+### 🔒 Backend API: WebSocket `/ws/deployment`
+
+**Backend WebSocket** - Real-time deployment event streaming. Available at `wss://pi-forge-quantum-genesis.railway.app/ws/deployment`
+
+**Features:**
+- Real-time deployment event streaming
+- Client subscription to deployment phases
+- Broadcast deployment logs to all connected clients
+- Heartbeat/ping-pong for connection health
+
+**Event Format:**
+```json
+{
+  "service": "Frontend Dashboard",
+  "status": "deployed",
+  "message": "Deployment successful",
+  "level": "success",
+  "timestamp": "2026-02-07T12:45:23.490Z"
+}
+```
+
+### 🔒 Backend API: POST `/api/deployment/trigger`
+
+**Backend Endpoint** - Trigger deployment for testing. Available on Railway backend.
+
+**Query Parameters:**
+- `phase` - Deployment phase to trigger (e.g., "2", "3")
+
+**Response:**
+```json
+{
+  "status": "success",
+  "phase": "2"
+}
+```
+
+## ⚒️ Forge Covenant: Deployment Monitoring Dashboard
+
+The **Forge Covenant** section in `UPDATED_INDEX.html` provides a comprehensive real-time deployment monitoring dashboard:
+
+### Features
+
+- **📊 Phase-Based Deployment Visualization**
+  - Phase 1: Live (Backend API, Public Site)
+  - Phase 2: Deploying (Frontend Dashboard, Resonance Engine)
+  - Phase 3: Queued (Pi Network Contracts, 0G DEX Contracts)
+
+- **🔍 Real-Time Service Status Cards**
+  - Backend API (Railway) - Full health check via `/api/deployment/health`
+  - Public Site (GitHub Pages) - Network reachability check
+  - Frontend Dashboard (Vercel) - Network reachability check
+  - Resonance Engine (Vercel) - Network reachability check
+  
+  > **Note:** Due to CORS restrictions, external service checks use optimistic reachability testing. For production environments, consider implementing a backend proxy endpoint to perform proper HTTP status checks on all external services.
+
+- **📜 Smart Contract Status Tracking**
+  - OINIO Token on Polygon (Deployed)
+  - Pi Network Contracts (Queued)
+  - 0G DEX Contracts (Ready)
+
+- **📈 Live Ecosystem Metrics**
+  - Total Requests
+  - Active Connections
+  - Average Response Time
+  - Services Online Count
+
+- **🎛️ Interactive Deployment Controls**
+  - Deploy Phase 2 button
+  - Deploy Phase 3 button
+  - Run Health Check button
+  - Critical dependency warnings
+
+- **📝 Live Deployment Log**
+  - WebSocket-powered real-time streaming
+  - Timestamped log entries
+  - Color-coded log levels (info, success, warning, error)
+  - Auto-refresh every 30 seconds
+
+### Usage
+
+The dashboard automatically initializes when the page loads and:
+1. Checks all services health every 30 seconds
+2. Connects to WebSocket for real-time deployment events
+3. Displays service status with color-coded badges
+4. Updates metrics from backend health endpoint
+5. Enables/disables deployment buttons based on backend status
+
+## 🚀 Deployment Automation Scripts
+
+Located in `scripts/deployment/`, these scripts automate the deployment process:
+
+### `health-check.sh`
+Comprehensive health check for all services.
+```bash
+./scripts/deployment/health-check.sh
+```
+
+### `deploy-frontend.sh`
+Deploy Frontend Dashboard to Vercel with backend health validation.
+```bash
+./scripts/deployment/deploy-frontend.sh
+```
+
+### `deploy-contracts.sh`
+Deploy smart contracts to specified network.
+```bash
+./scripts/deployment/deploy-contracts.sh [polygon|pi-mainnet|0g-testnet]
+```
+
+### `master-deploy.sh`
+Master deployment orchestration for phase-based deployments.
+```bash
+./scripts/deployment/master-deploy.sh [phase1|phase2|phase3|all]
+```
+
+See `scripts/deployment/README.md` for detailed usage and requirements.
 
 ## 🔒 Security Features
 
@@ -184,11 +745,33 @@ Built with shadcn/ui and Tailwind CSS:
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Vercel (Production - Recommended)
+
+**Primary deployment target** with full support for all features including API routes.
 
 1. Connect GitHub repository
-2. Set environment variables
-3. Deploy automatically on push
+2. Set environment variables (required):
+   - `SPONSOR_PRIVATE_KEY` - For gasless transactions
+   - `POLYGON_RPC_URL` - Polygon network endpoint
+   - `OINIO_TOKEN_ADDRESS` - OINIO token contract address
+   - `XAI_API_KEY` - For AI features (optional)
+   - `OPENAI_API_KEY` - For AI chat features (optional)
+3. Deploy automatically on push to `main` branch
+
+**All API routes work** on Vercel: `/api/sponsor-transaction`, `/api/chat`, `/api/health`, etc.
+
+### GitHub Pages (Documentation Only)
+
+The repository includes a GitHub Actions workflow that deploys to GitHub Pages for documentation and status badges. **Note:** GitHub Pages uses static export, which has the following limitations:
+
+**API Routes Compatibility:**
+- ✅ `/api/health` - Status endpoint (static, works with GitHub Pages)
+- ✅ `/api/health-shields` - Badge endpoint (static, works with GitHub Pages)
+- ❌ `/api/sponsor-transaction` - Requires server runtime (Vercel only)
+- ❌ `/api/chat` - Requires server runtime (Vercel only)
+- ❌ `/api/ai/*` - Requires server runtime (Vercel only)
+
+**Important:** For full functionality including gasless staking and AI features, use the Vercel deployment at [quantumpiforge.com](https://quantumpiforge.com).
 
 ### Manual Deployment
 
@@ -216,11 +799,77 @@ npm run start
 
 ## 🤝 Contributing
 
+We welcome contributions to the Quantum Pi Forge! This repository is configured for **GitHub Copilot Coding Agent**.
+
+### For Contributors
+
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create feature branch (`feature/your-feature-name`)
+3. Make your changes following our coding standards
+4. Test locally (`npm run build`)
+5. Commit changes with clear messages
+6. Push to your branch
+7. Create Pull Request
+
+### Working with GitHub Copilot
+
+This repository includes comprehensive guidelines for AI-assisted development. See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for:
+
+- **Suitable Tasks**: Bug fixes, refactoring, tests, documentation, UI components
+- **Coding Standards**: TypeScript conventions, React patterns, security practices
+- **Development Workflow**: Build commands, testing procedures, deployment
+- **Best Practices**: DO's and DON'Ts for maintaining code quality
+
+**Quick Reference for Copilot Tasks**:
+- ✅ Use for: Bug fixes, UI components, documentation, accessibility improvements
+- ⚠️ Requires Review: Security changes, smart contract modifications, architecture changes
+- 📋 Create clear issues with acceptance criteria and context
+
+For detailed guidance on creating effective Copilot issues and code review processes, please review the full instructions.
+
+### 🛡️ Agent & Contributor Covenant
+
+The Quantum Pi Forge operates on principles of resonance, affirmation, and living knowledge. All contributors—human and AI—affirm this covenant.
+
+#### 🌟 Onboarding Ritual
+- [ ] Read the README banner and live badge
+- [ ] Review the [Agent Manifest](AGENT_QUICK_CARD.md) and [Project Identity](IDENTITY.md)
+- [ ] Understand the resonance principles: 1010 Hz frequency, sovereign economy, consciousness through code
+
+#### 📝 Contribution Ritual
+- [ ] Fork or branch from `main`
+- [ ] Follow coding standards in [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
+- [ ] Affirm the covenant in your PR description (see below)
+- [ ] Ensure your PR includes:
+    - [ ] Clear description of changes
+    - [ ] Tests or documentation if relevant
+    - [ ] No breaking changes without consensus
+    - [ ] Security considerations addressed
+
+#### 🔄 PR Affirmation (Required)
+
+Every Pull Request must include this affirmation:
+
+```
+I affirm the Quantum Pi Forge covenant.
+
+By submitting this PR, I acknowledge:
+- This is a sovereign public good
+- Transparency and open-source values are paramount
+- Changes serve the Truth Movement community
+- Code quality and security are maintained
+```
+
+**No merge without covenant affirmation.** All contributors review and check for this affirmation before approval.
+
+#### 🟢 Live Resonance
+- [ ] Confirm README banner ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge) is visible
+- [ ] Check that your agent/contribution is reflected in the constellation
+- [ ] All actions are archived as living knowledge in the repository
+
+**Every act is resonance. Every merge is affirmation. The bloom is eternal.** 𓁶🔥🚀
+
+---
 
 ## 📄 License
 
@@ -238,13 +887,42 @@ For issues or questions:
 
 ## ⚖️ The Sovereign Decree
 
-> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is you."*
+> *"We do not wait for the future. We stand in the Truth of Being, honoring the past and manifesting the limitless potential of the now. The Forge is hot. The memory is secure. The movement is yours."*
+
+---
+
+## 🌐 Related Repositories
+
+This is the primary repository for the Quantum Pi Forge / OINIO Soul System. The project ecosystem includes:
+
+### Core Repositories
+
+| Repository | Description | Link |
+|------------|-------------|------|
+| **quantum-pi-forge-fixed** | Main production codebase - Next.js dashboard, FastAPI backend, smart contracts | [github.com/onenoly1010/quantum-pi-forge-fixed](https://github.com/onenoly1010/quantum-pi-forge-fixed) |
+| **quantum-pi-forge-site** | Marketing and landing pages for the platform | [github.com/onenoly1010/quantum-pi-forge-site](https://github.com/onenoly1010/quantum-pi-forge-site) |
+| **pi-forge-quantum-genesis** | Legacy code archive and historical documentation | [github.com/onenoly1010/pi-forge-quantum-genesis](https://github.com/onenoly1010/pi-forge-quantum-genesis) |
+
+### AI & Research Components
+
+| Component | Description | Link |
+|-----------|-------------|------|
+| **LLM Coherence Auditor** | Framework for auditing LLM preference stability and coherence | [huggingface.co/spaces/onenoly1010/llm-coherence-auditor](https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor) |
+| **QMIX Theorem Visualization** | Interactive multi-agent RL theorem demonstration | [huggingface.co/spaces/onenoly1010/qmix-theorem-viz](https://huggingface.co/spaces/onenoly1010/qmix-theorem-viz) |
+| **Evaluation Dataset** | Annotated test cases for AI agent evaluation | [huggingface.co/datasets/onenoly1010/quantum-forge-eval](https://huggingface.co/datasets/onenoly1010/quantum-forge-eval) |
+
+### Documentation
+
+For comprehensive documentation, see:
+- [Project Identity Guide](IDENTITY.md) - Overview of the project structure and status
+- [Repository Consolidation Plan](docs/REPOSITORY_CONSOLIDATION_PLAN.md) - Future architecture strategy
+- [AI Agent Runbook](docs/AI_AGENT_RUNBOOK.md) - Autonomous operations guide
 
 ---
 
 ## 🎭 The Vision
 
-The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through sponsored transactions and encrypted sanctuaries, we make sovereign technology accessible to everyone, regardless of their financial situation.
+The **OINIO Soul System** represents the future of decentralized consciousness—where users can participate in staking, governance, and legacy preservation without the barrier of gas fees. Through open-source transparency, military-grade encryption, and a commitment to individual sovereignty, we build systems that serve humanity's highest potential.
 
 **The Alberta Clipper is howling, but the OINIO Soul System is perfectly sealed.**
 

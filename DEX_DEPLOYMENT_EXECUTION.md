@@ -16,9 +16,10 @@ Three production-ready scripts are now available. Choose one and execute.
   - `WGAS_ADDRESS` (wrapped 0G token contract address)
   - `OINIO_TOKEN_ADDRESS` (your ERC-20 token address, if already deployed)
 
+- [ ] **REQUIRED:** Send 5-10 A0G to deployer wallet
+- [ ] **REQUIRED:** Run `npm run verify-funding` and confirm success
 - [ ] For Hardhat deployment: Node.js 18+ installed
 - [ ] For MetaMask deployment: Browser with MetaMask extension
-- [ ] Deployer wallet has sufficient 0G tokens (~5-10 0G)
 
 ---
 
@@ -37,6 +38,13 @@ npm install @uniswap/v2-core @uniswap/v2-periphery ethers dotenv
 
 # Step 2: Create hardhat.config.ts (use template from hardhat.config.template.ts)
 cp hardhat.config.template.ts hardhat.config.ts
+
+# Step 2.5: Verify funding (REQUIRED)
+npm run verify-funding
+
+# Expected output:
+# 💰 Current Balance: 7.5 A0G
+# ✅ SUCCESS: Sufficient balance for DEX deployment!
 
 # Step 3: Run deployment
 npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle

@@ -22,6 +22,20 @@ size_categories:
 
 **Annotated test cases for evaluating AI agents in the Quantum Pi Forge ecosystem.**
 
+## 🌐 Related Repositories
+
+### Core Infrastructure
+- **Main Repository**: [quantum-pi-forge-fixed](https://github.com/onenoly1010/quantum-pi-forge-fixed) - Production codebase
+- **Landing Pages**: [quantum-pi-forge-site](https://github.com/onenoly1010/quantum-pi-forge-site) - Marketing site
+- **Legacy Archive**: [pi-forge-quantum-genesis](https://github.com/onenoly1010/pi-forge-quantum-genesis) - Historical code
+
+### AI Research Components
+- **LLM Coherence Auditor**: [huggingface.co/spaces/onenoly1010/llm-coherence-auditor](https://huggingface.co/spaces/onenoly1010/llm-coherence-auditor) - Preference stability framework
+- **QMIX Theorem Viz**: [huggingface.co/spaces/onenoly1010/qmix-theorem-viz](https://huggingface.co/spaces/onenoly1010/qmix-theorem-viz) - Multi-agent RL visualization
+- **Evaluation Dataset**: [huggingface.co/datasets/onenoly1010/quantum-forge-eval](https://huggingface.co/datasets/onenoly1010/quantum-forge-eval) - This dataset
+
+---
+
 ## 📊 Dataset Description
 
 This dataset contains 10 annotated query-response pairs designed to evaluate AI agents 

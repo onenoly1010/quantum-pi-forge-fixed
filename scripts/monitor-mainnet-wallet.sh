@@ -4,7 +4,7 @@
 # Monitors the deployer wallet for incoming gas funding
 # ═══════════════════════════════════════════════════════════════════════════
 
-DEPLOYER="0x3e81132dcA223a7d8D58ea769F6c91d4B64B73d7"
+DEPLOYER="0x353663cd664bB3e034Dc0f308D8896C0a242e4cd"
 RPC_URL="https://evmrpc.0g.ai"
 CHECK_INTERVAL="${1:-30}"  # Default: check every 30 seconds
 TARGET_BALANCE="${2:-5}"   # Default: alert when >= 5 A0G

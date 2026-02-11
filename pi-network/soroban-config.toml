@@ -1,0 +1,47 @@
+# Soroban Configuration for Pi Network Testnet Deployment
+# This configuration is used for deploying the Quantum Pi Forge contract to Pi Network
+
+[network]
+# Pi Network Testnet Configuration
+name = "pi-testnet"
+rpc_url = "${PI_NETWORK_RPC_URL}"
+network_passphrase = "${PI_NETWORK_PASSPHRASE}"
+
+[accounts.deployer]
+# Deployment account - private key should be set via PI_DEPLOYER_SECRET_KEY env var
+secret_key = "${PI_DEPLOYER_SECRET_KEY}"
+
+[contracts.quantum_pi_forge]
+# Contract deployment settings
+wasm_path = "./target/wasm32-unknown-unknown/release/quantum_pi_forge.wasm"
+contract_id = "${PI_FORGE_CONTRACT_ID:-}" # Optional: for upgrades
+
+[build]
+# Build optimization settings for production
+optimization_level = "z"
+target = "wasm32-unknown-unknown"
+features = []
+
+[deployment]
+# Deployment parameters
+gas_limit = 100000000
+memo = "Quantum Pi Forge - Sovereign Public Good v1.0.0"
+time_bounds = 300 # 5 minutes
+
+[monitoring]
+# Contract monitoring endpoints
+health_check_interval = 60 # seconds
+alert_endpoints = [
+    "${SLACK_WEBHOOK_URL}",
+    "${DISCORD_WEBHOOK_URL}"
+]
+
+# Event monitoring
+events_to_track = [
+    "stake",
+    "unstake",
+    "swap",
+    "add_liquidity",
+    "remove_liquidity",
+    "claim_rewards"
+]
