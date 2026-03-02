@@ -286,6 +286,5 @@ jobs:
   #     run: |
   #       npm run deploy:dex
   #     env:
-  #       DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
-lkjhgfdsafghjkl;'\
-'/.,mn
+  #       DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }
+  
