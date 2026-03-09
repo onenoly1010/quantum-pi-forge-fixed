@@ -7,9 +7,20 @@ const OINIO_TOKEN_ADDRESS = process.env.OINIO_TOKEN_ADDRESS;
 export async function GET() {
   try {
     if (!OINIO_TOKEN_ADDRESS) {
+      console.error('OINIO_TOKEN_ADDRESS not configured');
       return NextResponse.json(
-        { error: 'OINIO_TOKEN_ADDRESS not configured' },
-        { status: 500 }
+        { error: 'OINIO_TOKEN_ADDRESS not configured', metrics: {
+          oinioPrice: 0.00,
+          priceChange: 0.00,
+          tvl: 0.00,
+          tvlChange: 0.00,
+          activeStakers: 0,
+          totalStaked: 0,
+          tokenName: "OINIO",
+          tokenSymbol: "OINIO",
+          lastUpdated: new Date().toISOString()
+        } },
+        { status: 200 }  // Return 200 with fallback to keep app running
       );
     }
 

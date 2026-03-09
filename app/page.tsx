@@ -24,9 +24,31 @@ export default function Home() {
         if (response.ok) {
           const data = await response.json();
           setMetrics(data);
+        } else {
+          console.error('API response error:', response.status);
+          setMetrics({ // Fallback metrics
+            oinioPrice: 0.00,
+            priceChange: 0.00,
+            tvl: 0.00,
+            tvlChange: 0.00,
+            activeStakers: 0,
+            totalStaked: 0,
+            tokenName: "OINIO",
+            tokenSymbol: "OINIO"
+          });
         }
       } catch (error) {
         console.error('Failed to fetch metrics:', error);
+        setMetrics({ // Fallback metrics
+          oinioPrice: 0.00,
+          priceChange: 0.00,
+          tvl: 0.00,
+          tvlChange: 0.00,
+          activeStakers: 0,
+          totalStaked: 0,
+          tokenName: "OINIO",
+          tokenSymbol: "OINIO"
+        });
       }
     };
 
