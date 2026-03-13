@@ -4,10 +4,8 @@ pragma solidity ^0.8.27;
 import "solady/src/tokens/ERC20.sol";
 
 contract Oinio is ERC20 {
-    constructor()
-        ERC20("OINIO", "OINIO", 18)
-    {
-        // Mint 1 billion OINIO to deployer
+    constructor() ERC20() {
+        super._initialize("OINIO", "OINIO");
         _mint(msg.sender, 1000000000 * 10**18);
     }
 

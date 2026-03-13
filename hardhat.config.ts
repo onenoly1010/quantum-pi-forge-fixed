@@ -1,6 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-ethers";
-import "@nomicfoundation/hardhat-etherscan";
+import "@nomicfoundation/hardhat-verify";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -16,6 +16,15 @@ dotenv.config({ path: envPath });
 const config: HardhatUserConfig = {
   solidity: {
     compilers: [
+      {
+        version: "0.8.27",  // Added for exact compatibility with Oinio.sol
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
       {
         version: "0.8.24",
         settings: {
@@ -52,6 +61,15 @@ const config: HardhatUserConfig = {
           },
         },
       },
+      {
+        version: "0.8.0", // Added for compatibility with Oinio.sol
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
     ],
   },
 
@@ -67,9 +85,7 @@ const config: HardhatUserConfig = {
       chainId: 16661,
       timeout: 120000, // 2 minutes for slow RPC responses
       gasPrice: 20000000000, // 20 gwei base gas price
-      blockGasLimit: 30000000, // Conservative block gas limit
     },
-    // 0G Testnet (Galileo)
     "0g-testnet": {
       type: "http",
       url: "https://evmrpc-testnet.0g.ai",
@@ -77,22 +93,6 @@ const config: HardhatUserConfig = {
       chainId: 16602,
       timeout: 120000,
     },
-  },
-
-  etherscan: {
-    apiKey: {
-      "0g-aristotle": "no-key-needed",
-    },
-    customChains: [
-      {
-        network: "0g-aristotle",
-        chainId: 16661,
-        urls: {
-          apiURL: "https://chainscan.0g.ai/api",
-          browserURL: "https://chainscan.0g.ai",
-        },
-      },
-    ],
   },
 
   paths: {
