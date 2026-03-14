@@ -9,6 +9,14 @@ contract Oinio is ERC20 {
         _mint(msg.sender, 1000000000 * 10**18);
     }
 
+    function name() public view override returns (string memory) {
+        return "OINIO Token";
+    }
+
+    function symbol() public view override returns (string memory) {
+        return "OINIO";
+    }
+
     function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }

@@ -7,6 +7,9 @@ import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract QuantumPiSovereignStaking is ERC2771Context, Ownable {
+function _contextSuffixLength() internal view virtual override(Context, ERC2771Context) returns (uint256) {
+        return 0;  // Override to resolve conflict
+    }
     using SafeERC20 for IERC20;
 
     IERC20 public immutable oinioToken;
