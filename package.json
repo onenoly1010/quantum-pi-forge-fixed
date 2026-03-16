@@ -27,6 +27,7 @@
     "tailwind-merge": "^2.0.0"
   },
   "scripts": {
+    "verify-funding": "node scripts/verify-funding.js",
     "dev": "next dev",
     "build": "next build"
   },
