@@ -33,6 +33,7 @@
     "build": "next build"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@nomicfoundation/hardhat-ethers": "^4.0.6",
     "@nomicfoundation/hardhat-foundry": "^3.0.0",
     "@nomicfoundation/hardhat-verify": "^3.0.12",
@@ -44,6 +45,22 @@
     "hardhat": "^3.1.12",
     "solady": "^0.1.26",
     "typescript": "5.9.3"
+=======
+    "@next/bundle-analyzer": "^14.0.0",
+    "@tailwindcss/forms": "^0.5.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.6",
+    "husky": "^8.0.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.0"
+>>>>>>> 2f5d4f2c7f68e9802163651fa0c8e27afb60dfa5
   },
   "type": "module"
 }
