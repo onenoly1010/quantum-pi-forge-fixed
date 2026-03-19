@@ -23,7 +23,7 @@ export interface SoulProfile extends Soul {
 }
 
 export interface PersonalityTraits {
-  openness: number;        // 0-1 scale
+  openness: number; // 0-1 scale
   conscientiousness: number;
   extraversion: number;
   agreeableness: number;
@@ -54,18 +54,18 @@ export interface Achievement {
   name: string;
   description: string;
   unlockedAt: number;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  rarity: "common" | "rare" | "epic" | "legendary";
 }
 
 export interface UserPreferences {
   privacy: PrivacySettings;
   notifications: NotificationSettings;
-  theme: 'light' | 'dark' | 'auto';
+  theme: "light" | "dark" | "auto";
   language: string;
 }
 
 export interface PrivacySettings {
-  profileVisibility: 'public' | 'friends' | 'private';
+  profileVisibility: "public" | "friends" | "private";
   showTraits: boolean;
   showReadings: boolean;
   allowContact: boolean;
@@ -89,12 +89,12 @@ export interface Reading {
 }
 
 export type ReadingType =
-  | 'personality'
-  | 'compatibility'
-  | 'future'
-  | 'past'
-  | 'present'
-  | 'custom';
+  | "personality"
+  | "compatibility"
+  | "future"
+  | "past"
+  | "present"
+  | "custom";
 
 export interface ReadingContent {
   summary: string;
@@ -116,11 +116,11 @@ export interface Claim {
 }
 
 export type ClaimType =
-  | 'identity'
-  | 'achievement'
-  | 'experience'
-  | 'skill'
-  | 'custom';
+  | "identity"
+  | "achievement"
+  | "experience"
+  | "skill"
+  | "custom";
 
 export interface ClaimContent {
   title: string;
@@ -151,7 +151,7 @@ export interface IdentityResolution {
   piUid: string;
   soulId?: string;
   resolved: boolean;
-  method: 'existing' | 'created' | 'failed';
+  method: "existing" | "created" | "failed";
   timestamp: number;
   error?: string;
 }

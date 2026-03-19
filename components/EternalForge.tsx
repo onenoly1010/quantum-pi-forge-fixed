@@ -1,41 +1,41 @@
 // components/EternalForge.tsx
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { QuantumOrbitSVG } from './SvgIcons'
+import { useState, useEffect } from "react";
+import { QuantumOrbitSVG } from "./SvgIcons";
 
 export function EternalForge() {
-  const [forgeTemperature, setForgeTemperature] = useState(1420)
-  const [piTransactions, setPiTransactions] = useState<string[]>([])
-  const [stakingAPR, setStakingAPR] = useState(18.4)
-  const [resonance, setResonance] = useState(72.6)
+  const [forgeTemperature, setForgeTemperature] = useState(1420);
+  const [piTransactions, setPiTransactions] = useState<string[]>([]);
+  const [stakingAPR, setStakingAPR] = useState(18.4);
+  const [resonance, setResonance] = useState(72.6);
 
   useEffect(() => {
     // Generate mock Pi transactions
     const generateTxHash = () => {
-      const chars = '0123456789abcdef'
-      let hash = '0x'
+      const chars = "0123456789abcdef";
+      let hash = "0x";
       for (let i = 0; i < 40; i++) {
-        hash += chars[Math.floor(Math.random() * chars.length)]
+        hash += chars[Math.floor(Math.random() * chars.length)];
       }
-      return hash
-    }
+      return hash;
+    };
 
     const interval = setInterval(() => {
-      setForgeTemperature(prev => prev + (Math.random() > 0.5 ? 5 : -5))
-      setResonance(prev => Math.min(100, prev + (Math.random() * 2 - 1)))
+      setForgeTemperature((prev) => prev + (Math.random() > 0.5 ? 5 : -5));
+      setResonance((prev) => Math.min(100, prev + (Math.random() * 2 - 1)));
 
       // Add new transaction every 3 seconds
       if (Math.random() > 0.7) {
-        setPiTransactions(prev => [
+        setPiTransactions((prev) => [
           `${generateTxHash()}: ${(Math.random() * 10).toFixed(2)}π`,
-          ...prev.slice(0, 5)
-        ])
+          ...prev.slice(0, 5),
+        ]);
       }
-    }, 1000)
+    }, 1000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 border border-gray-800">
@@ -43,24 +43,34 @@ export function EternalForge() {
         <div className="flex items-center gap-4">
           <QuantumOrbitSVG className="w-12 h-12 text-orange-500 animate-spin-slow" />
           <div>
-            <h2 className="text-2xl font-bold text-white">🔥 The Eternal Forge</h2>
-            <p className="text-gray-400">Resonance pulses • Staking fires • π transactions</p>
+            <h2 className="text-2xl font-bold text-white">
+              🔥 The Eternal Forge
+            </h2>
+            <p className="text-gray-400">
+              Resonance pulses • Staking fires • π transactions
+            </p>
           </div>
         </div>
         <div className="text-right">
           <div className="text-sm text-gray-400">Live Temperature</div>
-          <div className="text-3xl font-bold text-orange-500">{forgeTemperature}°K</div>
+          <div className="text-3xl font-bold text-orange-500">
+            {forgeTemperature}°K
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Resonance Pulse */}
         <div className="bg-gray-800/50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">🧠 Resonance Pulse</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            🧠 Resonance Pulse
+          </h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-gray-400">Quantum Coherence</span>
-              <span className="text-green-400 font-bold">{resonance.toFixed(1)}%</span>
+              <span className="text-green-400 font-bold">
+                {resonance.toFixed(1)}%
+              </span>
             </div>
             <div className="w-full bg-gray-700 rounded-full h-3">
               <div
@@ -78,10 +88,14 @@ export function EternalForge() {
 
         {/* Staking Fires */}
         <div className="bg-gray-800/50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">🔥 Staking Fires</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            🔥 Staking Fires
+          </h3>
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-4xl font-bold text-orange-400">{stakingAPR}% APR</div>
+              <div className="text-4xl font-bold text-orange-400">
+                {stakingAPR}% APR
+              </div>
               <div className="text-gray-400 mt-1">Eternal compounding</div>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -99,10 +113,15 @@ export function EternalForge() {
 
         {/* Pi Transactions */}
         <div className="bg-gray-800/50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">π Transactions</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            π Transactions
+          </h3>
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {piTransactions.map((tx, index) => (
-              <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-700/50 rounded">
+              <div
+                key={index}
+                className="flex items-center justify-between p-2 hover:bg-gray-700/50 rounded"
+              >
                 <code className="text-sm text-cyan-300 truncate">{tx}</code>
                 <span className="text-green-400 text-sm">✓</span>
               </div>
@@ -134,5 +153,5 @@ export function EternalForge() {
         </div>
       </div>
     </div>
-  )
+  );
 }

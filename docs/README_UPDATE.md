@@ -40,18 +40,21 @@
 ## 📚 Additional Resources
 
 ### Platform Status
+
 - **Network**: Polygon Mainnet (Chain ID: 137)
 - **Token Address**: `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7`
 - **Dashboard**: https://quantumpiforge.com
 - **Status**: ✅ LIVE & OPERATIONAL
 
 ### Technical Details
+
 - Built with Next.js 14, React 18, TypeScript
 - Powered by Ethers.js and MetaMask integration
 - Deployed on Vercel with automatic scaling
 - Real-time balance tracking and transaction confirmation
 
 ### Philosophy
+
 The Quantum Pi Forge is the functional heart of the **OINIO Soul System** - built for the Truth Movement, where consciousness meets the blockchain. This platform makes sovereign technology accessible to everyone by removing the barrier of gas fees.
 
 ---

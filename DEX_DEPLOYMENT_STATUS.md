@@ -56,6 +56,7 @@ npm run check-balance
 ```
 
 Should show:
+
 ```text
 💰 Current Balance: 7.5000 A0G
 ✅ SUCCESS: Sufficient balance for DEX deployment!
@@ -110,12 +111,12 @@ Should show:
 
 ## 📊 Deployment Statistics
 
-| Item | Status |
-| --- | --- |
-| Deployment Scripts | ✅ Ready |
-| Documentation | ✅ Ready |
-| Configuration | ✅ Ready |
-| RPC Connectivity | ✅ Verified |
+| Item                 | Status         |
+| -------------------- | -------------- |
+| Deployment Scripts   | ✅ Ready       |
+| Documentation        | ✅ Ready       |
+| Configuration        | ✅ Ready       |
+| RPC Connectivity     | ✅ Verified    |
 | Deployment Execution | 🔴 Not Started |
 
 ---
@@ -133,16 +134,16 @@ Total time to completion: **~15 minutes**
 
 ## ⏰ Timeline
 
-| Phase | Status | Duration |
-| --- | --- | --- |
-| Environment Setup | ✅ Done | - |
-| Script Creation | ✅ Done | - |
-| Documentation | ✅ Done | - |
-| RPC Testing | ✅ Done | 2 min |
-| Wallet Funding | 🔴 Pending | 5-10 min |
-| Balance Verification | 🔴 Pending | 1 min |
-| Deployment | 🔴 Pending | 10-15 min |
-| Verification | 🔴 Pending | 2 min |
+| Phase                | Status     | Duration  |
+| -------------------- | ---------- | --------- |
+| Environment Setup    | ✅ Done    | -         |
+| Script Creation      | ✅ Done    | -         |
+| Documentation        | ✅ Done    | -         |
+| RPC Testing          | ✅ Done    | 2 min     |
+| Wallet Funding       | 🔴 Pending | 5-10 min  |
+| Balance Verification | 🔴 Pending | 1 min     |
+| Deployment           | 🔴 Pending | 10-15 min |
+| Verification         | 🔴 Pending | 2 min     |
 
 ---
 
@@ -151,18 +152,21 @@ Total time to completion: **~15 minutes**
 **GitHub Actions Workflow**: `.github/workflows/deployment-gate.yml`
 
 ### Enterprise-Grade Features:
+
 - **Circuit Breaker Logic**: Multi-RPC fallback with latency-based selection
 - **Gas Price Intelligence**: Dynamic fee calculation with market awareness
 - **Spike Protection**: Automatic retry logic for transient gas price spikes
 - **Production Gates**: Prevents deployment during extreme network conditions
 
 ### Automated Checks on Every Push:
+
 - ✅ **Funding Verification**: Gas-aware balance validation with multi-RPC resilience
 - ✅ **Gas Intelligence**: Real-time fee analysis with reasonableness checks
 - ✅ **RPC Health**: Latency testing and automatic failover selection
 - ✅ **Deployment Report**: Comprehensive readiness assessment
 
 ### Gas Price Intelligence:
+
 ```yaml
 # Dynamic Fee Calculation
 maxFeePerGas = baseFee × 1.2  # 20% buffer
@@ -178,6 +182,7 @@ THRESHOLD: 50 gwei
 ```
 
 ### Pipeline Flow:
+
 ```mermaid
 graph TD
     A[Push to main] --> B[CI/CD Pipeline Starts]
@@ -195,13 +200,17 @@ graph TD
 ```
 
 ### Manual Override:
+
 For testing purposes, you can skip funding verification:
+
 ```bash
 # Via GitHub Actions dispatch with skip_funding_check=true
 ```
 
 ### Environment Variables Required:
+
 Add to GitHub Secrets:
+
 - `DEPLOYER_ADDRESS`: Your deployer wallet address
 - `DEPLOYER_PRIVATE_KEY`: Private key for automated deployment (optional)
 
@@ -216,6 +225,7 @@ Add to GitHub Secrets:
 **Status**: 🔄 READY FOR FUNDING (Send 5-10 A0G to deployer wallet)
 
 **CI/CD Status**: 🛡️ **ENTERPRISE-GRADE FLIGHT CONTROLLER ACTIVE**
+
 - Circuit breaker architecture with multi-RPC resilience
 - Gas price intelligence with spike detection and retry logic
 - Latency-based RPC selection for optimal performance

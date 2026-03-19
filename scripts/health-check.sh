@@ -2,13 +2,9 @@
 set -euo pipefail
 
 SERVICES=(
-  "https://quantumpiforge.com"
-  "https://api.quantumpiforge.com/health"
-  "https://app.quantumpiforge.com"
-  "https://staking.quantumpiforge.com"
-  "https://vr.quantumpiforge.com"
-  "https://leaderboard.quantumpiforge.com"
-  "https://docs.quantumpiforge.com"
+  "${FASTAPI_URL:-http://localhost:8000}"
+  "${FLASK_URL:-http://localhost:5000}"
+  "${GRADIO_URL:-http://localhost:7860}"
 )
 
 echo "🔄 Running Quantum Forge Health Checks..."

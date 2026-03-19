@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
-import { usePiConnection, usePiPurchase } from '../hooks/pi-sdk';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+import { usePiConnection, usePiPurchase } from "../hooks/pi-sdk";
 
 export function PiConnect({ onSuccess }: { onSuccess?: () => void }) {
   const { connected, connect, disconnect, status } = usePiConnection();
@@ -13,16 +19,16 @@ export function PiConnect({ onSuccess }: { onSuccess?: () => void }) {
       await connect();
       onSuccess?.();
     } catch (err: any) {
-      setError(err?.message || 'Connection failed');
+      setError(err?.message || "Connection failed");
     }
   }
 
   async function handlePurchase() {
     setError(null);
     try {
-      await purchase({ amount: '0.1', currency: 'PI' });
+      await purchase({ amount: "0.1", currency: "PI" });
     } catch (err: any) {
-      setError(err?.message || 'Purchase failed');
+      setError(err?.message || "Purchase failed");
     }
   }
 
@@ -38,11 +44,17 @@ export function PiConnect({ onSuccess }: { onSuccess?: () => void }) {
 
       <View style={{ height: 12 }} />
 
-      <Button title="Mint Soul (demo)" onPress={handlePurchase} disabled={!connected || purchasing} />
+      <Button
+        title="Mint Soul (demo)"
+        onPress={handlePurchase}
+        disabled={!connected || purchasing}
+      />
 
       {purchasing && <ActivityIndicator style={{ marginTop: 12 }} />}
 
-      {lastReceipt && <Text style={styles.receipt}>Receipt: {lastReceipt.id}</Text>}
+      {lastReceipt && (
+        <Text style={styles.receipt}>Receipt: {lastReceipt.id}</Text>
+      )}
 
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
@@ -51,20 +63,20 @@ export function PiConnect({ onSuccess }: { onSuccess?: () => void }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     maxWidth: 480,
-    alignItems: 'center'
+    alignItems: "center",
   },
   label: {
     marginBottom: 8,
-    color: '#fff'
+    color: "#fff",
   },
   error: {
     marginTop: 12,
-    color: '#ff6b6b'
+    color: "#ff6b6b",
   },
   receipt: {
     marginTop: 8,
-    color: '#9ae6b4'
-  }
+    color: "#9ae6b4",
+  },
 });

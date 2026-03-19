@@ -1,6 +1,7 @@
 # Quantum Resonance Status
 
 ## Recent Changes (2026-01-20)
+
 - Added deployment GitHub Actions workflow: `.github/workflows/deploy.yml`
 - Added helper scripts in `scripts/`:
   - `deploy-frontend.sh`, `deploy-backend.sh`, `rollback.sh`, `health-check.sh`, `daily-maintenance.sh`
@@ -10,6 +11,7 @@
 Branch: `feature/deploy-workflows-hardening`
 
 To run evaluation and health checks locally:
+
 - `npm run health:check`
 - `bash scripts/run-evaluation.sh` (requires Python)
 

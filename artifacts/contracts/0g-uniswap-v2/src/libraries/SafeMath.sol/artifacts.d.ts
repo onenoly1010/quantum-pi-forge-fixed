@@ -16,7 +16,7 @@ export interface SafeMath$Type {
   readonly immutableReferences: {};
   readonly inputSourceName: "project/contracts/0g-uniswap-v2/src/libraries/SafeMath.sol";
   readonly buildInfoId: "solc-0_6_6-6edb373f2679ea75424ce678220e3e6365f1a871";
-};
+}
 
 import "hardhat/types/artifacts";
 declare module "hardhat/types/artifacts" {

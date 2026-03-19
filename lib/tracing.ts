@@ -1,8 +1,8 @@
 // lib/tracing.ts - Tracing utilities and manual instrumentation helpers
-import { trace, context, SpanStatusCode, SpanKind } from '@opentelemetry/api';
+import { trace, context, SpanStatusCode, SpanKind } from "@opentelemetry/api";
 
 // Get the global tracer for manual spans
-const tracer = trace.getTracer('quantum-pi-forge', '2.0.0');
+const tracer = trace.getTracer("quantum-pi-forge", "2.0.0");
 
 export interface TraceOptions {
   operation: string;
@@ -15,37 +15,40 @@ export interface TraceOptions {
  */
 export async function traceAsync<T>(
   options: TraceOptions,
-  fn: () => Promise<T>
+  fn: () => Promise<T>,
 ): Promise<T> {
   const { operation, attributes = {}, kind = SpanKind.INTERNAL } = options;
-  
-  return tracer.startActiveSpan(operation, { kind, attributes }, async (span) => {
-    try {
-      const result = await fn();
-      span.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error instanceof Error ? error.message : 'Unknown error',
-      });
-      span.recordException(error instanceof Error ? error : new Error(String(error)));
-      throw error;
-    } finally {
-      span.end();
-    }
-  });
+
+  return tracer.startActiveSpan(
+    operation,
+    { kind, attributes },
+    async (span) => {
+      try {
+        const result = await fn();
+        span.setStatus({ code: SpanStatusCode.OK });
+        return result;
+      } catch (error) {
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+          message: error instanceof Error ? error.message : "Unknown error",
+        });
+        span.recordException(
+          error instanceof Error ? error : new Error(String(error)),
+        );
+        throw error;
+      } finally {
+        span.end();
+      }
+    },
+  );
 }
 
 /**
  * Wrapper function to trace sync operations
  */
-export function traceSync<T>(
-  options: TraceOptions,
-  fn: () => T
-): T {
+export function traceSync<T>(options: TraceOptions, fn: () => T): T {
   const { operation, attributes = {}, kind = SpanKind.INTERNAL } = options;
-  
+
   return tracer.startActiveSpan(operation, { kind, attributes }, (span) => {
     try {
       const result = fn();
@@ -54,9 +57,11 @@ export function traceSync<T>(
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: error instanceof Error ? error.message : "Unknown error",
       });
-      span.recordException(error instanceof Error ? error : new Error(String(error)));
+      span.recordException(
+        error instanceof Error ? error : new Error(String(error)),
+      );
       throw error;
     } finally {
       span.end();
@@ -67,7 +72,9 @@ export function traceSync<T>(
 /**
  * Add attributes to current active span
  */
-export function addSpanAttributes(attributes: Record<string, string | number | boolean>) {
+export function addSpanAttributes(
+  attributes: Record<string, string | number | boolean>,
+) {
   const activeSpan = trace.getActiveSpan();
   if (activeSpan) {
     Object.entries(attributes).forEach(([key, value]) => {
@@ -79,7 +86,10 @@ export function addSpanAttributes(attributes: Record<string, string | number | b
 /**
  * Record an event in the current active span
  */
-export function recordSpanEvent(name: string, attributes?: Record<string, string | number | boolean>) {
+export function recordSpanEvent(
+  name: string,
+  attributes?: Record<string, string | number | boolean>,
+) {
   const activeSpan = trace.getActiveSpan();
   if (activeSpan) {
     activeSpan.addEvent(name, attributes);
@@ -99,7 +109,10 @@ export function setSpanStatus(code: SpanStatusCode, message?: string) {
 /**
  * Create a child span from current context
  */
-export function createChildSpan(name: string, attributes?: Record<string, string | number | boolean>) {
+export function createChildSpan(
+  name: string,
+  attributes?: Record<string, string | number | boolean>,
+) {
   return tracer.startSpan(name, { attributes });
 }
 
@@ -108,7 +121,7 @@ export function createChildSpan(name: string, attributes?: Record<string, string
  */
 export function getCurrentTraceId(): string {
   const activeSpan = trace.getActiveSpan();
-  return activeSpan?.spanContext().traceId || 'no-trace';
+  return activeSpan?.spanContext().traceId || "no-trace";
 }
 
 /**
@@ -116,5 +129,5 @@ export function getCurrentTraceId(): string {
  */
 export function getCurrentSpanId(): string {
   const activeSpan = trace.getActiveSpan();
-  return activeSpan?.spanContext().spanId || 'no-span';
+  return activeSpan?.spanContext().spanId || "no-span";
 }

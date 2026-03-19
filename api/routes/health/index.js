@@ -3,25 +3,28 @@
  * System health checks and status endpoints
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const os = require('os');
+const os = require("os");
 
 // Import services for health checks
-const { authService } = require('../../services/auth');
-const { dbManager } = require('../../config/database');
-const { getMetrics, updateDatabaseMetrics } = require('../../middleware/metrics');
+const { authService } = require("../../services/auth");
+const { dbManager } = require("../../config/database");
+const {
+  getMetrics,
+  updateDatabaseMetrics,
+} = require("../../middleware/metrics");
 
 /**
  * GET /health
  * Basic health check
  */
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   res.json({
-    status: 'healthy',
+    status: "healthy",
     timestamp: new Date().toISOString(),
-    service: 'QuantumPiForge Unified API',
-    version: process.env.npm_package_version || '1.0.0'
+    service: "QuantumPiForge Unified API",
+    version: process.env.npm_package_version || "1.0.0",
   });
 });
 
@@ -29,78 +32,78 @@ router.get('/', async (req, res) => {
  * GET /health/detailed
  * Detailed health check with component status
  */
-router.get('/detailed', async (req, res) => {
+router.get("/detailed", async (req, res) => {
   try {
     const health = {
-      status: 'healthy',
+      status: "healthy",
       timestamp: new Date().toISOString(),
-      service: 'QuantumPiForge Unified API',
-      version: process.env.npm_package_version || '1.0.0',
+      service: "QuantumPiForge Unified API",
+      version: process.env.npm_package_version || "1.0.0",
       uptime: process.uptime(),
-      components: {}
+      components: {},
     };
 
     // Check authentication service
     try {
       const authStats = authService.getSessionStats();
       health.components.auth = {
-        status: 'healthy',
+        status: "healthy",
         activeSessions: authStats.active,
-        totalSessions: authStats.total
+        totalSessions: authStats.total,
       };
     } catch (error) {
       health.components.auth = {
-        status: 'unhealthy',
-        error: error.message
+        status: "unhealthy",
+        error: error.message,
       };
-      health.status = 'degraded';
+      health.status = "degraded";
     }
 
     // Check database connectivity (placeholder)
     try {
       // TODO: Add actual database health check
       health.components.database = {
-        status: 'healthy',
-        type: 'mongodb',
-        connected: true
+        status: "healthy",
+        type: "mongodb",
+        connected: true,
       };
     } catch (error) {
       health.components.database = {
-        status: 'unhealthy',
-        error: error.message
+        status: "unhealthy",
+        error: error.message,
       };
-      health.status = 'degraded';
+      health.status = "degraded";
     }
 
     // Check blockchain connectivity (placeholder)
     try {
       // TODO: Add actual blockchain health check
       health.components.blockchain = {
-        status: 'healthy',
-        network: 'polygon',
-        connected: true
+        status: "healthy",
+        network: "polygon",
+        connected: true,
       };
     } catch (error) {
       health.components.blockchain = {
-        status: 'unhealthy',
-        error: error.message
+        status: "unhealthy",
+        error: error.message,
       };
-      health.status = 'degraded';
+      health.status = "degraded";
     }
 
     // Check Pi Network connectivity (placeholder)
     try {
       // TODO: Add actual Pi Network health check
       health.components.piNetwork = {
-        status: 'healthy',
-        connected: true
+        status: "healthy",
+        connected: true,
       };
     } catch (error) {
       health.components.piNetwork = {
-        status: 'unhealthy',
-        error: error.message
+        status: "unhealthy",
+        error: error.message,
       };
-      health.status = 'degraded';
+      health.status = "degraded";
     }
 
     // System resources
@@ -111,22 +114,21 @@ router.get('/detailed', async (req, res) => {
       totalMemory: os.totalmem(),
       freeMemory: os.freemem(),
       loadAverage: os.loadavg(),
-      nodeVersion: process.version
+      nodeVersion: process.version,
     };
 
     // Environment info (safe)
     health.environment = {
-      nodeEnv: process.env.NODE_ENV || 'development',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      nodeEnv: process.env.NODE_ENV || "development",
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    res.status(health.status === 'healthy' ? 200 : 503).json(health);
-
+    res.status(health.status === "healthy" ? 200 : 503).json(health);
   } catch (error) {
     res.status(503).json({
-      status: 'unhealthy',
+      status: "unhealthy",
       timestamp: new Date().toISOString(),
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -135,25 +137,24 @@ router.get('/detailed', async (req, res) => {
  * GET /health/ready
  * Readiness check for load balancers
  */
-router.get('/ready', async (req, res) => {
+router.get("/ready", async (req, res) => {
   try {
     // Check critical dependencies
     const criticalChecks = [
-      authService.getSessionStats() // If this fails, service is not ready
+      authService.getSessionStats(), // If this fails, service is not ready
     ];
 
     await Promise.all(criticalChecks);
 
     res.status(200).json({
-      status: 'ready',
-      timestamp: new Date().toISOString()
+      status: "ready",
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     res.status(503).json({
-      status: 'not ready',
+      status: "not ready",
       timestamp: new Date().toISOString(),
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -162,11 +163,11 @@ router.get('/ready', async (req, res) => {
  * GET /health/live
  * Liveness check for container orchestration
  */
-router.get('/live', (req, res) => {
+router.get("/live", (req, res) => {
   res.status(200).json({
-    status: 'alive',
+    status: "alive",
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   });
 });
 
@@ -174,7 +175,7 @@ router.get('/live', (req, res) => {
  * GET /health/metrics
  * Prometheus-style metrics (placeholder)
  */
-router.get('/metrics', async (req, res) => {
+router.get("/metrics", async (req, res) => {
   try {
     const authStats = authService.getSessionStats();
 
@@ -200,9 +201,8 @@ qpforge_heap_used_bytes ${process.memoryUsage().heapUsed}
 qpforge_heap_total_bytes ${process.memoryUsage().heapTotal}
 `;
 
-    res.set('Content-Type', 'text/plain; charset=utf-8');
+    res.set("Content-Type", "text/plain; charset=utf-8");
     res.send(metrics);
-
   } catch (error) {
     res.status(500).send(`# Error generating metrics: ${error.message}`);
   }

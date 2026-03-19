@@ -1,118 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🏊 OINIO Pair Finder</title>
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.min.js"></script>
     <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 30px;
-        }
-        .result {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-        .success { border-left: 4px solid #28a745; }
-        .error { border-left: 4px solid #dc3545; }
-        button {
-            background: linear-gradient(45deg, #8a2be2, #4169e1);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin: 10px 5px;
-        }
-        button:hover { transform: translateY(-1px); }
-        a { color: #61dafb; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+      body {
+        font-family: "Courier New", monospace;
+        background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        color: #e0e0e0;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 30px;
+      }
+      .result {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+        word-break: break-all;
+      }
+      .success {
+        border-left: 4px solid #28a745;
+      }
+      .error {
+        border-left: 4px solid #dc3545;
+      }
+      button {
+        background: linear-gradient(45deg, #8a2be2, #4169e1);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 10px 5px;
+      }
+      button:hover {
+        transform: translateY(-1px);
+      }
+      a {
+        color: #61dafb;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>🏊 OINIO Pair Finder</h1>
-        <p>Find the OINIO/0G trading pair address on 0G Aristotle</p>
+      <h1>🏊 OINIO Pair Finder</h1>
+      <p>Find the OINIO/0G trading pair address on 0G Aristotle</p>
 
-        <button onclick="findPair()">🔍 Find OINIO/0G Pair</button>
+      <button onclick="findPair()">🔍 Find OINIO/0G Pair</button>
 
-        <div id="result" style="display: none;"></div>
+      <div id="result" style="display: none"></div>
 
-        <div class="result">
-            <strong>📋 Contract Addresses:</strong><br>
-            OINIO: 0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37<br>
-            Factory: 0x307bFaA937768a073D41a2EbFBD952Be8E38BF91<br>
-            WETH (0G): 0x0000000000000000000000000000000000000000
-        </div>
+      <div class="result">
+        <strong>📋 Contract Addresses:</strong><br />
+        OINIO: 0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37<br />
+        Factory: 0x307bFaA937768a073D41a2EbFBD952Be8E38BF91<br />
+        WETH (0G): 0x0000000000000000000000000000000000000000
+      </div>
     </div>
 
     <script>
-        const CONFIG = {
-            RPC_URL: 'https://16661.rpc.thirdweb.com',
-            OINIO_TOKEN: '0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37',
-            DEX_FACTORY: '0x307bFaA937768a073D41a2EbFBD952Be8E38BF91',
-            WETH_ADDRESS: '0x0000000000000000000000000000000000000000'
-        };
+      const CONFIG = {
+        RPC_URL: "https://16661.rpc.thirdweb.com",
+        OINIO_TOKEN: "0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37",
+        DEX_FACTORY: "0x307bFaA937768a073D41a2EbFBD952Be8E38BF91",
+        WETH_ADDRESS: "0x0000000000000000000000000000000000000000",
+      };
 
-        const FACTORY_ABI = ['function getPair(address,address) view returns (address)'];
-        const PAIR_ABI = [
-            'function token0() view returns (address)',
-            'function token1() view returns (address)',
-            'function getReserves() view returns (uint112,uint112,uint32)',
-            'function totalSupply() view returns (uint256)'
-        ];
+      const FACTORY_ABI = [
+        "function getPair(address,address) view returns (address)",
+      ];
+      const PAIR_ABI = [
+        "function token0() view returns (address)",
+        "function token1() view returns (address)",
+        "function getReserves() view returns (uint112,uint112,uint32)",
+        "function totalSupply() view returns (uint256)",
+      ];
 
-        async function findPair() {
-            const resultDiv = document.getElementById('result');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<div class="result">🔍 Searching for OINIO/0G pair...</div>';
+      async function findPair() {
+        const resultDiv = document.getElementById("result");
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML =
+          '<div class="result">🔍 Searching for OINIO/0G pair...</div>';
 
-            try {
-                const provider = new ethers.JsonRpcProvider(CONFIG.RPC_URL);
-                const factory = new ethers.Contract(CONFIG.DEX_FACTORY, FACTORY_ABI, provider);
+        try {
+          const provider = new ethers.JsonRpcProvider(CONFIG.RPC_URL);
+          const factory = new ethers.Contract(
+            CONFIG.DEX_FACTORY,
+            FACTORY_ABI,
+            provider,
+          );
 
-                const pairAddress = await factory.getPair(CONFIG.OINIO_TOKEN, CONFIG.WETH_ADDRESS);
+          const pairAddress = await factory.getPair(
+            CONFIG.OINIO_TOKEN,
+            CONFIG.WETH_ADDRESS,
+          );
 
-                if (pairAddress === '0x0000000000000000000000000000000000000000') {
-                    resultDiv.innerHTML = `
+          if (pairAddress === "0x0000000000000000000000000000000000000000") {
+            resultDiv.innerHTML = `
                         <div class="result error">
                             ❌ No OINIO/0G pair found<br>
                             Liquidity may not be added yet.<br>
                             Check back after the addLiquidity transaction confirms.
                         </div>
                     `;
-                    return;
-                }
+            return;
+          }
 
-                // Get pair details
-                const pair = new ethers.Contract(pairAddress, PAIR_ABI, provider);
-                const token0 = await pair.token0();
-                const token1 = await pair.token1();
-                const [reserve0, reserve1] = await pair.getReserves();
-                const totalSupply = await pair.totalSupply();
+          // Get pair details
+          const pair = new ethers.Contract(pairAddress, PAIR_ABI, provider);
+          const token0 = await pair.token0();
+          const token1 = await pair.token1();
+          const [reserve0, reserve1] = await pair.getReserves();
+          const totalSupply = await pair.totalSupply();
 
-                const oinioFirst = token0 === CONFIG.OINIO_TOKEN;
-                const oinioReserve = oinioFirst ? reserve0 : reserve1;
-                const wgReserve = oinioFirst ? reserve1 : reserve0;
+          const oinioFirst = token0 === CONFIG.OINIO_TOKEN;
+          const oinioReserve = oinioFirst ? reserve0 : reserve1;
+          const wgReserve = oinioFirst ? reserve1 : reserve0;
 
-                resultDiv.innerHTML = `
+          resultDiv.innerHTML = `
                     <div class="result success">
                         ✅ OINIO/0G Pair Found!<br><br>
                         <strong>Pair Address:</strong> ${pairAddress}<br>
@@ -124,16 +145,15 @@
                         <strong>Trading Ratio:</strong> 1 OINIO = ${ethers.formatEther(wgReserve) / ethers.formatEther(oinioReserve)} 0G
                     </div>
                 `;
-
-            } catch (error) {
-                resultDiv.innerHTML = `
+        } catch (error) {
+          resultDiv.innerHTML = `
                     <div class="result error">
                         ❌ Error finding pair: ${error.message}<br>
                         Make sure you're connected to the internet and the contracts are deployed.
                     </div>
                 `;
-            }
         }
+      }
     </script>
-</body>
+  </body>
 </html>

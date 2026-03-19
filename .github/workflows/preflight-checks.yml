@@ -1,0 +1,36 @@
+name: Preflight Checks
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # every 6 hours
+  workflow_dispatch: {}
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run check-deployer-balance
+        env:
+          ZERO_G_RPC_URL: ${{ secrets.ZERO_G_RPC_URL }}
+        run: node scripts/check-deployer-balance.js
+
+      - name: Run check-token-balance
+        env:
+          ZERO_G_RPC_URL: ${{ secrets.ZERO_G_RPC_URL }}
+        run: node scripts/check-token-balance.js
+
+      - name: Run deployer outgoing scan (sample)
+        env:
+          ZERO_G_RPC_URL: ${{ secrets.ZERO_G_RPC_URL }}
+        run: node scripts/deployer-outgoing-scan.js

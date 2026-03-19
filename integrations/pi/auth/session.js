@@ -5,7 +5,7 @@
 
 class PiSession {
   constructor() {
-    this.sessionKey = 'pi_auth_session';
+    this.sessionKey = "pi_auth_session";
     this.sessionData = null;
   }
 
@@ -18,17 +18,17 @@ class PiSession {
         user: authData.user,
         accessToken: authData.accessToken,
         timestamp: Date.now(),
-        expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
       };
 
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         localStorage.setItem(this.sessionKey, JSON.stringify(session));
       }
 
       this.sessionData = session;
       return true;
     } catch (error) {
-      console.error('Failed to save Pi session:', error);
+      console.error("Failed to save Pi session:", error);
       return false;
     }
   }
@@ -38,7 +38,7 @@ class PiSession {
    */
   loadSession() {
     try {
-      if (typeof window === 'undefined') return null;
+      if (typeof window === "undefined") return null;
 
       const sessionStr = localStorage.getItem(this.sessionKey);
       if (!sessionStr) return null;
@@ -54,7 +54,7 @@ class PiSession {
       this.sessionData = session;
       return session;
     } catch (error) {
-      console.error('Failed to load Pi session:', error);
+      console.error("Failed to load Pi session:", error);
       this.clearSession();
       return null;
     }
@@ -64,7 +64,7 @@ class PiSession {
    * Clear authentication session
    */
   clearSession() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(this.sessionKey);
     }
     this.sessionData = null;

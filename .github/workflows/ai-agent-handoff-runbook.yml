@@ -3,13 +3,13 @@ name: AI Agent Handoff & Autonomous Runbook
 on:
   schedule:
     # Run every 6 hours
-    - cron: '0 */6 * * *'
+    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs:
       action:
-        description: 'Action to perform'
+        description: "Action to perform"
         required: false
-        default: 'update-status'
+        default: "update-status"
         type: choice
         options:
           - update-status
@@ -17,11 +17,11 @@ on:
           - update-component
           - emergency-stop
       rollback_version:
-        description: 'Version to rollback to (for rollback action)'
+        description: "Version to rollback to (for rollback action)"
         required: false
         type: string
       target_component:
-        description: 'Component to update (for update-component action)'
+        description: "Component to update (for update-component action)"
         required: false
         type: choice
         options:
@@ -33,9 +33,9 @@ on:
     branches:
       - main
     paths:
-      - 'app/**'
-      - 'src/**'
-      - '.github/workflows/**'
+      - "app/**"
+      - "src/**"
+      - ".github/workflows/**"
   workflow_run:
     workflows: ["Deploy Next.js site to Pages", "Agent Dispatch"]
     types:
@@ -78,8 +78,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
@@ -149,26 +149,26 @@ jobs:
         run: |
           echo "Checking service health via runbook script..."
           chmod +x ./scripts/runbook/health-check.sh
-          
+
           # Run health checks and capture output
           if curl -sf -m 5 http://localhost:8000/health > /dev/null 2>&1; then
             echo "fastapi_status=healthy" >> $GITHUB_OUTPUT
           else
             echo "fastapi_status=unavailable" >> $GITHUB_OUTPUT
           fi
-          
+
           if curl -sf -m 5 http://localhost:5000/health > /dev/null 2>&1; then
             echo "flask_status=healthy" >> $GITHUB_OUTPUT
           else
             echo "flask_status=unavailable" >> $GITHUB_OUTPUT
           fi
-          
+
           if curl -sf -m 5 http://localhost:7860/ > /dev/null 2>&1; then
             echo "gradio_status=healthy" >> $GITHUB_OUTPUT
           else
             echo "gradio_status=unavailable" >> $GITHUB_OUTPUT
           fi
-          
+
           echo "status=healthy" >> $GITHUB_OUTPUT
         continue-on-error: true
 
@@ -262,7 +262,7 @@ jobs:
           echo "deployment=${{ needs.deployment.outputs.status || 'skipped' }}" >> $GITHUB_OUTPUT
           echo "monitoring=${{ needs.monitoring.outputs.status || 'healthy' }}" >> $GITHUB_OUTPUT
           echo "rollback=${{ needs.rollback.outputs.status || 'skipped' }}" >> $GITHUB_OUTPUT
-          
+
           # Determine overall operational status
           if [ "${{ needs.safety-gate.result }}" = "failure" ] || [ "${{ needs.ci-pipeline.result }}" = "failure" ]; then
             echo "operational_status=⚠️ DEGRADED" >> $GITHUB_OUTPUT
@@ -278,7 +278,7 @@ jobs:
         with:
           script: |
             const title = '🤖 AI Agent Autonomous Runbook Status';
-            
+
             // Search for existing issue
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
@@ -286,7 +286,7 @@ jobs:
               state: 'open',
               labels: 'ai-agent,automated,runbook'
             });
-            
+
             let issueNumber = null;
             for (const issue of issues.data) {
               if (issue.title === title) {
@@ -294,7 +294,7 @@ jobs:
                 break;
               }
             }
-            
+
             // Create issue if it doesn't exist
             if (!issueNumber) {
               const newIssue = await github.rest.issues.create({
@@ -306,7 +306,7 @@ jobs:
               });
               issueNumber = newIssue.data.number;
             }
-            
+
             core.setOutput('issue_number', issueNumber);
             return issueNumber;
 
@@ -318,12 +318,12 @@ jobs:
             const timestamp = new Date().toISOString();
             const runId = context.runId;
             const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}`;
-            
+
             // Get monitoring statuses
             const fastapiStatus = '${{ needs.monitoring.outputs.fastapi_status || 'unavailable' }}';
             const flaskStatus = '${{ needs.monitoring.outputs.flask_status || 'unavailable' }}';
             const gradioStatus = '${{ needs.monitoring.outputs.gradio_status || 'unavailable' }}';
-            
+
             const statusEmoji = (status) => {
               if (!status || status === 'skipped') return '⏭️ Skipped';
               if (status === 'healthy') return '✅ Healthy';
@@ -333,8 +333,8 @@ jobs:
               if (status === 'unavailable') return '⚠️ Unavailable';
               return '❌ Failed';
             };
-            
-            
+
+
             const body = `# ${{ steps.statuses.outputs.operational_status }}
 
             **Last Updated**: ${timestamp}
@@ -411,14 +411,14 @@ jobs:
 
             *Last automated update: ${timestamp}*
             *Workflow: <a href="${runUrl}">AI Agent Handoff &amp; Autonomous Runbook</a>*`;
-            
+
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
               body: body
             });
-            
+
             // Add comment on workflow trigger events
             if (context.eventName === 'workflow_dispatch') {
               await github.rest.issues.createComment({

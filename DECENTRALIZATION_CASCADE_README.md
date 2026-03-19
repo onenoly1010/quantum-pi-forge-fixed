@@ -7,6 +7,7 @@ This document outlines the complete decentralization transition for Quantum Pi F
 ## 🎯 Mission
 
 Transform Quantum Pi Forge from a Vercel/GitHub hosted application into a fully decentralized, sovereign Web3 platform where:
+
 - **Code lives on Radicle Network** (P2P, sovereign)
 - **Frontend is hosted on 0G Storage** (IPFS/Spheron)
 - **Configuration is stored on-chain** (CentralAwarenessV2 contract)
@@ -14,16 +15,17 @@ Transform Quantum Pi Forge from a Vercel/GitHub hosted application into a fully 
 
 ## 📋 Current Status
 
-| Component | Current State | Target State | Status |
-|-----------|---------------|--------------|--------|
-| **Codebase** | GitHub | Radicle Network | Ready |
-| **Hosting** | Vercel | 0G Storage (Spheron) | Configured |
-| **Domain** | quantumpiforge.com | quantumpiforge.eth | Pending |
-| **Logic** | Static config.ts | CentralAwarenessV2 | **Deployed** |
+| Component    | Current State      | Target State         | Status       |
+| ------------ | ------------------ | -------------------- | ------------ |
+| **Codebase** | GitHub             | Radicle Network      | Ready        |
+| **Hosting**  | Vercel             | 0G Storage (Spheron) | Configured   |
+| **Domain**   | quantumpiforge.com | quantumpiforge.eth   | Pending      |
+| **Logic**    | Static config.ts   | CentralAwarenessV2   | **Deployed** |
 
 ## 🛠️ What Was Created
 
 ### 1. CentralAwarenessV2.sol - The Master Key
+
 - **Location**: `contracts/CentralAwarenessV2.sol`
 - **Features**:
   - ERC721 sovereign iNFT registry
@@ -33,11 +35,13 @@ Transform Quantum Pi Forge from a Vercel/GitHub hosted application into a fully 
   - Sovereign agent forging
 
 ### 2. Deployment Scripts
+
 - **Contract Deployment**: `scripts/deploy-central-awareness-v2.ts`
 - **Ecosystem Configuration**: `scripts/configure-ecosystem.ts`
 - **Verification**: `scripts/verify-contract.ts`
 
 ### 3. Decentralization Cascade Script
+
 - **Main Script**: `scripts/decentralization-cascade.sh`
 - **Features**:
   - Radicle repository migration
@@ -112,12 +116,14 @@ npx hardhat run scripts/configure-ecosystem.ts --network og-aristotle
 ### CentralAwarenessV2 Contract
 
 **Key Functions:**
+
 - `forgeAgent()` - Mint sovereign agent iNFTs
 - `updateEcosystem()` - Configure sovereign settings
 - `batchUpdateResonance()` - Gas-efficient batch operations
 - `getEcosystemConfig()` - Retrieve current configuration
 
 **Cancun Optimizations:**
+
 - Packed storage slots for efficient gas usage
 - Batch operations to minimize transaction costs
 - Optimized mappings for the January 2026 hard fork
@@ -125,6 +131,7 @@ npx hardhat run scripts/configure-ecosystem.ts --network og-aristotle
 ### Network Configuration
 
 **0G Aristotle (Chain ID: 16661)**
+
 - RPC: `https://evmrpc.0g.ai`
 - EVM Version: Cancun (post-January 2026 hard fork)
 - Gas Strategy: Stable (~0.003 Gwei relative)
@@ -144,21 +151,25 @@ User Request → ENS (quantumpiforge.eth)
 ## 📊 Post-Cascade Benefits
 
 ### 🔒 **True Sovereignty**
+
 - No centralized points of failure
 - Code and content are immutable on decentralized networks
 - Configuration managed by smart contract
 
 ### ⚡ **Performance**
+
 - Global content delivery via IPFS
 - Optimized gas usage with Cancun compatibility
 - P2P code distribution via Radicle
 
 ### 🛡️ **Resilience**
+
 - Immune to platform shutdowns
 - Censorship-resistant hosting
 - Decentralized domain resolution
 
 ### 🌐 **Scalability**
+
 - Unlimited global replicas via IPFS
 - Community-operated seed nodes
 - Gas-efficient batch operations
@@ -199,4 +210,4 @@ Once the cascade is complete, Quantum Pi Forge becomes a truly decentralized, so
 
 ---
 
-*This document represents the culmination of the Quantum Pi Forge decentralization journey, anchoring the 1010 Hz resonance into the decentralized fabric of the sovereign web.*
+_This document represents the culmination of the Quantum Pi Forge decentralization journey, anchoring the 1010 Hz resonance into the decentralized fabric of the sovereign web._

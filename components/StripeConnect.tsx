@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface StripeStatus {
   connected: boolean;
@@ -22,13 +22,15 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
 
   const checkStripeStatus = async () => {
     try {
-      const response = await fetch(`/api/creator/stripe-status?creator_id=${creatorId}`);
+      const response = await fetch(
+        `/api/creator/stripe-status?creator_id=${creatorId}`,
+      );
       if (response.ok) {
         const data = await response.json();
         setStatus(data);
       }
     } catch (err) {
-      console.error('Failed to check Stripe status:', err);
+      console.error("Failed to check Stripe status:", err);
     }
   };
 
@@ -36,14 +38,14 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/creator/create-stripe-account', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/creator/create-stripe-account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           creator_id: creatorId,
-          email: 'creator@example.com', // Replace with actual email
-          country: 'US'
-        })
+          email: "creator@example.com", // Replace with actual email
+          country: "US",
+        }),
       });
 
       if (response.ok) {
@@ -52,10 +54,10 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
         startOnboarding();
       } else {
         const errorData = await response.json();
-        setError(errorData.detail || 'Failed to create Stripe account');
+        setError(errorData.detail || "Failed to create Stripe account");
       }
     } catch (err) {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -63,29 +65,33 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
 
   const startOnboarding = async () => {
     try {
-      const response = await fetch(`/api/creator/stripe-onboarding-link?creator_id=${creatorId}`);
+      const response = await fetch(
+        `/api/creator/stripe-onboarding-link?creator_id=${creatorId}`,
+      );
       if (response.ok) {
         const data = await response.json();
         window.location.href = data.onboarding_url;
       } else {
-        setError('Failed to start onboarding process');
+        setError("Failed to start onboarding process");
       }
     } catch (err) {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     }
   };
 
   const openStripeDashboard = async () => {
     try {
-      const response = await fetch(`/api/creator/stripe-dashboard-link?creator_id=${creatorId}`);
+      const response = await fetch(
+        `/api/creator/stripe-dashboard-link?creator_id=${creatorId}`,
+      );
       if (response.ok) {
         const data = await response.json();
-        window.open(data.dashboard_url, '_blank');
+        window.open(data.dashboard_url, "_blank");
       } else {
-        setError('Failed to open Stripe dashboard');
+        setError("Failed to open Stripe dashboard");
       }
     } catch (err) {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     }
   };
 
@@ -97,19 +103,20 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
     <div className="stripe-connect-card bg-white rounded-lg border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">💳 Stripe Connect</h3>
-        <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-          status.connected && status.onboarding_complete
-            ? 'bg-green-100 text-green-800'
-            : status.connected
-            ? 'bg-yellow-100 text-yellow-800'
-            : 'bg-gray-100 text-gray-800'
-        }`}>
+        <div
+          className={`px-3 py-1 rounded-full text-sm font-medium ${
+            status.connected && status.onboarding_complete
+              ? "bg-green-100 text-green-800"
+              : status.connected
+                ? "bg-yellow-100 text-yellow-800"
+                : "bg-gray-100 text-gray-800"
+          }`}
+        >
           {status.connected && status.onboarding_complete
-            ? '✅ Connected'
+            ? "✅ Connected"
             : status.connected
-            ? '⏳ Setup Required'
-            : '❌ Not Connected'
-          }
+              ? "⏳ Setup Required"
+              : "❌ Not Connected"}
         </div>
       </div>
 
@@ -122,14 +129,15 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
       {!status.connected ? (
         <div className="text-center">
           <p className="text-gray-600 mb-4">
-            Connect your Stripe account to receive automatic payouts when your balance reaches $50.
+            Connect your Stripe account to receive automatic payouts when your
+            balance reaches $50.
           </p>
           <button
             onClick={createStripeAccount}
             disabled={loading}
             className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors disabled:opacity-50"
           >
-            {loading ? 'Creating Account...' : '🔗 Connect Stripe Account'}
+            {loading ? "Creating Account..." : "🔗 Connect Stripe Account"}
           </button>
         </div>
       ) : !status.onboarding_complete ? (
@@ -147,7 +155,8 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
       ) : (
         <div className="text-center">
           <p className="text-green-600 mb-4">
-            ✅ Your Stripe account is fully connected and ready to receive payouts!
+            ✅ Your Stripe account is fully connected and ready to receive
+            payouts!
           </p>
           <div className="flex gap-3 justify-center">
             <button
@@ -170,9 +179,9 @@ export default function StripeConnect({ creatorId }: { creatorId: string }) {
         <div className="mt-4 pt-4 border-t border-gray-200">
           <h4 className="font-medium mb-2">Account Status:</h4>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>Charges: {status.charges_enabled ? '✅' : '❌'}</div>
-            <div>Payouts: {status.payouts_enabled ? '✅' : '❌'}</div>
-            <div>Details: {status.details_submitted ? '✅' : '❌'}</div>
+            <div>Charges: {status.charges_enabled ? "✅" : "❌"}</div>
+            <div>Payouts: {status.payouts_enabled ? "✅" : "❌"}</div>
+            <div>Details: {status.details_submitted ? "✅" : "❌"}</div>
             <div>Account: {status.account_id?.substring(0, 12)}...</div>
           </div>
         </div>

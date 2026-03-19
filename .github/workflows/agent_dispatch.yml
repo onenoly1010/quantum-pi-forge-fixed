@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       agent_command:
-        description: 'Agent command to execute'
+        description: "Agent command to execute"
         required: true
-        default: 'healthcheck'
+        default: "healthcheck"
         type: choice
         options:
           - healthcheck
@@ -14,7 +14,7 @@ on:
           - deploy
           - rollback
       approval_override:
-        description: 'Override approval requirement (deploy/rollback only)'
+        description: "Override approval requirement (deploy/rollback only)"
         required: false
         type: boolean
         default: false
@@ -23,9 +23,9 @@ on:
       - main
       - develop
     paths:
-      - 'src/**'
-      - 'package.json'
-      - 'app/**'
+      - "src/**"
+      - "package.json"
+      - "app/**"
   pull_request:
     branches:
       - main
@@ -57,8 +57,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Restore Dependencies
         run: npm ci --legacy-peer-deps
@@ -89,7 +89,7 @@ jobs:
         run: |
           CMD="${{ steps.command.outputs.cmd }}"
           OVERRIDE="${{ github.event.inputs.approval_override }}"
-          
+
           if [[ "$CMD" =~ ^(rollback|deploy)$ ]] && [ "$OVERRIDE" != "true" ]; then
             echo "requires_approval=true" >> $GITHUB_OUTPUT
             echo "⚠️  Command '$CMD' requires approval. This step will block until approved."
@@ -115,14 +115,14 @@ jobs:
           set -e
           CMD="${{ steps.command.outputs.cmd }}"
           echo "[Agent] ========== COMMAND: $CMD =========="
-          
+
           if [ -x ".agent/scripts/$CMD.sh" ]; then
             bash ".agent/scripts/$CMD.sh" 2>&1 | tee ".agent/logs/$CMD.log" || RESULT=$?
           else
             echo "[ERROR] Script .agent/scripts/$CMD.sh not found or not executable."
             exit 1
           fi
-          
+
           echo "status=success" >> $GITHUB_OUTPUT
           echo "logs=$(cat .agent/logs/$CMD.log | head -50)" >> $GITHUB_OUTPUT
         continue-on-error: true
@@ -142,10 +142,10 @@ jobs:
           script: |
             const status = '${{ steps.execute.outcome }}';
             const command = '${{ steps.command.outputs.cmd }}';
-            
+
             let statusEmoji = status === 'success' ? '✅' : '❌';
             let message = `${statusEmoji} Agent command **${command}** ${status === 'success' ? 'completed' : 'failed'}`;
-            
+
             if (context.eventName === 'pull_request') {
               github.rest.issues.createComment({
                 issue_number: context.issue.number,

@@ -1,4 +1,4 @@
-import create from 'zustand';
+import create from "zustand";
 
 type State = {
   connected: boolean;
@@ -11,5 +11,5 @@ export const useStore = create<State>((set) => ({
   connected: false,
   setConnected: (v) => set({ connected: v }),
   soulId: null,
-  setSoulId: (id) => set({ soulId: id })
+  setSoulId: (id) => set({ soulId: id }),
 }));

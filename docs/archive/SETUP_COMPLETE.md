@@ -45,12 +45,14 @@ Your OINIO project is now **fully configured for 0G grant monitoring and automat
 ## 🚀 Getting Started (5 Minutes)
 
 ### Step 1: Copy Environment Template
+
 ```bash
 cd /workspaces/quantum-pi-forge-fixed
 cp .env.launch.template .env.launch  # Or edit .env.launch directly
 ```
 
 ### Step 2: Fill in Configuration
+
 ```bash
 # Edit with your values (from Guild, Deployer wallet, etc.)
 nano .env.launch
@@ -64,12 +66,15 @@ nano .env.launch
 ```
 
 ### Step 3: Research DEX Router
+
 Visit **https://docs.0g.ai** to find:
+
 - DEX Router Address (Uniswap V2 compatible)
 - DEX Factory Address
 - Wrapped GAS (WGAS) Token Address
 
 ### Step 4: Start Monitoring
+
 ```bash
 # Make scripts executable and start monitoring
 source .env.launch
@@ -80,7 +85,9 @@ bash scripts/launch-dashboard.sh
 ```
 
 ### Step 5: Wait for Approval
+
 The system will:
+
 - ✅ Check grant status every hour
 - ✅ Show real-time status in dashboard
 - ✅ Auto-deploy when grant approved
@@ -130,14 +137,14 @@ The system will:
 
 ## 📋 Deployment Timeline
 
-| Phase | Duration | Status | Action |
-|-------|----------|--------|--------|
-| **Setup** | 5 min | ✅ Complete | Configured environment |
-| **Monitoring** | Ongoing | ⏳ Ready | Start `monitor-grant.sh` |
-| **Waiting** | 1-30 days | ⏳ Pending | Grant approval from Guild |
-| **Auto-Deploy** | 5 min | 🚀 Ready | Automatic when approved |
-| **Verification** | 2 min | ✅ Built-in | Script verifies success |
-| **Go Live** | Immediate | 🎉 Ready | OINIO trading live! |
+| Phase            | Duration  | Status      | Action                    |
+| ---------------- | --------- | ----------- | ------------------------- |
+| **Setup**        | 5 min     | ✅ Complete | Configured environment    |
+| **Monitoring**   | Ongoing   | ⏳ Ready    | Start `monitor-grant.sh`  |
+| **Waiting**      | 1-30 days | ⏳ Pending  | Grant approval from Guild |
+| **Auto-Deploy**  | 5 min     | 🚀 Ready    | Automatic when approved   |
+| **Verification** | 2 min     | ✅ Built-in | Script verifies success   |
+| **Go Live**      | Immediate | 🎉 Ready    | OINIO trading live!       |
 
 ## 🔑 Key Files Location
 
@@ -171,19 +178,23 @@ Before starting, ensure:
 ## 🚨 Critical Notes
 
 ### Security
+
 - **NEVER** commit `.env.launch` to git
 - **NEVER** share DEPLOYER_PRIVATE_KEY
 - **NEVER** expose GUILD_API_KEY publicly
 - Use environment variables only
 
 ### Operations
+
 - Monitor runs continuously in background
 - Dashboard auto-refreshes every 30 seconds
 - Deployment is automatic on approval
 - All actions are logged to `logs/` directory
 
 ### Troubleshooting
+
 If issues occur:
+
 1. Check logs: `tail -f logs/monitor-grant.log`
 2. Verify config: `grep -E "^[A-Z]" .env.launch | head -10`
 3. Test RPC: See LAUNCH_SETUP.md troubleshooting section
@@ -192,11 +203,13 @@ If issues occur:
 ## 🎯 Next Actions
 
 **Right Now:**
+
 1. Edit `.env.launch` with your values
 2. Read LAUNCH_SETUP.md for detailed steps
 3. Run verification checklist
 
 **When Ready to Monitor:**
+
 ```bash
 cd /workspaces/quantum-pi-forge-fixed
 source .env.launch
@@ -205,6 +218,7 @@ bash scripts/launch-dashboard.sh
 ```
 
 **After Grant Approved:**
+
 - System auto-deploys ✅
 - Monitor your dashboard 📊
 - Verify launch success ✔️
@@ -225,11 +239,11 @@ Your OINIO project is fully configured and ready. The system is:
 ✅ **Automated** - Deploys on approval automatically  
 ✅ **Documented** - Complete guides and troubleshooting  
 ✅ **Logged** - All actions recorded for audit trail  
-✅ **Notified** - Discord alerts for key events  
+✅ **Notified** - Discord alerts for key events
 
 **Your path to launch is clear. Execute when ready!** 🚀
 
 ---
 
-*Setup completed on: December 14, 2025*
-*Status: ✅ PRODUCTION READY*
+_Setup completed on: December 14, 2025_
+_Status: ✅ PRODUCTION READY_

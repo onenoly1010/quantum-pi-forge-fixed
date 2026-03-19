@@ -5,6 +5,7 @@ The Unified API serves as the nervous system connecting all four pillars of Quan
 ## Architecture
 
 The API is built with:
+
 - **Express.js** - Web framework
 - **MongoDB** - Primary database
 - **JWT** - Authentication tokens
@@ -15,6 +16,7 @@ The API is built with:
 ## Authentication
 
 The API uses unified authentication combining:
+
 - **Pi Network** authentication for user identity
 - **OINIO Soul** signatures for ownership verification
 - **JWT tokens** for session management
@@ -31,9 +33,11 @@ The API uses unified authentication combining:
 ### Authentication (`/api/auth`)
 
 #### POST `/api/auth/login`
+
 Authenticate with Pi Network token.
 
 **Request:**
+
 ```json
 {
   "piToken": "pi_token_here",
@@ -46,6 +50,7 @@ Authenticate with Pi Network token.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -56,9 +61,11 @@ Authenticate with Pi Network token.
 ```
 
 #### POST `/api/auth/refresh`
+
 Refresh JWT token.
 
 **Request:**
+
 ```json
 {
   "refreshToken": "refresh_token_here"
@@ -66,20 +73,25 @@ Refresh JWT token.
 ```
 
 #### POST `/api/auth/logout`
+
 Destroy user session.
 
 #### GET `/api/auth/me`
+
 Get current user profile.
 
 ### Souls (`/api/souls`)
 
 #### GET `/api/souls/:soulId`
+
 Get soul by ID.
 
 #### PUT `/api/souls/:soulId`
+
 Update soul metadata (requires ownership signature).
 
 **Request:**
+
 ```json
 {
   "updates": {
@@ -92,17 +104,21 @@ Update soul metadata (requires ownership signature).
 ```
 
 #### POST `/api/souls/:soulId/link`
+
 Link soul to user account.
 
 #### GET `/api/souls/:soulId/infts`
+
 Get iNFTs owned by soul.
 
 ### Oracle (`/api/oracle`)
 
 #### POST `/api/oracle/reading`
+
 Generate oracle reading.
 
 **Request:**
+
 ```json
 {
   "soulId": "soul_id_here",
@@ -112,6 +128,7 @@ Generate oracle reading.
 ```
 
 **Response:**
+
 ```json
 {
   "readingId": "reading_id",
@@ -123,17 +140,21 @@ Generate oracle reading.
 ```
 
 #### GET `/api/oracle/reading/:id`
+
 Get oracle reading by ID.
 
 #### GET `/api/oracle/readings`
+
 Get readings for authenticated user.
 
 ### iNFT (`/api/inft`)
 
 #### POST `/api/inft/mint`
+
 Mint new iNFT.
 
 **Request:**
+
 ```json
 {
   "soulId": "soul_id_here",
@@ -146,12 +167,15 @@ Mint new iNFT.
 ```
 
 #### GET `/api/inft/:tokenId`
+
 Get iNFT by token ID.
 
 #### POST `/api/inft/:tokenId/evolve`
+
 Evolve iNFT (requires ownership signature).
 
 **Request:**
+
 ```json
 {
   "evolutionData": { ... },
@@ -161,17 +185,21 @@ Evolve iNFT (requires ownership signature).
 ```
 
 #### GET `/api/inft/:tokenId/memory`
+
 Get iNFT memory.
 
 #### POST `/api/inft/:tokenId/memory`
+
 Add memory to iNFT.
 
 ### Payments (`/api/payments`)
 
 #### POST `/api/payments/create`
+
 Create Pi Network payment.
 
 **Request:**
+
 ```json
 {
   "amount": 10.5,
@@ -185,9 +213,11 @@ Create Pi Network payment.
 ```
 
 #### POST `/api/payments/verify`
+
 Verify payment completion.
 
 **Request:**
+
 ```json
 {
   "paymentId": "payment_id_here"
@@ -195,23 +225,29 @@ Verify payment completion.
 ```
 
 #### GET `/api/payments/:paymentId`
+
 Get payment details.
 
 #### POST `/api/payments/webhook`
+
 Pi Network webhook endpoint (internal).
 
 ### Health (`/api/health`)
 
 #### GET `/api/health`
+
 Basic health check.
 
 #### GET `/api/health/detailed`
+
 Detailed health check with component status.
 
 #### GET `/api/health/ready`
+
 Readiness probe.
 
 #### GET `/api/health/live`
+
 Liveness probe.
 
 ## Error Handling

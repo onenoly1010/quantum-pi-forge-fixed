@@ -5,6 +5,7 @@ The iNFT (intelligent NFT) Protocol is the core intelligence layer of QuantumPiF
 ## Overview
 
 iNFTs are not static NFTs - they are dynamic, evolving entities with:
+
 - **Personality Traits**: Big Five + custom traits that define their character
 - **Evolution System**: Growth through experiences and interactions
 - **Memory System**: Persistent recollection of experiences
@@ -33,18 +34,21 @@ iNFT Core
 ## Core Components
 
 ### Personality Engine
+
 - **Traits**: 10-dimensional personality model (Big Five + custom)
 - **Archetypes**: Sage, Warrior, Artist, Scholar
 - **Coherence**: Measure of personality integration (0-100%)
 - **Evolution**: Trait changes through experiences
 
 ### Evolution System
+
 - **Experience Types**: Oracle readings, interactions, achievements, time
 - **Evolution Rules**: Archetype-specific growth mechanics
 - **Triggers**: Automatic evolution based on conditions
 - **Stages**: 8 evolution stages from Initiate to Transcendent
 
 ### Memory System
+
 - **Storage**: Hierarchical memory with importance weighting
 - **Recall**: Context-aware memory retrieval
 - **Consolidation**: Automatic memory management
@@ -53,6 +57,7 @@ iNFT Core
 ### Integration Points
 
 #### Oracle Integration
+
 ```javascript
 // Personality seeded from oracle reading
 const personality = await oracleHooks.seedFromOracle(inftId, oracleReading);
@@ -62,6 +67,7 @@ const evolution = await oracleHooks.processOracleReading(inftId, oracleReading);
 ```
 
 #### Identity Integration
+
 ```javascript
 // Bind iNFT to OINIO soul
 const binding = await identityHooks.bindToSoul(inftId, soulId, ownerAddress);
@@ -71,12 +77,17 @@ const sync = await identityHooks.processSoulUpdate(inftId, soulUpdate);
 ```
 
 #### Pi Network Integration
+
 ```javascript
 // Mint iNFT with Pi payment
 const mint = await piHooks.handlePiMint(piPayment, soulId, ownerAddress);
 
 // Evolve with Pi-powered boost
-const evolution = await piHooks.handlePiEvolution(inftId, piPayment, 'coherence_boost');
+const evolution = await piHooks.handlePiEvolution(
+  inftId,
+  piPayment,
+  "coherence_boost",
+);
 ```
 
 ## API Endpoints
@@ -93,17 +104,20 @@ GET  /api/inft/:id/metadata      # Get dynamic metadata
 ## Smart Contracts
 
 ### HybridNFT.sol
+
 - ERC-721 compliant with intelligence extensions
 - Soul binding and ownership verification
 - Evolution state tracking
 - Memory hash storage
 
 ### EvolutionManager.sol
+
 - On-chain evolution triggers
 - Cooldown management
 - Evolution validation
 
 ### MetadataRegistry.sol
+
 - Dynamic metadata generation
 - Attribute updates
 - ERC-721 metadata standard compliance
@@ -111,18 +125,22 @@ GET  /api/inft/:id/metadata      # Get dynamic metadata
 ## Intelligence Features
 
 ### Personality Generation
+
 ```javascript
-const personality = await personalityGenerator.generateFromOracle(oracleReading);
+const personality =
+  await personalityGenerator.generateFromOracle(oracleReading);
 // Returns: { traits, archetype, coherence, hash, metadata }
 ```
 
 ### Evolution Calculation
+
 ```javascript
 const evolution = evolutionRules.calculateEvolution(inft, experiences);
 // Returns: trait changes, coherence gain, experience points
 ```
 
 ### Memory Operations
+
 ```javascript
 // Store memory
 const memoryId = await memoryStorage.storeMemory(inftId, memoryData);
@@ -132,14 +150,19 @@ const memories = await memoryRecall.recallWithContext(inftId, query);
 ```
 
 ### Interaction Handling
+
 ```javascript
-const response = await interactionHandlers.handleInteraction(inftId, interactionData);
+const response = await interactionHandlers.handleInteraction(
+  inftId,
+  interactionData,
+);
 // Returns: analysis, response, memory storage, evolution triggers
 ```
 
 ## Configuration
 
 ### Environment Variables
+
 ```bash
 # Contracts
 HYBRID_NFT_ADDRESS=0x...
@@ -163,16 +186,17 @@ MEMORY_RETENTION_RATIO=0.8
 
 ### Archetype Personalities
 
-| Archetype | Key Traits | Evolution Focus |
-|-----------|------------|-----------------|
-| **Sage** | Intelligence, Intuition, Openness | Wisdom accumulation |
-| **Warrior** | Conscientiousness, Adaptability, Extraversion | Strength building |
-| **Artist** | Creativity, Openness, Empathy | Expression development |
-| **Scholar** | Intelligence, Conscientiousness, Openness | Knowledge pursuit |
+| Archetype   | Key Traits                                    | Evolution Focus        |
+| ----------- | --------------------------------------------- | ---------------------- |
+| **Sage**    | Intelligence, Intuition, Openness             | Wisdom accumulation    |
+| **Warrior** | Conscientiousness, Adaptability, Extraversion | Strength building      |
+| **Artist**  | Creativity, Openness, Empathy                 | Expression development |
+| **Scholar** | Intelligence, Conscientiousness, Openness     | Knowledge pursuit      |
 
 ## Testing
 
 Run the test suite:
+
 ```bash
 # Contract tests
 npm run test:contracts
@@ -190,6 +214,7 @@ npm run test:e2e
 ## Evolution Mechanics
 
 ### Experience Types
+
 - **Oracle Reading**: High-impact personality insights
 - **Positive Interaction**: Social/emotional growth
 - **Negative Interaction**: Resilience building
@@ -197,6 +222,7 @@ npm run test:e2e
 - **Time-based**: Natural maturation
 
 ### Evolution Stages
+
 1. **Initiate** (0-20%): Awakening consciousness
 2. **Seeker** (20-35%): Active exploration
 3. **Apprentice** (35-50%): Skill development
@@ -209,6 +235,7 @@ npm run test:e2e
 ## Memory System
 
 ### Memory Types
+
 - **Oracle**: Reading interpretations
 - **Interaction**: Social exchanges
 - **Evolution**: Growth moments
@@ -216,6 +243,7 @@ npm run test:e2e
 - **Consolidated**: Compressed old memories
 
 ### Recall Methods
+
 - **Direct Query**: Specific memory retrieval
 - **Context Search**: Pattern-based recall
 - **Emotional Filter**: Sentiment-based retrieval

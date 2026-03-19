@@ -1,5 +1,5 @@
-#!/bin/bash
-
+bin/bash
+#!/
 # =======================================================================
 # QUANTUM PI FORGE: CONTRACT VERIFICATION SCRIPT
 # January 29, 2026 - Sovereign Contract Audit

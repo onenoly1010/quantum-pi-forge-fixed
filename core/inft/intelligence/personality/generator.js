@@ -4,14 +4,18 @@
  * Extracted from mr-nft-agent
  */
 
-const { generatePersonalityFromOracle, generatePersonality, hashPersonality } = require('./traits');
+const {
+  generatePersonalityFromOracle,
+  generatePersonality,
+  hashPersonality,
+} = require("./traits");
 
 class PersonalityGenerator {
   constructor() {
     this.generationStats = {
       totalGenerated: 0,
       byArchetype: {},
-      averageCoherence: 0
+      averageCoherence: 0,
     };
   }
 
@@ -20,7 +24,10 @@ class PersonalityGenerator {
    */
   generateFromOracle(oracleReading, options = {}) {
     try {
-      const personality = generatePersonalityFromOracle(oracleReading, options.seedTraits);
+      const personality = generatePersonalityFromOracle(
+        oracleReading,
+        options.seedTraits,
+      );
 
       // Update stats
       this.updateStats(personality);
@@ -28,10 +35,10 @@ class PersonalityGenerator {
       return {
         ...personality,
         hash: hashPersonality(personality),
-        metadata: this.generateMetadata(personality, oracleReading)
+        metadata: this.generateMetadata(personality, oracleReading),
       };
     } catch (error) {
-      console.error('Error generating personality from oracle:', error);
+      console.error("Error generating personality from oracle:", error);
       return this.generateFallback();
     }
   }
@@ -49,10 +56,10 @@ class PersonalityGenerator {
       return {
         ...personality,
         hash: hashPersonality(personality),
-        metadata: this.generateMetadata(personality)
+        metadata: this.generateMetadata(personality),
       };
     } catch (error) {
-      console.error('Error generating random personality:', error);
+      console.error("Error generating random personality:", error);
       return this.generateFallback();
     }
   }
@@ -67,17 +74,20 @@ class PersonalityGenerator {
       personality.archetype = archetype;
 
       // Apply archetype base values with variation
-      const { ARCHETYPES } = require('./traits');
+      const { ARCHETYPES } = require("./traits");
       if (ARCHETYPES[archetype]) {
-        Object.keys(personality.traits).forEach(trait => {
+        Object.keys(personality.traits).forEach((trait) => {
           const baseValue = ARCHETYPES[archetype][trait];
           const randomFactor = (Math.random() - 0.5) * 2 * variation;
-          personality.traits[trait] = Math.max(0, Math.min(1, baseValue + randomFactor));
+          personality.traits[trait] = Math.max(
+            0,
+            Math.min(1, baseValue + randomFactor),
+          );
         });
       }
 
       // Recalculate coherence
-      const { calculatePersonalityCoherence } = require('./traits');
+      const { calculatePersonalityCoherence } = require("./traits");
       personality.coherence = calculatePersonalityCoherence(personality.traits);
 
       // Update stats
@@ -86,10 +96,10 @@ class PersonalityGenerator {
       return {
         ...personality,
         hash: hashPersonality(personality),
-        metadata: this.generateMetadata(personality)
+        metadata: this.generateMetadata(personality),
       };
     } catch (error) {
-      console.error('Error generating archetype personality:', error);
+      console.error("Error generating archetype personality:", error);
       return this.generateFallback();
     }
   }
@@ -108,21 +118,21 @@ class PersonalityGenerator {
       empathy: 0.5,
       intelligence: 0.5,
       intuition: 0.5,
-      adaptability: 0.5
+      adaptability: 0.5,
     };
 
     const personality = {
       traits: fallbackTraits,
-      archetype: 'scholar',
+      archetype: "scholar",
       coherence: 0.5,
       timestamp: Date.now(),
-      version: '1.0'
+      version: "1.0",
     };
 
     return {
       ...personality,
       hash: hashPersonality(personality),
-      metadata: this.generateMetadata(personality)
+      metadata: this.generateMetadata(personality),
     };
   }
 
@@ -140,8 +150,8 @@ class PersonalityGenerator {
         archetype: personality.archetype,
         coherence: personality.coherence,
         version: personality.version,
-        oracleInfluenced: !!oracleReading
-      }
+        oracleInfluenced: !!oracleReading,
+      },
     };
   }
 
@@ -150,15 +160,24 @@ class PersonalityGenerator {
    */
   generateName(personality) {
     const prefixes = {
-      sage: ['Ancient', 'Wise', 'Enlightened', 'Mystical'],
-      warrior: ['Valiant', 'Fierce', 'Bold', 'Guardian'],
-      artist: ['Creative', 'Expressive', 'Vivid', 'Harmonious'],
-      scholar: ['Learned', 'Analytical', 'Curious', 'Insightful']
+      sage: ["Ancient", "Wise", "Enlightened", "Mystical"],
+      warrior: ["Valiant", "Fierce", "Bold", "Guardian"],
+      artist: ["Creative", "Expressive", "Vivid", "Harmonious"],
+      scholar: ["Learned", "Analytical", "Curious", "Insightful"],
     };
 
-    const suffixes = ['Spirit', 'Entity', 'Consciousness', 'Intelligence', 'Soul'];
+    const suffixes = [
+      "Spirit",
+      "Entity",
+      "Consciousness",
+      "Intelligence",
+      "Soul",
+    ];
 
-    const prefix = prefixes[personality.archetype][Math.floor(Math.random() * prefixes[personality.archetype].length)];
+    const prefix =
+      prefixes[personality.archetype][
+        Math.floor(Math.random() * prefixes[personality.archetype].length)
+      ];
     const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
 
     return `${prefix} ${suffix}`;
@@ -169,10 +188,10 @@ class PersonalityGenerator {
    */
   generateDescription(personality, oracleReading) {
     const archetypeDesc = {
-      sage: 'A being of deep wisdom and spiritual insight',
-      warrior: 'A courageous protector with unyielding determination',
-      artist: 'A creative soul expressing beauty through consciousness',
-      scholar: 'An analytical mind seeking truth and understanding'
+      sage: "A being of deep wisdom and spiritual insight",
+      warrior: "A courageous protector with unyielding determination",
+      artist: "A creative soul expressing beauty through consciousness",
+      scholar: "An analytical mind seeking truth and understanding",
     };
 
     let description = archetypeDesc[personality.archetype];
@@ -192,23 +211,32 @@ class PersonalityGenerator {
   generateAttributes(personality, traitDescriptions) {
     const attributes = [
       {
-        trait_type: 'Archetype',
-        value: personality.archetype.charAt(0).toUpperCase() + personality.archetype.slice(1)
+        trait_type: "Archetype",
+        value:
+          personality.archetype.charAt(0).toUpperCase() +
+          personality.archetype.slice(1),
       },
       {
-        trait_type: 'Coherence',
+        trait_type: "Coherence",
         value: Math.round(personality.coherence * 100),
-        max_value: 100
-      }
+        max_value: 100,
+      },
     ];
 
     // Add major traits
-    const majorTraits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'creativity', 'intelligence'];
-    majorTraits.forEach(trait => {
+    const majorTraits = [
+      "openness",
+      "conscientiousness",
+      "extraversion",
+      "agreeableness",
+      "creativity",
+      "intelligence",
+    ];
+    majorTraits.forEach((trait) => {
       attributes.push({
         trait_type: trait.charAt(0).toUpperCase() + trait.slice(1),
         value: Math.round(personality.traits[trait] * 100),
-        max_value: 100
+        max_value: 100,
       });
     });
 
@@ -221,13 +249,13 @@ class PersonalityGenerator {
   getTraitDescriptions(traits) {
     const descriptions = {};
 
-    Object.keys(traits).forEach(trait => {
+    Object.keys(traits).forEach((trait) => {
       const value = traits[trait];
-      if (value >= 0.8) descriptions[trait] = 'Exceptional';
-      else if (value >= 0.6) descriptions[trait] = 'Strong';
-      else if (value >= 0.4) descriptions[trait] = 'Moderate';
-      else if (value >= 0.2) descriptions[trait] = 'Developing';
-      else descriptions[trait] = 'Emerging';
+      if (value >= 0.8) descriptions[trait] = "Exceptional";
+      else if (value >= 0.6) descriptions[trait] = "Strong";
+      else if (value >= 0.4) descriptions[trait] = "Moderate";
+      else if (value >= 0.2) descriptions[trait] = "Developing";
+      else descriptions[trait] = "Emerging";
     });
 
     return descriptions;
@@ -247,7 +275,8 @@ class PersonalityGenerator {
     // Update rolling average coherence
     const currentAvg = this.generationStats.averageCoherence;
     const newCount = this.generationStats.totalGenerated;
-    this.generationStats.averageCoherence = (currentAvg * (newCount - 1) + personality.coherence) / newCount;
+    this.generationStats.averageCoherence =
+      (currentAvg * (newCount - 1) + personality.coherence) / newCount;
   }
 
   /**
@@ -264,7 +293,7 @@ class PersonalityGenerator {
     this.generationStats = {
       totalGenerated: 0,
       byArchetype: {},
-      averageCoherence: 0
+      averageCoherence: 0,
     };
   }
 }

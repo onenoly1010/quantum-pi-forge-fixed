@@ -16,7 +16,7 @@ export interface ModelRoyaltyNFT$Type {
   readonly immutableReferences: {};
   readonly inputSourceName: "project/contracts/ModelRoyaltyNFT.sol";
   readonly buildInfoId: "solc-0_8_24-2fe1d8c6e7b45055dc308041115240ebf6853dc4";
-};
+}
 
 import "hardhat/types/artifacts";
 declare module "hardhat/types/artifacts" {

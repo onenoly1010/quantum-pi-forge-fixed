@@ -40,12 +40,12 @@ A single file (e.g., `oinio-system.exe`, `oinio-system-macos`, or `oinio-system-
 
 ## Architecture Summary
 
-| Component | Original | Unified |
-|-----------|----------|---------|
-| Orchestration Layer | Node.js | Node.js |
-| Oracle Trainer | Python | JavaScript |
-| Oracle Predictor | Python | JavaScript |
-| Output | Multi-runtime | Single executable |
+| Component           | Original      | Unified           |
+| ------------------- | ------------- | ----------------- |
+| Orchestration Layer | Node.js       | Node.js           |
+| Oracle Trainer      | Python        | JavaScript        |
+| Oracle Predictor    | Python        | JavaScript        |
+| Output              | Multi-runtime | Single executable |
 
 ---
 
@@ -61,4 +61,4 @@ No runtime dependencies required on target machines.
 
 ---
 
-*The Oracle speaks in one tongue now. Portable. Sovereign. Complete.*
+_The Oracle speaks in one tongue now. Portable. Sovereign. Complete._

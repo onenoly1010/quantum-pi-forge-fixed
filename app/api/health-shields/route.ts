@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { trace } from '@opentelemetry/api';
+import { NextResponse } from "next/server";
+import { trace } from "@opentelemetry/api";
 
 /**
  * 🔱 THE LIVING SIGIL
@@ -11,9 +11,9 @@ import { trace } from '@opentelemetry/api';
  * ![Forge Status](https://img.shields.io/endpoint?url=https://quantum-pi-forge-fixed.vercel.app/api/health-shields&style=for-the-badge)
  */
 export async function GET() {
-  const tracer = trace.getTracer('quantum-pi-forge-shields');
+  const tracer = trace.getTracer("quantum-pi-forge-shields");
 
-  return tracer.startActiveSpan('shields-badge', async (span) => {
+  return tracer.startActiveSpan("shields-badge", async (span) => {
     try {
       // The Forge breathes sovereign air
       const status = {
@@ -23,26 +23,26 @@ export async function GET() {
         color: "7D3FFF",
         style: "for-the-badge",
         namedLogo: "ethereum",
-        logoColor: "white"
+        logoColor: "white",
       };
 
       span.setAttributes({
-        'shields.label': status.label,
-        'shields.message': status.message,
-        'shields.color': status.color,
-        'quantum.operation': 'status-badge',
-        'quantum.sovereignty': 'active',
+        "shields.label": status.label,
+        "shields.message": status.message,
+        "shields.color": status.color,
+        "quantum.operation": "status-badge",
+        "quantum.sovereignty": "active",
       });
 
       span.setStatus({ code: 0 }); // OK
       return NextResponse.json(status, {
         headers: {
-          'Cache-Control': 'public, max-age=300', // Cache for 5 minutes
-        }
+          "Cache-Control": "public, max-age=300", // Cache for 5 minutes
+        },
       });
     } catch (error) {
       span.recordException(error as Error);
-      span.setStatus({ code: 1, message: 'Shields generation failed' });
+      span.setStatus({ code: 1, message: "Shields generation failed" });
       throw error;
     } finally {
       span.end();

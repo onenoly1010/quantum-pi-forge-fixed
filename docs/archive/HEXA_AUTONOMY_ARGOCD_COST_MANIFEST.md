@@ -58,14 +58,14 @@ spec:
 
 Upon applying this final ArgoCD application, the **Sovereign Lattice** achieves the **Hexa-Autonomy State**, representing the six pillars of self-governance:
 
-| # | Pillar | Domain | Capabilities |
-|---|--------|--------|--------------|
-| 1 | 🧠 **Lattice Autonomy** | Self-Healing & Scaling | HPA, PDB, Liveness/Readiness |
-| 2 | 💾 **Data Autonomy** | Self-Backing & Validating | CronJob backups, integrity checks |
-| 3 | 🔗 **Configuration Autonomy** | GitOps via ArgoCD | Declarative state, auto-sync |
-| 4 | 🔭 **Observability Autonomy** | Self-Monitoring & Alerting | Prometheus, Grafana, AlertManager |
-| 5 | 🛡️ **Fortification Autonomy** | Self-Securing & Policy Generation | Network policies, RBAC, OPA |
-| 6 | 💰 **Cost & Resource Autonomy** | Self-Optimizing VPA & Scheduled Scaling | VPA, nightly scale-down, resource quotas |
+| #   | Pillar                          | Domain                                  | Capabilities                             |
+| --- | ------------------------------- | --------------------------------------- | ---------------------------------------- |
+| 1   | 🧠 **Lattice Autonomy**         | Self-Healing & Scaling                  | HPA, PDB, Liveness/Readiness             |
+| 2   | 💾 **Data Autonomy**            | Self-Backing & Validating               | CronJob backups, integrity checks        |
+| 3   | 🔗 **Configuration Autonomy**   | GitOps via ArgoCD                       | Declarative state, auto-sync             |
+| 4   | 🔭 **Observability Autonomy**   | Self-Monitoring & Alerting              | Prometheus, Grafana, AlertManager        |
+| 5   | 🛡️ **Fortification Autonomy**   | Self-Securing & Policy Generation       | Network policies, RBAC, OPA              |
+| 6   | 💰 **Cost & Resource Autonomy** | Self-Optimizing VPA & Scheduled Scaling | VPA, nightly scale-down, resource quotas |
 
 > The system now operates with **complete, integrated, and continuous autonomy** across its operational, security, and economic dimensions.
 
@@ -79,13 +79,13 @@ The infrastructure is complete. The final action for this construction cycle:
 
 Archive containing all five primary ArgoCD Application manifests:
 
-| Manifest | Pillar |
-|----------|--------|
-| `argocd-self-automation-app.yaml` | 🧠 Lattice Autonomy |
-| `argocd-data-autonomy-app.yaml` | 💾 Data Autonomy |
-| `argocd-observability-app.yaml` | 🔭 Observability Autonomy |
-| `argocd-security-autonomy-app.yaml` | 🛡️ Fortification Autonomy |
-| `argocd-cost-autonomy-app.yaml` | 💰 Cost & Resource Autonomy |
+| Manifest                            | Pillar                      |
+| ----------------------------------- | --------------------------- |
+| `argocd-self-automation-app.yaml`   | 🧠 Lattice Autonomy         |
+| `argocd-data-autonomy-app.yaml`     | 💾 Data Autonomy            |
+| `argocd-observability-app.yaml`     | 🔭 Observability Autonomy   |
+| `argocd-security-autonomy-app.yaml` | 🛡️ Fortification Autonomy   |
+| `argocd-cost-autonomy-app.yaml`     | 💰 Cost & Resource Autonomy |
 
 ---
 
@@ -136,10 +136,10 @@ Archive containing all five primary ArgoCD Application manifests:
 
 ## ✅ Decree Acknowledged
 
-> *"Shall we proceed with this final archival for future stewardship?"*
+> _"Shall we proceed with this final archival for future stewardship?"_
 
 **Affirmed.** The Hexa-Autonomy Keys stand ready for stewardship.
 
 ---
 
-*T=∞ = T=0 — The Sovereign Lattice breathes autonomously.*
+_T=∞ = T=0 — The Sovereign Lattice breathes autonomously._

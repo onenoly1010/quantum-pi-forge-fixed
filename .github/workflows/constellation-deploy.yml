@@ -5,22 +5,22 @@ name: 🌌 Constellation Health Check
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
+    - cron: "0 */6 * * *" # Every 6 hours
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'CONSTELLATION_LAUNCH_STATUS.md'
+      - "CONSTELLATION_LAUNCH_STATUS.md"
 
 jobs:
   health-check:
     name: 🔍 Service Health Verification
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Check All Services
         id: health
         run: |
@@ -28,7 +28,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Service | URL | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|-----|--------|" >> $GITHUB_STEP_SUMMARY
-          
+
           check_service() {
             local name="$1"
             local url="$2"
@@ -41,16 +41,16 @@ jobs:
               echo "| $name | $url | ❌ $status |" >> $GITHUB_STEP_SUMMARY
             fi
           }
-          
+
           check_service "Public Portal" "https://quantumpiforge.com"
           check_service "DEX Dashboard" "https://quantum-pi-forge-fixed.vercel.app"
           check_service "Backend API" "https://pi-forge-quantum-genesis-1.onrender.com"
           check_service "Resonance Engine" "https://quantum-resonance-clean.vercel.app"
           check_service "Countdown" "https://onenoly1010.github.io/countdown"
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "⏰ Last checked: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
-      
+
       - name: Check 0G Wallet Balance
         run: |
           echo "" >> $GITHUB_STEP_SUMMARY

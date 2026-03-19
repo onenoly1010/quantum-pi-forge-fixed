@@ -3,12 +3,12 @@
  * Provides consistent logging across the unified API
  */
 
-const winston = require('winston');
+const winston = require("winston");
 const { format, transports } = winston;
 
 // Custom log format
 const logFormat = format.combine(
-  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   format.errors({ stack: true }),
   format.json(),
   format.printf(({ timestamp, level, message, ...meta }) => {
@@ -16,14 +16,14 @@ const logFormat = format.combine(
       timestamp,
       level: level.toUpperCase(),
       message,
-      ...meta
+      ...meta,
     });
-  })
+  }),
 );
 
 // Create logger instance
 const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL || "info",
   format: logFormat,
   transports: [
     // Console transport for development
@@ -32,27 +32,31 @@ const logger = winston.createLogger({
         format.colorize(),
         format.simple(),
         format.printf(({ timestamp, level, message, ...meta }) => {
-          const metaStr = Object.keys(meta).length ? `\n${JSON.stringify(meta, null, 2)}` : '';
+          const metaStr = Object.keys(meta).length
+            ? `\n${JSON.stringify(meta, null, 2)}`
+            : "";
           return `${timestamp} ${level}: ${message}${metaStr}`;
-        })
-      )
+        }),
+      ),
     }),
 
     // File transport for production
-    ...(process.env.NODE_ENV === 'production' ? [
-      new transports.File({
-        filename: 'logs/error.log',
-        level: 'error',
-        maxsize: 10 * 1024 * 1024, // 10MB
-        maxFiles: 5
-      }),
-      new transports.File({
-        filename: 'logs/combined.log',
-        maxsize: 10 * 1024 * 1024, // 10MB
-        maxFiles: 5
-      })
-    ] : [])
-  ]
+    ...(process.env.NODE_ENV === "production"
+      ? [
+          new transports.File({
+            filename: "logs/error.log",
+            level: "error",
+            maxsize: 10 * 1024 * 1024, // 10MB
+            maxFiles: 5,
+          }),
+          new transports.File({
+            filename: "logs/combined.log",
+            maxsize: 10 * 1024 * 1024, // 10MB
+            maxFiles: 5,
+          }),
+        ]
+      : []),
+  ],
 });
 
 /**
@@ -66,29 +70,29 @@ function requestLogger(req, res, next) {
   req.requestId = requestId;
 
   // Log incoming request
-  logger.info('Request received', {
+  logger.info("Request received", {
     requestId,
     method: req.method,
     url: req.url,
     ip: req.ip,
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     body: sanitizeBody(req.body),
     query: req.query,
-    params: req.params
+    params: req.params,
   });
 
   // Override res.end to log response
   const originalEnd = res.end;
-  res.end = function(chunk, encoding) {
+  res.end = function (chunk, encoding) {
     const duration = Date.now() - start;
 
-    logger.info('Request completed', {
+    logger.info("Request completed", {
       requestId,
       method: req.method,
       url: req.url,
       statusCode: res.statusCode,
       duration: `${duration}ms`,
-      contentLength: res.get('Content-Length')
+      contentLength: res.get("Content-Length"),
     });
 
     originalEnd.call(this, chunk, encoding);
@@ -101,20 +105,22 @@ function requestLogger(req, res, next) {
  * Error logging middleware
  */
 function errorLogger(error, req, res, next) {
-  const requestId = req.requestId || 'unknown';
+  const requestId = req.requestId || "unknown";
 
-  logger.error('Request error', {
+  logger.error("Request error", {
     requestId,
     error: {
       message: error.message,
       stack: error.stack,
       status: error.status || 500,
-      code: error.code
+      code: error.code,
     },
     method: req.method,
     url: req.url,
     ip: req.ip,
-    user: req.user ? { id: req.user.id, authMethod: req.user.authMethod } : null
+    user: req.user
+      ? { id: req.user.id, authMethod: req.user.authMethod }
+      : null,
   });
 
   next(error);
@@ -127,17 +133,17 @@ function performanceLogger(threshold = 1000) {
   return (req, res, next) => {
     const start = process.hrtime.bigint();
 
-    res.on('finish', () => {
+    res.on("finish", () => {
       const end = process.hrtime.bigint();
       const duration = Number(end - start) / 1000000; // Convert to milliseconds
 
       if (duration > threshold) {
-        logger.warn('Slow request detected', {
+        logger.warn("Slow request detected", {
           requestId: req.requestId,
           method: req.method,
           url: req.url,
           duration: `${duration.toFixed(2)}ms`,
-          threshold: `${threshold}ms`
+          threshold: `${threshold}ms`,
         });
       }
     });
@@ -151,19 +157,21 @@ function performanceLogger(threshold = 1000) {
  */
 function auditLogger(action) {
   return (req, res, next) => {
-    logger.info('Audit event', {
+    logger.info("Audit event", {
       requestId: req.requestId,
       action,
-      user: req.user ? {
-        id: req.user.id,
-        authMethod: req.user.authMethod,
-        soulId: req.user.soul?.id
-      } : null,
+      user: req.user
+        ? {
+            id: req.user.id,
+            authMethod: req.user.authMethod,
+            soulId: req.user.soul?.id,
+          }
+        : null,
       ip: req.ip,
       method: req.method,
       url: req.url,
       body: sanitizeBody(req.body, true), // More aggressive sanitization for audit
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     next();
@@ -175,12 +183,12 @@ function auditLogger(action) {
  */
 function businessLogger(event, data = {}) {
   return (req, res, next) => {
-    logger.info('Business event', {
+    logger.info("Business event", {
       requestId: req.requestId,
       event,
       user: req.user ? { id: req.user.id, soulId: req.user.soul?.id } : null,
       data: sanitizeData(data),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     next();
@@ -200,22 +208,29 @@ function generateRequestId() {
  * Sanitize request body for logging
  */
 function sanitizeBody(body, aggressive = false) {
-  if (!body || typeof body !== 'object') return body;
+  if (!body || typeof body !== "object") return body;
 
   const sanitized = { ...body };
 
   // Always sanitize sensitive fields
-  const sensitiveFields = ['password', 'token', 'secret', 'key', 'privateKey', 'signature'];
-  sensitiveFields.forEach(field => {
+  const sensitiveFields = [
+    "password",
+    "token",
+    "secret",
+    "key",
+    "privateKey",
+    "signature",
+  ];
+  sensitiveFields.forEach((field) => {
     if (sanitized[field]) {
-      sanitized[field] = '[REDACTED]';
+      sanitized[field] = "[REDACTED]";
     }
   });
 
   // Aggressive sanitization removes all non-essential data
   if (aggressive) {
-    const allowedFields = ['id', 'type', 'amount', 'currency'];
-    Object.keys(sanitized).forEach(key => {
+    const allowedFields = ["id", "type", "amount", "currency"];
+    Object.keys(sanitized).forEach((key) => {
       if (!allowedFields.includes(key)) {
         delete sanitized[key];
       }
@@ -229,15 +244,19 @@ function sanitizeBody(body, aggressive = false) {
  * Sanitize business data for logging
  */
 function sanitizeData(data) {
-  if (!data || typeof data !== 'object') return data;
+  if (!data || typeof data !== "object") return data;
 
   const sanitized = { ...data };
 
   // Remove sensitive business data
-  const sensitiveBusinessFields = ['paymentDetails', 'walletKey', 'privateData'];
-  sensitiveBusinessFields.forEach(field => {
+  const sensitiveBusinessFields = [
+    "paymentDetails",
+    "walletKey",
+    "privateData",
+  ];
+  sensitiveBusinessFields.forEach((field) => {
     if (sanitized[field]) {
-      sanitized[field] = '[REDACTED]';
+      sanitized[field] = "[REDACTED]";
     }
   });
 
@@ -258,5 +277,5 @@ module.exports = {
   performanceLogger,
   auditLogger,
   businessLogger,
-  createChildLogger
+  createChildLogger,
 };

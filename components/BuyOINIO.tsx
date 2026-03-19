@@ -26,10 +26,27 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
 
-  // Initialize Web3 connection
-  useEffect(() => {
-    initializeWeb3();
-  }, [initializeWeb3]);
+  const updateBalances = useCallback(async (web3Signer: ethers.JsonRpcSigner) => {
+    try {
+      const address = await web3Signer.getAddress();
+
+      // Get 0G balance
+      const ethBalance = await provider!.getBalance(address);
+      setBalance(ethers.formatEther(ethBalance));
+
+      // Get OINIO balance
+      const oinioContract = new ethers.Contract(
+        SOVEREIGN_CONFIG.contracts.oinioToken,
+        ['function balanceOf(address) view returns (uint256)'],
+        provider
+      );
+      const oinioBal = await oinioContract.balanceOf(address);
+      setOINIOBalance(ethers.formatEther(oinioBal));
+
+    } catch (error) {
+      console.error('Failed to update balances:', error);
+    }
+  }, [provider]);
 
   const initializeWeb3 = useCallback(async () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -64,29 +81,12 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
     } else {
       setError('MetaMask not detected. Please install MetaMask to trade OINIO.');
     }
-  };
+  }, [updateBalances]);
 
-  const updateBalances = async (web3Signer: ethers.JsonRpcSigner) => {
-    try {
-      const address = await web3Signer.getAddress();
-
-      // Get 0G balance
-      const ethBalance = await provider!.getBalance(address);
-      setBalance(ethers.formatEther(ethBalance));
-
-      // Get OINIO balance
-      const oinioContract = new ethers.Contract(
-        SOVEREIGN_CONFIG.contracts.oinioToken,
-        ['function balanceOf(address) view returns (uint256)'],
-        provider
-      );
-      const oinioBal = await oinioContract.balanceOf(address);
-      setOINIOBalance(ethers.formatEther(oinioBal));
-
-    } catch (error) {
-      console.error('Failed to update balances:', error);
-    }
-  };
+  // Initialize Web3 connection
+  useEffect(() => {
+    initializeWeb3();
+  }, [initializeWeb3]);
 
   const switchTo0GAristotle = async () => {
     try {
@@ -117,7 +117,7 @@ export default function BuyOINIO({ className }: BuyOINIOProps) {
         setError('Failed to switch to 0G Aristotle network');
       }
     }
-  }, [updateBalances]);
+  };
 
   const buyOINIO = async () => {
     if (!signer || !provider) {

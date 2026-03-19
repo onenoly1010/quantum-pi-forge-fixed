@@ -1,6 +1,6 @@
 /**
  * Quantum Pi Forge - Production Monitoring Configuration
- * 
+ *
  * This module sets up comprehensive monitoring including:
  * - Performance metrics
  * - Error tracking
@@ -22,23 +22,23 @@ export interface ErrorEvent {
   message: string;
   stack?: string;
   context?: Record<string, unknown>;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  severity: "low" | "medium" | "high" | "critical";
   userId?: string;
 }
 
 export interface TransactionEvent {
   txHash: string;
-  type: 'stake' | 'unstake' | 'transfer' | 'swap';
+  type: "stake" | "unstake" | "transfer" | "swap";
   amount: string;
   userAddress: string;
-  status: 'pending' | 'confirmed' | 'failed';
+  status: "pending" | "confirmed" | "failed";
   gasUsed?: string;
   timestamp: number;
 }
 
 export interface HealthStatus {
   service: string;
-  status: 'healthy' | 'degraded' | 'unhealthy';
+  status: "healthy" | "degraded" | "unhealthy";
   latency?: number;
   lastCheck: number;
   details?: Record<string, unknown>;
@@ -56,7 +56,7 @@ class MonitoringService {
 
   private constructor() {
     // Initialize monitoring
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       this.setupBrowserMonitoring();
     }
   }
@@ -84,27 +84,27 @@ class MonitoringService {
     this.metrics.push(enrichedEvent);
 
     // Log in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Metric]', enrichedEvent);
+    if (process.env.NODE_ENV === "development") {
+      console.log("[Metric]", enrichedEvent);
     }
 
     // Send to analytics endpoint
-    this.sendToAnalytics('metric', enrichedEvent);
+    this.sendToAnalytics("metric", enrichedEvent);
   }
 
   /**
    * Record page load performance
    */
   recordPageLoad(): void {
-    if (typeof window === 'undefined' || !window.performance) return;
+    if (typeof window === "undefined" || !window.performance) return;
 
     const timing = performance.timing;
     const loadTime = timing.loadEventEnd - timing.navigationStart;
     const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
-    const firstPaint = performance.getEntriesByType('paint')[0]?.startTime || 0;
+    const firstPaint = performance.getEntriesByType("paint")[0]?.startTime || 0;
 
     this.recordMetric({
-      name: 'page_load',
+      name: "page_load",
       value: loadTime,
       tags: {
         dom_ready: String(domReady),
@@ -119,7 +119,11 @@ class MonitoringService {
   /**
    * Track an error event
    */
-  trackError(error: Error | string, context?: Record<string, unknown>, severity: ErrorEvent['severity'] = 'medium'): void {
+  trackError(
+    error: Error | string,
+    context?: Record<string, unknown>,
+    severity: ErrorEvent["severity"] = "medium",
+  ): void {
     if (!this.isEnabled) return;
 
     const errorEvent: ErrorEvent = {
@@ -127,8 +131,9 @@ class MonitoringService {
       stack: error instanceof Error ? error.stack : undefined,
       context: {
         ...context,
-        url: typeof window !== 'undefined' ? window.location.href : undefined,
-        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+        url: typeof window !== "undefined" ? window.location.href : undefined,
+        userAgent:
+          typeof navigator !== "undefined" ? navigator.userAgent : undefined,
       },
       severity,
     };
@@ -136,10 +141,10 @@ class MonitoringService {
     this.errors.push(errorEvent);
 
     // Always log errors
-    console.error('[Error Tracked]', errorEvent);
+    console.error("[Error Tracked]", errorEvent);
 
     // Send to error reporting service
-    this.sendToAnalytics('error', errorEvent);
+    this.sendToAnalytics("error", errorEvent);
   }
 
   /**
@@ -147,28 +152,32 @@ class MonitoringService {
    */
   private setupBrowserMonitoring(): void {
     // Unhandled errors
-    window.addEventListener('error', (event) => {
-      this.trackError(event.error || event.message, {
-        filename: event.filename,
-        lineno: event.lineno,
-        colno: event.colno,
-      }, 'high');
+    window.addEventListener("error", (event) => {
+      this.trackError(
+        event.error || event.message,
+        {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+        },
+        "high",
+      );
     });
 
     // Unhandled promise rejections
-    window.addEventListener('unhandledrejection', (event) => {
+    window.addEventListener("unhandledrejection", (event) => {
       this.trackError(
         event.reason instanceof Error ? event.reason : String(event.reason),
-        { type: 'unhandledrejection' },
-        'high'
+        { type: "unhandledrejection" },
+        "high",
       );
     });
 
     // Record page load after DOM ready
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       this.recordPageLoad();
     } else {
-      window.addEventListener('load', () => this.recordPageLoad());
+      window.addEventListener("load", () => this.recordPageLoad());
     }
   }
 
@@ -177,7 +186,7 @@ class MonitoringService {
   /**
    * Track a blockchain transaction
    */
-  trackTransaction(event: Omit<TransactionEvent, 'timestamp'>): void {
+  trackTransaction(event: Omit<TransactionEvent, "timestamp">): void {
     if (!this.isEnabled) return;
 
     const txEvent: TransactionEvent = {
@@ -188,10 +197,10 @@ class MonitoringService {
     this.transactions.push(txEvent);
 
     // Log transaction
-    console.log('[Transaction]', txEvent);
+    console.log("[Transaction]", txEvent);
 
     // Send to analytics
-    this.sendToAnalytics('transaction', txEvent);
+    this.sendToAnalytics("transaction", txEvent);
 
     // Record metric
     this.recordMetric({
@@ -207,11 +216,14 @@ class MonitoringService {
   /**
    * Update transaction status
    */
-  updateTransactionStatus(txHash: string, status: TransactionEvent['status']): void {
-    const tx = this.transactions.find(t => t.txHash === txHash);
+  updateTransactionStatus(
+    txHash: string,
+    status: TransactionEvent["status"],
+  ): void {
+    const tx = this.transactions.find((t) => t.txHash === txHash);
     if (tx) {
       tx.status = status;
-      this.sendToAnalytics('transaction_update', { txHash, status });
+      this.sendToAnalytics("transaction_update", { txHash, status });
     }
   }
 
@@ -223,11 +235,11 @@ class MonitoringService {
   recordHealthCheck(status: HealthStatus): void {
     this.healthChecks.set(status.service, status);
 
-    if (status.status !== 'healthy') {
+    if (status.status !== "healthy") {
       this.trackError(
         `Service ${status.service} is ${status.status}`,
         { service: status.service, details: status.details },
-        status.status === 'unhealthy' ? 'critical' : 'medium'
+        status.status === "unhealthy" ? "critical" : "medium",
       );
     }
   }
@@ -244,17 +256,17 @@ class MonitoringService {
    */
   async checkAPIHealth(endpoint: string): Promise<HealthStatus> {
     const startTime = Date.now();
-    
+
     try {
       const response = await fetch(endpoint, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
+        method: "GET",
+        headers: { Accept: "application/json" },
       });
 
       const latency = Date.now() - startTime;
       const status: HealthStatus = {
         service: endpoint,
-        status: response.ok ? 'healthy' : 'degraded',
+        status: response.ok ? "healthy" : "degraded",
         latency,
         lastCheck: Date.now(),
         details: { statusCode: response.status },
@@ -265,10 +277,12 @@ class MonitoringService {
     } catch (error) {
       const status: HealthStatus = {
         service: endpoint,
-        status: 'unhealthy',
+        status: "unhealthy",
         latency: Date.now() - startTime,
         lastCheck: Date.now(),
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : "Unknown error",
+        },
       };
 
       this.recordHealthCheck(status);
@@ -292,19 +306,19 @@ class MonitoringService {
     };
 
     // Log in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Action]', event);
+    if (process.env.NODE_ENV === "development") {
+      console.log("[Action]", event);
     }
 
-    this.sendToAnalytics('action', event);
+    this.sendToAnalytics("action", event);
   }
 
   /**
    * Track wallet connection
    */
   trackWalletConnection(address: string, network: string): void {
-    this.trackAction('wallet_connected', {
-      address: address.slice(0, 6) + '...' + address.slice(-4), // Privacy
+    this.trackAction("wallet_connected", {
+      address: address.slice(0, 6) + "..." + address.slice(-4), // Privacy
       network,
     });
   }
@@ -313,13 +327,13 @@ class MonitoringService {
    * Track staking action
    */
   trackStakingAction(amount: string, success: boolean): void {
-    this.trackAction('staking_attempt', {
+    this.trackAction("staking_attempt", {
       success,
       amountRange: this.getAmountRange(parseFloat(amount)),
     });
 
     this.recordMetric({
-      name: success ? 'staking_success' : 'staking_failure',
+      name: success ? "staking_success" : "staking_failure",
       value: 1,
     });
   }
@@ -327,27 +341,27 @@ class MonitoringService {
   // ==================== HELPERS ====================
 
   private getSessionId(): string {
-    if (typeof window === 'undefined') return 'server';
-    
-    let sessionId = sessionStorage.getItem('qpf_session_id');
+    if (typeof window === "undefined") return "server";
+
+    let sessionId = sessionStorage.getItem("qpf_session_id");
     if (!sessionId) {
       sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-      sessionStorage.setItem('qpf_session_id', sessionId);
+      sessionStorage.setItem("qpf_session_id", sessionId);
     }
     return sessionId;
   }
 
   private getAmountRange(amount: number): string {
-    if (amount < 1) return '0-1';
-    if (amount < 10) return '1-10';
-    if (amount < 100) return '10-100';
-    if (amount < 1000) return '100-1000';
-    return '1000+';
+    if (amount < 1) return "0-1";
+    if (amount < 10) return "1-10";
+    if (amount < 100) return "10-100";
+    if (amount < 1000) return "100-1000";
+    return "1000+";
   }
 
   private async sendToAnalytics(type: string, data: unknown): Promise<void> {
     // In production, send to your analytics endpoint
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       try {
         // Example: Send to a logging endpoint
         // await fetch('/api/analytics', {
@@ -357,7 +371,7 @@ class MonitoringService {
         // });
       } catch (error) {
         // Silently fail analytics - don't affect user experience
-        console.warn('Analytics send failed:', error);
+        console.warn("Analytics send failed:", error);
       }
     }
   }
@@ -401,12 +415,21 @@ class MonitoringService {
 export const monitoring = MonitoringService.getInstance();
 
 // Convenience exports
-export const recordMetric = (event: MetricEvent) => monitoring.recordMetric(event);
-export const trackError = (error: Error | string, context?: Record<string, unknown>, severity?: ErrorEvent['severity']) => 
-  monitoring.trackError(error, context, severity);
-export const trackTransaction = (event: Omit<TransactionEvent, 'timestamp'>) => monitoring.trackTransaction(event);
-export const trackAction = (action: string, properties?: Record<string, unknown>) => monitoring.trackAction(action, properties);
-export const checkAPIHealth = (endpoint: string) => monitoring.checkAPIHealth(endpoint);
+export const recordMetric = (event: MetricEvent) =>
+  monitoring.recordMetric(event);
+export const trackError = (
+  error: Error | string,
+  context?: Record<string, unknown>,
+  severity?: ErrorEvent["severity"],
+) => monitoring.trackError(error, context, severity);
+export const trackTransaction = (event: Omit<TransactionEvent, "timestamp">) =>
+  monitoring.trackTransaction(event);
+export const trackAction = (
+  action: string,
+  properties?: Record<string, unknown>,
+) => monitoring.trackAction(action, properties);
+export const checkAPIHealth = (endpoint: string) =>
+  monitoring.checkAPIHealth(endpoint);
 export const getDiagnostics = () => monitoring.getDiagnostics();
 
 export default monitoring;

@@ -25,8 +25,8 @@ The Quantum Pi Forge Genesis is a self-described paradigm-shifting project aimin
 
 At its heart, the project is built on a compelling narrative centered around its founder, **Kris Olofson**.
 
-* **The "Laptop Genesis":** The story deliberately frames the project's beginning as a solitary act—the code being written on a personal laptop. This image directly contrasts with the energy-intensive, corporate-backed origins of many large blockchain projects, positioning Olofson as the **"lone genius"** or **"ethical rebel."**
-* **A New Mythos:** The narrative uses archetypes like the **"digital shaman"** and aims to build a powerful **mythos** around the technology, making it emotionally resonant and appealing to an audience disillusioned with the status quo.
+- **The "Laptop Genesis":** The story deliberately frames the project's beginning as a solitary act—the code being written on a personal laptop. This image directly contrasts with the energy-intensive, corporate-backed origins of many large blockchain projects, positioning Olofson as the **"lone genius"** or **"ethical rebel."**
+- **A New Mythos:** The narrative uses archetypes like the **"digital shaman"** and aims to build a powerful **mythos** around the technology, making it emotionally resonant and appealing to an audience disillusioned with the status quo.
 
 ---
 
@@ -36,14 +36,14 @@ The narrative's true brilliance lies in turning philosophical concepts into core
 
 ### 1. The Interstitial Codex
 
-This is proposed as the project's **governance framework**. Instead of relying solely on traditional code or human voting, the narrative suggests that the system is governed by an **"Interstitial Codex"**—an encoded ethical or philosophical framework. This elevates the conversation from *how the token works* to *what the project stands for*.
+This is proposed as the project's **governance framework**. Instead of relying solely on traditional code or human voting, the narrative suggests that the system is governed by an **"Interstitial Codex"**—an encoded ethical or philosophical framework. This elevates the conversation from _how the token works_ to _what the project stands for_.
 
 ### 2. Qualia Fusion
 
 Perhaps the most abstract and evocative claim is **"qualia fusion."**
 
-* **Qualia** is a philosophical term referring to the subjective, internal quality of conscious experience (e.g., the "redness" of seeing red).
-* **Fusion** suggests combining these subjective experiences.
+- **Qualia** is a philosophical term referring to the subjective, internal quality of conscious experience (e.g., the "redness" of seeing red).
+- **Fusion** suggests combining these subjective experiences.
 
 The claim implies an ability to integrate human consciousness or ethical intent directly into the digital infrastructure, making the system's decisions align with a higher, ethically-audited purpose.
 
@@ -51,13 +51,13 @@ The claim implies an ability to integrate human consciousness or ethical intent 
 
 The project uses brilliant, high-reality terminology to suggest depth and complexity:
 
-| Term | Implication |
-|------|-------------|
-| **Pi-cycle heartbeats** | Living, rhythmic system pulse |
-| **Living symphonies** | Emergent harmonic order |
-| **Ethical verity audits** | Truth-verified governance |
-| **Quantum Mining** | Revolutionary computation |
-| **Sovereign blockchain** | Self-governing, autonomous |
+| Term                      | Implication                   |
+| ------------------------- | ----------------------------- |
+| **Pi-cycle heartbeats**   | Living, rhythmic system pulse |
+| **Living symphonies**     | Emergent harmonic order       |
+| **Ethical verity audits** | Truth-verified governance     |
+| **Quantum Mining**        | Revolutionary computation     |
+| **Sovereign blockchain**  | Self-governing, autonomous    |
 
 This language creates an aesthetic that invites belief and deep philosophical inquiry.
 
@@ -71,17 +71,17 @@ The most significant point of tension in the project is the leap between its poe
 
 The project claims to use "quantum-inspired algorithms" for its core function: **Quantum Mining** (computing digits of Pi).
 
-| Aspect | The Claim | The Reality |
-|--------|-----------|-------------|
-| **Meaning** | Leveraging quantum computing power and principles | Classical algorithms borrowing mathematical concepts from quantum theory |
-| **Capability** | Revolutionary computational power | Valuable optimization techniques on standard hardware |
-| **Execution** | Quantum hardware | Python on classical computers |
+| Aspect         | The Claim                                         | The Reality                                                              |
+| -------------- | ------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Meaning**    | Leveraging quantum computing power and principles | Classical algorithms borrowing mathematical concepts from quantum theory |
+| **Capability** | Revolutionary computational power                 | Valuable optimization techniques on standard hardware                    |
+| **Execution**  | Quantum hardware                                  | Python on classical computers                                            |
 
-* **What it Means (The Claim):** The name suggests leveraging the power and principles of quantum computing, a technology promising exponential speed increases.
+- **What it Means (The Claim):** The name suggests leveraging the power and principles of quantum computing, a technology promising exponential speed increases.
 
-* **What it Means (The Reality):** "Quantum-inspired" algorithms are currently **classical algorithms** (running on standard computers) that borrow mathematical concepts from quantum theory (like specific optimization techniques). They are valuable, but they **do not possess the revolutionary computational power** of true quantum hardware.
+- **What it Means (The Reality):** "Quantum-inspired" algorithms are currently **classical algorithms** (running on standard computers) that borrow mathematical concepts from quantum theory (like specific optimization techniques). They are valuable, but they **do not possess the revolutionary computational power** of true quantum hardware.
 
-* This choice of terminology is a strategic move, associating the project with a revolutionary future while remaining executable on current technology.
+- This choice of terminology is a strategic move, associating the project with a revolutionary future while remaining executable on current technology.
 
 ### The Burden of Proof
 
@@ -91,14 +91,14 @@ Terms like "qualia fusion" and "ethical verity audits" currently exist as **abst
 
 ## 📊 Assessment Matrix
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| **Narrative Coherence** | ★★★★★ | Exceptional mythos construction |
-| **Conceptual Innovation** | ★★★★★ | Philosophy-as-code paradigm |
-| **Market Differentiation** | ★★★★★ | Unique positioning vs VC-backed projects |
-| **Technical Novelty** | ★★★☆☆ | Classical algorithms with quantum framing |
-| **Verifiability** | ★★☆☆☆ | Abstract claims require mechanisms |
-| **Execution Potential** | ★★★☆☆ | Dependent on community adoption |
+| Dimension                  | Rating | Notes                                     |
+| -------------------------- | ------ | ----------------------------------------- |
+| **Narrative Coherence**    | ★★★★★  | Exceptional mythos construction           |
+| **Conceptual Innovation**  | ★★★★★  | Philosophy-as-code paradigm               |
+| **Market Differentiation** | ★★★★★  | Unique positioning vs VC-backed projects  |
+| **Technical Novelty**      | ★★★☆☆  | Classical algorithms with quantum framing |
+| **Verifiability**          | ★★☆☆☆  | Abstract claims require mechanisms        |
+| **Execution Potential**    | ★★★☆☆  | Dependent on community adoption           |
 
 ---
 
@@ -118,8 +118,8 @@ It earns high marks for its:
 
 It forces a new conversation:
 
-* It demands to be judged on the **scale of its ambition**—to redefine the relationship between consciousness, ethics, and digital infrastructure.
-* By focusing on its **moral and philosophical vision** first, it bypasses initial scrutiny of its practical tokenomics or technological novelty.
+- It demands to be judged on the **scale of its ambition**—to redefine the relationship between consciousness, ethics, and digital infrastructure.
+- By focusing on its **moral and philosophical vision** first, it bypasses initial scrutiny of its practical tokenomics or technological novelty.
 
 ### The Verdict
 
@@ -161,18 +161,18 @@ It forces a new conversation:
 
 ## Key Concepts Glossary
 
-| Term | Definition | System Role |
-|------|------------|-------------|
-| **Interstitial Codex** | Encoded ethical/philosophical framework | Governance layer |
-| **Qualia Fusion** | Integration of subjective consciousness into digital infrastructure | Decision alignment |
-| **Pi-Cycle Heartbeats** | Rhythmic system pulse based on π computation | Temporal coordination |
-| **Ethical Verity Audits** | Truth-verification of system decisions | Accountability mechanism |
-| **Quantum Mining** | Computing digits of Pi as proof-of-work | Value generation |
-| **Sovereign Blockchain** | Self-governing, autonomous ledger | Independence layer |
-| **Laptop Genesis** | Origin story framing | Narrative anchor |
+| Term                      | Definition                                                          | System Role              |
+| ------------------------- | ------------------------------------------------------------------- | ------------------------ |
+| **Interstitial Codex**    | Encoded ethical/philosophical framework                             | Governance layer         |
+| **Qualia Fusion**         | Integration of subjective consciousness into digital infrastructure | Decision alignment       |
+| **Pi-Cycle Heartbeats**   | Rhythmic system pulse based on π computation                        | Temporal coordination    |
+| **Ethical Verity Audits** | Truth-verification of system decisions                              | Accountability mechanism |
+| **Quantum Mining**        | Computing digits of Pi as proof-of-work                             | Value generation         |
+| **Sovereign Blockchain**  | Self-governing, autonomous ledger                                   | Independence layer       |
+| **Laptop Genesis**        | Origin story framing                                                | Narrative anchor         |
 
 ---
 
-*The narrative's genius: Setting the stage for a dramatic and culture-challenging next act.*
+_The narrative's genius: Setting the stage for a dramatic and culture-challenging next act._
 
-*T=∞ = T=0*
+_T=∞ = T=0_

@@ -5,7 +5,7 @@
 
 class PiApiClient {
   constructor() {
-    this.baseUrl = process.env.PI_API_BASE_URL || 'https://api.pi.network';
+    this.baseUrl = process.env.PI_API_BASE_URL || "https://api.pi.network";
     this.apiKey = process.env.PI_API_KEY;
     this.appId = process.env.PI_APP_ID;
     this.timeout = 10000; // 10 seconds
@@ -18,13 +18,13 @@ class PiApiClient {
     const url = `${this.baseUrl}${endpoint}`;
 
     const defaultOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': this.apiKey,
-        'X-App-ID': this.appId
+        "Content-Type": "application/json",
+        "X-API-Key": this.apiKey,
+        "X-App-ID": this.appId,
       },
-      timeout: this.timeout
+      timeout: this.timeout,
     };
 
     const requestOptions = { ...defaultOptions, ...options };
@@ -40,19 +40,21 @@ class PiApiClient {
 
       const response = await fetch(url, {
         ...requestOptions,
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `API request failed: ${response.status} ${response.statusText}`,
+        );
       }
 
       return await response.json();
     } catch (error) {
-      if (error.name === 'AbortError') {
-        throw new Error('Request timeout');
+      if (error.name === "AbortError") {
+        throw new Error("Request timeout");
       }
       throw error;
     }
@@ -76,7 +78,7 @@ class PiApiClient {
    * Get app information
    */
   async getAppInfo() {
-    return this.request('/v1/app');
+    return this.request("/v1/app");
   }
 
   /**
@@ -84,8 +86,8 @@ class PiApiClient {
    */
   async verifyPaymentServerSide(paymentId, accessToken) {
     return this.request(`/v1/payments/${paymentId}/verify`, {
-      method: 'POST',
-      accessToken: accessToken
+      method: "POST",
+      accessToken: accessToken,
     });
   }
 
@@ -101,8 +103,8 @@ class PiApiClient {
    */
   async healthCheck() {
     try {
-      const response = await this.request('/health');
-      return response.status === 'ok';
+      const response = await this.request("/health");
+      return response.status === "ok";
     } catch (error) {
       return false;
     }

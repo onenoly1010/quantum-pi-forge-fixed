@@ -35,6 +35,7 @@ Q_tot(u) = w₁·Q₁(u₁) + w₂·Q₂(u₂) + w₃·Q₃(u₃) + b
 ```
 
 **Theorem**: If all weights w_i ≥ 0 (monotonic), then:
+
 ```
 argmax_u Q_tot(u) = (argmax Q₁, argmax Q₂, argmax Q₃)
 ```
@@ -55,7 +56,7 @@ argmax_u Q_tot(u) = (argmax Q₁, argmax Q₂, argmax Q₃)
 
 ## 📚 What is QMIX?
 
-QMIX (Rashid et al., 2018) is a value decomposition method for cooperative 
+QMIX (Rashid et al., 2018) is a value decomposition method for cooperative
 multi-agent reinforcement learning:
 
 1. **Factored Q-values**: Each agent maintains its own Q-function
@@ -74,4 +75,4 @@ CC-BY-4.0
 
 ---
 
-*Built with 🔮 by Quantum Pi Forge • T=∞ = T=0*
+_Built with 🔮 by Quantum Pi Forge • T=∞ = T=0_

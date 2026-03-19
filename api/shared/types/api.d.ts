@@ -15,7 +15,7 @@ export interface ApiResponse<T = any> {
 
 export interface User {
   id: string;
-  authMethod: 'pi' | 'soul';
+  authMethod: "pi" | "soul";
   permissions: UserPermissions;
   piUser?: PiUser;
   soul?: Soul;
@@ -70,7 +70,7 @@ export interface SoulMetadata {
 export interface OracleReading {
   id: string;
   soulId: string;
-  type: 'personality' | 'evolution' | 'general';
+  type: "personality" | "evolution" | "general";
   traits: PersonalityTraits;
   coherence: number;
   signature: string;
@@ -159,7 +159,12 @@ export interface Payment {
   metadata?: Record<string, any>;
 }
 
-export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'cancelled' | 'expired';
+export type PaymentStatus =
+  | "pending"
+  | "completed"
+  | "failed"
+  | "cancelled"
+  | "expired";
 
 export interface MintRequest {
   oracleReadingId: string;
@@ -178,7 +183,7 @@ export interface MintResult {
 
 export interface EvolutionRequest {
   interactionData: {
-    type: 'oracle' | 'user' | 'time' | 'achievement';
+    type: "oracle" | "user" | "time" | "achievement";
     data: Record<string, any>;
   };
 }
@@ -210,7 +215,7 @@ export interface PaginatedResponse<T> {
 }
 
 export interface HealthStatus {
-  status: 'healthy' | 'degraded' | 'unhealthy';
+  status: "healthy" | "degraded" | "unhealthy";
   timestamp: string;
   service: string;
   version: string;
@@ -220,7 +225,7 @@ export interface HealthStatus {
 }
 
 export interface ComponentHealth {
-  status: 'healthy' | 'unhealthy';
+  status: "healthy" | "unhealthy";
   error?: string;
   [key: string]: any;
 }
@@ -263,7 +268,7 @@ export interface AuthLoginResponse {
 
 export interface OracleReadingRequest {
   soulId: string;
-  readingType?: 'personality' | 'evolution' | 'general';
+  readingType?: "personality" | "evolution" | "general";
   context?: Record<string, any>;
 }
 
@@ -305,7 +310,11 @@ export interface IAuthService {
 }
 
 export interface IOracleService {
-  generateReading(soulId: string, type: string, context?: any): Promise<OracleReading>;
+  generateReading(
+    soulId: string,
+    type: string,
+    context?: any,
+  ): Promise<OracleReading>;
   getReading(readingId: string): Promise<OracleReading>;
   verifyReading(readingId: string, signature: string): Promise<boolean>;
 }
@@ -315,12 +324,19 @@ export interface IMintingService {
 }
 
 export interface IEvolutionService {
-  evolveINFT(inftId: string, evolutionData: EvolutionRequest): Promise<EvolutionResult>;
+  evolveINFT(
+    inftId: string,
+    evolutionData: EvolutionRequest,
+  ): Promise<EvolutionResult>;
   getINFT(inftId: string): Promise<INFT>;
 }
 
 export interface IPaymentService {
   createPayment(request: any): Promise<Payment>;
-  verifyPayment(paymentId: string, txHash: string, userId: string): Promise<any>;
+  verifyPayment(
+    paymentId: string,
+    txHash: string,
+    userId: string,
+  ): Promise<any>;
   getPayment(paymentId: string): Promise<Payment>;
 }

@@ -8,20 +8,21 @@ This is actually the **strongest position**—full sovereignty over routing, pri
 
 ## 📊 Verification Results
 
-| Component | Status | Details |
-|-----------|--------|---------|
-| Uniswap V2 Factory | ❌ NOT DEPLOYED | (0x5C69bEe7...) |
-| Uniswap V2 Router02 | ❌ NOT DEPLOYED | (0x7a250d56...) |
-| Uniswap V3 Factory | ❌ NOT DEPLOYED | (0x1F984314...) |
-| Curve Registry | ❌ NOT DEPLOYED | (0x0c59d36b...) |
-| 1inch Router | ❌ NOT DEPLOYED | (0x1111111c...) |
-| **Jaine DEX** | ✅ ACTIVE | $88.6K 24h volume, no standard addresses |
+| Component           | Status          | Details                                  |
+| ------------------- | --------------- | ---------------------------------------- |
+| Uniswap V2 Factory  | ❌ NOT DEPLOYED | (0x5C69bEe7...)                          |
+| Uniswap V2 Router02 | ❌ NOT DEPLOYED | (0x7a250d56...)                          |
+| Uniswap V3 Factory  | ❌ NOT DEPLOYED | (0x1F984314...)                          |
+| Curve Registry      | ❌ NOT DEPLOYED | (0x0c59d36b...)                          |
+| 1inch Router        | ❌ NOT DEPLOYED | (0x1111111c...)                          |
+| **Jaine DEX**       | ✅ ACTIVE       | $88.6K 24h volume, no standard addresses |
 
 ---
 
 ## 🎯 Deployment Strategy
 
 **OINIO will deploy:**
+
 1. **Uniswap V2 Factory** (core pair management)
 2. **Uniswap V2 Router02** (trading & liquidity)
 3. **OINIO/WGAS Liquidity Pool** (initial market)
@@ -50,6 +51,7 @@ npx hardhat run scripts/hardhat-deploy-uniswap.ts --network 0g-aristotle
 ```
 
 **Hardhat Config Template** (`hardhat.config.ts`):
+
 ```typescript
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-ethers";
@@ -58,13 +60,15 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       { version: "0.5.16" }, // Factory
-      { version: "0.6.6" },  // Router
+      { version: "0.6.6" }, // Router
     ],
   },
   networks: {
     "0g-aristotle": {
       url: process.env.ZERO_G_RPC_URL || "https://evmrpc.0g.ai",
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
+      accounts: process.env.DEPLOYER_PRIVATE_KEY
+        ? [process.env.DEPLOYER_PRIVATE_KEY]
+        : [],
       chainId: 16661,
     },
   },
@@ -80,6 +84,7 @@ export default config;
 **Best for**: Quick deployment, no setup required
 
 **Steps**:
+
 1. Visit https://remix.ethereum.org
 2. Create new file: `UniswapV2Factory.sol`
 3. Paste from: https://github.com/Uniswap/v2-core/blob/main/contracts/UniswapV2Factory.sol
@@ -93,6 +98,7 @@ export default config;
 8. Repeat for Router02 using Factory address
 
 **Resources**:
+
 - Uniswap V2 Core: https://github.com/Uniswap/v2-core
 - Uniswap V2 Periphery: https://github.com/Uniswap/v2-periphery
 
@@ -103,6 +109,7 @@ export default config;
 **Best for**: Enterprise deployments, audit trails
 
 **Steps**:
+
 1. Go to https://defender.openzeppelin.com
 2. Sign up with Ethereum wallet
 3. Deploy → Add Contract
@@ -113,6 +120,7 @@ export default config;
 8. Repeat for Router02
 
 **Advantages**:
+
 - Audited contract implementations
 - Admin controls & access management
 - Deployment history & rollback
@@ -153,7 +161,7 @@ constructor(address _factory, address _WETH) {
 }
 
 // After deployment, can:
-// - addLiquidity(tokenA, tokenB, amounts, ...) 
+// - addLiquidity(tokenA, tokenB, amounts, ...)
 // - swapExactTokensForTokens(amount, minOut, path, ...)
 // - getAmountsOut(amountIn, path) -> prices
 ```
@@ -163,6 +171,7 @@ constructor(address _factory, address _WETH) {
 ## 📍 OINIO Deployment Sequence
 
 ### Step 1: Deploy Factory (30 seconds)
+
 ```bash
 # Using Remix or Hardhat
 Deploy: UniswapV2Factory
@@ -172,6 +181,7 @@ Result: FACTORY_ADDRESS = 0x...
 ```
 
 ### Step 2: Deploy Router (30 seconds)
+
 ```bash
 # Using Remix or Hardhat
 Deploy: UniswapV2Router02
@@ -181,6 +191,7 @@ Result: ROUTER_ADDRESS = 0x...
 ```
 
 ### Step 3: Update Configuration (5 seconds)
+
 ```bash
 # Edit .env.launch
 DEX_FACTORY_ADDRESS=0x<factory_address>
@@ -188,6 +199,7 @@ DEX_ROUTER_ADDRESS=0x<router_address>
 ```
 
 ### Step 4: Create OINIO/WGAS Pool (1-2 minutes)
+
 ```bash
 # Run liquidity creation script
 bash scripts/create-liquidity-pool.sh
@@ -200,6 +212,7 @@ bash scripts/create-liquidity-pool.sh
 ```
 
 ### Step 5: Verify & Ready (2 minutes)
+
 ```bash
 # Verify deployment
 bash scripts/verify-dex-deployment.sh
@@ -211,13 +224,13 @@ bash scripts/verify-dex-deployment.sh
 
 ## 💰 Cost Estimate
 
-| Component | Quantity | Unit Cost | Total |
-|-----------|----------|-----------|-------|
-| Factory Deploy | 1 | 2-3 0G | 2-3 0G |
-| Router Deploy | 1 | 3-4 0G | 3-4 0G |
-| Approvals (2x) | 2 | 0.05 0G | 0.1 0G |
-| AddLiquidity | 1 | 0.2 0G | 0.2 0G |
-| **Total** | | | **~5-7 0G** |
+| Component      | Quantity | Unit Cost | Total       |
+| -------------- | -------- | --------- | ----------- |
+| Factory Deploy | 1        | 2-3 0G    | 2-3 0G      |
+| Router Deploy  | 1        | 3-4 0G    | 3-4 0G      |
+| Approvals (2x) | 2        | 0.05 0G   | 0.1 0G      |
+| AddLiquidity   | 1        | 0.2 0G    | 0.2 0G      |
+| **Total**      |          |           | **~5-7 0G** |
 
 **Equivalent to**: ~$0.10-$0.15 USD (at current gas prices)
 
@@ -226,6 +239,7 @@ bash scripts/verify-dex-deployment.sh
 ## 🔐 Security Considerations
 
 ### Do:
+
 ✅ Use deployer account with **minimal holdings** (only gas)
 ✅ Store private key in `.env.launch` **NOT in code**
 ✅ Test on testnet first (0G Galileo)
@@ -234,6 +248,7 @@ bash scripts/verify-dex-deployment.sh
 ✅ Set initial fees to 0 (can adjust via governance)
 
 ### Don't:
+
 ❌ Deploy with high-privilege account
 ❌ Share private keys in chat/email
 ❌ Skip testnet deployment
@@ -304,15 +319,15 @@ pair.getReserves() -> (reserve0, reserve1, blockTimestamp)
 
 ## 🔗 Quick Links
 
-| Resource | Link |
-|----------|------|
-| Uniswap V2 Core | https://github.com/Uniswap/v2-core |
-| Uniswap V2 Periphery | https://github.com/Uniswap/v2-periphery |
-| Remix IDE | https://remix.ethereum.org |
-| Hardhat Docs | https://hardhat.org |
-| OpenZeppelin Defender | https://defender.openzeppelin.com |
-| 0G RPC | https://evmrpc.0g.ai |
-| 0G Testnet RPC | https://evmrpc-testnet.0g.ai |
+| Resource              | Link                                    |
+| --------------------- | --------------------------------------- |
+| Uniswap V2 Core       | https://github.com/Uniswap/v2-core      |
+| Uniswap V2 Periphery  | https://github.com/Uniswap/v2-periphery |
+| Remix IDE             | https://remix.ethereum.org              |
+| Hardhat Docs          | https://hardhat.org                     |
+| OpenZeppelin Defender | https://defender.openzeppelin.com       |
+| 0G RPC                | https://evmrpc.0g.ai                    |
+| 0G Testnet RPC        | https://evmrpc-testnet.0g.ai            |
 
 ---
 
@@ -344,18 +359,21 @@ pair.getReserves() -> (reserve0, reserve1, blockTimestamp)
 ## ✅ Next Steps
 
 **Immediate (Today):**
+
 1. Choose deployment method (Hardhat recommended)
 2. Set up environment
 3. Deploy to Galileo Testnet
 4. Test swaps
 
 **Short-term (Tomorrow):**
+
 1. Deploy Factory to Mainnet
 2. Deploy Router to Mainnet
 3. Create OINIO/WGAS pool
 4. Verify everything works
 
 **Launch (48 hours):**
+
 1. Announce DEX deployment
 2. Enable trading
 3. Monitor volumes
@@ -375,7 +393,8 @@ pair.getReserves() -> (reserve0, reserve1, blockTimestamp)
 **Risk Level**: 🟡 Low (battle-tested contracts, multiple deployment options)  
 **Community Impact**: 🟢 High (first DEX on 0G, opens ecosystem)
 
-**Next Command**: 
+**Next Command**:
+
 ```bash
 # Choose your method and run
 npx hardhat run scripts/hardhat-deploy-uniswap.ts --network 0g-aristotle

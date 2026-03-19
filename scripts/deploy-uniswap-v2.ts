@@ -33,7 +33,7 @@ const RPC_URL = process.env.ZERO_G_RPC_URL || "https://evmrpc.0g.ai";
 const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY;
 const WGAS_ADDRESS = process.env.WGAS_ADDRESS;
 const OINIO_ADDRESS = process.env.OINIO_TOKEN_ADDRESS;
-const FEETOsetter = process.env.DEPLOYER_ADDRESS; // FeeToSetter address (can be changed later)
+const FEETOSETTER = process.env.DEPLOYER_ADDRESS; // Corrected variable name for consistency
 
 const ENV_FILE = ".env.launch";
 const LOG_FILE = "logs/uniswap-deployment.log";
@@ -103,7 +103,7 @@ function updateEnvLaunch(key: string, value: string) {
     // Update existing entry
     envContent = envContent.replace(
       new RegExp(`${key}=.*`, "g"),
-      `${key}=${value}`
+      `${key}=${value}`,
     );
   } else {
     // Add new entry
@@ -137,7 +137,7 @@ async function deployUniswapV2() {
     error("OINIO_TOKEN_ADDRESS not set in .env.launch");
   }
 
-  if (!FEETOSET) {
+  if (!FEETOSETTER) {
     error("DEPLOYER_ADDRESS not set in .env.launch (needed for FeeToSetter)");
   }
 
@@ -147,7 +147,7 @@ async function deployUniswapV2() {
   // Connect to RPC
   log("📡 Connecting to 0G Aristotle...");
   const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+  const signer = new ethers.Wallet(PRIVATE_KEY as string, provider);
 
   log(`Deployer: ${signer.address}`);
   log(`RPC: ${RPC_URL}`);
@@ -159,7 +159,7 @@ async function deployUniswapV2() {
 
   if (balance < ethers.parseEther("0.5")) {
     error(
-      `Insufficient balance. Need > 0.5 0G tokens for deployment. Have: ${balanceEth}`
+      `Insufficient balance. Need > 0.5 0G tokens for deployment. Have: ${balanceEth}`,
     );
   }
 
@@ -169,7 +169,7 @@ async function deployUniswapV2() {
   // Step 1: Deploy Factory
   log("📦 Step 1: Deploying Uniswap V2 Factory...");
   log(
-    "   This requires compiled Uniswap V2 Factory bytecode from official sources."
+    "   This requires compiled Uniswap V2 Factory bytecode from official sources.",
   );
   log("   Options:");
   log("   A) Use pre-compiled bytecode from Uniswap GitHub");
@@ -186,7 +186,7 @@ async function deployUniswapV2() {
 // Option A: Deploy with compiled bytecode (recommended for production)
 const factoryBytecode = "0x..."; // Get from compilation or github releases
 const Factory = new ethers.ContractFactory(FACTORY_ABI, factoryBytecode, signer);
-const factory = await Factory.deploy(FEETOSET);
+const factory = await Factory.deploy(FEETOSETTER);
 const factoryReceipt = await factory.waitForDeployment();
 const factoryAddress = await factory.getAddress();
 
@@ -223,7 +223,7 @@ updateEnvLaunch("ROUTER_DEPLOYED_AT", new Date().toISOString());
   log("═════════════════════════════════════════════════════════════════");
   log("");
   log(
-    "If you prefer not to compile, you can use verified, pre-compiled contracts:"
+    "If you prefer not to compile, you can use verified, pre-compiled contracts:",
   );
   log("");
   log("Option 1: Hardhat + Ethers (recommended)");
@@ -250,7 +250,7 @@ updateEnvLaunch("ROUTER_DEPLOYED_AT", new Date().toISOString());
   log("═════════════════════════════════════════════════════════════════");
   log("");
   log(
-    "If you've already deployed Factory & Router, simply update .env.launch:"
+    "If you've already deployed Factory & Router, simply update .env.launch:",
   );
   log("");
   log("DEX_FACTORY_ADDRESS=0x<your_factory_address>");

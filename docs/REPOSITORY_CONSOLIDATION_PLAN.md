@@ -7,6 +7,7 @@ This document outlines the strategy for consolidating the Quantum Pi Forge ecosy
 ## Current State Analysis
 
 ### Existing Repositories (Before Consolidation)
+
 ```
 ├── quantum-pi-forge-fixed     # Main application (Active)
 ├── pi-forge-quantum-genesis   # Legacy/ceremonial code
@@ -15,6 +16,7 @@ This document outlines the strategy for consolidating the Quantum Pi Forge ecosy
 ```
 
 **Problems with Current Structure:**
+
 - Duplicated code across repositories
 - Inconsistent documentation
 - Difficult onboarding for new contributors
@@ -144,12 +146,14 @@ quantum-pi-forge-legacy/
 ### Phase 1: Preparation (Days 1-2)
 
 **Objectives:**
+
 - [ ] Audit all existing repositories
 - [ ] Document dependencies between repos
 - [ ] Create migration checklist
 - [ ] Set up branch protection on target repos
 
 **Tasks:**
+
 ```bash
 # Create inventory of all repos
 gh repo list onenoly1010 --json name,description,updatedAt
@@ -161,12 +165,14 @@ gh repo list onenoly1010 --json name,description,updatedAt
 ### Phase 2: Code Consolidation (Days 3-5)
 
 **Objectives:**
+
 - [ ] Merge active code into `quantum-pi-forge`
 - [ ] Resolve conflicts and duplications
 - [ ] Update import paths
 - [ ] Run test suites
 
 **Migration Commands:**
+
 ```bash
 # Clone source repos
 git clone --mirror <source-repo-url>
@@ -183,12 +189,14 @@ git merge --allow-unrelated-histories source/main
 ### Phase 3: Verification (Days 6-7)
 
 **Objectives:**
+
 - [ ] Full test suite passes
 - [ ] Build succeeds in CI/CD
 - [ ] Documentation is accurate
 - [ ] All links work
 
 **Verification Checklist:**
+
 - [ ] `npm run build` succeeds
 - [ ] `npm run test` all pass
 - [ ] `npx hardhat compile` succeeds
@@ -198,12 +206,14 @@ git merge --allow-unrelated-histories source/main
 ### Phase 4: Cutover (Day 8)
 
 **Objectives:**
+
 - [ ] Update deployment configurations
 - [ ] Archive old repositories
 - [ ] Update external links
 - [ ] Announce to community
 
 **Cutover Steps:**
+
 ```bash
 # Update Vercel deployment
 vercel link --project quantum-pi-forge
@@ -220,26 +230,26 @@ gh repo archive onenoly1010/<old-repo>
 
 ### Priority Files (Move Immediately)
 
-| Source | Destination | Notes |
-|--------|-------------|-------|
-| `quantum-pi-forge-fixed/src/components/` | `quantum-pi-forge/src/components/` | Core UI |
-| `quantum-pi-forge-fixed/app/` | `quantum-pi-forge/app/` | Next.js app |
-| `quantum-pi-forge-fixed/contracts/` | `quantum-pi-forge/contracts/` | Smart contracts |
-| `quantum-pi-forge-fixed/fastapi/` | `quantum-pi-forge/backend/` | Rename to backend |
+| Source                                   | Destination                        | Notes             |
+| ---------------------------------------- | ---------------------------------- | ----------------- |
+| `quantum-pi-forge-fixed/src/components/` | `quantum-pi-forge/src/components/` | Core UI           |
+| `quantum-pi-forge-fixed/app/`            | `quantum-pi-forge/app/`            | Next.js app       |
+| `quantum-pi-forge-fixed/contracts/`      | `quantum-pi-forge/contracts/`      | Smart contracts   |
+| `quantum-pi-forge-fixed/fastapi/`        | `quantum-pi-forge/backend/`        | Rename to backend |
 
 ### Archive Files (Move to Legacy)
 
-| Source | Destination | Notes |
-|--------|-------------|-------|
-| `pi-forge-quantum-genesis/*` | `quantum-pi-forge-legacy/pi-forge-quantum-genesis/` | Ceremonial code |
-| Experimental branches | `quantum-pi-forge-legacy/experiments/` | Historical experiments |
+| Source                       | Destination                                         | Notes                  |
+| ---------------------------- | --------------------------------------------------- | ---------------------- |
+| `pi-forge-quantum-genesis/*` | `quantum-pi-forge-legacy/pi-forge-quantum-genesis/` | Ceremonial code        |
+| Experimental branches        | `quantum-pi-forge-legacy/experiments/`              | Historical experiments |
 
 ### Delete Files (Remove)
 
-| Path | Reason |
-|------|--------|
-| Duplicate configs | Consolidated |
-| Orphaned test files | No longer relevant |
+| Path                   | Reason               |
+| ---------------------- | -------------------- |
+| Duplicate configs      | Consolidated         |
+| Orphaned test files    | No longer relevant   |
 | Legacy build artifacts | Should not be in VCS |
 
 ---
@@ -247,6 +257,7 @@ gh repo archive onenoly1010/<old-repo>
 ## Quality Gates for Migration
 
 ### Gate 1: Code Integrity
+
 ```yaml
 requirements:
   - All imports resolve correctly
@@ -256,6 +267,7 @@ requirements:
 ```
 
 ### Gate 2: Test Coverage
+
 ```yaml
 requirements:
   - Unit tests pass: 100%
@@ -265,6 +277,7 @@ requirements:
 ```
 
 ### Gate 3: Documentation
+
 ```yaml
 requirements:
   - README up to date
@@ -274,6 +287,7 @@ requirements:
 ```
 
 ### Gate 4: Deployment
+
 ```yaml
 requirements:
   - CI/CD pipeline green
@@ -287,11 +301,13 @@ requirements:
 ## Post-Migration Maintenance
 
 ### Repository Hygiene
+
 - Weekly dependency updates
 - Monthly security audits
 - Quarterly documentation reviews
 
 ### Branch Strategy
+
 ```
 main              # Production-ready code
 ├── develop       # Integration branch
@@ -301,6 +317,7 @@ main              # Production-ready code
 ```
 
 ### Release Process
+
 1. Feature branches merge to `develop`
 2. `develop` merges to `release/*` for testing
 3. `release/*` merges to `main` with version tag
@@ -310,13 +327,13 @@ main              # Production-ready code
 
 ## Success Metrics
 
-| Metric | Before | Target | Tracking |
-|--------|--------|--------|----------|
-| Active repositories | 9+ | 3 | GitHub org |
-| Build time | Variable | <5 min | CI metrics |
-| Test coverage | Unknown | >80% | Codecov |
-| Documentation completeness | ~40% | 95% | Manual audit |
-| Onboarding time | Hours | <30 min | New contributor survey |
+| Metric                     | Before   | Target  | Tracking               |
+| -------------------------- | -------- | ------- | ---------------------- |
+| Active repositories        | 9+       | 3       | GitHub org             |
+| Build time                 | Variable | <5 min  | CI metrics             |
+| Test coverage              | Unknown  | >80%    | Codecov                |
+| Documentation completeness | ~40%     | 95%     | Manual audit           |
+| Onboarding time            | Hours    | <30 min | New contributor survey |
 
 ---
 
@@ -341,27 +358,27 @@ gh repo unarchive onenoly1010/<repo>
 
 ## Timeline Summary
 
-| Week | Focus | Deliverables |
-|------|-------|--------------|
-| 1 | Preparation | Audit complete, migration plan approved |
-| 2 | Migration | Code consolidated, tests passing |
-| 3 | Verification | All quality gates passed |
-| 4 | Cutover | Live on new structure, old repos archived |
+| Week | Focus        | Deliverables                              |
+| ---- | ------------ | ----------------------------------------- |
+| 1    | Preparation  | Audit complete, migration plan approved   |
+| 2    | Migration    | Code consolidated, tests passing          |
+| 3    | Verification | All quality gates passed                  |
+| 4    | Cutover      | Live on new structure, old repos archived |
 
 ---
 
 ## Contacts & Ownership
 
-| Role | Responsibility |
-|------|----------------|
-| Project Lead | Final approval on migration |
-| DevOps | CI/CD and deployment |
-| Frontend | Dashboard and UI migration |
-| Backend | API and service migration |
+| Role            | Responsibility                 |
+| --------------- | ------------------------------ |
+| Project Lead    | Final approval on migration    |
+| DevOps          | CI/CD and deployment           |
+| Frontend        | Dashboard and UI migration     |
+| Backend         | API and service migration      |
 | Smart Contracts | Contract migration and testing |
 
 ---
 
-*Document Version: 1.0*
-*Last Updated: December 28, 2024*
-*Status: Ready for Review*
+_Document Version: 1.0_
+_Last Updated: December 28, 2024_
+_Status: Ready for Review_

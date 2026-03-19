@@ -23,6 +23,7 @@
 [الإنجليزية](README.md) | [الصينية](README-CN.md)
 
 ## فهرس المحتويات
+
 - [✨ المميزات](#-المميزات)
 - [📦 التثبيت](#-التثبيت)
 - [🚀 البداية السريعة](#-البداية-السريعة)
@@ -63,6 +64,7 @@ composer require deepseek-php/deepseek-php-client
 ```
 
 **المتطلبات**:
+
 - PHP 8.1+
 
 ---
@@ -84,8 +86,9 @@ echo $response;
 ```
 
 📌 الإعدادات الافتراضية المستخدمة:
+
 - النموذج: `deepseek-chat`
--  الحرارة: 0.8
+- الحرارة: 0.8
 
 ### التكوين المتقدم
 
@@ -107,7 +110,6 @@ $response = $client
 echo 'API Response:'.$response;
 ```
 
-
 ## ⚠️ متطلب وضع JSON في DeepSeek
 
 عند استخدام:
@@ -118,7 +120,7 @@ echo 'API Response:'.$response;
 
 يجب أن يحتوي الـ برومبت على **كلمة "json"** بشكل واضح.
 
-وإلا سيتم رفض الطلب من قبل  وترجع رسالة الخطأ التالية:
+وإلا سيتم رفض الطلب من قبل وترجع رسالة الخطأ التالية:
 
 > `"Prompt must contain the word 'json' in some form to use 'response_format' of type 'json_object'"`
 
@@ -143,6 +145,7 @@ echo 'API Response:'.$response;
 ---
 
 ### الاستخدام مع عميل HTTP من Symfony
+
 الحزمة مبنية مسبقاً مع `symfony Http client`، فإذا كنت بحاجة إلى استخدامها مع عميل HTTP الخاص بـ Symfony، فيمكن تحقيق ذلك بسهولة عن طريق تمرير `clientType:'symfony'` إلى دالة `build`.
 
 مثال باستخدام Symfony:
@@ -169,7 +172,7 @@ $response = DeepSeekClient::build('your-api-key')
 echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"model","owned_by":"deepseek"},{"id":"deepseek-reasoner","object":"model","owned_by":"deepseek"}]}
 ```
 
-###  استدعاء الدوال 
+### استدعاء الدوال
 
 يتيح **استدعاء الدوال** للنموذج استدعاء أدوات خارجية لتعزيز قدراته.
 يمكنك الرجوع إلى الوثائق الخاصة باستدعاء الدوال في الملف:
@@ -178,7 +181,6 @@ echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"mode
 ---
 
 هل ترغب في أن أضع النسخ الثلاث (الإنجليزية + العربية + الصينية) ضمن ملف Markdown موحد؟
-
 
 ### 🛠 تكامل مع الأطر
 
@@ -207,6 +209,7 @@ echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"mode
 تغطية الاختبارات ستتوفر في الإصدار v2.1.
 
 ---
+
 <div>
 
 # 🐘✨ **مجتمع DeepSeek PHP** ✨🐘
@@ -215,8 +218,8 @@ echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"mode
 
 [![Join Telegram](https://img.shields.io/badge/Join-Telegram-blue?style=for-the-badge&logo=telegram)](https://t.me/deepseek_php_community)
 
-
 ### **هيكل القناة** 🏗️
+
 - 🗨️ **عام** - دردشة يومية
 - 💡 **الأفكار والاقتراحات** - تشكيل مستقبل المجتمع
 - 📢 **الإعلانات والأخبار** - التحديثات والأخبار الرسمية

@@ -5,10 +5,14 @@
  * ════════════════════════════════════════════════════════════════
  */
 
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 // Import shared constants and functions
-const { PATTERNS, MESSAGES, generateDeterministicReading } = require('./shared');
+const {
+  PATTERNS,
+  MESSAGES,
+  generateDeterministicReading,
+} = require("./shared");
 
 /**
  * Core Oracle Engine Class
@@ -28,14 +32,14 @@ class OracleEngine {
    * @returns {Object} Oracle reading with resonance, clarity, flux, emergence, pattern, message
    */
   generateReading(question, seed, epochNumber) {
-    if (!question || typeof question !== 'string') {
-      throw new Error('Question must be a non-empty string');
+    if (!question || typeof question !== "string") {
+      throw new Error("Question must be a non-empty string");
     }
-    if (!seed || typeof seed !== 'string') {
-      throw new Error('Seed must be a non-empty string');
+    if (!seed || typeof seed !== "string") {
+      throw new Error("Seed must be a non-empty string");
     }
     if (!Number.isInteger(epochNumber) || epochNumber < 1) {
-      throw new Error('Epoch number must be a positive integer');
+      throw new Error("Epoch number must be a positive integer");
     }
 
     return generateDeterministicReading(question, seed, epochNumber);
@@ -47,11 +51,11 @@ class OracleEngine {
    * @returns {Object} Soul object with name, seed, created timestamp, and empty epochs array
    */
   createSoul(name) {
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-      throw new Error('Soul name must be a non-empty string');
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      throw new Error("Soul name must be a non-empty string");
     }
 
-    const seed = crypto.randomBytes(32).toString('hex');
+    const seed = crypto.randomBytes(32).toString("hex");
     const created = new Date().toISOString();
 
     return {
@@ -59,7 +63,7 @@ class OracleEngine {
       seed,
       created,
       lastEpoch: null,
-      epochs: []
+      epochs: [],
     };
   }
 
@@ -69,12 +73,17 @@ class OracleEngine {
    * @returns {boolean} True if soul signature is valid
    */
   verifySoulSignature(soul) {
-    if (!soul || typeof soul !== 'object') {
+    if (!soul || typeof soul !== "object") {
       return false;
     }
 
     // Verify required properties exist
-    if (!soul.name || !soul.seed || !soul.created || !Array.isArray(soul.epochs)) {
+    if (
+      !soul.name ||
+      !soul.seed ||
+      !soul.created ||
+      !Array.isArray(soul.epochs)
+    ) {
       return false;
     }
 
@@ -105,12 +114,17 @@ class OracleEngine {
    * @returns {boolean} True if epoch signature is valid
    */
   verifyEpochSignature(epoch) {
-    if (!epoch || typeof epoch !== 'object') {
+    if (!epoch || typeof epoch !== "object") {
       return false;
     }
 
     // Verify required properties
-    if (!epoch.number || !epoch.question || !epoch.timestamp || !epoch.reading) {
+    if (
+      !epoch.number ||
+      !epoch.question ||
+      !epoch.timestamp ||
+      !epoch.reading
+    ) {
       return false;
     }
 
@@ -127,16 +141,28 @@ class OracleEngine {
 
     // Verify reading has required properties
     const reading = epoch.reading;
-    if (!reading.resonance || !reading.clarity || !reading.flux || !reading.emergence ||
-        !reading.pattern || !reading.message) {
+    if (
+      !reading.resonance ||
+      !reading.clarity ||
+      !reading.flux ||
+      !reading.emergence ||
+      !reading.pattern ||
+      !reading.message
+    ) {
       return false;
     }
 
     // Verify reading values are in valid ranges
-    if (reading.resonance < 1 || reading.resonance > 100 ||
-        reading.clarity < 1 || reading.clarity > 100 ||
-        reading.flux < 1 || reading.flux > 100 ||
-        reading.emergence < 1 || reading.emergence > 100) {
+    if (
+      reading.resonance < 1 ||
+      reading.resonance > 100 ||
+      reading.clarity < 1 ||
+      reading.clarity > 100 ||
+      reading.flux < 1 ||
+      reading.flux > 100 ||
+      reading.emergence < 1 ||
+      reading.emergence > 100
+    ) {
       return false;
     }
 
@@ -162,22 +188,22 @@ class OracleEngine {
 
     // Pattern descriptions (extracted from original system)
     const descriptions = [
-      'Cyclical growth, returning to center with wisdom',
-      'Reflection, seeing yourself in the situation',
-      'At the edge of transformation',
-      'Emptiness that contains all potential',
-      'Emergence, flowering of hidden growth',
-      'Stability, grounding, foundation',
-      'Chaos, disruption, clearing the old',
-      'Beginning, potential waiting to sprout',
-      'Flow, movement, natural progression',
-      'Challenge, achievement, perspective',
-      'Interconnection, complexity, relationships',
-      'Transformation through fire, passion',
-      'Repetition, lessons returning, resonance',
-      'Opportunity, choice, passage between worlds',
-      'Foundation, ancestry, deep truth',
-      'Freedom, expansion, infinite possibility'
+      "Cyclical growth, returning to center with wisdom",
+      "Reflection, seeing yourself in the situation",
+      "At the edge of transformation",
+      "Emptiness that contains all potential",
+      "Emergence, flowering of hidden growth",
+      "Stability, grounding, foundation",
+      "Chaos, disruption, clearing the old",
+      "Beginning, potential waiting to sprout",
+      "Flow, movement, natural progression",
+      "Challenge, achievement, perspective",
+      "Interconnection, complexity, relationships",
+      "Transformation through fire, passion",
+      "Repetition, lessons returning, resonance",
+      "Opportunity, choice, passage between worlds",
+      "Foundation, ancestry, deep truth",
+      "Freedom, expansion, infinite possibility",
     ];
 
     return descriptions[patternIndex] || null;
@@ -196,24 +222,29 @@ class OracleEngine {
     const epochs = soul.epochs;
     const stats = {
       totalEpochs: epochs.length,
-      avgResonance: epochs.reduce((sum, e) => sum + e.reading.resonance, 0) / epochs.length,
-      avgClarity: epochs.reduce((sum, e) => sum + e.reading.clarity, 0) / epochs.length,
-      avgFlux: epochs.reduce((sum, e) => sum + e.reading.flux, 0) / epochs.length,
-      avgEmergence: epochs.reduce((sum, e) => sum + e.reading.emergence, 0) / epochs.length,
+      avgResonance:
+        epochs.reduce((sum, e) => sum + e.reading.resonance, 0) / epochs.length,
+      avgClarity:
+        epochs.reduce((sum, e) => sum + e.reading.clarity, 0) / epochs.length,
+      avgFlux:
+        epochs.reduce((sum, e) => sum + e.reading.flux, 0) / epochs.length,
+      avgEmergence:
+        epochs.reduce((sum, e) => sum + e.reading.emergence, 0) / epochs.length,
       patternCount: {},
       firstEpoch: epochs[0].timestamp,
-      lastEpoch: epochs[epochs.length - 1].timestamp
+      lastEpoch: epochs[epochs.length - 1].timestamp,
     };
 
     // Count pattern occurrences
-    epochs.forEach(epoch => {
+    epochs.forEach((epoch) => {
       const pattern = epoch.reading.pattern;
       stats.patternCount[pattern] = (stats.patternCount[pattern] || 0) + 1;
     });
 
     // Find most common pattern
-    const topPattern = Object.entries(stats.patternCount)
-      .sort((a, b) => b[1] - a[1])[0];
+    const topPattern = Object.entries(stats.patternCount).sort(
+      (a, b) => b[1] - a[1],
+    )[0];
     stats.mostCommonPattern = topPattern ? topPattern[0] : null;
     stats.mostCommonPatternCount = topPattern ? topPattern[1] : 0;
 

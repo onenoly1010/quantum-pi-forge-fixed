@@ -4,7 +4,7 @@
  * Extracted from oinio-backend repository
  */
 
-const SoulResolutionService = require('./resolution/soul-resolution');
+const SoulResolutionService = require("./resolution/soul-resolution");
 
 class SoulProfileService {
   constructor() {
@@ -36,12 +36,12 @@ class SoulProfileService {
         traits: extendedProfile.traits || this.getDefaultTraits(),
         metadata: extendedProfile.metadata || {},
         achievements: extendedProfile.achievements || [],
-        preferences: extendedProfile.preferences || {}
+        preferences: extendedProfile.preferences || {},
       };
 
       return { found: true, profile };
     } catch (error) {
-      console.error('Error getting soul profile:', error);
+      console.error("Error getting soul profile:", error);
       return { found: false, error: error.message };
     }
   }
@@ -54,7 +54,7 @@ class SoulProfileService {
       // Verify ownership
       const soulData = await this.resolutionService.getSoulDetails(soulId);
       if (!soulData.found || soulData.owner !== ownerAddress) {
-        return { success: false, error: 'Unauthorized or soul not found' };
+        return { success: false, error: "Unauthorized or soul not found" };
       }
 
       // Get current profile
@@ -64,7 +64,7 @@ class SoulProfileService {
       const updatedProfile = {
         ...currentProfile,
         ...updates,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString(),
       };
 
       // Store updated profile
@@ -72,7 +72,7 @@ class SoulProfileService {
 
       return { success: true, profile: updatedProfile };
     } catch (error) {
-      console.error('Error updating soul profile:', error);
+      console.error("Error updating soul profile:", error);
       return { success: false, error: error.message };
     }
   }
@@ -87,14 +87,14 @@ class SoulProfileService {
       const updatedProfile = {
         ...currentProfile,
         traits: { ...currentProfile.traits, ...traits },
-        lastTraitUpdate: new Date().toISOString()
+        lastTraitUpdate: new Date().toISOString(),
       };
 
       this.profileStore.set(soulId, updatedProfile);
 
       return { success: true, traits: updatedProfile.traits };
     } catch (error) {
-      console.error('Error updating soul traits:', error);
+      console.error("Error updating soul traits:", error);
       return { success: false, error: error.message };
     }
   }
@@ -117,7 +117,7 @@ class SoulProfileService {
 
       return { history };
     } catch (error) {
-      console.error('Error getting soul reading history:', error);
+      console.error("Error getting soul reading history:", error);
       return { history: [], error: error.message };
     }
   }
@@ -133,7 +133,7 @@ class SoulProfileService {
       const newReading = {
         ...readingData,
         timestamp: new Date().toISOString(),
-        readingId: `reading_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        readingId: `reading_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       };
 
       readingHistory.unshift(newReading); // Add to beginning
@@ -148,7 +148,7 @@ class SoulProfileService {
 
       return { success: true, reading: newReading };
     } catch (error) {
-      console.error('Error adding reading to history:', error);
+      console.error("Error adding reading to history:", error);
       return { success: false, error: error.message };
     }
   }
@@ -165,7 +165,7 @@ class SoulProfileService {
       neuroticism: 0.5,
       creativity: 0.5,
       empathy: 0.5,
-      intelligence: 0.5
+      intelligence: 0.5,
     };
   }
 
@@ -185,9 +185,7 @@ class SoulProfileService {
         // Check if soul matches all trait filters
         for (const [trait, range] of Object.entries(traitFilters)) {
           const value = traits[trait];
-          if (value === undefined ||
-              value < range.min ||
-              value > range.max) {
+          if (value === undefined || value < range.min || value > range.max) {
             matches = false;
             break;
           }
@@ -197,14 +195,14 @@ class SoulProfileService {
           results.push({
             soulId,
             traits,
-            coherence: profile.coherence || 0.5
+            coherence: profile.coherence || 0.5,
           });
         }
       }
 
       return { results };
     } catch (error) {
-      console.error('Error searching souls by traits:', error);
+      console.error("Error searching souls by traits:", error);
       return { results: [], error: error.message };
     }
   }

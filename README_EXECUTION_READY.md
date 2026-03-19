@@ -24,23 +24,23 @@ DEX Deployment:      🔴 NOT YET EXECUTED
 
 ### Production-Ready Deployment Scripts
 
-| Script | Purpose | Lines | Status |
-|--------|---------|-------|--------|
-| `scripts/hardhat-deploy-uniswap-v2.ts` | Deploy Factory & Router | 236 | ✅ Ready |
-| `hardhat.config.template.ts` | Hardhat config | 71 | ✅ Ready |
-| `scripts/create-liquidity-pool.sh` | Liquidity automation | 299 | ✅ Ready |
-| `scripts/verify-dex-deployment.sh` | Post-deployment check | 115 | ✅ Ready |
-| `QUICKSTART_DEX.sh` | Environment verification | 170 | ✅ Ready |
+| Script                                 | Purpose                  | Lines | Status   |
+| -------------------------------------- | ------------------------ | ----- | -------- |
+| `scripts/hardhat-deploy-uniswap-v2.ts` | Deploy Factory & Router  | 236   | ✅ Ready |
+| `hardhat.config.template.ts`           | Hardhat config           | 71    | ✅ Ready |
+| `scripts/create-liquidity-pool.sh`     | Liquidity automation     | 299   | ✅ Ready |
+| `scripts/verify-dex-deployment.sh`     | Post-deployment check    | 115   | ✅ Ready |
+| `QUICKSTART_DEX.sh`                    | Environment verification | 170   | ✅ Ready |
 
 ### Comprehensive Documentation
 
-| Document | Purpose | Status |
-|----------|---------|--------|
-| `SOVEREIGN_DEX_DEPLOYMENT.md` | Complete technical guide (450+ lines) | ✅ |
-| `DEX_DEPLOYMENT_EXECUTION.md` | 3-method quick start guide | ✅ |
-| `DEX_SUITE_INVENTORY.md` | Complete file inventory | ✅ |
-| `DEX_DEPLOYMENT_STATUS.md` | Current status reference | ✅ |
-| `THIS_FILE` | Execution readiness summary | ✅ |
+| Document                      | Purpose                               | Status |
+| ----------------------------- | ------------------------------------- | ------ |
+| `SOVEREIGN_DEX_DEPLOYMENT.md` | Complete technical guide (450+ lines) | ✅     |
+| `DEX_DEPLOYMENT_EXECUTION.md` | 3-method quick start guide            | ✅     |
+| `DEX_SUITE_INVENTORY.md`      | Complete file inventory               | ✅     |
+| `DEX_DEPLOYMENT_STATUS.md`    | Current status reference              | ✅     |
+| `THIS_FILE`                   | Execution readiness summary           | ✅     |
 
 ---
 
@@ -66,6 +66,7 @@ npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle
 ```
 
 **What happens**:
+
 1. ✅ Deploys Factory contract (~2-3 0G gas)
 2. ✅ Deploys Router contract (~3-4 0G gas)
 3. ✅ Creates optional OINIO/WGAS pool (~0.5 0G gas)
@@ -79,6 +80,7 @@ cat .env.launch | grep DEX_
 ```
 
 Expected output:
+
 ```
 ✅ DEX DEPLOYMENT VERIFIED
 Factory: 0x<address>
@@ -92,6 +94,7 @@ bash scripts/create-liquidity-pool.sh
 ```
 
 Choose method:
+
 1. Hardhat (automated)
 2. MetaMask (manual GUI)
 3. TypeScript (direct)
@@ -101,6 +104,7 @@ Choose method:
 ## 📋 Pre-Deployment Checklist
 
 ### Environment ✅
+
 - [x] `.env.launch` exists
 - [x] `DEPLOYER_PRIVATE_KEY` set
 - [x] `DEPLOYER_ADDRESS` set
@@ -109,11 +113,13 @@ Choose method:
 - [x] Node.js 18+ installed
 
 ### Wallet Requirements
+
 - [ ] Deployer wallet funded with **5-10 0G tokens** (for gas)
 - [ ] Private key stored securely in `.env.launch`
 - [ ] Not a high-privilege account (minimal holdings)
 
 ### Before Executing
+
 - [ ] Read `DEX_DEPLOYMENT_EXECUTION.md` (choose your method)
 - [ ] Verify environment: `bash QUICKSTART_DEX.sh`
 - [ ] Backup `.env.launch` (just in case)
@@ -167,13 +173,13 @@ npx ts-node scripts/hardhat-deploy-uniswap-v2.ts
 
 ## 💰 Deployment Cost
 
-| Item | Qty | Unit Cost | Total |
-|------|-----|-----------|-------|
-| Factory Deploy | 1 | 2-3 0G | 2-3 0G |
-| Router Deploy | 1 | 3-4 0G | 3-4 0G |
-| Token Approvals | 2 | 0.05 0G | 0.1 0G |
-| Add Liquidity | 1 | 0.2 0G | 0.2 0G |
-| **TOTAL** | | | **~5-7 0G** |
+| Item            | Qty | Unit Cost | Total       |
+| --------------- | --- | --------- | ----------- |
+| Factory Deploy  | 1   | 2-3 0G    | 2-3 0G      |
+| Router Deploy   | 1   | 3-4 0G    | 3-4 0G      |
+| Token Approvals | 2   | 0.05 0G   | 0.1 0G      |
+| Add Liquidity   | 1   | 0.2 0G    | 0.2 0G      |
+| **TOTAL**       |     |           | **~5-7 0G** |
 
 **USD Equivalent**: ~$0.10-$0.15 (at typical gas prices)
 
@@ -195,18 +201,21 @@ After deployment, you should have:
 ## 🔐 Security Notes
 
 ### Private Key Safety ✅
+
 - ✅ Never shared or logged
 - ✅ Only in `.env.launch`
 - ✅ Not committed to git
 - ✅ Can be rotated after deployment
 
 ### Deployment Security ✅
+
 - ✅ Official Uniswap V2 contracts (battle-tested)
 - ✅ No contract modifications
 - ✅ No special privileges granted
 - ✅ DEX is permissionless (anyone can trade)
 
 ### Funds Safety ✅
+
 - ✅ Only gas needed for deployment
 - ✅ No custody of user funds
 - ✅ Smart contracts are immutable
@@ -238,22 +247,22 @@ Leaderboard tracks activity
 
 ## ⏱️ Timeline
 
-| Phase | Duration | Status |
-|-------|----------|--------|
-| Environment Setup | ~5 min | ✅ Done |
-| Script Creation | ~2 hours | ✅ Done |
-| Documentation | ~1 hour | ✅ Done |
-| **Installation** | ~5 min | 🔴 Pending |
-| **Deployment** | ~10 min | 🔴 Pending |
-| **Verification** | ~2 min | 🔴 Pending |
-| **Pool Creation** | ~2-3 min | 🔴 Pending |
-| **TOTAL** | **~20-30 min** | 🟡 Ready to Start |
+| Phase             | Duration       | Status            |
+| ----------------- | -------------- | ----------------- |
+| Environment Setup | ~5 min         | ✅ Done           |
+| Script Creation   | ~2 hours       | ✅ Done           |
+| Documentation     | ~1 hour        | ✅ Done           |
+| **Installation**  | ~5 min         | 🔴 Pending        |
+| **Deployment**    | ~10 min        | 🔴 Pending        |
+| **Verification**  | ~2 min         | 🔴 Pending        |
+| **Pool Creation** | ~2-3 min       | 🔴 Pending        |
+| **TOTAL**         | **~20-30 min** | 🟡 Ready to Start |
 
 ---
 
 ## 🚨 RPC Status Note
 
-The 0G RPC endpoint (`https://rpc.0g.ai`) is occasionally slow or timing out. This is **normal** and **does not prevent deployment**. 
+The 0G RPC endpoint (`https://rpc.0g.ai`) is occasionally slow or timing out. This is **normal** and **does not prevent deployment**.
 
 Hardhat will retry automatically if needed. If you experience issues:
 
@@ -265,25 +274,27 @@ Hardhat will retry automatically if needed. If you experience issues:
 
 ## 📞 Resources
 
-| Resource | Link | Purpose |
-|----------|------|---------|
-| Uniswap V2 Core | https://github.com/Uniswap/v2-core | Factory source |
-| Uniswap V2 Periphery | https://github.com/Uniswap/v2-periphery | Router source |
-| Hardhat Docs | https://hardhat.org | Build system |
-| 0G Documentation | https://docs.0g.ai | 0G blockchain docs |
-| Remix IDE | https://remix.ethereum.org | Web-based IDE |
+| Resource             | Link                                    | Purpose            |
+| -------------------- | --------------------------------------- | ------------------ |
+| Uniswap V2 Core      | https://github.com/Uniswap/v2-core      | Factory source     |
+| Uniswap V2 Periphery | https://github.com/Uniswap/v2-periphery | Router source      |
+| Hardhat Docs         | https://hardhat.org                     | Build system       |
+| 0G Documentation     | https://docs.0g.ai                      | 0G blockchain docs |
+| Remix IDE            | https://remix.ethereum.org              | Web-based IDE      |
 
 ---
 
 ## 🎯 Next Action Items
 
 ### Immediate (Right Now)
+
 ```bash
 # Verify environment is ready
 bash QUICKSTART_DEX.sh
 ```
 
 Result should show:
+
 ```
 ✅ SYSTEM READY FOR DEX DEPLOYMENT
 ```
@@ -291,6 +302,7 @@ Result should show:
 ### Today (Choose Your Method)
 
 **Option A** (Recommended):
+
 ```bash
 npm install -D hardhat @nomicfoundation/hardhat-ethers
 npm install @uniswap/v2-core @uniswap/v2-periphery ethers
@@ -302,6 +314,7 @@ npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle
 See `DEX_DEPLOYMENT_EXECUTION.md` for MetaMask or TypeScript methods
 
 ### After Deployment
+
 ```bash
 bash scripts/verify-dex-deployment.sh
 ```
@@ -316,7 +329,7 @@ bash scripts/verify-dex-deployment.sh
 ✅ All documentation comprehensive  
 ✅ All configuration in place  
 ✅ Environment verified  
-✅ 3 deployment methods available  
+✅ 3 deployment methods available
 
 **Time to execution**: ~15 minutes  
 **Confidence level**: 🟢 **VERY HIGH**

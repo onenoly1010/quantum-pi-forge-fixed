@@ -269,6 +269,9 @@ jobs:
         fi
 
   # Optional: Automated deployment (uncomment when ready)
+  
+  ][poyui
+  ./
   # deploy-dex:
   #   needs: verify-deployment-readiness
   #   runs-on: ubuntu-latest
@@ -283,4 +286,5 @@ jobs:
   #     run: |
   #       npm run deploy:dex
   #     env:
-  #       DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+  #       DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }
+  

@@ -1,37 +1,43 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function GeminiMinting() {
-  const [modelName, setModelName] = useState('')
-  const [isMinting, setIsMinting] = useState(false)
-  const [mintedNFT, setMintedNFT] = useState<string | null>(null)
+  const [modelName, setModelName] = useState("");
+  const [isMinting, setIsMinting] = useState(false);
+  const [mintedNFT, setMintedNFT] = useState<string | null>(null);
 
   const mintGeminiModel = async () => {
-    if (!modelName.trim()) return
+    if (!modelName.trim()) return;
 
-    setIsMinting(true)
+    setIsMinting(true);
     try {
       // Gemini AI integration placeholder
       // In production, integrate with Google AI Studio API
-      console.log('Minting Gemini model:', modelName)
+      console.log("Minting Gemini model:", modelName);
 
       // Mock NFT minting
-      const nftId = `GEMINI-${Date.now()}`
-      setMintedNFT(nftId)
+      const nftId = `GEMINI-${Date.now()}`;
+      setMintedNFT(nftId);
 
       // Reset form
-      setModelName('')
+      setModelName("");
     } catch (error) {
-      console.error('Gemini minting failed:', error)
+      console.error("Gemini minting failed:", error);
     } finally {
-      setIsMinting(false)
+      setIsMinting(false);
     }
-  }
+  };
 
   return (
     <Card className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border-blue-500/20">
@@ -59,7 +65,7 @@ export function GeminiMinting() {
           disabled={!modelName.trim() || isMinting}
           className="w-full"
         >
-          {isMinting ? 'Minting...' : 'Mint Gemini Model NFT'}
+          {isMinting ? "Minting..." : "Mint Gemini Model NFT"}
         </Button>
 
         {mintedNFT && (
@@ -70,5 +76,5 @@ export function GeminiMinting() {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

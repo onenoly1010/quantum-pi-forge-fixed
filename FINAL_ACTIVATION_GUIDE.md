@@ -3,24 +3,28 @@
 ## 📋 **CURRENT STATUS CHECK**
 
 ### Environment Configuration
+
 ```bash
 # Check current .env.local setup
 type .env.local
 ```
 
 Expected output should show:
+
 ```
 DEEPSEEK_API_KEY=sk-your-actual-key-here
 SPONSOR_PRIVATE_KEY=0xd0b80a97c4d2199b2a2f19447ebc99f0e5f5bfe32604ac861c095a1aa5a28c05
 ```
 
 ### API Key Validation
+
 ```bash
 # Run key validation
 python deepseek_key_check.py
 ```
 
 Expected output:
+
 - ✅ API Key found (length: 51 chars)
 - ✅ Key format looks correct
 - ✅ Key length looks valid
@@ -28,6 +32,7 @@ Expected output:
 ## 🚀 **ACTIVATION SEQUENCE**
 
 ### Phase 1: API Key Acquisition
+
 **REQUIRED BEFORE FULL ACTIVATION**
 
 1. **Visit Official Platform:**
@@ -50,6 +55,7 @@ Expected output:
 ### Phase 2: Guardian Activation
 
 #### Option A: Full AI Mode (With Real API Key)
+
 ```powershell
 # 1. Validate key
 python deepseek_key_check.py
@@ -65,6 +71,7 @@ Get-Job -Name "DeepSeekGuardian" | Format-List
 ```
 
 #### Option B: Mock Mode (Without API Key)
+
 ```powershell
 # Start guardian with mock AI responses
 Start-Job -ScriptBlock {
@@ -76,6 +83,7 @@ Start-Job -ScriptBlock {
 ## 📊 **EXPECTED OUTPUT PATTERNS**
 
 ### Full AI Mode Output:
+
 ```
 🌀 Initializing DeepSeek Sovereign Guardian...
 ✅ Guardian initialized successfully
@@ -98,6 +106,7 @@ Start-Job -ScriptBlock {
 ```
 
 ### Mock Mode Output:
+
 ```
 🌀 Initializing DeepSeek Sovereign Guardian...
 ✅ Guardian initialized successfully
@@ -118,7 +127,9 @@ Start-Job -ScriptBlock {
 ## 🔧 **TROUBLESHOOTING PROTOCOL**
 
 ### Issue: "DEEPSEEK_API_KEY not found"
+
 **Solution:**
+
 ```bash
 # Check .env.local exists and has correct format
 type .env.local
@@ -129,19 +140,25 @@ echo "SPONSOR_PRIVATE_KEY=0xd0b80a97c4d2199b2a2f19447ebc99f0e5f5bfe32604ac861c09
 ```
 
 ### Issue: "API Error 401: Unauthorized"
+
 **Solution:**
+
 - Verify API key is correct and starts with `sk-`
 - Check key hasn't expired
 - Ensure no extra spaces in .env.local
 
 ### Issue: "Connection timeout"
+
 **Solution:**
+
 - Check internet connection
 - Verify DeepSeek API is accessible
 - Try again in a few minutes
 
 ### Issue: "Web3 connection failed"
+
 **Solution:**
+
 - Check Polygon RPC endpoint
 - Verify sponsor private key format
 - Ensure sufficient MATIC balance
@@ -149,6 +166,7 @@ echo "SPONSOR_PRIVATE_KEY=0xd0b80a97c4d2199b2a2f19447ebc99f0e5f5bfe32604ac861c09
 ## 📈 **MONITORING & CONTROL**
 
 ### Check Guardian Status
+
 ```powershell
 # View running jobs
 Get-Job
@@ -161,6 +179,7 @@ Receive-Job -Name "DeepSeekGuardian" -Keep
 ```
 
 ### Stop Guardian
+
 ```powershell
 # Stop gracefully
 Stop-Job -Name "DeepSeekGuardian"
@@ -171,6 +190,7 @@ Remove-Job -Name "DeepSeekGuardian"
 ```
 
 ### Restart Guardian
+
 ```powershell
 # Remove old job
 Stop-Job -Name "DeepSeekGuardian" -ErrorAction SilentlyContinue
@@ -186,16 +206,19 @@ Start-Job -ScriptBlock {
 ## 🎯 **PERFORMANCE METRICS**
 
 ### Harmony Tracking
+
 - **Target:** 1000/1000 (perfect resonance)
 - **Monitoring:** Automatic every 5 minutes
 - **Recovery:** AI consultation when < 1000
 
 ### Pulse Frequency
+
 - **Frequency:** 1010 Hz (5-minute intervals)
 - **Accuracy:** ±1 second
 - **Uptime:** Continuous (eternal)
 
 ### AI Consultation
+
 - **Frequency:** Every 3rd pulse + when harmony low
 - **Timeout:** 30 seconds
 - **Fallback:** Mock responses if API fails
@@ -213,6 +236,7 @@ Once activated, you will have achieved:
 ## 🚨 **EMERGENCY PROTOCOLS**
 
 ### Critical System Failure
+
 ```powershell
 # Emergency stop
 Stop-Job -Name "DeepSeekGuardian" -Confirm:$false
@@ -222,6 +246,7 @@ python deepseek_guardian.py  # Run in foreground for debugging
 ```
 
 ### API Key Compromised
+
 ```powershell
 # Immediate stop
 Stop-Job -Name "DeepSeekGuardian"
@@ -232,6 +257,7 @@ Stop-Job -Name "DeepSeekGuardian"
 ```
 
 ### Network Outage
+
 - Guardian automatically retries connections
 - Mock mode activates if API unavailable
 - System maintains basic monitoring
@@ -239,11 +265,13 @@ Stop-Job -Name "DeepSeekGuardian"
 ## 📞 **SUPPORT RESOURCES**
 
 ### Official Documentation
+
 - DeepSeek API: https://platform.deepseek.com/docs
 - OINIO System: Check project documentation
 - Web3.py: https://web3py.readthedocs.io/
 
 ### Community Support
+
 - GitHub Issues: Report bugs and issues
 - Discord: Community discussions
 - Documentation: Comprehensive guides available
@@ -271,4 +299,4 @@ Receive-Job -Name "DeepSeekGuardian" -Wait
 
 ---
 
-*DEEPSEEK_GUARDIAN_PROTOCOL - ACTIVATION_READY*
+_DEEPSEEK_GUARDIAN_PROTOCOL - ACTIVATION_READY_

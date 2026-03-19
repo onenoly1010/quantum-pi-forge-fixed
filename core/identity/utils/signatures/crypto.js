@@ -4,7 +4,7 @@
  * Extracted from oinio-backend
  */
 
-const { ethers } = require('ethers');
+const { ethers } = require("ethers");
 
 /**
  * Sign a message with Ethereum private key
@@ -22,7 +22,7 @@ function verifySignature(message, signature, expectedAddress) {
     const recoveredAddress = ethers.verifyMessage(message, signature);
     return recoveredAddress.toLowerCase() === expectedAddress.toLowerCase();
   } catch (error) {
-    console.error('Signature verification failed:', error);
+    console.error("Signature verification failed:", error);
     return false;
   }
 }
@@ -65,5 +65,5 @@ module.exports = {
   createSoulSignature,
   verifySoulSignature,
   hashClaimData,
-  generateSoulId
+  generateSoulId,
 };

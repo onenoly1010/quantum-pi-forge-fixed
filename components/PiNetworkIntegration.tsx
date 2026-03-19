@@ -1,30 +1,36 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export function PiNetworkIntegration() {
-  const [isConnected, setIsConnected] = useState(false)
-  const [balance, setBalance] = useState('0')
+  const [isConnected, setIsConnected] = useState(false);
+  const [balance, setBalance] = useState("0");
 
   const connectPiWallet = async () => {
     try {
       // Pi Network SDK integration placeholder
       // In production, use Pi Apps SDK or Pi Browser API
-      console.log('Connecting to Pi Network...')
-      setIsConnected(true)
-      setBalance('100.0') // Mock balance
+      console.log("Connecting to Pi Network...");
+      setIsConnected(true);
+      setBalance("100.0"); // Mock balance
     } catch (error) {
-      console.error('Pi Network connection failed:', error)
+      console.error("Pi Network connection failed:", error);
     }
-  }
+  };
 
   const stakePiTokens = async () => {
-    if (!isConnected) return
+    if (!isConnected) return;
     // Implement Pi token staking logic
-    console.log('Staking Pi tokens...')
-  }
+    console.log("Staking Pi tokens...");
+  };
 
   return (
     <Card className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border-purple-500/20">
@@ -54,5 +60,5 @@ export function PiNetworkIntegration() {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

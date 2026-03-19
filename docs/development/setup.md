@@ -255,6 +255,7 @@ bash scripts/deploy.sh  # Will show deployment plan without executing
 ## 🔒 Security Best Practices
 
 1. **Private Keys**: Never commit `.env.launch` to git
+
    ```bash
    # Add to .gitignore if not already present
    echo ".env.launch" >> .gitignore
@@ -262,6 +263,7 @@ bash scripts/deploy.sh  # Will show deployment plan without executing
    ```
 
 2. **API Keys**: Use environment variables, not hardcoded
+
    ```bash
    # Load from file, don't echo values
    source .env.launch
@@ -269,6 +271,7 @@ bash scripts/deploy.sh  # Will show deployment plan without executing
    ```
 
 3. **Monitor Security**: Run monitor script in background on trusted server
+
    ```bash
    # Start in background with nohup
    nohup bash scripts/monitor-grant.sh > logs/monitor.log 2>&1 &

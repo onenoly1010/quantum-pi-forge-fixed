@@ -3,22 +3,24 @@
  * Validates API requests using Joi schemas
  */
 
-const Joi = require('joi');
-const { ApiError } = require('../shared/errors');
+const Joi = require("joi");
+const { ApiError } = require("../shared/errors");
 
 // Validation schemas
 const schemas = {
   // Auth schemas
   login: Joi.object({
     piToken: Joi.string().required(),
-    soulSignature: Joi.string().optional()
+    soulSignature: Joi.string().optional(),
   }),
 
   // Oracle schemas
   oracleReading: Joi.object({
     soulId: Joi.string().required(),
-    readingType: Joi.string().valid('personality', 'evolution', 'general').default('general'),
-    context: Joi.object().optional()
+    readingType: Joi.string()
+      .valid("personality", "evolution", "general")
+      .default("general"),
+    context: Joi.object().optional(),
   }),
 
   // iNFT schemas
@@ -28,34 +30,40 @@ const schemas = {
     metadata: Joi.object({
       name: Joi.string().optional(),
       description: Joi.string().optional(),
-      attributes: Joi.array().items(Joi.object({
-        trait_type: Joi.string().required(),
-        value: Joi.string().required()
-      })).optional()
-    }).optional()
+      attributes: Joi.array()
+        .items(
+          Joi.object({
+            trait_type: Joi.string().required(),
+            value: Joi.string().required(),
+          }),
+        )
+        .optional(),
+    }).optional(),
   }),
 
   evolveINFT: Joi.object({
     inftId: Joi.string().required(),
     interactionData: Joi.object({
-      type: Joi.string().valid('oracle', 'user', 'time', 'achievement').required(),
-      data: Joi.object().required()
-    }).required()
+      type: Joi.string()
+        .valid("oracle", "user", "time", "achievement")
+        .required(),
+      data: Joi.object().required(),
+    }).required(),
   }),
 
   // Soul schemas
   updateSoul: Joi.object({
     metadata: Joi.object().optional(),
-    preferences: Joi.object().optional()
+    preferences: Joi.object().optional(),
   }),
 
   // Payment schemas
   createPayment: Joi.object({
     amount: Joi.number().positive().required(),
-    currency: Joi.string().valid('PI', 'USD').default('PI'),
+    currency: Joi.string().valid("PI", "USD").default("PI"),
     description: Joi.string().required(),
-    metadata: Joi.object().optional()
-  })
+    metadata: Joi.object().optional(),
+  }),
 };
 
 /**
@@ -63,26 +71,28 @@ const schemas = {
  * @param {string} schemaName - Name of the schema to validate against
  * @param {string} property - Request property to validate (body, params, query)
  */
-function validate(schemaName, property = 'body') {
+function validate(schemaName, property = "body") {
   return (req, res, next) => {
     const schema = schemas[schemaName];
     if (!schema) {
-      return next(new ApiError(`Validation schema '${schemaName}' not found`, 500));
+      return next(
+        new ApiError(`Validation schema '${schemaName}' not found`, 500),
+      );
     }
 
     const { error, value } = schema.validate(req[property], {
       abortEarly: false,
-      stripUnknown: true
+      stripUnknown: true,
     });
 
     if (error) {
-      const errors = error.details.map(detail => ({
-        field: detail.path.join('.'),
+      const errors = error.details.map((detail) => ({
+        field: detail.path.join("."),
         message: detail.message,
-        value: detail.context.value
+        value: detail.context.value,
       }));
 
-      return next(new ApiError('Validation failed', 400, { errors }));
+      return next(new ApiError("Validation failed", 400, { errors }));
     }
 
     // Replace request property with validated value
@@ -104,7 +114,8 @@ function validateAddress(address) {
 // Validate Pi Network user ID
 function validatePiUserId(userId) {
   // Pi user IDs are typically UUIDs or specific format
-  const piUserIdRegex = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+  const piUserIdRegex =
+    /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
   return piUserIdRegex.test(userId);
 }
 
@@ -123,7 +134,8 @@ function validateInftId(inftId) {
 // Validate oracle reading ID
 function validateOracleReadingId(readingId) {
   // Reading IDs should be UUIDs or hashes
-  const uuidRegex = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+  const uuidRegex =
+    /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
   return uuidRegex.test(readingId);
 }
 
@@ -140,13 +152,13 @@ function validateParams(validators) {
         errors.push({
           field: param,
           message: `Invalid ${param} format`,
-          value: value
+          value: value,
         });
       }
     }
 
     if (errors.length > 0) {
-      return next(new ApiError('Parameter validation failed', 400, { errors }));
+      return next(new ApiError("Parameter validation failed", 400, { errors }));
     }
 
     next();
@@ -159,24 +171,34 @@ function validateParams(validators) {
 function validateFileUpload(options = {}) {
   const {
     maxSize = 10 * 1024 * 1024, // 10MB
-    allowedTypes = ['image/jpeg', 'image/png', 'image/gif'],
-    required = false
+    allowedTypes = ["image/jpeg", "image/png", "image/gif"],
+    required = false,
   } = options;
 
   return (req, res, next) => {
     if (!req.file && required) {
-      return next(new ApiError('File upload required', 400));
+      return next(new ApiError("File upload required", 400));
     }
 
     if (req.file) {
       // Check file size
       if (req.file.size > maxSize) {
-        return next(new ApiError(`File size exceeds ${maxSize / (1024 * 1024)}MB limit`, 400));
+        return next(
+          new ApiError(
+            `File size exceeds ${maxSize / (1024 * 1024)}MB limit`,
+            400,
+          ),
+        );
       }
 
       // Check file type
       if (!allowedTypes.includes(req.file.mimetype)) {
-        return next(new ApiError(`File type ${req.file.mimetype} not allowed. Allowed types: ${allowedTypes.join(', ')}`, 400));
+        return next(
+          new ApiError(
+            `File type ${req.file.mimetype} not allowed. Allowed types: ${allowedTypes.join(", ")}`,
+            400,
+          ),
+        );
       }
     }
 
@@ -193,7 +215,7 @@ function rateLimit(options = {}) {
     windowMs = 15 * 60 * 1000, // 15 minutes
     maxRequests = 100,
     skipSuccessfulRequests = false,
-    skipFailedRequests = false
+    skipFailedRequests = false,
   } = options;
 
   const requests = new Map();
@@ -205,7 +227,10 @@ function rateLimit(options = {}) {
 
     // Clean old entries
     for (const [ip, timestamps] of requests.entries()) {
-      requests.set(ip, timestamps.filter(timestamp => timestamp > windowStart));
+      requests.set(
+        ip,
+        timestamps.filter((timestamp) => timestamp > windowStart),
+      );
       if (requests.get(ip).length === 0) {
         requests.delete(ip);
       }
@@ -214,9 +239,11 @@ function rateLimit(options = {}) {
     // Check rate limit
     const userRequests = requests.get(key) || [];
     if (userRequests.length >= maxRequests) {
-      return next(new ApiError('Too many requests', 429, {
-        retryAfter: Math.ceil((userRequests[0] + windowMs - now) / 1000)
-      }));
+      return next(
+        new ApiError("Too many requests", 429, {
+          retryAfter: Math.ceil((userRequests[0] + windowMs - now) / 1000),
+        }),
+      );
     }
 
     // Record request
@@ -237,6 +264,6 @@ module.exports = {
     validatePiUserId,
     validateSoulId,
     validateInftId,
-    validateOracleReadingId
-  }
+    validateOracleReadingId,
+  },
 };

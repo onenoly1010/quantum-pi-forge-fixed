@@ -1,8 +1,8 @@
 // components/SovereignCircleDisplay.tsx
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { SovereignCircle, Sovereign } from '@/lib/sovereignCircle'
+import { useState, useEffect } from "react";
+import { SovereignCircle, Sovereign } from "@/lib/sovereignCircle";
 
 export function SovereignCircleDisplay() {
   const [sovereigns, setSovereigns] = useState<Sovereign[]>([]);
@@ -30,12 +30,14 @@ export function SovereignCircleDisplay() {
               top: `calc(50% + ${y}px)`,
               backgroundColor: sovereign.color,
               transform: `translate(-50%, -50%)`,
-              boxShadow: `0 0 20px ${sovereign.color}`
+              boxShadow: `0 0 20px ${sovereign.color}`,
             }}
             onClick={() => setSelectedSovereign(index)}
           >
-            <div className="absolute inset-0 rounded-full animate-ping opacity-20"
-                 style={{ backgroundColor: sovereign.color }} />
+            <div
+              className="absolute inset-0 rounded-full animate-ping opacity-20"
+              style={{ backgroundColor: sovereign.color }}
+            />
           </div>
         );
       })}
@@ -53,10 +55,18 @@ export function SovereignCircleDisplay() {
       {/* Selected sovereign info */}
       {sovereigns[selectedSovereign] && (
         <div className="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur-sm rounded-lg p-4 border border-gray-700">
-          <div className="text-white font-semibold">Sovereign #{selectedSovereign}</div>
-          <div className="text-gray-300 text-sm">Hash: {sovereigns[selectedSovereign].hash.slice(0, 16)}...</div>
-          <div className="text-gray-300 text-sm">Resonance: {sovereigns[selectedSovereign].resonance.toFixed(1)}%</div>
-          <div className="text-gray-300 text-sm">Status: {sovereigns[selectedSovereign].status}</div>
+          <div className="text-white font-semibold">
+            Sovereign #{selectedSovereign}
+          </div>
+          <div className="text-gray-300 text-sm">
+            Hash: {sovereigns[selectedSovereign].hash.slice(0, 16)}...
+          </div>
+          <div className="text-gray-300 text-sm">
+            Resonance: {sovereigns[selectedSovereign].resonance.toFixed(1)}%
+          </div>
+          <div className="text-gray-300 text-sm">
+            Status: {sovereigns[selectedSovereign].status}
+          </div>
         </div>
       )}
     </div>

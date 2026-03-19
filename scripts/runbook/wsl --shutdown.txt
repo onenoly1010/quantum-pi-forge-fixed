@@ -1,0 +1,9 @@
+wsl --shutdown
+wsl --update
+
+[wsl2]
+networkingMode=mirrored
+memory=4GB  # Adjust based on your RAM
+processors=2  # Adjust based on your CPU cores
+swap=2GB
+localhostForwarding=true

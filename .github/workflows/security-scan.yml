@@ -2,12 +2,12 @@ name: Security Scanning
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     # Weekly security scan
-    - cron: '0 2 * * 1'
+    - cron: "0 2 * * 1"
 
 jobs:
   dependency-audit:
@@ -20,8 +20,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Audit npm dependencies
         run: |
@@ -65,14 +65,14 @@ jobs:
       - name: Scan with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'quantumpiforge:test'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          image-ref: "quantumpiforge:test"
+          format: "sarif"
+          output: "trivy-results.sarif"
 
       - name: Upload Trivy scan results
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
 
   secret-scan:
     name: Secret Detection
@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for secret scanning
+          fetch-depth: 0 # Full history for secret scanning
 
       - name: Detect secrets
         uses: trufflesecurity/trufflehog@main

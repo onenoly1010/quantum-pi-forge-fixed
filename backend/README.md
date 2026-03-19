@@ -21,29 +21,32 @@ npm start
 ## 📡 API Endpoints
 
 ### Health Checks
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/health` | GET | Basic health check |
-| `/health/detailed` | GET | Detailed system info |
-| `/health/live` | GET | Kubernetes liveness probe |
-| `/health/ready` | GET | Kubernetes readiness probe |
+
+| Endpoint           | Method | Description                |
+| ------------------ | ------ | -------------------------- |
+| `/health`          | GET    | Basic health check         |
+| `/health/detailed` | GET    | Detailed system info       |
+| `/health/live`     | GET    | Kubernetes liveness probe  |
+| `/health/ready`    | GET    | Kubernetes readiness probe |
 
 ### API
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api` | GET | API version info |
-| `/api/status` | GET | System status |
-| `/api/config` | GET | Public configuration |
-| `/api/validate/address/:address` | GET | Validate Ethereum address |
+
+| Endpoint                         | Method | Description               |
+| -------------------------------- | ------ | ------------------------- |
+| `/api`                           | GET    | API version info          |
+| `/api/status`                    | GET    | System status             |
+| `/api/config`                    | GET    | Public configuration      |
+| `/api/validate/address/:address` | GET    | Validate Ethereum address |
 
 ### Staking
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/staking` | GET | Staking info |
-| `/api/staking/balance/:address` | GET | Get staked balance |
-| `/api/staking/sponsor` | POST | Sponsor gasless transaction |
-| `/api/staking/transaction/:txHash` | GET | Get transaction status |
-| `/api/staking/estimate-gas` | POST | Estimate gas costs |
+
+| Endpoint                           | Method | Description                 |
+| ---------------------------------- | ------ | --------------------------- |
+| `/api/staking`                     | GET    | Staking info                |
+| `/api/staking/balance/:address`    | GET    | Get staked balance          |
+| `/api/staking/sponsor`             | POST   | Sponsor gasless transaction |
+| `/api/staking/transaction/:txHash` | GET    | Get transaction status      |
+| `/api/staking/estimate-gas`        | POST   | Estimate gas costs          |
 
 ## 🔒 Security Features
 
@@ -76,15 +79,15 @@ backend/
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `PORT` | No | Server port (default: 3001) |
-| `NODE_ENV` | No | Environment (development/production) |
-| `ALLOWED_ORIGINS` | No | CORS allowed origins (comma-separated) |
-| `POLYGON_RPC_URL` | Yes | Polygon RPC endpoint |
-| `OINIO_TOKEN_ADDRESS` | Yes | OINIO token contract address |
-| `SPONSOR_PRIVATE_KEY` | Yes | Wallet for sponsoring gas |
-| `API_KEY` | No | Optional API key for protected endpoints |
+| Variable              | Required | Description                              |
+| --------------------- | -------- | ---------------------------------------- |
+| `PORT`                | No       | Server port (default: 3001)              |
+| `NODE_ENV`            | No       | Environment (development/production)     |
+| `ALLOWED_ORIGINS`     | No       | CORS allowed origins (comma-separated)   |
+| `POLYGON_RPC_URL`     | Yes      | Polygon RPC endpoint                     |
+| `OINIO_TOKEN_ADDRESS` | Yes      | OINIO token contract address             |
+| `SPONSOR_PRIVATE_KEY` | Yes      | Wallet for sponsoring gas                |
+| `API_KEY`             | No       | Optional API key for protected endpoints |
 
 ## 🔗 Integration with Frontend
 
@@ -92,12 +95,12 @@ The backend is designed to work with the Next.js frontend:
 
 ```javascript
 // Frontend example
-const response = await fetch('http://localhost:3001/api/staking/sponsor', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("http://localhost:3001/api/staking/sponsor", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    userAddress: '0x...',
-    amount: '100',
+    userAddress: "0x...",
+    amount: "100",
   }),
 });
 ```
@@ -114,15 +117,15 @@ const response = await fetch('http://localhost:3001/api/staking/sponsor', {
 
 ### Current Dependencies
 
-| Package | Version | Status | Notes |
-|---------|---------|--------|-------|
-| express | 4.18.2 | ✅ Stable | Latest 4.x release |
-| cors | 2.8.5 | ✅ Stable | No known vulnerabilities |
-| helmet | 7.1.0 | ✅ Secure | Latest major version |
-| body-parser | 1.20.2 | ✅ Stable | Built into Express 4.16+ |
-| dotenv | 16.3.1 | ✅ Stable | Environment management |
-| express-rate-limit | 7.1.5 | ✅ Stable | Rate limiting |
-| morgan | 1.10.0 | ✅ Stable | HTTP logging |
+| Package            | Version | Status    | Notes                    |
+| ------------------ | ------- | --------- | ------------------------ |
+| express            | 4.18.2  | ✅ Stable | Latest 4.x release       |
+| cors               | 2.8.5   | ✅ Stable | No known vulnerabilities |
+| helmet             | 7.1.0   | ✅ Secure | Latest major version     |
+| body-parser        | 1.20.2  | ✅ Stable | Built into Express 4.16+ |
+| dotenv             | 16.3.1  | ✅ Stable | Environment management   |
+| express-rate-limit | 7.1.5   | ✅ Stable | Rate limiting            |
+| morgan             | 1.10.0  | ✅ Stable | HTTP logging             |
 
 ### Security Recommendations
 

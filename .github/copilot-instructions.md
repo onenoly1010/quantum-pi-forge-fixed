@@ -6,15 +6,16 @@
 
 **This is the PRIMARY repository**: `onenoly1010/quantum-pi-forge-fixed`
 
-| Fact | Value |
-|------|-------|
-| **Project Name** | Quantum Pi Forge (OINIO Soul System) |
-| **What It Is** | Gasless staking platform for OINIO token on Polygon |
-| **Main Branch** | `main` |
-| **Deploy Target** | Vercel |
-| **Token Address** | `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7` |
+| Fact              | Value                                               |
+| ----------------- | --------------------------------------------------- |
+| **Project Name**  | Quantum Pi Forge (OINIO Soul System)                |
+| **What It Is**    | Gasless staking platform for OINIO token on Polygon |
+| **Main Branch**   | `main`                                              |
+| **Deploy Target** | Vercel                                              |
+| **Token Address** | `0x07f43E5B1A8a0928B364E40d5885f81A543B05C7`        |
 
 **DO NOT CONFUSE**:
+
 - ❌ `pi-forge-quantum-genesis/` subdirectory is legacy/archived code
 - ❌ Old markdown files with "LAUNCH" or "DEPLOYMENT" in names are historical
 - ✅ This repo (`quantum-pi-forge-fixed`) is the active codebase
@@ -26,7 +27,9 @@
 This repository is configured for GitHub Copilot Coding Agent. When working with Copilot:
 
 ### Suitable Tasks
+
 Copilot excels at **low-to-medium complexity** tasks such as:
+
 - 🐛 Bug fixes and error handling improvements
 - 🔧 Refactoring existing code
 - ✅ Adding or improving tests
@@ -37,12 +40,14 @@ Copilot excels at **low-to-medium complexity** tasks such as:
 - 🔐 Security vulnerability fixes
 
 **Avoid assigning** tasks that require:
+
 - Deep domain expertise in blockchain/smart contracts
 - Large-scale architecture changes
 - Complex business logic decisions
 - Critical security-sensitive operations without review
 
 ### Iteration Process
+
 1. **Clear Issues**: Write detailed issues with acceptance criteria
 2. **Review PRs**: Treat Copilot PRs like human contributions - review carefully
 3. **Provide Feedback**: Use PR comments and mention `@copilot` for iterations
@@ -50,6 +55,7 @@ Copilot excels at **low-to-medium complexity** tasks such as:
 5. **Test Thoroughly**: Always validate changes with builds and tests
 
 ### Security Expectations
+
 - Copilot works in sandboxed environments with restricted permissions
 - All changes require human review before merging
 - Private keys and sensitive data must never be committed
@@ -69,6 +75,7 @@ The Quantum Pi Forge (OINIO Soul System) is a decentralized application built fo
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript + JavaScript (mixed codebase)
 - **UI Library**: React 18
@@ -77,12 +84,14 @@ The Quantum Pi Forge (OINIO Soul System) is a decentralized application built fo
 - **Deployment**: Vercel
 
 ### Smart Contracts
+
 - **Development**: Hardhat
 - **Language**: Solidity (versions 0.5.16, 0.6.6, 0.8.20)
 - **Networks**: Polygon Mainnet (Chain ID: 137), 0G Aristotle (Chain ID: 16661)
 - **Contracts**: Uniswap V2 fork, custom OINIO token contracts
 
 ### Key Dependencies
+
 - `ethers` v6.16.0 for blockchain interaction
 - `@radix-ui/*` components via shadcn/ui
 - `next-themes` for dark mode support
@@ -127,7 +136,8 @@ npx hardhat test     # Run contract tests
 
 ### Linting
 
-**Note**: No linting tools (ESLint, Prettier) are currently configured in this project. 
+**Note**: No linting tools (ESLint, Prettier) are currently configured in this project.
+
 - Code quality is maintained through manual code review
 - TypeScript's strict mode provides compile-time checks
 - Consider adding ESLint if implementing new linting rules
@@ -135,24 +145,28 @@ npx hardhat test     # Run contract tests
 ## Coding Standards
 
 ### TypeScript/JavaScript
+
 - Use TypeScript for new files in `app/` and `components/` directories
 - Follow existing patterns for React components (functional components with hooks)
 - Use the `@/` path alias for imports (maps to project root)
 - Prefer `const` over `let`, avoid `var`
 
 ### React Components
+
 - Use client components (`'use client'`) when needed for interactivity
 - Leverage shadcn/ui components for UI consistency
 - Follow the glassmorphism design pattern established in the dashboard
 - Use Tailwind CSS classes for styling
 
 ### Smart Contracts
+
 - Multiple Solidity versions are supported (0.5.16, 0.6.6, 0.8.20)
 - Enable optimizer for production contracts
 - Follow established patterns in existing contracts
 - Test thoroughly before deployment
 
 ### Styling
+
 - Use Tailwind CSS utility classes
 - Follow the established color scheme (HSL variables in globals.css)
 - Maintain responsive design (mobile-first approach)
@@ -175,16 +189,19 @@ ZERO_G_RPC_URL=https://rpc.0g.ai
 ## Key Features to Maintain
 
 ### 1. Gasless Transactions
+
 - Sponsor wallet pays gas fees for users
 - API endpoint validates amounts (0.01 - 10000 OINIO)
 - Balance checks before sponsoring transactions
 
 ### 2. MetaMask Integration
+
 - Wallet connection with proper error handling
 - Network detection (Polygon Mainnet)
 - Real-time balance updates
 
 ### 3. Security
+
 - Input validation on both client and server
 - Ethereum address validation
 - No sensitive data in error messages
@@ -193,24 +210,26 @@ ZERO_G_RPC_URL=https://rpc.0g.ai
 ## Common Patterns
 
 ### API Routes (Next.js 14)
+
 ```typescript
 // app/api/[endpoint]/route.ts
 export async function POST(request: Request) {
   // Parse request
   const body = await request.json();
-  
+
   // Validate input
   // Process transaction
   // Return response
-  
+
   return Response.json({ success: true, ... });
 }
 ```
 
 ### Component Structure
+
 ```typescript
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
 export default function Component() {
   // State management
@@ -221,8 +240,9 @@ export default function Component() {
 ```
 
 ### Ethers.js Interactions
+
 ```typescript
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 // Use JsonRpcProvider for RPC connections
 const provider = new ethers.JsonRpcProvider(rpcUrl);
@@ -282,12 +302,14 @@ The AI Agent Autonomous Runbook is an automated workflow that provides continuou
 **Location**: `.github/workflows/ai-agent-handoff-runbook.yml`
 
 **Triggers**:
+
 - **Schedule**: Every 6 hours (cron: `0 */6 * * *`)
 - **Push**: To `main` branch on paths: `app/**`, `src/**`, `.github/workflows/**`
 - **Workflow Completion**: After "Deploy Next.js site to Pages" or "Agent Dispatch" workflows complete
 - **Manual Dispatch**: Via GitHub Actions UI with custom actions
 
 **Permissions Required**:
+
 - `contents: write` - For repository operations
 - `issues: write` - For status issue updates
 - `actions: read` - For workflow monitoring
@@ -358,6 +380,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" -f action=emergency-stop
 ```
 
 **Available Components for Update**:
+
 - `fastapi` - FastAPI Quantum Conduit
 - `flask` - Flask Glyph Weaver
 - `gradio` - Gradio Truth Mirror
@@ -372,6 +395,7 @@ All operational scripts are located in `scripts/runbook/`:
 Health monitoring for all services.
 
 **Usage**:
+
 ```bash
 # Check all services
 ./scripts/runbook/health-check.sh all
@@ -383,12 +407,14 @@ Health monitoring for all services.
 ```
 
 **Environment Variables**:
+
 - `FASTAPI_URL` - FastAPI service URL (default: http://localhost:8000)
 - `FLASK_URL` - Flask service URL (default: http://localhost:5000)
 - `GRADIO_URL` - Gradio service URL (default: http://localhost:7860)
 - `HEALTH_CHECK_TIMEOUT` - Timeout in seconds (default: 5)
 
 **Exit Codes**:
+
 - `0` - All checked services are healthy
 - `1` - One or more services are unavailable
 
@@ -397,6 +423,7 @@ Health monitoring for all services.
 Updates specific system components.
 
 **Usage**:
+
 ```bash
 # Update all components
 ./scripts/runbook/update-component.sh all
@@ -408,6 +435,7 @@ Updates specific system components.
 ```
 
 **What it does**:
+
 - Pulls latest component configuration
 - Restarts the specified service(s)
 - Validates service health after update
@@ -417,6 +445,7 @@ Updates specific system components.
 Reverts to a previous deployment version.
 
 **Usage**:
+
 ```bash
 # Rollback to semantic version
 ./scripts/runbook/rollback.sh v1.2.3
@@ -429,12 +458,14 @@ Reverts to a previous deployment version.
 ```
 
 **What it does**:
+
 - Validates rollback version format (alphanumeric, dots, hyphens, underscores only)
 - Creates a rollback branch
 - Checks out the specified version
 - Does NOT automatically push changes (manual verification required)
 
 **Requirements**:
+
 - Clean working directory
 - Valid version identifier
 - No path traversal characters allowed (security measure)
@@ -444,17 +475,20 @@ Reverts to a previous deployment version.
 Immediately halts all services.
 
 **Usage**:
+
 ```bash
 ./scripts/runbook/emergency-stop.sh
 ```
 
 **What it does**:
+
 - Stops processes on ports 8000 (FastAPI), 5000 (Flask), 7860 (Gradio)
 - Uses SIGTERM first, then SIGKILL if needed
 - Stops Next.js dev server if running for this project
 - Provides detailed stop report
 
 **When to use**:
+
 - Critical security incident
 - Service malfunction causing system instability
 - Emergency maintenance required
@@ -467,11 +501,13 @@ Immediately halts all services.
 The runbook maintains a live GitHub issue titled "🤖 AI Agent Autonomous Runbook Status" with:
 
 **Metadata**:
+
 - Labels: `ai-agent`, `automated`, `runbook`
 - Auto-updated every 6 hours or on deployment
 - Contains latest workflow run ID and timestamp
 
 **Sections**:
+
 1. **Operational Status** - Overall system health (✅ OPERATIONAL, ⚠️ DEGRADED, 🔴 CRITICAL)
 2. **Job Status Summary** - Table of all workflow jobs and their results
 3. **System Health** - Individual service health status
@@ -487,6 +523,7 @@ The runbook maintains a live GitHub issue titled "🤖 AI Agent Autonomous Runbo
 Each workflow run generates monitoring artifacts:
 
 **Download Monitoring Report**:
+
 ```bash
 # Get report from specific run
 gh run download <run_id> -n monitoring-report
@@ -496,6 +533,7 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 ```
 
 **Report Contents**:
+
 - `health-check.json` - Service health status with timestamp
 - Format: JSON with service statuses (healthy/unavailable)
 - Retention: 30 days
@@ -503,6 +541,7 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 #### Best Practices for Runbook Usage
 
 **For AI Agents**:
+
 1. Always check the status issue before making deployment decisions
 2. Use monitoring reports to verify service health
 3. Prefer `update-component` over manual deployments
@@ -510,6 +549,7 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 5. Verify rollback success before closing incidents
 
 **For Developers**:
+
 1. Test runbook scripts locally before deploying workflow changes
 2. Keep script paths relative to repository root
 3. Ensure all scripts have proper error handling
@@ -517,6 +557,7 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 5. Never commit sensitive data to runbook scripts
 
 **Security Considerations**:
+
 - Rollback version validation prevents path traversal attacks
 - Emergency stop targets only project-specific processes
 - All script inputs are validated
@@ -526,26 +567,31 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 #### Troubleshooting Runbook Issues
 
 **Workflow doesn't trigger**:
+
 - Check workflow is enabled in Actions settings
 - Verify trigger conditions are met (branch, paths)
 - Ensure required permissions are granted
 
 **Health checks fail**:
+
 - Services may not be running (expected on GitHub Actions runners)
 - Check service URLs in environment variables
 - Verify firewall/network access to services
 
 **Rollback fails**:
+
 - Ensure rollback_version is provided and valid
 - Check that version/tag/commit exists in repository
 - Verify working directory is clean
 
 **Status issue not updating**:
+
 - Check `issues: write` permission is granted
 - Verify issue labels are correct
 - Check GitHub API rate limits
 
 **Emergency stop doesn't work**:
+
 - Services may not be running
 - Check port numbers match actual services
 - Verify process identification patterns
@@ -553,6 +599,7 @@ gh run view --repo onenoly1010/quantum-pi-forge-fixed
 #### Integration with Other Workflows
 
 The AI Agent Runbook integrates with:
+
 - **Next.js Build Workflow** - Triggered on completion
 - **Agent Dispatch** - Triggered on completion
 - **Vercel Deployments** - Referenced in deployment URL
@@ -562,6 +609,7 @@ This provides comprehensive coverage of the entire deployment pipeline.
 ### Deployment Checklist
 
 Before deploying to production:
+
 1. Test build locally: `npm run build`
 2. Verify all environment variables are set in Vercel
 3. Ensure sponsor wallet has sufficient MATIC and OINIO tokens
@@ -579,8 +627,9 @@ Before deploying to production:
 ## Philosophy & Context
 
 This project is built around the "Truth Movement" and "OINIO Soul System" concepts. Code and documentation may reference:
+
 - Frequency harmonics (1010 Hz)
-- Sovereign economy principles  
+- Sovereign economy principles
 - Legacy/memorial node concepts
 - Spiritual/consciousness frameworks
 
@@ -625,6 +674,7 @@ npm update
 ### Commit Messages
 
 Follow conventional commit format:
+
 - `feat:` - New features
 - `fix:` - Bug fixes
 - `docs:` - Documentation changes
@@ -638,6 +688,7 @@ Example: `feat: add gasless staking API endpoint`
 ### What Not to Commit
 
 See `.gitignore` for excluded files:
+
 - `node_modules/` - Dependencies (install via npm)
 - `.next/`, `out/`, `dist/`, `build/` - Build artifacts
 - `.env.launch`, `.env.local`, `.env.*.local` - Environment variables (SENSITIVE)
@@ -652,19 +703,21 @@ See `.gitignore` for excluded files:
 
 **Symptom**: `npm run build` fails
 **Solutions**:
+
 - Clear Next.js cache: `rm -rf .next`
 - Reinstall dependencies: `rm -rf node_modules package-lock.json && npm install`
 - Check TypeScript errors: `npx tsc --noEmit`
 - Verify environment variables are set
 
-**Known Issue**: OpenTelemetry tracing dependencies may be missing in some branches. 
-If you see errors about `@opentelemetry/*` packages, they can be safely ignored if tracing is not required, 
+**Known Issue**: OpenTelemetry tracing dependencies may be missing in some branches.
+If you see errors about `@opentelemetry/*` packages, they can be safely ignored if tracing is not required,
 or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-http @opentelemetry/resources @opentelemetry/semantic-conventions @opentelemetry/instrumentation @opentelemetry/instrumentation-document-load @opentelemetry/instrumentation-fetch @opentelemetry/instrumentation-user-interaction @opentelemetry/instrumentation-xml-http-request @opentelemetry/context-zone`
 
 #### 2. MetaMask Connection Issues
 
 **Symptom**: Wallet won't connect or shows wrong network
 **Solutions**:
+
 - Ensure MetaMask is installed and unlocked
 - Verify Polygon Mainnet is added to MetaMask (Chain ID: 137)
 - Check that user is on the correct network
@@ -675,6 +728,7 @@ or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/s
 
 **Symptom**: Staking transactions fail with "insufficient funds" or timeout
 **Solutions**:
+
 - Verify sponsor wallet has MATIC for gas fees
 - Verify sponsor wallet has OINIO tokens to transfer
 - Check POLYGON_RPC_URL is accessible
@@ -686,6 +740,7 @@ or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/s
 
 **Symptom**: `npx hardhat compile` fails
 **Solutions**:
+
 - Check Solidity version compatibility (0.5.16, 0.6.6, 0.8.20)
 - Clear Hardhat cache: `rm -rf cache artifacts`
 - Verify contract imports are correct
@@ -695,6 +750,7 @@ or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/s
 
 **Symptom**: "Missing environment variable" errors
 **Solutions**:
+
 - For local development: Create `.env.local` file (never commit!)
 - For Vercel: Set variables in Vercel dashboard (Settings → Environment Variables)
 - Verify variable names match exactly (case-sensitive)
@@ -707,6 +763,7 @@ or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/s
 
 **Symptom**: TypeScript errors when importing JavaScript modules
 **Solutions**:
+
 - Check that `allowJs: true` is set in `tsconfig.json`
 - Add `.d.ts` type declaration files if needed
 - Use `// @ts-ignore` sparingly for legacy code
@@ -715,6 +772,7 @@ or install them with: `npm install @opentelemetry/sdk-trace-web @opentelemetry/s
 ### Getting Help
 
 If you encounter issues not covered here:
+
 1. Check browser console for client-side errors
 2. Check Vercel deployment logs for server-side errors
 3. Verify all environment variables are correctly set
@@ -724,6 +782,7 @@ If you encounter issues not covered here:
 ## Best Practices Summary
 
 ✅ **DO**:
+
 - Use TypeScript for new files in `app/` and `components/`
 - Follow existing code patterns and conventions
 - Test locally before pushing (`npm run build`)
@@ -733,6 +792,7 @@ If you encounter issues not covered here:
 - Document significant changes
 
 ❌ **DON'T**:
+
 - Don't commit `.env.local` or private keys
 - Don't remove or modify working code unnecessarily
 - Don't change major dependency versions without testing
@@ -747,6 +807,7 @@ When creating issues to assign to `@copilot`, follow these guidelines for best r
 ### Issue Structure
 
 **Title**: Clear, concise description of the task
+
 ```
 ✨ Add loading state to staking button
 🐛 Fix MetaMask connection timeout
@@ -754,6 +815,7 @@ When creating issues to assign to `@copilot`, follow these guidelines for best r
 ```
 
 **Description Should Include**:
+
 1. **Problem Statement**: What needs to be done and why
 2. **Acceptance Criteria**: Clear checklist of requirements
 3. **Context**: Relevant files, components, or systems involved
@@ -764,9 +826,11 @@ When creating issues to assign to `@copilot`, follow these guidelines for best r
 
 ```markdown
 ## Problem
+
 The staking button doesn't show a loading state, causing user confusion during transaction processing.
 
 ## Acceptance Criteria
+
 - [ ] Button shows loading spinner when transaction is in progress
 - [ ] Button is disabled during loading to prevent double-submission
 - [ ] Loading text changes to "Processing..."
@@ -774,10 +838,12 @@ The staking button doesn't show a loading state, causing user confusion during t
 - [ ] Success state shows confirmation message
 
 ## Files to Modify
+
 - `app/dashboard/page.tsx` - Add loading state logic
 - `components/ui/button.tsx` - May need loading variant
 
 ## Testing
+
 1. Connect MetaMask wallet
 2. Enter staking amount
 3. Click "Stake with Gasless Transaction"
@@ -786,6 +852,7 @@ The staking button doesn't show a loading state, causing user confusion during t
 ```
 
 ### Labels to Use
+
 - `copilot` - For tasks suitable for Copilot
 - `bug` - For bug fixes
 - `enhancement` - For new features
@@ -793,6 +860,7 @@ The staking button doesn't show a loading state, causing user confusion during t
 - `good first issue` - For simple, well-defined tasks
 
 ### Tips for Better Results
+
 - **Be Specific**: Instead of "improve UI", say "add loading spinner to submit button"
 - **One Task per Issue**: Break large tasks into smaller, focused issues
 - **Include Examples**: Reference similar patterns in the codebase
@@ -804,6 +872,7 @@ The staking button doesn't show a loading state, causing user confusion during t
 When reviewing Copilot PRs:
 
 ### What to Check
+
 1. **Correctness**: Does the code solve the stated problem?
 2. **Style Consistency**: Does it match existing code patterns?
 3. **Security**: Are there any security implications?
@@ -812,12 +881,14 @@ When reviewing Copilot PRs:
 6. **Dependencies**: Are new dependencies necessary and secure?
 
 ### Providing Feedback
+
 - Use inline comments for specific issues
 - Mention `@copilot` in comments for clarification
 - Request changes clearly with actionable feedback
 - Approve when ready, but review as carefully as human PRs
 
 ### Iteration Cycle
+
 1. Copilot creates initial PR
 2. You review and leave comments
 3. Copilot addresses feedback in new commits
@@ -825,11 +896,15 @@ When reviewing Copilot PRs:
 5. Merge when all criteria are met
 
 <<<<<<< HEAD
+
 ## Automated Agent Instructions
+
 For deterministic, machine-oriented rules governing automated coding agents, see `.github/automated-agent-instructions.md`. That file contains strict behavioral constraints, output requirements, and system-level rules that agents must follow.
 
 =======
->>>>>>> fix/dep-ci-uvicorn-port
+
+> > > > > > > fix/dep-ci-uvicorn-port
+
 ## Additional Resources
 
 - [GitHub Copilot Best Practices](https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results)
@@ -838,7 +913,7 @@ For deterministic, machine-oriented rules governing automated coding agents, see
 - [Ethers.js v6 Documentation](https://docs.ethers.org/v6/)
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-<<<<<<< HEAD
+  <<<<<<< HEAD
 
 ---
 
@@ -847,6 +922,7 @@ For deterministic, machine-oriented rules governing automated coding agents, see
 To maintain consistency and productivity, use the following VS Code settings, keybindings, and extensions. These are tailored for clarity-first development in this modular, self-describing codebase.
 
 ### VS Code Settings (`settings.json`)
+
 ```json
 {
   "workbench.colorTheme": "Quiet Light",
@@ -880,6 +956,7 @@ To maintain consistency and productivity, use the following VS Code settings, ke
 ```
 
 ### Keybindings (`keybindings.json`)
+
 ```json
 [
   {
@@ -914,6 +991,7 @@ To maintain consistency and productivity, use the following VS Code settings, ke
 ```
 
 ### Recommended Extensions (`extensions.json`)
+
 ```json
 {
   "recommendations": [
@@ -938,7 +1016,9 @@ To maintain consistency and productivity, use the following VS Code settings, ke
 ```
 
 ### Workspace Template Structure
+
 Use this living, self-describing structure for new projects or expansions:
+
 ```
 your-project/
 │
@@ -962,6 +1042,7 @@ your-project/
 ```
 
 ### Canonical README Template
+
 ```markdown
 # Project Canon
 
@@ -971,18 +1052,23 @@ Every folder represents a layer of awareness, clarity, and operational flow.
 ## Structure
 
 ### `/docs`
+
 Long-form explanations, architecture notes, conceptual maps.
 
 ### `/src`
+
 The active codebase — the living system.
 
 ### `/scripts`
+
 Modular tools for audits, diagnostics, and repair cycles.
 
 ### `/diagnostics`
+
 Snapshots of system state, convergence cycles, and forensic traces.
 
 ### `/artifacts`
+
 Generated outputs, exports, and captured results.
 
 ## Rituals
@@ -993,9 +1079,11 @@ Generated outputs, exports, and captured results.
 ```
 
 ### Diagnostic & Repair Scripts
+
 Place these in `/scripts/` for audit cycles matching the project's operational flow.
 
 **`scripts/audit.sh`**:
+
 ```bash
 #!/bin/bash
 echo "=== Audit Cycle ==="
@@ -1008,6 +1096,7 @@ echo "Audit complete."
 ```
 
 **`scripts/repair.sh`**:
+
 ```bash
 #!/bin/bash
 echo "=== Repair Cycle ==="
@@ -1019,6 +1108,7 @@ echo "Repair complete."
 ```
 
 **`scripts/snapshot.sh`**:
+
 ```bash
 #!/bin/bash
 OUTPUT="diagnostics/system-snapshot-$(date +%Y%m%d-%H%M%S).md"
@@ -1038,5 +1128,7 @@ echo "Creating system snapshot: $OUTPUT"
 
 echo "Snapshot saved."
 ```
+
 =======
->>>>>>> fix/dep-ci-uvicorn-port
+
+> > > > > > > fix/dep-ci-uvicorn-port

@@ -19,26 +19,32 @@ echo ""
 
 update_fastapi() {
     echo -e "${YELLOW}Updating FastAPI Quantum Conduit...${NC}"
-    # TODO: Add actual FastAPI update commands here
-    # Example: systemctl restart fastapi-service
-    # Or: pm2 restart fastapi-app
-    echo "⚠️  WARNING: FastAPI update not implemented yet - placeholder only"
+    # Actual implementation for FastAPI
+    echo "Updating FastAPI Quantum Conduit..."
+    cd ../fastapi || exit  # Adjust based on project structure, assuming relative path
+    git pull origin main  # Pull latest changes
+    pip install -r requirements.txt
+    uvicorn main:app --reload  # Run FastAPI server
 }
 
 update_flask() {
     echo -e "${YELLOW}Updating Flask Glyph Weaver...${NC}"
-    # TODO: Add actual Flask update commands here
-    # Example: systemctl restart flask-service
-    # Or: pm2 restart flask-app
-    echo "⚠️  WARNING: Flask update not implemented yet - placeholder only"
+    # Actual implementation for Flask
+    echo "Updating Flask Glyph Weaver..."
+    cd ../flask || exit  # Adjust based on project structure
+    git pull origin main  # Pull latest changes
+    pip install -r requirements.txt
+    flask run  # Run Flask app; use gunicorn for production if needed
 }
 
 update_gradio() {
     echo -e "${YELLOW}Updating Gradio Truth Mirror...${NC}"
-    # TODO: Add actual Gradio update commands here
-    # Example: systemctl restart gradio-service
-    # Or: pm2 restart gradio-app
-    echo "⚠️  WARNING: Gradio update not implemented yet - placeholder only"
+    # Actual implementation for Gradio
+    echo "Updating Gradio Truth Mirror..."
+    cd ../gradio || exit  # Adjust based on project structure
+    git pull origin main  # Pull latest changes
+    pip install -r requirements.txt
+    python app.py  # Run Gradio app
 }
 
 case "$COMPONENT" in

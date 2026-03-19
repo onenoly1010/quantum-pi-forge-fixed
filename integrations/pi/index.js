@@ -1,41 +1,51 @@
 // Pi Network Integration - Unified Exports
 
-const PiAuth = require('./auth/connect');
-const PiSession = require('./auth/session');
-const PiTokenVerifier = require('./auth/verify');
+const PiAuth = require("./auth/connect");
+const PiSession = require("./auth/session");
+const PiTokenVerifier = require("./auth/verify");
 
-const PiPaymentCreator = require('./payments/create-payment');
-const PiPaymentVerifier = require('./payments/verify-payment');
-const PiWebhooks = require('./payments/webhooks');
+const PiPaymentCreator = require("./payments/create-payment");
+const PiPaymentVerifier = require("./payments/verify-payment");
+const PiWebhooks = require("./payments/webhooks");
 
-const PiProfileMapper = require('./identity/map-profile');
-const PiUserResolver = require('./identity/resolve-user');
+const PiProfileMapper = require("./identity/map-profile");
+const PiUserResolver = require("./identity/resolve-user");
 
-const PiApiClient = require('./api/client');
-const { PI_ENDPOINTS, PI_SCOPES, PI_PAYMENT_STATUSES, PI_WEBHOOK_EVENTS } = require('./api/endpoints');
+const PiApiClient = require("./api/client");
+const {
+  PI_ENDPOINTS,
+  PI_SCOPES,
+  PI_PAYMENT_STATUSES,
+  PI_WEBHOOK_EVENTS,
+} = require("./api/endpoints");
 
-const piSDK = require('./config/sdk-setup');
-const { PI_CONFIG, validateEnvironment, getEnvironmentConfig, setupPiEnvironment } = require('./config/environment');
+const piSDK = require("./config/sdk-setup");
+const {
+  PI_CONFIG,
+  validateEnvironment,
+  getEnvironmentConfig,
+  setupPiEnvironment,
+} = require("./config/environment");
 
 module.exports = {
   // Authentication
   auth: {
     connect: PiAuth,
     session: PiSession,
-    verify: PiTokenVerifier
+    verify: PiTokenVerifier,
   },
 
   // Payments
   payments: {
     createPayment: PiPaymentCreator,
     verifyPayment: PiPaymentVerifier,
-    webhooks: PiWebhooks
+    webhooks: PiWebhooks,
   },
 
   // Identity
   identity: {
     mapProfile: PiProfileMapper,
-    resolveUser: PiUserResolver
+    resolveUser: PiUserResolver,
   },
 
   // API
@@ -45,8 +55,8 @@ module.exports = {
       PI_ENDPOINTS,
       PI_SCOPES,
       PI_PAYMENT_STATUSES,
-      PI_WEBHOOK_EVENTS
-    }
+      PI_WEBHOOK_EVENTS,
+    },
   },
 
   // Configuration
@@ -56,7 +66,7 @@ module.exports = {
       PI_CONFIG,
       validateEnvironment,
       getEnvironmentConfig,
-      setupPiEnvironment
-    }
-  }
+      setupPiEnvironment,
+    },
+  },
 };

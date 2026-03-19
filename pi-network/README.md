@@ -7,12 +7,14 @@ This directory contains the **Rust-Soroban blueprint** for deploying the Quantum
 The Pi Network integration translates the 0G Forge's BigInt precision logic into Soroban's Rust environment:
 
 ### Core Components
+
 - **BigInt Precision:** Uses `i128` for 18-decimal mathematical finality
 - **DEX Logic:** Uniswap V2-style AMM with exact calculations
 - **Staking System:** Gasless staking with reward accumulation
 - **Gas Recycling:** Automated fee mechanisms for sustainability
 
 ### Key Features
+
 - **No Rounding Errors:** All calculations use integer arithmetic
 - **Sovereign Public Good:** Dedicated to Pi Network ecosystem
 - **Self-Sustaining:** Fee recycling maintains contract operations
@@ -58,5 +60,5 @@ The contract implements the same mathematical integrity as the 0G version:
 
 This is the bridge from 0G's EVM-based truth to Pi Network's Stellar-based sovereignty.
 
-*"From the many, one truth remains."*</content>
+_"From the many, one truth remains."_</content>
 <parameter name="filePath">vscode-vfs://github/onenoly1010/quantum-pi-forge-fixed/pi-network/README.md

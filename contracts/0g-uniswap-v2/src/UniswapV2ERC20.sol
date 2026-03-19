@@ -1,4 +1,4 @@
-pragma solidity =0.5.16;
+pragma solidity ^0.8.24;
 
 import './interfaces/IUniswapV2ERC20.sol';
 import './libraries/SafeMathUniswap.sol';

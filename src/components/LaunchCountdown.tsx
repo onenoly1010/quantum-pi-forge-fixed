@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const LaunchCountdown: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -10,7 +10,7 @@ const LaunchCountdown: React.FC = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date('2025-12-17T23:59:59Z');
+    const targetDate = new Date("2025-12-17T23:59:59Z");
 
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -36,7 +36,8 @@ const LaunchCountdown: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const isLaunched = timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
+  const isLaunched =
+    timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <div className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-4 text-center">
@@ -49,23 +50,29 @@ const LaunchCountdown: React.FC = () => {
             <div className="flex justify-center items-center space-x-4 md:space-x-8">
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
                 <div className="text-3xl md:text-4xl font-bold text-white">
-                  {String(timeLeft.hours).padStart(2, '0')}
+                  {String(timeLeft.hours).padStart(2, "0")}
                 </div>
-                <div className="text-xs md:text-sm text-white/80 uppercase">Hours</div>
+                <div className="text-xs md:text-sm text-white/80 uppercase">
+                  Hours
+                </div>
               </div>
               <div className="text-2xl md:text-3xl text-white font-bold">:</div>
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
                 <div className="text-3xl md:text-4xl font-bold text-white">
-                  {String(timeLeft.minutes).padStart(2, '0')}
+                  {String(timeLeft.minutes).padStart(2, "0")}
                 </div>
-                <div className="text-xs md:text-sm text-white/80 uppercase">Minutes</div>
+                <div className="text-xs md:text-sm text-white/80 uppercase">
+                  Minutes
+                </div>
               </div>
               <div className="text-2xl md:text-3xl text-white font-bold">:</div>
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 min-w-[80px]">
                 <div className="text-3xl md:text-4xl font-bold text-white">
-                  {String(timeLeft.seconds).padStart(2, '0')}
+                  {String(timeLeft.seconds).padStart(2, "0")}
                 </div>
-                <div className="text-xs md:text-sm text-white/80 uppercase">Seconds</div>
+                <div className="text-xs md:text-sm text-white/80 uppercase">
+                  Seconds
+                </div>
               </div>
             </div>
             <p className="text-white/90 mt-3 text-sm md:text-base">
@@ -78,7 +85,8 @@ const LaunchCountdown: React.FC = () => {
               🎉 GENESIS LAUNCH IS LIVE! 🎉
             </h2>
             <p className="text-white/90 text-base md:text-lg">
-              The OINIO ecosystem is now operational. Connect your wallet to participate!
+              The OINIO ecosystem is now operational. Connect your wallet to
+              participate!
             </p>
           </>
         )}

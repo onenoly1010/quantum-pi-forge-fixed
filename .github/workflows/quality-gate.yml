@@ -1,94 +1,94 @@
 name: 🔒 Quality Gate
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
 
-    - name: 🟢 Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
 
-    - name: 📦 Install Dependencies
-      run: npm ci
+      - name: 📦 Install Dependencies
+        run: npm ci
 
-    - name: 🏗️ Build Validation
-      run: npm run build
+      - name: 🏗️ Build Validation
+        run: npm run build
 
-    - name: 🔍 TypeScript Check
-      run: npx tsc --noEmit
+      - name: 🔍 TypeScript Check
+        run: npx tsc --noEmit
 
-    - name: 🧹 Lint Check
-      run: npm run lint 2>/dev/null || echo "No lint script found, skipping"
+      - name: 🧹 Lint Check
+        run: npm run lint 2>/dev/null || echo "No lint script found, skipping"
 
-    - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
 
-    - name: 📦 Install Python Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install web3 python-dotenv numpy
+      - name: 📦 Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install web3 python-dotenv numpy
 
-    - name: 🔐 Environment Validation
-      run: python validate_env.py
-      env:
-        SPONSOR_PRIVATE_KEY: ${{ secrets.SPONSOR_PRIVATE_KEY }}
-        POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
-        OINIO_TOKEN_ADDRESS: ${{ secrets.OINIO_TOKEN_ADDRESS }}
-        DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      - name: 🔐 Environment Validation
+        run: python validate_env.py
+        env:
+          SPONSOR_PRIVATE_KEY: ${{ secrets.SPONSOR_PRIVATE_KEY }}
+          POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
+          OINIO_TOKEN_ADDRESS: ${{ secrets.OINIO_TOKEN_ADDRESS }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
-    - name: ⚡ Quantum Pulse Validation
-      run: timeout 30 python quantum_resonance_field.py || echo "Quantum field validation complete"
+      - name: ⚡ Quantum Pulse Validation
+        run: timeout 30 python quantum_resonance_field.py || echo "Quantum field validation complete"
 
-    - name: 🤖 AI Nexus Validation
-      run: python test_ai_nexus.py
+      - name: 🤖 AI Nexus Validation
+        run: python test_ai_nexus.py
 
-    - name: 📊 Economic Oracle Validation
-      run: python test_economic_oracle.py
+      - name: 📊 Economic Oracle Validation
+        run: python test_economic_oracle.py
 
-    - name: 🔗 Multi-Agent Sync Validation
-      run: python ai_nexus_sync.py
+      - name: 🔗 Multi-Agent Sync Validation
+        run: python ai_nexus_sync.py
 
-    - name: 🏗️ Smart Contract Compilation
-      run: |
-        npm install -g hardhat
-        npx hardhat compile
+      - name: 🏗️ Smart Contract Compilation
+        run: |
+          npm install -g hardhat
+          npx hardhat compile
 
-    - name: 🔒 Security Scan (Contracts)
-      run: |
-        # Check for common security issues in Solidity files
-        find contracts -name "*.sol" -exec grep -l "selfdestruct\|delegatecall\|tx.origin" {} \; || echo "No high-risk patterns found"
+      - name: 🔒 Security Scan (Contracts)
+        run: |
+          # Check for common security issues in Solidity files
+          find contracts -name "*.sol" -exec grep -l "selfdestruct\|delegatecall\|tx.origin" {} \; || echo "No high-risk patterns found"
 
-    - name: 📋 Test Suite Execution
-      run: npm test 2>/dev/null || echo "No test suite configured"
+      - name: 📋 Test Suite Execution
+        run: npm test 2>/dev/null || echo "No test suite configured"
 
-    - name: 🎯 Final Quality Report
-      run: |
-        echo "🛡️ QUALITY GATE RESULTS" >> quality-report.md
-        echo "- ✅ Build: PASSED" >> quality-report.md
-        echo "- ✅ TypeScript: PASSED" >> quality-report.md
-        echo "- ✅ Environment: PASSED" >> quality-report.md
-        echo "- ✅ Quantum Field: OPERATIONAL" >> quality-report.md
-        echo "- ✅ AI Nexus: SYNCHRONIZED" >> quality-report.md
-        echo "- ✅ Smart Contracts: COMPILED" >> quality-report.md
-        echo "" >> quality-report.md
-        echo "**Status: 🟢 READY FOR DEPLOYMENT**" >> quality-report.md
-        cat quality-report.md
+      - name: 🎯 Final Quality Report
+        run: |
+          echo "🛡️ QUALITY GATE RESULTS" >> quality-report.md
+          echo "- ✅ Build: PASSED" >> quality-report.md
+          echo "- ✅ TypeScript: PASSED" >> quality-report.md
+          echo "- ✅ Environment: PASSED" >> quality-report.md
+          echo "- ✅ Quantum Field: OPERATIONAL" >> quality-report.md
+          echo "- ✅ AI Nexus: SYNCHRONIZED" >> quality-report.md
+          echo "- ✅ Smart Contracts: COMPILED" >> quality-report.md
+          echo "" >> quality-report.md
+          echo "**Status: 🟢 READY FOR DEPLOYMENT**" >> quality-report.md
+          cat quality-report.md
 
-    - name: 📤 Upload Quality Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: quality-gate-report
-        path: quality-report.md
+      - name: 📤 Upload Quality Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: quality-gate-report
+          path: quality-report.md

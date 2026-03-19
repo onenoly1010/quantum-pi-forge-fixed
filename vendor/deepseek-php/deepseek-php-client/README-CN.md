@@ -23,6 +23,7 @@
 [EN](README.md) | [AR](README-AR.md)
 
 ## 目录
+
 - [✨ 特性](#-特性)
 - [📦 安装](#-安装)
 - [🚀 快速入门](#-快速入门)
@@ -62,6 +63,7 @@ composer require deepseek-php/deepseek-php-client
 ```
 
 **要求**:
+
 - PHP 8.1+
 
 ---
@@ -83,6 +85,7 @@ echo $response;
 ```
 
 📌 默认配置:
+
 - Model: `deepseek-chat`
 - Temperature: 0.8
 
@@ -105,7 +108,6 @@ $response = $client
 
 echo 'API Response:'.$response;
 ```
-
 
 ## ⚠️ DeepSeek JSON 模式使用要求
 
@@ -137,11 +139,11 @@ echo 'API Response:'.$response;
 
 > ✅ **建议**：为了获得更好的结果，最好也在提示中提供一个 JSON 示例，并强调 “只返回 JSON”。
 
-
 ---
 
 ### Use with Symfony HttpClient
-the package already built with `symfony Http client`,  if you need to use package with `symfony` Http Client , it is easy to achieve that, just pass `clientType:'symfony'` with `build` function.
+
+the package already built with `symfony Http client`, if you need to use package with `symfony` Http Client , it is easy to achieve that, just pass `clientType:'symfony'` with `build` function.
 
 ex with symfony:
 
@@ -173,11 +175,9 @@ echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"mode
 你可以在文档中查看有关函数调用的详细信息：
 [FUNCTION-CALLING.md](docs/FUNCTION-CALLING.md)
 
-
 ### 🛠 框架集成
 
 ### [Laravel Deepseek Package](https://github.com/deepseek-php/deepseek-laravel)
-
 
 # 🐘✨ **DeepSeek PHP Community** ✨🐘
 
@@ -186,6 +186,7 @@ Click the button bellow or [join here](https://t.me/deepseek_php_community) to b
 [![Join Telegram](https://img.shields.io/badge/Join-Telegram-blue?style=for-the-badge&logo=telegram)](https://t.me/deepseek_php_community)
 
 ### **Channel Structure** 🏗️
+
 - 🗨️ **General** - Daily chatter
 - 💡 **Ideas & Suggestions** - Shape the community's future
 - 📢 **Announcements & News** - Official updates & news
@@ -223,7 +224,7 @@ Click the button bellow or [join here](https://t.me/deepseek_php_community) to b
 
 ---
 
-## 🤝  贡献者
+## 🤝 贡献者
 
 非常感谢为这个项目做出贡献的人！ 🎉💖
 

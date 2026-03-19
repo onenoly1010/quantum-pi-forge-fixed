@@ -3,7 +3,7 @@ name: Env & Secrets Check
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   env-check:

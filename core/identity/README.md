@@ -23,6 +23,7 @@ Pi User → [Pi Auth] → Identity Resolution → Soul Registry
 ## Environment Variables
 
 ### Required
+
 ```bash
 # Contract Addresses
 SOUL_REGISTRY_ADDRESS=0x...
@@ -40,6 +41,7 @@ JWT_SECRET=your-jwt-secret
 ```
 
 ### Optional
+
 ```bash
 # Service Configuration
 DB_MAX_CONNECTIONS=10
@@ -53,29 +55,35 @@ PI_API_BASE_URL=https://api.pi.network
 ## Smart Contracts
 
 ### SoulRegistry.sol
+
 - Core soul minting and ownership
 - Pi UID to Soul ID mapping
 - Coherence tracking and updates
 
 ### OGToken.sol
+
 - OG status verification and rewards
 - Reading incentives for OG users
 
 ### Verification.sol
+
 - Claim submission and verification
 - Soul signature validation
 
 ## Backend Services
 
 ### Resolution Service
+
 - Pi UID → Soul ID resolution
 - Multi-soul ownership support
 
 ### Verification Service
+
 - Claim submission and blockchain verification
 - Signature validation and proof generation
 
 ### Profile Service
+
 - Soul metadata and trait management
 - Reading history and achievements
 
@@ -92,16 +100,19 @@ PUT  /api/identity/profile/:soulId      # Update soul profile
 ## Integration Points
 
 ### Pi Network Integration
+
 - Accepts Pi UIDs from `/integrations/pi/`
 - Maps Pi profiles to OINIO soul data
 - Verifies Pi wallet ownership
 
 ### Oracle Engine Integration
+
 - Provides soul signatures for verification
 - Receives trait updates from readings
 - Supplies claim verification data
 
 ### Future iNFT Protocol
+
 - Soul data feeds iNFT personality traits
 - Verification claims support iNFT metadata
 - OG status enables premium iNFT features
@@ -109,6 +120,7 @@ PUT  /api/identity/profile/:soulId      # Update soul profile
 ## Testing
 
 Run the test suite:
+
 ```bash
 # Contract tests
 npm run test:contracts

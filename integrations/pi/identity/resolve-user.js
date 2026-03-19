@@ -5,7 +5,7 @@
 
 class PiUserResolver {
   constructor() {
-    this.apiBaseUrl = process.env.PI_API_BASE_URL || 'https://api.pi.network';
+    this.apiBaseUrl = process.env.PI_API_BASE_URL || "https://api.pi.network";
     this.cache = new Map(); // Simple in-memory cache
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
   }
@@ -15,7 +15,7 @@ class PiUserResolver {
    */
   async resolveUser(username) {
     if (!username) {
-      throw new Error('Username is required');
+      throw new Error("Username is required");
     }
 
     // Check cache first
@@ -25,19 +25,19 @@ class PiUserResolver {
     }
 
     // In demo mode, return mock data
-    if (username === 'demo_user') {
+    if (username === "demo_user") {
       const demoUser = {
-        username: 'demo_user',
-        uid: 'demo_uid_123',
+        username: "demo_user",
+        uid: "demo_uid_123",
         profile: {
-          displayName: 'Demo User',
+          displayName: "Demo User",
           avatar: null,
-          verified: false
+          verified: false,
         },
         stats: {
           accountAge: 365, // days
-          transactionCount: 10
-        }
+          transactionCount: 10,
+        },
       };
 
       this.setCachedUser(username, demoUser);
@@ -50,7 +50,7 @@ class PiUserResolver {
 
       if (!response.ok) {
         if (response.status === 404) {
-          throw new Error('Pi user not found');
+          throw new Error("Pi user not found");
         }
         throw new Error(`Failed to resolve user: ${response.status}`);
       }
@@ -62,7 +62,7 @@ class PiUserResolver {
 
       return userData;
     } catch (error) {
-      console.error('Error resolving Pi user:', error);
+      console.error("Error resolving Pi user:", error);
       throw error;
     }
   }
@@ -72,7 +72,7 @@ class PiUserResolver {
    */
   getCachedUser(username) {
     const cached = this.cache.get(username);
-    if (cached && (Date.now() - cached.timestamp) < this.cacheTimeout) {
+    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
       return cached.data;
     }
 
@@ -90,7 +90,7 @@ class PiUserResolver {
   setCachedUser(username, userData) {
     this.cache.set(username, {
       data: userData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -128,8 +128,8 @@ class PiUserResolver {
       metadata: {
         isNewUser: this.isNewUser(user),
         trustScore: this.calculateTrustScore(user),
-        lastActive: user.lastActive || new Date().toISOString()
-      }
+        lastActive: user.lastActive || new Date().toISOString(),
+      },
     };
 
     return profile;

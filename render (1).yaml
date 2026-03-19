@@ -1,41 +1,41 @@
 # Exported from Render on 2026-01-16T04:36:35Z
 version: "1"
 services:
-- type: web
-  name: pi-forge-quantum-genesis
-  runtime: docker
-  repo: https://github.com/onenoly1010/quantum-pi-forge-fixed
-  plan: free
-  envVars:
-  - key: PI_APP_SECRET
-    sync: false
-  - key: public_anon
-    sync: false
-  - key: SUPABASE_URL
-    sync: false
-  - key: SUPABASE_KEY
-    sync: false
-  - key: PI_SANDBOX_MODE
-    sync: false
-  - key: PI_NETWORK_WEBHOOK_SECRET
-    sync: false
-  - key: PI_NETWORK_WALLET_PRIVATE_KEY
-    sync: false
-  - key: PI_NETWORK_MODE
-    sync: false
-  - key: PI_NETWORK_APP_ID
-    sync: false
-  - key: PI_NETWORK_API_KEY
-    sync: false
-  - key: PI_NETWORK_API_ENDPOINT
-    sync: false
-  - key: OPENAI_API_KEY
-    sync: false
-  - key: DATABASE_URL
-    sync: false
-  - key: ANTHROPIC_API_KEY
-    sync: false
-  region: oregon
-  dockerContext: .
-  dockerfilePath: ./Dockerfile
-  autoDeployTrigger: "off"
+  - type: web
+    name: pi-forge-quantum-genesis
+    runtime: docker
+    repo: https://github.com/onenoly1010/quantum-pi-forge-fixed
+    plan: free
+    envVars:
+      - key: PI_APP_SECRET
+        sync: false
+      - key: public_anon
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: PI_SANDBOX_MODE
+        sync: false
+      - key: PI_NETWORK_WEBHOOK_SECRET
+        sync: false
+      - key: PI_NETWORK_WALLET_PRIVATE_KEY
+        sync: false
+      - key: PI_NETWORK_MODE
+        sync: false
+      - key: PI_NETWORK_APP_ID
+        sync: false
+      - key: PI_NETWORK_API_KEY
+        sync: false
+      - key: PI_NETWORK_API_ENDPOINT
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+    region: oregon
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    autoDeployTrigger: "off"

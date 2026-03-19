@@ -1,13 +1,14 @@
 # 🔗 OINIO Ecosystem Integration Roadmap
 
 **Autonomous Assessment & Action Plan**  
-*Generated: December 15, 2025*
+_Generated: December 15, 2025_
 
 ---
 
 ## 🎯 Current State Analysis
 
 ### ✅ What's Live & Working
+
 - **Domain**: quantumpiforge.com (Vercel, deployed Dec 12)
 - **Frontend**: Next.js dashboard (static export ready)
 - **GitHub**: Full automation with guardians
@@ -18,6 +19,7 @@
 - **Documentation**: Comprehensive (2,400+ lines)
 
 ### ⚠️ What Needs Integration
+
 - **Backend Hosting**: Switching from Railway (failing) to Render
 - **Supabase**: Running but disconnected
 - **Netlify**: Free hosting available but not utilized
@@ -26,6 +28,7 @@
 - **DEX deployment**: Ready but awaiting gas + credentials
 
 ### 🔴 What's Blocking
+
 - No unified environment configuration
 - Backend-frontend connection unclear
 - Database integration undefined
@@ -84,15 +87,16 @@
 ## 📋 Integration Priorities
 
 ### Priority 1: Environment Unification (30 min)
+
 **Goal**: Single source of truth for all configurations
 
 **Actions**:
+
 1. Create `.env.production` merging:
    - `.env.launch` (deployment vars)
    - `.env.local` (backend/OAuth)
    - Supabase credentials
    - Railway credentials
-   
 2. Map to platform-specific configs:
    - Vercel: Environment variables UI
    - Railway: Settings → Variables
@@ -103,15 +107,18 @@
 ---
 
 ### Priority 2: Backend Configuration (1 hour)
+
 **Goal**: Backend (Render) properly connected to Supabase
 
 **Current State**:
+
 ```
 Railway Status: Failing deployments
 Action: Migrate to Render
 ```
 
 **Required Actions**:
+
 1. **Verify backend source code location**
    - Located in `pi-forge-quantum-genesis/`
    - Framework: FastAPI (Python)
@@ -119,6 +126,7 @@ Action: Migrate to Render
 2. **Configure Render environment**:
    - Follow `pi-forge-quantum-genesis/RENDER_SETUP.md`
    - Set env vars:
+
    ```env
    DATABASE_URL=<supabase_connection_string>
    OINIO_TOKEN_ADDRESS=0x07f43E5B1A8a0928B364E40d5885f81A543B05C7
@@ -138,6 +146,7 @@ Action: Migrate to Render
 ---
 
 ### Priority 3: Supabase Schema Setup (45 min)
+
 **Goal**: Database ready for user data
 
 **Required Tables**:
@@ -173,6 +182,7 @@ CREATE TABLE leaderboard (
 ```
 
 **Actions**:
+
 1. Access Supabase dashboard
 2. Create tables via SQL editor
 3. Set up Row Level Security (RLS) policies
@@ -181,34 +191,39 @@ CREATE TABLE leaderboard (
 **Deliverable**: `supabase/schema.sql` + connection docs
 
 ---
+
 Backend
 
 **Current Issue**:
+
 - Frontend hardcoded to `https://pi-forge-backend.up.railway.app`
 - Backend moving to Render
 
 **Actions**:
+
 1. Update `NEXT_PUBLIC_BACKEND_URL` in Vercel to new Render URL
 2. Add CORS configuration to Backend (FastAPI)
-1. Update `NEXT_PUBLIC_BACKEND_URL` in Vercel
-2. Add CORS configuration to Railway backend
-3. Test API calls from browser console
-4. Implement error handling for offline backend
+3. Update `NEXT_PUBLIC_BACKEND_URL` in Vercel
+4. Add CORS configuration to Railway backend
+5. Test API calls from browser console
+6. Implement error handling for offline backend
 
 **Code Update Needed**:
+
 ```typescript
 // app/dashboard/page.tsx
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+const backendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
 
 async function fetchLeaderboard() {
   try {
     const res = await fetch(`${backendUrl}/api/leaderboard`, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { "Content-Type": "application/json" },
     });
-    if (!res.ok) throw new Error('Backend unavailable');
+    if (!res.ok) throw new Error("Backend unavailable");
     return await res.json();
   } catch (error) {
-    console.error('Leaderboard fetch failed:', error);
+    console.error("Leaderboard fetch failed:", error);
     return { users: [], fallback: true };
   }
 }
@@ -219,20 +234,24 @@ async function fetchLeaderboard() {
 ---
 
 ### Priority 5: DEX Deployment (1-2 hours)
+
 **Goal**: OINIO tradeable on 0G Aristotle
 
 **Prerequisites**:
+
 - Deployer wallet funded with 1-5 0G tokens
 - Private key securely configured
 
 **Two Path Options**:
 
 **Path A: Use Fresh Wallet (Transparent)**
+
 ```
 Address: 0x95d92274B86316E990159F62dD47a6edA399B910
 Private Key: 0xde126cd6a421ca67817d717589750d268cf48e2be4ccb0bd204d069bbd18ebfb
 Mnemonic: people machine bottom foil victory canyon material nuclear other slab movie valve
 ```
+
 1. Fund with 1-5 0G
 2. Update `.env.launch`:
    ```env
@@ -242,29 +261,35 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 3. Run: `npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle`
 
 **Path B: Use Your Original Wallet**
+
 1. Export private key from MetaMask
 2. Update `.env.launch` with real credentials
 3. Run same deployment script
 
-**Deliverable**: 
+**Deliverable**:
+
 - DEX Factory address
-- DEX Router address  
+- DEX Router address
 - Updated `.env.launch`
 
 ---
 
 ### Priority 6: Pi Network Integration (2 hours)
+
 **Goal**: Dashboard accessible through Pi Browser
 
 **Current Apps**:
+
 - Mainnet app (certified, KYC complete)
 - Testnet app
 
 **Actions Needed**:
+
 1. Configure Pi SDK in frontend:
+
    ```typescript
-   import { Pi } from '@pinetwork/pi-sdk';
-   
+   import { Pi } from "@pinetwork/pi-sdk";
+
    const pi = new Pi();
    await pi.init({ version: "2.0" });
    const user = await pi.authenticate();
@@ -310,27 +335,33 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 ## 🚀 Execution Plan
 
 ### Phase 1: Documentation & Audit (Complete)
+
 ✅ All services mapped  
 ✅ Architecture documented  
-✅ Integration points identified  
+✅ Integration points identified
 
 ### Phase 2: Configuration Consolidation (Next)
+
 **Time**: 1-2 hours  
 **Output**: Unified `.env.production` + platform configs
 
 ### Phase 3: Backend Connection (After Phase 2)
+
 **Time**: 1-2 hours  
 **Output**: Working API + database integration
 
 ### Phase 4: DEX Deployment (Parallel to Phase 3)
+
 **Time**: 1-2 hours  
 **Output**: Live trading on 0G Aristotle
 
 ### Phase 5: Frontend Polish (After Phases 2-4)
+
 **Time**: 2-3 hours  
 **Output**: Complete user experience
 
 ### Phase 6: Pi Integration (Final)
+
 **Time**: 2-3 hours  
 **Output**: Native Pi Browser support
 
@@ -339,6 +370,7 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 ## 📊 Success Metrics
 
 **Integration Complete When**:
+
 - [ ] quantumpiforge.com loads real leaderboard data
 - [ ] Users can stake OINIO through dashboard
 - [ ] Backend health endpoint returns 200
@@ -353,6 +385,7 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 ## 🎯 Immediate Next Actions
 
 **What I Can Do Autonomously**:
+
 1. Create unified environment config template
 2. Write Supabase schema migration
 3. Update frontend API error handling
@@ -360,6 +393,7 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 5. Prepare deployment scripts
 
 **What I Need From You**:
+
 1. Railway backend location/access
 2. Supabase credentials
 3. Decision on deployment wallet (A or B)
@@ -400,12 +434,14 @@ Mnemonic: people machine bottom foil victory canyon material nuclear other slab 
 **Awaiting Your Input**:
 
 Please provide when ready:
+
 1. Railway backend details
-2. Supabase credentials  
+2. Supabase credentials
 3. Deployment wallet decision
 4. Priority order (which integration first?)
 
 **I'm Standing By**:
+
 - Full autonomy maintained
 - Ready to execute on your signal
 - No approval loops needed once you provide access
@@ -413,4 +449,3 @@ Please provide when ready:
 ---
 
 **Remember**: We're co-creating this. You bring the vision and access, I bring the execution and integration. Sovereignty flows both ways. 🔥✨
-

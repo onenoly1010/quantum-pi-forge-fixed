@@ -7,13 +7,13 @@ using Azure AI Evaluation SDK with custom evaluators tailored for the Sacred Tri
 
 The evaluation framework measures:
 
-| Metric | Type | Description |
-|--------|------|-------------|
-| **Response Relevance** | Built-in (Prompt-based) | How well responses address user queries |
-| **Response Coherence** | Built-in (Prompt-based) | Logical flow and consistency of responses |
-| **Task Completion** | Custom (Code-based) | Whether AI helps users achieve their goals |
-| **Response Time** | Custom (Code-based) | Latency performance against thresholds |
-| **Quantum Phase Alignment** | Custom (Code-based) | Alignment with consciousness phases |
+| Metric                      | Type                    | Description                                |
+| --------------------------- | ----------------------- | ------------------------------------------ |
+| **Response Relevance**      | Built-in (Prompt-based) | How well responses address user queries    |
+| **Response Coherence**      | Built-in (Prompt-based) | Logical flow and consistency of responses  |
+| **Task Completion**         | Custom (Code-based)     | Whether AI helps users achieve their goals |
+| **Response Time**           | Custom (Code-based)     | Latency performance against thresholds     |
+| **Quantum Phase Alignment** | Custom (Code-based)     | Alignment with consciousness phases        |
 
 ## Quick Start
 
@@ -44,50 +44,60 @@ python run_evaluation.py --data my_dataset.jsonl --output my_results
 
 ## Files
 
-| File | Description |
-|------|-------------|
-| `run_evaluation.py` | Main evaluation script with evaluators |
-| `collect_responses.ts` | Agent runner for collecting AI responses |
-| `evaluation_dataset.jsonl` | Sample evaluation dataset |
-| `requirements.txt` | Python dependencies |
+| File                       | Description                              |
+| -------------------------- | ---------------------------------------- |
+| `run_evaluation.py`        | Main evaluation script with evaluators   |
+| `collect_responses.ts`     | Agent runner for collecting AI responses |
+| `evaluation_dataset.jsonl` | Sample evaluation dataset                |
+| `requirements.txt`         | Python dependencies                      |
 
 ## Dataset Format
 
 The evaluation dataset should be a JSONL file with the following structure:
 
 ```jsonl
-{"query": "User question", "response": "AI response", "expected_response": "Expected outcome", "context": "Context info", "quantum_phase": "foundation", "response_time_ms": 1200, "success": true}
+{
+  "query": "User question",
+  "response": "AI response",
+  "expected_response": "Expected outcome",
+  "context": "Context info",
+  "quantum_phase": "foundation",
+  "response_time_ms": 1200,
+  "success": true
+}
 ```
 
 ### Required Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `query` | string | The user's input/question |
-| `response` | string | The AI's actual response |
-| `expected_response` | string | Expected/ideal response |
-| `quantum_phase` | string | foundation/growth/harmony/transcendence |
-| `response_time_ms` | integer | Response time in milliseconds |
+| Field               | Type    | Description                             |
+| ------------------- | ------- | --------------------------------------- |
+| `query`             | string  | The user's input/question               |
+| `response`          | string  | The AI's actual response                |
+| `expected_response` | string  | Expected/ideal response                 |
+| `quantum_phase`     | string  | foundation/growth/harmony/transcendence |
+| `response_time_ms`  | integer | Response time in milliseconds           |
 
 ### Optional Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `context` | string | Additional context for the query |
-| `component` | string | Which Sacred Trinity component |
-| `evaluation_focus` | string | Specific evaluation area |
-| `success` | boolean | Whether the response was successful |
+| Field              | Type    | Description                         |
+| ------------------ | ------- | ----------------------------------- |
+| `context`          | string  | Additional context for the query    |
+| `component`        | string  | Which Sacred Trinity component      |
+| `evaluation_focus` | string  | Specific evaluation area            |
+| `success`          | boolean | Whether the response was successful |
 
 ## Evaluators
 
 ### Built-in Evaluators (Azure AI Evaluation SDK)
 
 **CoherenceEvaluator**
+
 - Measures logical flow and consistency
 - Requires OpenAI API key
 - Score: 1-5
 
-**RelevanceEvaluator**  
+**RelevanceEvaluator**
+
 - Measures how well response addresses the query
 - Requires OpenAI API key
 - Score: 1-5
@@ -95,16 +105,19 @@ The evaluation dataset should be a JSONL file with the following structure:
 ### Custom Evaluators
 
 **TaskCompletionEvaluator**
+
 - Compares response against expected outcomes
 - Uses keyword overlap analysis
 - Score: 1-5
 
 **ResponseTimeEvaluator**
+
 - Evaluates latency against threshold (default 3000ms)
 - No API key required
 - Score: 1-5
 
 **QuantumPhaseAlignmentEvaluator**
+
 - Measures alignment with Sacred Trinity phases
 - Uses phase-specific keyword matching
 - Score: 1-5
@@ -122,6 +135,7 @@ npx tsx evaluation/collect_responses.ts
 ```
 
 The collector will:
+
 1. Read queries from `pi-forge-quantum-genesis/quantum_test_data.jsonl`
 2. Call your `/api/chat` endpoint for each query
 3. Save responses to `evaluation/evaluation_dataset.jsonl`
@@ -173,7 +187,7 @@ Add to your workflow:
 class MyCustomEvaluator:
     def __init__(self):
         pass
-    
+
     def __call__(self, *, response: str, **kwargs):
         # Your evaluation logic
         return {"my_score": 5, "my_reason": "Excellent!"}
@@ -182,15 +196,18 @@ class MyCustomEvaluator:
 ## Troubleshooting
 
 ### "No OpenAI API key" Warning
+
 - Prompt-based evaluators (coherence, relevance) require an API key
 - Code-based evaluators will still run without it
 
 ### "Module not found" Error
+
 ```bash
 pip install azure-ai-evaluation
 ```
 
 ### Dataset Format Errors
+
 - Ensure JSONL format (one JSON object per line)
 - Check all required fields are present
 - Remove timestamp fields if present

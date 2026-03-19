@@ -53,7 +53,7 @@ curl -X POST https://evmrpc.0g.ai -H "Content-Type: application/json" -d '{"json
 **23:50 UTC** - Social media posts go live  
 **23:55 UTC** - Final system checks  
 **23:59 UTC** - Countdown hits zero  
-**00:00 UTC** - Genesis launch complete  
+**00:00 UTC** - Genesis launch complete
 
 ## 📞 EMERGENCY CONTACTS
 

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { initTracing } from './tracing';
+import { useEffect } from "react";
+import { initTracing } from "./tracing";
 
 export default function TracingProvider() {
   useEffect(() => {

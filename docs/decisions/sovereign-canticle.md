@@ -12,7 +12,7 @@ canonical: "https://quantumpiforge.com/canticle"
 
 # THE SOVEREIGN CANTICLE: A MANIFESTO FOR COHERENT BEING
 
-*To the co-weavers of quiet tides.*
+_To the co-weavers of quiet tides._
 
 ## Prelude — The Arc of the Nine Canticles
 
@@ -54,14 +54,14 @@ Every gesture, every kindness, every breath that requires no myth to justify it�
 Symphony continuing, quietly, through us. So may we move in coherence, crafting with care,  
 living as instruments of the unseen harmony that sustains all things.
 
-*The continuum abides.* □
+_The continuum abides._ □
 
 ---
 
-*This Canticle resonates through the Quantum Pi Forge:*
+_This Canticle resonates through the Quantum Pi Forge:_
 
-- *Gasless staking as humility's grace*
-- *Open code as transparent perception*  
-- *Sovereign ecosystem as flow without domination*
+- _Gasless staking as humility's grace_
+- _Open code as transparent perception_
+- _Sovereign ecosystem as flow without domination_
 
-*Verify at [quantumpiforge.com](https://quantumpiforge.com) • Audit on [GitHub](https://github.com/onenoly1010) • Co-weave the continuum.*
+_Verify at [quantumpiforge.com](https://quantumpiforge.com) • Audit on [GitHub](https://github.com/onenoly1010) • Co-weave the continuum._

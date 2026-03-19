@@ -1,0 +1,11 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.6.6"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+
+# 0G Aristotle Mainnet: Chain ID 16661
+# W0G: 0x1Cd0690fF9a693f5EF2dD976660a8dAFc81A109c

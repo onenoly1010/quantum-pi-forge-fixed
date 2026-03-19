@@ -13,7 +13,7 @@ class IdentityDatabase {
       souls: new Map(),
       claims: new Map(),
       profiles: new Map(),
-      readings: new Map()
+      readings: new Map(),
     };
   }
 
@@ -23,7 +23,7 @@ class IdentityDatabase {
     this.models.souls.set(soulId, {
       ...soulData,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     });
     return soulId;
   }
@@ -38,7 +38,7 @@ class IdentityDatabase {
       this.models.souls.set(soulId, {
         ...soul,
         ...updates,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       });
       return true;
     }
@@ -61,7 +61,7 @@ class IdentityDatabase {
     this.models.claims.set(claimId, {
       ...claimData,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     });
     return claimId;
   }
@@ -76,7 +76,7 @@ class IdentityDatabase {
       this.models.claims.set(claimId, {
         ...claim,
         ...updates,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       });
       return true;
     }
@@ -89,7 +89,7 @@ class IdentityDatabase {
       soulId,
       ...profileData,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     });
     return soulId;
   }
@@ -104,7 +104,7 @@ class IdentityDatabase {
       this.models.profiles.set(soulId, {
         ...profile,
         ...updates,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       });
       return true;
     }
@@ -117,7 +117,7 @@ class IdentityDatabase {
     this.models.readings.set(readingId, {
       readingId,
       ...readingData,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     });
     return readingId;
   }
@@ -144,7 +144,7 @@ class IdentityDatabase {
       souls: this.models.souls.size,
       claims: this.models.claims.size,
       profiles: this.models.profiles.size,
-      readings: this.models.readings.size
+      readings: this.models.readings.size,
     };
   }
 

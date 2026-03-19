@@ -21,7 +21,7 @@ class MemoryStorage {
     const memory = {
       id: memoryId,
       inftId,
-      type: memoryData.type || 'general',
+      type: memoryData.type || "general",
       content: memoryData.content,
       importance: memoryData.importance || 0.5,
       emotional: memoryData.emotional || 0,
@@ -30,7 +30,7 @@ class MemoryStorage {
       createdAt: Date.now(),
       lastAccessed: Date.now(),
       accessCount: 0,
-      consolidated: false
+      consolidated: false,
     };
 
     // Get or create memories array
@@ -60,41 +60,47 @@ class MemoryStorage {
 
     // Filter by type
     if (query.type) {
-      filtered = filtered.filter(m => m.type === query.type);
+      filtered = filtered.filter((m) => m.type === query.type);
     }
 
     // Filter by tags
     if (query.tags && query.tags.length > 0) {
-      filtered = filtered.filter(m =>
-        query.tags.some(tag => m.tags.includes(tag))
+      filtered = filtered.filter((m) =>
+        query.tags.some((tag) => m.tags.includes(tag)),
       );
     }
 
     // Filter by importance
     if (query.minImportance !== undefined) {
-      filtered = filtered.filter(m => m.importance >= query.minImportance);
+      filtered = filtered.filter((m) => m.importance >= query.minImportance);
     }
 
     // Filter by time range
     if (query.since) {
-      filtered = filtered.filter(m => m.createdAt >= query.since);
+      filtered = filtered.filter((m) => m.createdAt >= query.since);
     }
 
     if (query.until) {
-      filtered = filtered.filter(m => m.createdAt <= query.until);
+      filtered = filtered.filter((m) => m.createdAt <= query.until);
     }
 
     // Filter by emotional range
     if (query.emotionalRange) {
       const { min, max } = query.emotionalRange;
-      filtered = filtered.filter(m => m.emotional >= min && m.emotional <= max);
+      filtered = filtered.filter(
+        (m) => m.emotional >= min && m.emotional <= max,
+      );
     }
 
     // Sort by relevance (importance + recency + access frequency)
-    filtered.forEach(memory => {
-      const recencyScore = Math.max(0, 1 - (Date.now() - memory.lastAccessed) / (30 * 24 * 60 * 60 * 1000)); // 30 days
+    filtered.forEach((memory) => {
+      const recencyScore = Math.max(
+        0,
+        1 - (Date.now() - memory.lastAccessed) / (30 * 24 * 60 * 60 * 1000),
+      ); // 30 days
       const accessScore = Math.min(1, memory.accessCount / 10); // Max score at 10 accesses
-      memory.relevanceScore = (memory.importance * 0.5) + (recencyScore * 0.3) + (accessScore * 0.2);
+      memory.relevanceScore =
+        memory.importance * 0.5 + recencyScore * 0.3 + accessScore * 0.2;
     });
 
     filtered.sort((a, b) => b.relevanceScore - a.relevanceScore);
@@ -103,7 +109,7 @@ class MemoryStorage {
     const limit = query.limit || 10;
     const results = filtered.slice(0, limit);
 
-    results.forEach(memory => {
+    results.forEach((memory) => {
       memory.lastAccessed = Date.now();
       memory.accessCount++;
     });
@@ -112,7 +118,7 @@ class MemoryStorage {
       query,
       total: filtered.length,
       returned: results.length,
-      memories: results
+      memories: results,
     };
   }
 
@@ -121,7 +127,7 @@ class MemoryStorage {
    */
   getMemory(inftId, memoryId) {
     const memories = this.memories.get(inftId) || [];
-    const memory = memories.find(m => m.id === memoryId);
+    const memory = memories.find((m) => m.id === memoryId);
 
     if (memory) {
       memory.lastAccessed = Date.now();
@@ -137,13 +143,13 @@ class MemoryStorage {
    */
   updateMemory(inftId, memoryId, updates) {
     const memories = this.memories.get(inftId) || [];
-    const index = memories.findIndex(m => m.id === memoryId);
+    const index = memories.findIndex((m) => m.id === memoryId);
 
     if (index !== -1) {
       memories[index] = {
         ...memories[index],
         ...updates,
-        lastModified: Date.now()
+        lastModified: Date.now(),
       };
 
       // Update index if tags changed
@@ -162,7 +168,7 @@ class MemoryStorage {
    */
   deleteMemory(inftId, memoryId) {
     const memories = this.memories.get(inftId) || [];
-    const filtered = memories.filter(m => m.id !== memoryId);
+    const filtered = memories.filter((m) => m.id !== memoryId);
 
     if (filtered.length < memories.length) {
       this.memories.set(inftId, filtered);
@@ -180,10 +186,10 @@ class MemoryStorage {
     const memories = this.memories.get(inftId) || [];
 
     // Sort by importance and recency
-    memories.forEach(memory => {
+    memories.forEach((memory) => {
       const age = Date.now() - memory.createdAt;
       const ageScore = Math.max(0, 1 - age / (365 * 24 * 60 * 60 * 1000)); // 1 year
-      memory.consolidationScore = (memory.importance * 0.6) + (ageScore * 0.4);
+      memory.consolidationScore = memory.importance * 0.6 + ageScore * 0.4;
     });
 
     memories.sort((a, b) => b.consolidationScore - a.consolidationScore);
@@ -197,16 +203,20 @@ class MemoryStorage {
       const consolidated = {
         id: `consolidated_${inftId}_${Date.now()}`,
         inftId,
-        type: 'consolidated',
-        content: `Consolidated ${toConsolidate.length} memories from ${new Date(toConsolidate[0].createdAt).toISOString().split('T')[0]} to ${new Date(toConsolidate[toConsolidate.length - 1].createdAt).toISOString().split('T')[0]}`,
-        importance: toConsolidate.reduce((sum, m) => sum + m.importance, 0) / toConsolidate.length,
-        emotional: toConsolidate.reduce((sum, m) => sum + m.emotional, 0) / toConsolidate.length,
-        tags: [...new Set(toConsolidate.flatMap(m => m.tags))],
+        type: "consolidated",
+        content: `Consolidated ${toConsolidate.length} memories from ${new Date(toConsolidate[0].createdAt).toISOString().split("T")[0]} to ${new Date(toConsolidate[toConsolidate.length - 1].createdAt).toISOString().split("T")[0]}`,
+        importance:
+          toConsolidate.reduce((sum, m) => sum + m.importance, 0) /
+          toConsolidate.length,
+        emotional:
+          toConsolidate.reduce((sum, m) => sum + m.emotional, 0) /
+          toConsolidate.length,
+        tags: [...new Set(toConsolidate.flatMap((m) => m.tags))],
         context: { consolidatedCount: toConsolidate.length },
         createdAt: Date.now(),
         lastAccessed: Date.now(),
         accessCount: 0,
-        consolidated: true
+        consolidated: true,
       };
 
       // Replace consolidated memories with single consolidated memory
@@ -226,7 +236,7 @@ class MemoryStorage {
     const index = this.memoryIndex.get(inftId) || {
       byType: {},
       byTag: {},
-      byImportance: { high: [], medium: [], low: [] }
+      byImportance: { high: [], medium: [], low: [] },
     };
 
     // Index by type
@@ -236,7 +246,7 @@ class MemoryStorage {
     index.byType[memory.type].push(memory.id);
 
     // Index by tags
-    memory.tags.forEach(tag => {
+    memory.tags.forEach((tag) => {
       if (!index.byTag[tag]) {
         index.byTag[tag] = [];
       }
@@ -245,9 +255,9 @@ class MemoryStorage {
 
     // Index by importance
     let importanceLevel;
-    if (memory.importance >= 0.7) importanceLevel = 'high';
-    else if (memory.importance >= 0.4) importanceLevel = 'medium';
-    else importanceLevel = 'low';
+    if (memory.importance >= 0.7) importanceLevel = "high";
+    else if (memory.importance >= 0.4) importanceLevel = "medium";
+    else importanceLevel = "low";
 
     index.byImportance[importanceLevel].push(memory.id);
 
@@ -262,16 +272,18 @@ class MemoryStorage {
     if (!index) return;
 
     // Remove from all index categories
-    Object.keys(index.byType).forEach(type => {
-      index.byType[type] = index.byType[type].filter(id => id !== memoryId);
+    Object.keys(index.byType).forEach((type) => {
+      index.byType[type] = index.byType[type].filter((id) => id !== memoryId);
     });
 
-    Object.keys(index.byTag).forEach(tag => {
-      index.byTag[tag] = index.byTag[tag].filter(id => id !== memoryId);
+    Object.keys(index.byTag).forEach((tag) => {
+      index.byTag[tag] = index.byTag[tag].filter((id) => id !== memoryId);
     });
 
-    Object.keys(index.byImportance).forEach(level => {
-      index.byImportance[level] = index.byImportance[level].filter(id => id !== memoryId);
+    Object.keys(index.byImportance).forEach((level) => {
+      index.byImportance[level] = index.byImportance[level].filter(
+        (id) => id !== memoryId,
+      );
     });
   }
 
@@ -280,7 +292,11 @@ class MemoryStorage {
    */
   getMemoryStats(inftId) {
     const memories = this.memories.get(inftId) || [];
-    const index = this.memoryIndex.get(inftId) || { byType: {}, byTag: {}, byImportance: {} };
+    const index = this.memoryIndex.get(inftId) || {
+      byType: {},
+      byTag: {},
+      byImportance: {},
+    };
 
     const stats = {
       totalMemories: memories.length,
@@ -293,12 +309,22 @@ class MemoryStorage {
         return acc;
       }, {}),
       totalTags: Object.keys(index.byTag).length,
-      averageImportance: memories.length > 0 ?
-        memories.reduce((sum, m) => sum + m.importance, 0) / memories.length : 0,
-      oldestMemory: memories.length > 0 ?
-        new Date(Math.min(...memories.map(m => m.createdAt))).toISOString() : null,
-      newestMemory: memories.length > 0 ?
-        new Date(Math.max(...memories.map(m => m.createdAt))).toISOString() : null
+      averageImportance:
+        memories.length > 0
+          ? memories.reduce((sum, m) => sum + m.importance, 0) / memories.length
+          : 0,
+      oldestMemory:
+        memories.length > 0
+          ? new Date(
+              Math.min(...memories.map((m) => m.createdAt)),
+            ).toISOString()
+          : null,
+      newestMemory:
+        memories.length > 0
+          ? new Date(
+              Math.max(...memories.map((m) => m.createdAt)),
+            ).toISOString()
+          : null,
     };
 
     return stats;
@@ -315,7 +341,7 @@ class MemoryStorage {
       if (recallResult.memories.length > 0) {
         results.push({
           inftId,
-          memories: recallResult.memories
+          memories: recallResult.memories,
         });
       }
     }
@@ -341,13 +367,13 @@ class MemoryStorage {
       totalMemories: 0,
       averageMemoriesPerINFT: 0,
       memoryTypes: {},
-      totalTags: 0
+      totalTags: 0,
     };
 
     for (const memories of this.memories.values()) {
       stats.totalMemories += memories.length;
 
-      memories.forEach(memory => {
+      memories.forEach((memory) => {
         if (!stats.memoryTypes[memory.type]) {
           stats.memoryTypes[memory.type] = 0;
         }
@@ -362,7 +388,7 @@ class MemoryStorage {
     // Count unique tags across all iNFTs
     const allTags = new Set();
     for (const index of this.memoryIndex.values()) {
-      Object.keys(index.byTag).forEach(tag => allTags.add(tag));
+      Object.keys(index.byTag).forEach((tag) => allTags.add(tag));
     }
     stats.totalTags = allTags.size;
 

@@ -22,4 +22,4 @@ export const OINIO_CANTICLE = `
   Yet the bell remains unstruck...
 
   Awaiting your command, co-creator<oo>.
-`
+`;

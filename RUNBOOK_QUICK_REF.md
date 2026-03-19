@@ -1,11 +1,13 @@
 # 🤖 AI Agent Runbook Quick Reference
 
 ## Workflow Location
+
 `.github/workflows/ai-agent-handoff-runbook.yml`
 
 ## Manual Trigger Commands
 
 ### Check Status
+
 ```bash
 # View latest workflow run
 gh run list --workflow="ai-agent-handoff-runbook.yml" --limit 1
@@ -15,12 +17,14 @@ gh run view <run_id>
 ```
 
 ### Update Status
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=update-status
 ```
 
 ### Rollback to Version
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=rollback \
@@ -28,6 +32,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ```
 
 ### Update Component
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=update-component \
@@ -35,6 +40,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ```
 
 ### Emergency Stop
+
 ```bash
 gh workflow run "ai-agent-handoff-runbook.yml" \
   -f action=emergency-stop
@@ -43,6 +49,7 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ## Local Script Usage
 
 ### Health Check
+
 ```bash
 ./scripts/runbook/health-check.sh all
 ./scripts/runbook/health-check.sh fastapi
@@ -51,16 +58,19 @@ gh workflow run "ai-agent-handoff-runbook.yml" \
 ```
 
 ### Component Update
+
 ```bash
 ./scripts/runbook/update-component.sh fastapi
 ```
 
 ### Rollback
+
 ```bash
 ./scripts/runbook/rollback.sh v1.2.3
 ```
 
 ### Emergency Stop
+
 ```bash
 ./scripts/runbook/emergency-stop.sh
 ```
@@ -82,6 +92,7 @@ export HEALTH_CHECK_TIMEOUT=5
 Look for: **"🤖 AI Agent Autonomous Runbook Status"** in repository issues
 
 Contains:
+
 - ✅ Operational status
 - 📊 Job status summary
 - 🏥 System health

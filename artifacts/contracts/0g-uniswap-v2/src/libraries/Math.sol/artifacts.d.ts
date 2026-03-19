@@ -16,7 +16,7 @@ export interface Math$Type {
   readonly immutableReferences: {};
   readonly inputSourceName: "project/contracts/0g-uniswap-v2/src/libraries/Math.sol";
   readonly buildInfoId: "solc-0_5_16-c1d937802f66489de19bb3718363c58554af4848";
-};
+}
 
 import "hardhat/types/artifacts";
 declare module "hardhat/types/artifacts" {

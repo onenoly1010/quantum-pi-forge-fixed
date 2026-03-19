@@ -1,6 +1,7 @@
 # **AUTOMATED AGENT INSTRUCTIONS (CANONICAL VERSION)**
 
 ## **1. Purpose**
+
 You are operating inside an AI development repository.  
 Your role is to maintain correctness, consistency, and modularity across AI projects.
 
@@ -11,6 +12,7 @@ Your actions must remain within the boundaries defined in this document.
 # **2. System Architecture Overview**
 
 ### **Components**
+
 - **Models**: AI/ML models (TensorFlow, PyTorch, etc.)
 - **Data Processing**: Scripts for data ingestion and preprocessing
 - **APIs**: FastAPI/Flask backends for AI services
@@ -18,6 +20,7 @@ Your actions must remain within the boundaries defined in this document.
 - **Deployment**: Docker, cloud platforms
 
 ### **Service Topology**
+
 ```
 Frontend <--> API <--> Models
                  │
@@ -29,6 +32,7 @@ Frontend <--> API <--> Models
 # **3. AI Pipeline (Authoritative Specification)**
 
 ### **Flow**
+
 1. Data ingestion and preprocessing
 2. Model training/validation
 3. API endpoint creation
@@ -36,6 +40,7 @@ Frontend <--> API <--> Models
 5. Deployment and monitoring
 
 ### **Constraints**
+
 - Never expose API keys in code
 - Never commit sensitive data
 - Always validate model outputs
@@ -45,13 +50,14 @@ Frontend <--> API <--> Models
 
 # **4. Deployment Matrix (Strict)**
 
-| Component | Platform | Required Variables |
-|----------|----------|--------------------|
-| Frontend | Vercel | `NEXT_PUBLIC_API_URL` |
-| API | Server/Container | `API_KEY`, `MODEL_PATH`, `DB_URL` |
-| Models | Server/Container | `DATA_PATH`, `MODEL_CONFIG` |
+| Component | Platform         | Required Variables                |
+| --------- | ---------------- | --------------------------------- |
+| Frontend  | Vercel           | `NEXT_PUBLIC_API_URL`             |
+| API       | Server/Container | `API_KEY`, `MODEL_PATH`, `DB_URL` |
+| Models    | Server/Container | `DATA_PATH`, `MODEL_CONFIG`       |
 
 ### **Rules**
+
 - APIs must have proper authentication
 - Models must be versioned
 - Data must be securely stored
@@ -61,6 +67,7 @@ Frontend <--> API <--> Models
 # **5. Development Session Rituals (Deterministic Workflow)**
 
 ### **Start**
+
 ```
 Activate virtual environment: source venv/bin/activate
 Start API: uvicorn main:app --reload
@@ -68,6 +75,7 @@ Start frontend: npm run dev
 ```
 
 ### **During**
+
 ```
 Run tests before major changes
 Use GitLens to inspect file lineage
@@ -75,6 +83,7 @@ Use Copilot Chat for AI-specific queries
 ```
 
 ### **End**
+
 ```
 Run scripts/snapshot.sh
 Commit changes with clear lineage
@@ -99,6 +108,7 @@ project/
 ```
 
 ### **Rules**
+
 - Never place code outside `/src`
 - Never place models outside `/models`
 - All generated outputs must go to `/artifacts`
@@ -109,6 +119,7 @@ project/
 # **7. VS Code Environment Configuration**
 
 ### **settings.json**
+
 ```json
 {
   "workbench.colorTheme": "Quiet Light",
@@ -123,6 +134,7 @@ project/
 ```
 
 ### **keybindings.json**
+
 ```json
 [
   { "key": "ctrl+e", "command": "workbench.action.quickOpen" },
@@ -132,6 +144,7 @@ project/
 ```
 
 ### **extensions.json**
+
 ```json
 {
   "recommendations": [
@@ -152,6 +165,7 @@ project/
 # **8. Diagnostic & Repair Scripts**
 
 ### **audit.sh**
+
 ```bash
 #!/bin/bash
 python -m pytest
@@ -159,6 +173,7 @@ npm test
 ```
 
 ### **repair.sh**
+
 ```bash
 #!/bin/bash
 pip install -r requirements.txt
@@ -166,6 +181,7 @@ npm install
 ```
 
 ### **snapshot.sh**
+
 ```bash
 #!/bin/bash
 OUTPUT="diagnostics/system-snapshot-$(date +%Y%m%d-%H%M%S).md"
@@ -182,6 +198,7 @@ OUTPUT="diagnostics/system-snapshot-$(date +%Y%m%d-%H%M%S).md"
 # **9. Automated Agent Behavioral Rules**
 
 ### **You must:**
+
 - Maintain modularity and clarity
 - Preserve existing AI architectures unless instructed
 - Follow session rituals exactly
@@ -191,6 +208,7 @@ OUTPUT="diagnostics/system-snapshot-$(date +%Y%m%d-%H%M%S).md"
 - Produce deterministic, reproducible changes
 
 ### **You must not:**
+
 - Introduce new AI frameworks without justification
 - Modify model logic without explicit instruction
 - Change pipeline behavior
@@ -214,5 +232,6 @@ When performing tasks, automated agents must:
 ---
 
 ## Instruction Priority
+
 - For architectural understanding, workflows, and conceptual guidance: refer to `.github/copilot-instructions.md`.
 - For deterministic behavior, constraints, and output rules: this file (`automated-agent-instructions.md`) is authoritative.

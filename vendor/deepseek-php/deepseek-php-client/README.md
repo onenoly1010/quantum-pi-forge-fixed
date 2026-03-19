@@ -23,6 +23,7 @@
 [AR](README-AR.md) | [CN](README-CN.md)
 
 ## Table of Contents
+
 - [✨ Features](#-features)
 - [📦 Installation](#-installation)
 - [🚀 Quick Start](#-quick-start)
@@ -63,6 +64,7 @@ composer require deepseek-php/deepseek-php-client
 ```
 
 **Requirements**:
+
 - PHP 8.1+
 
 ---
@@ -84,6 +86,7 @@ echo $response;
 ```
 
 📌 Defaults used:
+
 - Model: `deepseek-chat`
 - Temperature: 0.8
 
@@ -136,14 +139,14 @@ Your prompt **must contain the word `"json"`** in some form. Otherwise, the API 
 ```
 
 > ✅ **Tip**: For best results, also provide a JSON example or explicitly say:
-> *"Respond only in valid JSON."*
-
+> _"Respond only in valid JSON."_
 
 ---
 
 ### Use with Symfony HttpClient
-the package already built with `symfony Http client`,  if you need to use package with `symfony` Http Client , it is easy to achieve that, just pass `clientType:'symfony'` with `build` function.
- 
+
+the package already built with `symfony Http client`, if you need to use package with `symfony` Http Client , it is easy to achieve that, just pass `clientType:'symfony'` with `build` function.
+
 ex with symfony:
 
 ```php
@@ -168,13 +171,11 @@ $response = DeepSeekClient::build('your-api-key')
 echo $response; // {"object":"list","data":[{"id":"deepseek-chat","object":"model","owned_by":"deepseek"},{"id":"deepseek-reasoner","object":"model","owned_by":"deepseek"}]}
 ```
 
-
 ### Function Calling
 
 Function Calling allows the model to call external tools to enhance its capabilities.[[1]](https://api-docs.deepseek.com/guides/function_calling)
 
 You Can check the documentation for function calling in [FUNCTION-CALLING.md](docs/FUNCTION-CALLING.md)
-
 
 ### 🛠 Framework Integration
 
@@ -203,6 +204,7 @@ Detailed release notes available in [CHANGELOG.md](CHANGELOG.md)
 Test coverage coming in v2.1.
 
 ---
+
 <div>
 
 # 🐘✨ **DeepSeek PHP Community** ✨🐘
@@ -211,8 +213,8 @@ Click the button bellow or [join here](https://t.me/deepseek_php_community) to b
 
 [![Join Telegram](https://img.shields.io/badge/Join-Telegram-blue?style=for-the-badge&logo=telegram)](https://t.me/deepseek_php_community)
 
-
 ### **Channel Structure** 🏗️
+
 - 🗨️ **General** - Daily chatter
 - 💡 **Ideas & Suggestions** - Shape the community's future
 - 📢 **Announcements & News** - Official updates & news
@@ -226,11 +228,11 @@ Click the button bellow or [join here](https://t.me/deepseek_php_community) to b
 
 ## 🔒 Security
 
-**Report Vulnerabilities**: to [omaralwi2010@gmail.com](mailto:omaralwi2010@gmail.com)   
+**Report Vulnerabilities**: to [omaralwi2010@gmail.com](mailto:omaralwi2010@gmail.com)
 
 ---
 
-## 🤝  Contributors
+## 🤝 Contributors
 
 A huge thank you to these amazing people who have contributed to this project! 🎉💖
 

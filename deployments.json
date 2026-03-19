@@ -1,0 +1,54 @@
+{
+  "generated_by": "GitHub Copilot (Raptor mini)",
+  "generated_at": "2026-02-03T00:00:00Z",
+  "contracts": [
+    {
+      "name": "OINIO",
+      "network": "0G Aristotle (mainnet)",
+      "address": "0xbEbC1A40A18632CeE19D220647E7aD296A1A5F37",
+      "source_refs": [".env.launch", "scripts/check-token-balance.js"],
+      "verified": null,
+      "notes": "Holds ~962,839,002.79598073 OINIO; totalSupply 1,000,000,000"
+    },
+    {
+      "name": "OINIO",
+      "network": "Polygon (mainnet)",
+      "address": "0x07f43E5B1A8a0928B364E40d5885f81A543B05C7",
+      "source_refs": [".env.launch"],
+      "verified": null,
+      "notes": "Polygon instance of OINIO (distinct token contract on Polygon network)"
+    },
+    {
+      "name": "Deployer",
+      "network": "0G Aristotle (mainnet)",
+      "address": "0x353663cd664bB3e034Dc0f308D8896C0a242e4cd",
+      "source_refs": [".env.launch", "script/DeployOINIO_0G.s.sol"],
+      "verified": null,
+      "notes": "Deployer private key is present in .env.launch (DO NOT COMMIT). Balance: LOW (need 5-10 0G for deploys)."
+    },
+    {
+      "name": "W0G (Wrapped 0G) / WETH / WGAS",
+      "network": "0G Aristotle (mainnet)",
+      "address": "0x1Cd0690fF9a693f5EF2dD976660a8dAFc81A109c",
+      "source_refs": [".env.launch"],
+      "verified": null,
+      "notes": "Canonical wrapped native token used for DEX."
+    },
+    {
+      "name": "DEX Router",
+      "network": "0G Aristotle (mainnet)",
+      "address": "0x0ff65f38fa43f0aac51901381acd7a8908ae2537",
+      "source_refs": [".env.launch"],
+      "verified": null,
+      "notes": "Router address recorded in env; confirm deployment and liquidity."
+    },
+    {
+      "name": "DEX Factory",
+      "network": "0G Aristotle (mainnet)",
+      "address": "0x307bFaA937768a073D41a2EbFBD952Be8E38BF91",
+      "source_refs": [".env.launch"],
+      "verified": null,
+      "notes": "Factory address recorded in env; verify factory pairs."
+    }
+  ]
+}

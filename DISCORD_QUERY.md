@@ -11,7 +11,7 @@
 ```
 Hi 0G team & community! 👋
 
-Deploying OINIO, an intelligent NFT (ERC-7857) ecosystem on 0G Aristotle Mainnet, 
+Deploying OINIO, an intelligent NFT (ERC-7857) ecosystem on 0G Aristotle Mainnet,
 and we need a DEX router for liquidity provisioning.
 
 Quick questions:
@@ -51,16 +51,19 @@ Thanks!
 ## 🎯 What to Look For in Response
 
 **Best Case** (Official Router Exists):
-- "Router address: 0x..." 
+
+- "Router address: 0x..."
 - "Liquidity already pooled for..."
 - "Factory: 0x..."
 
 **Good Case** (Community Deployed):
+
 - "We deployed Uniswap V2 at..."
 - "Use these addresses..."
 - "Here's our docs..."
 
 **Contingency Case** (No Official DEX):
+
 - "Deploy your own V2 fork"
 - "Try [alternative DEX]"
 - "Community support available"
@@ -70,16 +73,19 @@ Thanks!
 ## ⚡ Next Actions
 
 **Immediate** (Parallel):
+
 1. Post this message to Discord (#developer-support)
 2. Check 0G GitHub for existing router deployments
 3. Continue with contingency deployment if needed
 
 **If Official Router Found** (5 min):
+
 - Copy address
 - Update `.env.launch` → `DEX_ROUTER_ADDRESS=0x...`
 - Run `bash scripts/deploy.sh` → Launch OINIO
 
 **If No Official Router** (15 min):
+
 - Option A: Deploy Uniswap V2 fork (see deploy-dex.sh guide)
 - Option B: Use community recommendation
 - Option C: Deploy alternative DEX (Curve, Balancer, etc.)
@@ -95,4 +101,3 @@ Thanks!
 - [ ] Router address confirmed
 - [ ] .env.launch updated
 - [ ] Ready for token deployment
-

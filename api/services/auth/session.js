@@ -3,9 +3,9 @@
  * Manages unified sessions for Pi + OINIO authentication
  */
 
-const crypto = require('crypto');
-const { verifyPiAuth } = require('../../integrations/pi/auth');
-const { verifySoul } = require('../../core/identity/services/verification');
+const crypto = require("crypto");
+const { verifyPiAuth } = require("../../integrations/pi/auth");
+const { verifySoul } = require("../../core/identity/services/verification");
 
 class AuthService {
   constructor() {
@@ -23,7 +23,7 @@ class AuthService {
       user: authData,
       createdAt: new Date(),
       lastActivity: new Date(),
-      expiresAt: new Date(Date.now() + this.sessionTimeout)
+      expiresAt: new Date(Date.now() + this.sessionTimeout),
     };
 
     this.sessions.set(sessionId, session);
@@ -41,12 +41,12 @@ class AuthService {
     const session = this.sessions.get(sessionId);
 
     if (!session) {
-      throw new Error('Session not found');
+      throw new Error("Session not found");
     }
 
     if (new Date() > session.expiresAt) {
       this.sessions.delete(sessionId);
-      throw new Error('Session expired');
+      throw new Error("Session expired");
     }
 
     // Update last activity
@@ -63,7 +63,7 @@ class AuthService {
     // Verify Pi Network authentication
     const piAuth = await verifyPiAuth(piToken);
     if (!piAuth.valid) {
-      throw new Error('Invalid Pi Network authentication');
+      throw new Error("Invalid Pi Network authentication");
     }
 
     let soulData = null;
@@ -71,12 +71,15 @@ class AuthService {
     // If soul signature provided, verify OINIO soul
     if (soulSignature) {
       try {
-        const soulVerification = await verifySoul(piAuth.user.uid, soulSignature);
+        const soulVerification = await verifySoul(
+          piAuth.user.uid,
+          soulSignature,
+        );
         if (soulVerification.verified) {
           soulData = soulVerification.soul;
         }
       } catch (error) {
-        console.warn('Soul verification failed:', error.message);
+        console.warn("Soul verification failed:", error.message);
         // Continue without soul - it's optional
       }
     }
@@ -84,8 +87,8 @@ class AuthService {
     return {
       piUser: piAuth.user,
       soul: soulData,
-      authMethod: 'pi',
-      authenticatedAt: new Date()
+      authMethod: "pi",
+      authenticatedAt: new Date(),
     };
   }
 
@@ -95,13 +98,13 @@ class AuthService {
   async authenticateWithSoul(soulSignature) {
     const soulVerification = await verifySoul(null, soulSignature);
     if (!soulVerification.verified) {
-      throw new Error('Invalid soul signature');
+      throw new Error("Invalid soul signature");
     }
 
     return {
       soul: soulVerification.soul,
-      authMethod: 'soul',
-      authenticatedAt: new Date()
+      authMethod: "soul",
+      authenticatedAt: new Date(),
     };
   }
 
@@ -111,13 +114,13 @@ class AuthService {
   async linkPiToSoul(piUserId, soulSignature) {
     const soulVerification = await verifySoul(piUserId, soulSignature);
     if (!soulVerification.verified) {
-      throw new Error('Soul linking failed');
+      throw new Error("Soul linking failed");
     }
 
     return {
       piUserId,
       soul: soulVerification.soul,
-      linkedAt: new Date()
+      linkedAt: new Date(),
     };
   }
 
@@ -130,7 +133,7 @@ class AuthService {
       canMintINFT: false,
       canEvolveINFT: false,
       canAccessOracle: false,
-      isAdmin: false
+      isAdmin: false,
     };
 
     // Pi Network users get basic permissions
@@ -163,7 +166,7 @@ class AuthService {
    * Generate unique session ID
    */
   generateSessionId() {
-    return crypto.randomBytes(32).toString('hex');
+    return crypto.randomBytes(32).toString("hex");
   }
 
   /**
@@ -198,7 +201,7 @@ class AuthService {
       total: this.sessions.size,
       active: activeSessions,
       expired: expiredSessions,
-      lastCleanup: new Date()
+      lastCleanup: new Date(),
     };
   }
 }

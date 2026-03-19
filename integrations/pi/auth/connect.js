@@ -5,7 +5,7 @@
 
 class PiAuth {
   constructor() {
-    this.isPiBrowser = typeof window !== 'undefined' && window.Pi;
+    this.isPiBrowser = typeof window !== "undefined" && window.Pi;
     this.currentUser = null;
     this.isAuthenticated = false;
   }
@@ -22,13 +22,15 @@ class PiAuth {
    */
   async init(options = {}) {
     if (!this.isPiBrowser) {
-      throw new Error('Pi SDK not available. This should only run in Pi Browser.');
+      throw new Error(
+        "Pi SDK not available. This should only run in Pi Browser.",
+      );
     }
 
     const defaultOptions = {
-      version: '2.0',
+      version: "2.0",
       sandbox: false,
-      ...options
+      ...options,
     };
 
     window.Pi.init(defaultOptions);
@@ -38,16 +40,16 @@ class PiAuth {
   /**
    * Authenticate user with Pi Network
    */
-  async authenticate(scopes = ['username']) {
+  async authenticate(scopes = ["username"]) {
     if (!this.isPiBrowser) {
       // Development mode simulation
       return new Promise((resolve) => {
         setTimeout(() => {
-          this.currentUser = { username: 'demo_user' };
+          this.currentUser = { username: "demo_user" };
           this.isAuthenticated = true;
           resolve({
             user: this.currentUser,
-            accessToken: 'demo_token'
+            accessToken: "demo_token",
           });
         }, 1500);
       });

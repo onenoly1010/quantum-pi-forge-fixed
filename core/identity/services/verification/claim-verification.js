@@ -4,14 +4,18 @@
  * Extracted from oinio-backend repository
  */
 
-const { ethers } = require('ethers');
-const VerificationABI = require('../contracts/VerificationABI.json');
+const { ethers } = require("ethers");
+const VerificationABI = require("../contracts/VerificationABI.json");
 
 class ClaimVerificationService {
   constructor() {
     this.contractAddress = process.env.VERIFICATION_CONTRACT_ADDRESS;
     this.provider = new ethers.JsonRpcProvider(process.env.POLYGON_RPC_URL);
-    this.contract = new ethers.Contract(this.contractAddress, VerificationABI, this.provider);
+    this.contract = new ethers.Contract(
+      this.contractAddress,
+      VerificationABI,
+      this.provider,
+    );
   }
 
   /**
@@ -20,7 +24,9 @@ class ClaimVerificationService {
   async submitClaim(soulId, claimData, signer) {
     try {
       // Hash the claim data
-      const claimHash = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(claimData)));
+      const claimHash = ethers.keccak256(
+        ethers.toUtf8Bytes(JSON.stringify(claimData)),
+      );
 
       const contractWithSigner = this.contract.connect(signer);
       const tx = await contractWithSigner.submitClaim(soulId, claimHash);
@@ -28,12 +34,12 @@ class ClaimVerificationService {
       const receipt = await tx.wait();
 
       // Extract claim ID from event
-      const event = receipt.events.find(e => e.event === 'ClaimSubmitted');
+      const event = receipt.events.find((e) => e.event === "ClaimSubmitted");
       const claimId = event.args.claimId;
 
       return { success: true, claimId, txHash: tx.hash };
     } catch (error) {
-      console.error('Error submitting claim:', error);
+      console.error("Error submitting claim:", error);
       return { success: false, error: error.message };
     }
   }
@@ -50,7 +56,7 @@ class ClaimVerificationService {
 
       return { success: true, txHash: tx.hash };
     } catch (error) {
-      console.error('Error verifying claim:', error);
+      console.error("Error verifying claim:", error);
       return { success: false, error: error.message };
     }
   }
@@ -62,11 +68,15 @@ class ClaimVerificationService {
     try {
       const messageHash = ethers.keccak256(ethers.toUtf8Bytes(message));
 
-      const isValid = await this.contract.verifySoulSignature(soulId, signature, messageHash);
+      const isValid = await this.contract.verifySoulSignature(
+        soulId,
+        signature,
+        messageHash,
+      );
 
       return { valid: isValid };
     } catch (error) {
-      console.error('Error verifying soul signature:', error);
+      console.error("Error verifying soul signature:", error);
       return { valid: false, error: error.message };
     }
   }
@@ -84,10 +94,10 @@ class ClaimVerificationService {
         soulId: claim.soulId,
         claimant: claim.claimant,
         timestamp: claim.timestamp,
-        verified: claim.verified
+        verified: claim.verified,
       };
     } catch (error) {
-      console.error('Error getting claim details:', error);
+      console.error("Error getting claim details:", error);
       return { found: false, error: error.message };
     }
   }
@@ -99,7 +109,7 @@ class ClaimVerificationService {
     try {
       return await this.contract.isSignatureVerified(signatureHash);
     } catch (error) {
-      console.error('Error checking signature verification:', error);
+      console.error("Error checking signature verification:", error);
       return false;
     }
   }
@@ -116,7 +126,7 @@ class ClaimVerificationService {
 
       return { success: true, txHash: tx.hash };
     } catch (error) {
-      console.error('Error marking signature verified:', error);
+      console.error("Error marking signature verified:", error);
       return { success: false, error: error.message };
     }
   }

@@ -24,7 +24,7 @@ class EvolutionHistory {
       triggers: evolutionEvent.triggers || [],
       coherence: evolutionEvent.coherence,
       stage: evolutionEvent.stage,
-      metadata: evolutionEvent.metadata || {}
+      metadata: evolutionEvent.metadata || {},
     };
 
     history.push(record);
@@ -49,21 +49,23 @@ class EvolutionHistory {
 
     // Apply filters
     if (options.type) {
-      filtered = filtered.filter(h => h.type === options.type);
+      filtered = filtered.filter((h) => h.type === options.type);
     }
 
     if (options.since) {
-      filtered = filtered.filter(h => h.timestamp >= options.since);
+      filtered = filtered.filter((h) => h.timestamp >= options.since);
     }
 
     if (options.until) {
-      filtered = filtered.filter(h => h.timestamp <= options.until);
+      filtered = filtered.filter((h) => h.timestamp <= options.until);
     }
 
     // Apply sorting (default: newest first)
-    const sortOrder = options.sortOrder || 'desc';
+    const sortOrder = options.sortOrder || "desc";
     filtered.sort((a, b) => {
-      return sortOrder === 'desc' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp;
+      return sortOrder === "desc"
+        ? b.timestamp - a.timestamp
+        : a.timestamp - b.timestamp;
     });
 
     // Apply pagination
@@ -75,7 +77,7 @@ class EvolutionHistory {
       total: history.length,
       filtered: filtered.length,
       records: filtered.slice(offset, offset + limit),
-      hasMore: (offset + limit) < filtered.length
+      hasMore: offset + limit < filtered.length,
     };
   }
 
@@ -91,7 +93,7 @@ class EvolutionHistory {
         averageTimeBetweenEvolutions: 0,
         evolutionTypes: {},
         coherenceProgression: [],
-        stageProgression: []
+        stageProgression: [],
       };
     }
 
@@ -101,7 +103,7 @@ class EvolutionHistory {
       coherenceProgression: [],
       stageProgression: [],
       firstEvolution: history[0].timestamp,
-      lastEvolution: history[history.length - 1].timestamp
+      lastEvolution: history[history.length - 1].timestamp,
     };
 
     // Calculate time between evolutions
@@ -109,24 +111,26 @@ class EvolutionHistory {
     for (let i = 1; i < history.length; i++) {
       totalTimeDiff += history[i].timestamp - history[i - 1].timestamp;
     }
-    stats.averageTimeBetweenEvolutions = history.length > 1 ? totalTimeDiff / (history.length - 1) : 0;
+    stats.averageTimeBetweenEvolutions =
+      history.length > 1 ? totalTimeDiff / (history.length - 1) : 0;
 
     // Count evolution types
-    history.forEach(record => {
-      stats.evolutionTypes[record.type] = (stats.evolutionTypes[record.type] || 0) + 1;
+    history.forEach((record) => {
+      stats.evolutionTypes[record.type] =
+        (stats.evolutionTypes[record.type] || 0) + 1;
 
       // Track progression
       if (record.coherence !== undefined) {
         stats.coherenceProgression.push({
           timestamp: record.timestamp,
-          coherence: record.coherence
+          coherence: record.coherence,
         });
       }
 
       if (record.stage !== undefined) {
         stats.stageProgression.push({
           timestamp: record.timestamp,
-          stage: record.stage
+          stage: record.stage,
         });
       }
     });
@@ -141,22 +145,27 @@ class EvolutionHistory {
     const history = this.histories.get(inftId) || [];
 
     if (history.length < 3) {
-      return { patterns: [], insights: ['Insufficient evolution history for pattern analysis'] };
+      return {
+        patterns: [],
+        insights: ["Insufficient evolution history for pattern analysis"],
+      };
     }
 
     const patterns = [];
     const insights = [];
 
     // Analyze coherence trends
-    const coherenceValues = history.map(h => h.coherence).filter(c => c !== undefined);
+    const coherenceValues = history
+      .map((h) => h.coherence)
+      .filter((c) => c !== undefined);
     if (coherenceValues.length >= 3) {
       const trend = this.calculateTrend(coherenceValues);
       if (Math.abs(trend) > 0.1) {
         patterns.push({
-          type: 'coherence_trend',
-          direction: trend > 0 ? 'increasing' : 'decreasing',
+          type: "coherence_trend",
+          direction: trend > 0 ? "increasing" : "decreasing",
           strength: Math.abs(trend),
-          description: `Coherence is ${trend > 0 ? 'improving' : 'declining'} over time`
+          description: `Coherence is ${trend > 0 ? "improving" : "declining"} over time`,
         });
       }
     }
@@ -169,32 +178,36 @@ class EvolutionHistory {
 
     if (timeDiffs.length > 0) {
       const avgTime = timeDiffs.reduce((a, b) => a + b, 0) / timeDiffs.length;
-      const variance = timeDiffs.reduce((acc, val) => acc + Math.pow(val - avgTime, 2), 0) / timeDiffs.length;
+      const variance =
+        timeDiffs.reduce((acc, val) => acc + Math.pow(val - avgTime, 2), 0) /
+        timeDiffs.length;
 
       if (variance < avgTime * 0.5) {
         patterns.push({
-          type: 'consistent_evolution',
-          description: 'Evolution occurs at regular intervals'
+          type: "consistent_evolution",
+          description: "Evolution occurs at regular intervals",
         });
       } else {
         patterns.push({
-          type: 'irregular_evolution',
-          description: 'Evolution timing is irregular'
+          type: "irregular_evolution",
+          description: "Evolution timing is irregular",
         });
       }
     }
 
     // Analyze trigger effectiveness
     const triggerEffectiveness = {};
-    history.forEach(record => {
+    history.forEach((record) => {
       if (record.triggers && record.triggers.length > 0) {
-        record.triggers.forEach(trigger => {
+        record.triggers.forEach((trigger) => {
           if (!triggerEffectiveness[trigger]) {
             triggerEffectiveness[trigger] = { count: 0, coherenceGains: [] };
           }
           triggerEffectiveness[trigger].count++;
           if (record.changes && record.changes.coherenceGain) {
-            triggerEffectiveness[trigger].coherenceGains.push(record.changes.coherenceGain);
+            triggerEffectiveness[trigger].coherenceGains.push(
+              record.changes.coherenceGain,
+            );
           }
         });
       }
@@ -202,13 +215,15 @@ class EvolutionHistory {
 
     Object.entries(triggerEffectiveness).forEach(([trigger, data]) => {
       if (data.coherenceGains.length > 0) {
-        const avgGain = data.coherenceGains.reduce((a, b) => a + b, 0) / data.coherenceGains.length;
+        const avgGain =
+          data.coherenceGains.reduce((a, b) => a + b, 0) /
+          data.coherenceGains.length;
         if (avgGain > 1.0) {
           patterns.push({
-            type: 'effective_trigger',
+            type: "effective_trigger",
             trigger,
             averageGain: avgGain,
-            description: `${trigger} triggers are highly effective`
+            description: `${trigger} triggers are highly effective`,
           });
         }
       }
@@ -216,11 +231,15 @@ class EvolutionHistory {
 
     // Generate insights
     if (patterns.length === 0) {
-      insights.push('No significant evolution patterns detected');
+      insights.push("No significant evolution patterns detected");
     } else {
       insights.push(`Found ${patterns.length} evolution patterns`);
-      if (patterns.some(p => p.type === 'coherence_trend' && p.direction === 'increasing')) {
-        insights.push('Positive coherence development trend');
+      if (
+        patterns.some(
+          (p) => p.type === "coherence_trend" && p.direction === "increasing",
+        )
+      ) {
+        insights.push("Positive coherence development trend");
       }
     }
 
@@ -248,7 +267,7 @@ class EvolutionHistory {
   /**
    * Export evolution data
    */
-  exportEvolutionData(inftId, format = 'json') {
+  exportEvolutionData(inftId, format = "json") {
     const history = this.histories.get(inftId) || [];
     const stats = this.getEvolutionStats(inftId);
     const patterns = this.analyzeEvolutionPatterns(inftId);
@@ -258,10 +277,10 @@ class EvolutionHistory {
       exportDate: new Date().toISOString(),
       history,
       stats,
-      patterns
+      patterns,
     };
 
-    if (format === 'csv') {
+    if (format === "csv") {
       return this.convertToCSV(data);
     }
 
@@ -272,16 +291,16 @@ class EvolutionHistory {
    * Convert data to CSV format
    */
   convertToCSV(data) {
-    const headers = ['timestamp', 'type', 'coherence', 'stage', 'triggers'];
-    const rows = data.history.map(record => [
+    const headers = ["timestamp", "type", "coherence", "stage", "triggers"];
+    const rows = data.history.map((record) => [
       new Date(record.timestamp).toISOString(),
       record.type,
-      record.coherence || '',
-      record.stage || '',
-      record.triggers ? record.triggers.join(';') : ''
+      record.coherence || "",
+      record.stage || "",
+      record.triggers ? record.triggers.join(";") : "",
     ]);
 
-    return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+    return [headers.join(","), ...rows.map((row) => row.join(","))].join("\n");
   }
 
   /**
@@ -301,7 +320,7 @@ class EvolutionHistory {
       totalRecords: 0,
       averageRecordsPerINFT: 0,
       largestHistory: 0,
-      smallestHistory: Infinity
+      smallestHistory: Infinity,
     };
 
     for (const history of this.histories.values()) {

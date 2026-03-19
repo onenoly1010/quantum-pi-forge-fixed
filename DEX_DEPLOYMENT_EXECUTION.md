@@ -54,6 +54,7 @@ cat .env.launch | grep DEX_
 ```
 
 **Result:**
+
 - Factory contract deployed
 - Router contract deployed
 - Optional: OINIO/WGAS pool created
@@ -99,6 +100,7 @@ cat .env.launch | grep DEX_
 ```
 
 **Contract Sources:**
+
 - Factory: https://github.com/Uniswap/v2-core/blob/main/contracts/UniswapV2Factory.sol
 - Router: https://github.com/Uniswap/v2-periphery/blob/main/contracts/UniswapV2Router02.sol
 
@@ -169,13 +171,13 @@ npx hardhat run scripts/hardhat-deploy-uniswap-v2.ts --network 0g-aristotle
 
 ## 📁 Files Created
 
-| File | Purpose | Size |
-|------|---------|------|
-| `scripts/hardhat-deploy-uniswap-v2.ts` | Production Hardhat deployment | 257 lines |
-| `hardhat.config.template.ts` | Hardhat config template | 71 lines |
-| `SOVEREIGN_DEX_DEPLOYMENT.md` | Full deployment guide | 450+ lines |
-| `logs/uniswap-v2-deployment.log` | Deployment logs (auto-created) | Runtime |
-| `.env.launch` | Updated with DEX addresses | Auto-updated |
+| File                                   | Purpose                        | Size         |
+| -------------------------------------- | ------------------------------ | ------------ |
+| `scripts/hardhat-deploy-uniswap-v2.ts` | Production Hardhat deployment  | 257 lines    |
+| `hardhat.config.template.ts`           | Hardhat config template        | 71 lines     |
+| `SOVEREIGN_DEX_DEPLOYMENT.md`          | Full deployment guide          | 450+ lines   |
+| `logs/uniswap-v2-deployment.log`       | Deployment logs (auto-created) | Runtime      |
+| `.env.launch`                          | Updated with DEX addresses     | Auto-updated |
 
 ---
 
@@ -212,13 +214,13 @@ curl -s -X POST https://evmrpc.0g.ai \
 
 ## 💰 Cost Analysis
 
-| Item | Amount | Unit | Total |
-|------|--------|------|-------|
-| Factory Deploy | 1 | 2-3 0G | 2-3 0G |
-| Router Deploy | 1 | 3-4 0G | 3-4 0G |
-| Token Approvals | 2 | 0.05 0G | 0.1 0G |
-| Add Liquidity | 1 | 0.2 0G | 0.2 0G |
-| **Total** | | | **~5-7 0G** |
+| Item            | Amount | Unit    | Total       |
+| --------------- | ------ | ------- | ----------- |
+| Factory Deploy  | 1      | 2-3 0G  | 2-3 0G      |
+| Router Deploy   | 1      | 3-4 0G  | 3-4 0G      |
+| Token Approvals | 2      | 0.05 0G | 0.1 0G      |
+| Add Liquidity   | 1      | 0.2 0G  | 0.2 0G      |
+| **Total**       |        |         | **~5-7 0G** |
 
 **Equivalent:** ~$0.10-$0.15 USD (at typical gas prices)
 
@@ -226,32 +228,36 @@ curl -s -X POST https://evmrpc.0g.ai \
 
 ## ⏱️ Timeline
 
-| Phase | Duration | Who |
-|-------|----------|-----|
-| Setup (npm install, config) | 5 min | DevOps |
-| Deploy Factory | 1-2 min | Script |
-| Deploy Router | 1-2 min | Script |
-| Create Pool | 2-3 min | Script |
-| Verify & Log | 1 min | Script |
-| **Total** | **10-15 min** | **Automated** |
+| Phase                       | Duration      | Who           |
+| --------------------------- | ------------- | ------------- |
+| Setup (npm install, config) | 5 min         | DevOps        |
+| Deploy Factory              | 1-2 min       | Script        |
+| Deploy Router               | 1-2 min       | Script        |
+| Create Pool                 | 2-3 min       | Script        |
+| Verify & Log                | 1 min         | Script        |
+| **Total**                   | **10-15 min** | **Automated** |
 
 ---
 
 ## 🚨 Troubleshooting
 
 ### "Insufficient balance" error
+
 → Add more 0G to deployer wallet (need ~5-10 0G)
 
 ### Factory/Router deployment fails
+
 → Check RPC connectivity: `curl https://evmrpc.0g.ai`
 → Verify private key is valid: `echo $DEPLOYER_PRIVATE_KEY`
 
 ### Pool creation fails
+
 → Verify token balances in deployer wallet
 → Ensure OINIO and WGAS addresses are correct
 → Check token has approve() function (ERC-20 compatible)
 
 ### Addresses not saving to .env.launch
+
 → Ensure .env.launch exists and is writable
 → Check deployment logs: `cat logs/uniswap-v2-deployment.log`
 
@@ -296,32 +302,35 @@ After deployment, verify:
 
 ## 📞 Resources
 
-| Resource | Link |
-|----------|------|
-| Uniswap V2 Core | https://github.com/Uniswap/v2-core |
+| Resource             | Link                                    |
+| -------------------- | --------------------------------------- |
+| Uniswap V2 Core      | https://github.com/Uniswap/v2-core      |
 | Uniswap V2 Periphery | https://github.com/Uniswap/v2-periphery |
-| Remix IDE | https://remix.ethereum.org |
-| Hardhat Docs | https://hardhat.org |
-| 0G Aristotle RPC | https://evmrpc.0g.ai |
-| Ethers.js Docs | https://docs.ethers.org |
+| Remix IDE            | https://remix.ethereum.org              |
+| Hardhat Docs         | https://hardhat.org                     |
+| 0G Aristotle RPC     | https://evmrpc.0g.ai                    |
+| Ethers.js Docs       | https://docs.ethers.org                 |
 
 ---
 
 ## 📋 Deployment Checklist
 
 ### Pre-Deployment
+
 - [ ] Read SOVEREIGN_DEX_DEPLOYMENT.md
 - [ ] Choose deployment method (Hardhat recommended)
 - [ ] Verify .env.launch has all required variables
 - [ ] Ensure deployer wallet has sufficient gas
 
 ### Deployment
+
 - [ ] Setup environment (npm install, hardhat config)
 - [ ] Run deployment script
 - [ ] Monitor logs for errors
 - [ ] Verify addresses in .env.launch
 
 ### Post-Deployment
+
 - [ ] Verify Factory on-chain
 - [ ] Verify Router on-chain
 - [ ] Test small swap (optional)
@@ -329,6 +338,7 @@ After deployment, verify:
 - [ ] Announce to community
 
 ### Launch
+
 - [ ] Enable trading in frontend
 - [ ] Monitor pool activity
 - [ ] Respond to community questions
