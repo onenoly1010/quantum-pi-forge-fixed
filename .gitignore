@@ -178,3 +178,7 @@ reports/*.html
 # Secrets
 .env
 .env.*
+
+# Next.js build output
+.next/
+out/
