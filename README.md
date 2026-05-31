@@ -1,3 +1,8 @@
+<!-- REPO_STATUS_BANNER_START -->
+> **Repository Status:** ACTIVE — PRODUCTION FRONTEND CANON  
+> **Public Review Note:** This repository is explicitly classified to prevent ambiguity between production canon, support infrastructure, historical archives, and demos.
+<!-- REPO_STATUS_BANNER_END -->
+
 # 🌐 Quantum Pi Forge — Coordination Space
 
 ## A Sovereign Hub for the Autonomous Multi‑Agent Constellation
