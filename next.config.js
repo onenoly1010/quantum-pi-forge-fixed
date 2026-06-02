@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  transpilePackages: ['@vercel/node'],
-  // Ignore TypeScript errors during build temporarily
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Ignore ESLint errors during build
 }
 
 module.exports = nextConfig
