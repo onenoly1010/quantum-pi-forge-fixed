@@ -1,19 +1,41 @@
 <!-- REPO_STATUS_BANNER_START -->
-> **Repository Status:** ACTIVE — PRODUCTION FRONTEND CANON  
-> **Public Review Note:** This repository is explicitly classified to prevent ambiguity between production canon, support infrastructure, historical archives, and demos.
+> **Repository Status:** ACTIVE — PRODUCTION FRONTEND (UI)  
+> **Package name:** `quantum-pi-forge-fixed` (not `quantum-pi-forge-ignited`)  
+> **Canon hub (governance, contracts, evidence, primary public site):** [onenoly1010/Quantum-pi-forge](https://github.com/onenoly1010/Quantum-pi-forge)  
+> **Public site:** https://quantumpiforge.com  
+> **Public Review Note:** This repository is the frontend/UI lane. Historical genesis (`pi-forge-quantum-genesis`) is an archive — do not use its Render/Railway URLs as default API targets.
 <!-- REPO_STATUS_BANNER_END -->
 
-# 🌐 Quantum Pi Forge — Coordination Space
+## Migration note (identity + API defaults)
 
-## A Sovereign Hub for the Autonomous Multi‑Agent Constellation
+**What changed**
 
-**🌊 [Constellation Status: LIVE](./CONSTELLATION_ACTIVATION.md)** — The Quantum Pi Forge is activated and operational as of December 22, 2025.
+| Item | Old (incorrect / legacy) | New |
+|------|--------------------------|-----|
+| npm package name | `quantum-pi-forge-ignited` | `quantum-pi-forge-fixed` |
+| Default API base | `https://pi-forge-quantum-genesis-1.onrender.com` (archived) | `http://localhost:8000` (dev) + env override |
+| Vercel static API proxy | Proxied to archived Render genesis | Removed — no silent misrouting |
+| Static build output | `.vercel/output/static` | **`out/`** (no Vercel required) |
+| Vercel CI check | `vercelcheck.yml` | **Disabled** (`vercelcheck.yml.disabled`) |
+| Render service name | `pi-forge-quantum-genesis-open` | `quantum-pi-forge-fixed` |
 
-**📜 [Read the Genesis Declaration](./GENESIS.md)** — The foundational seal of the Quantum Pi Forge ecosystem, minted at Solstice 2025.
+**Operator action:** copy `.env.example` → `.env`, set `API_BASE_URL` only to a backend you intentionally run. Do not restore archived genesis endpoints unless you are doing historical recovery with explicit approval.
+
+See [docs/REPO_IDENTITY_MIGRATION_B_V1.md](docs/REPO_IDENTITY_MIGRATION_B_V1.md).
 
 ---
 
-Welcome to the **Quantum Pi Forge Space** — the central coordination hub for the entire constellation of repositories, services, and agents that make up the Quantum Pi Forge ecosystem.
+# 🌐 Quantum Pi Forge — Frontend / Coordination Space
+
+## Production frontend lane for the Quantum Pi Forge constellation
+
+**📜 Canon governance and contracts:** [Quantum-pi-forge](https://github.com/onenoly1010/Quantum-pi-forge)  
+**📜 Genesis declaration (historical):** [GENESIS.md](./GENESIS.md)
+
+---
+
+Welcome to **quantum-pi-forge-fixed** — the production frontend / coordination UI lane.  
+Governance gates, evidence receipts, Foundry contracts, and the primary public site live in **Quantum-pi-forge**.
 
 This Space exists to:
 
