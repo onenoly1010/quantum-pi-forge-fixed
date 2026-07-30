@@ -55,10 +55,11 @@ except ImportError as e:
     logging.warning(f"⚠️ Tracing system import failed: {e}")
     tracing_enabled = False
     get_tracing_system = None
-    trace_consciousness_stream = lambda *args, **kwargs: None
-    trace_fastapi_operation = lambda *args, **kwargs: None
-    trace_payment_processing = lambda *args, **kwargs: None
-    trace_payment_visualization_flow = lambda *args, **kwargs: None
+    from contextlib import nullcontext
+    trace_consciousness_stream = lambda *args, **kwargs: nullcontext()
+    trace_fastapi_operation = lambda *args, **kwargs: (lambda f: f)
+    trace_payment_processing = lambda *args, **kwargs: nullcontext()
+    trace_payment_visualization_flow = lambda *args, **kwargs: nullcontext()
 
 # Import autonomous decision tools
 try:
