@@ -18,6 +18,7 @@ Eliminate active misrouting risk by aligning package identity and default endpoi
 3. **Static build proxy** — `scripts/build.js` no longer rewrites `/api` and `/health` to the archived Render host.
 4. **Deploy labels** — `render.yaml`, `docker-compose.yml` OTEL service name, and `prometheus.yml` labels use `quantum-pi-forge-fixed`.
 5. **README** — status banner + operator migration note.
+6. **Vercel decommission** — static build → `out/`; `vercelcheck.yml` disabled; see `docs/VERCEL_DECOMMISSION_V1.md`.
 
 ## Build scripts consistency
 

@@ -15,6 +15,8 @@
 | npm package name | `quantum-pi-forge-ignited` | `quantum-pi-forge-fixed` |
 | Default API base | `https://pi-forge-quantum-genesis-1.onrender.com` (archived) | `http://localhost:8000` (dev) + env override |
 | Vercel static API proxy | Proxied to archived Render genesis | Removed — no silent misrouting |
+| Static build output | `.vercel/output/static` | **`out/`** (no Vercel required) |
+| Vercel CI check | `vercelcheck.yml` | **Disabled** (`vercelcheck.yml.disabled`) |
 | Render service name | `pi-forge-quantum-genesis-open` | `quantum-pi-forge-fixed` |
 
 **Operator action:** copy `.env.example` → `.env`, set `API_BASE_URL` only to a backend you intentionally run. Do not restore archived genesis endpoints unless you are doing historical recovery with explicit approval.
