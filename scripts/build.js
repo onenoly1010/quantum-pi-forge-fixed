@@ -79,12 +79,13 @@ function build() {
 
   // Create Vercel Build Output API config
   const configPath = path.join(vercelOutputDir, 'config.json');
+  // Do not proxy /api to archived genesis Render endpoints.
+  // Configure a supported backend via API_BASE_URL in env when needed.
+  // Canon static site: https://quantumpiforge.com (repo: onenoly1010/Quantum-pi-forge)
   const config = {
     version: 3,
     routes: [
       { handle: "filesystem" },
-      { src: "/api/(.*)", dest: "https://pi-forge-quantum-genesis-1.onrender.com/api/$1" },
-      { src: "/health", dest: "https://pi-forge-quantum-genesis-1.onrender.com/health" },
       { src: "/(.*)", dest: "/index.html" }
     ]
   };

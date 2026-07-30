@@ -1,13 +1,19 @@
 {
-  "name": "quantum-pi-forge-ignited",
+  "name": "quantum-pi-forge-fixed",
   "version": "1.0.0",
-  "description": "Sovereign AI Governance and DeFi Protocol",
+  "description": "Quantum Pi Forge production frontend (UI). Canon governance/contracts live in onenoly1010/Quantum-pi-forge.",
   "packageManager": "npm@10.9.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/onenoly1010/quantum-pi-forge-fixed.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "node scripts/build.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "ethers": "^6.17.0",

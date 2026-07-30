@@ -1,6 +1,7 @@
 services:
   - type: web
-    name: pi-forge-quantum-genesis-open
+    # Service identity matches this repo (not archived genesis)
+    name: quantum-pi-forge-fixed
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
@@ -10,4 +11,6 @@ services:
         value: 8080
       - key: NODE_ENV
         value: production
+      - key: API_BASE_URL
+        value: http://localhost:8000
     healthCheckPath: /health

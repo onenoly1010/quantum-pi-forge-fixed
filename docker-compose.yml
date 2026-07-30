@@ -12,7 +12,7 @@ services:
       - "4317:4317"   # OTLP gRPC receiver
       - "8889:8889"   # Prometheus metrics exporter
     environment:
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=pi-forge-quantum-genesis
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=quantum-pi-forge-fixed
 
   # Prometheus
   prometheus:
