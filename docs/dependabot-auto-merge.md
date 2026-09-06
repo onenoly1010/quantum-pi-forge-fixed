@@ -44,8 +44,10 @@ Example:
 ### 3. Configure Required Checks
 
 Ensure your repository has the required checks configured:
-- `Test Dependencies` - Runs tests on dependency updates
-- `Security Scan` - Scans for security vulnerabilities
+- `Lint and Test` - Runs linting and unit tests
+- `Build and Package` - Builds and validates the application package
+- `API Health Check` - Validates the API imports and health endpoint
+- `healthcheck` - Runs the CI health checks
 
 These check names should match the `REQUIRED_CHECKS` environment variable in the workflow.
 
@@ -56,7 +58,7 @@ The workflow accepts the following environment variables:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `REQUIRED_LABEL` | `dependencies` | Label required on the PR |
-| `REQUIRED_CHECKS` | `Test Dependencies,Security Scan` | Comma-separated list of required checks |
+| `REQUIRED_CHECKS` | `Lint and Test,Build and Package,API Health Check,healthcheck` | Comma-separated list of required checks |
 | `FRESHNESS_HOURS` | `12` | Maximum age of check runs in hours |
 | `REQUIRED_CODEOWNER_APPROVALS` | `1` | Minimum number of CODEOWNER approvals required |
 | `MERGE_METHOD` | `squash` | Merge method (`merge`, `squash`, or `rebase`) |
