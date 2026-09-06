@@ -45,7 +45,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPO_MERGE_TOKEN: ${{ secrets.REPO_MERGE_TOKEN }}
           REQUIRED_LABEL: "dependencies"
-          REQUIRED_CHECKS: "Test Dependencies,Security Scan"
+          REQUIRED_CHECKS: "Lint and Test,Build and Package,API Health Check,healthcheck"
           FRESHNESS_HOURS: "12"
           REQUIRED_CODEOWNER_APPROVALS: "1"
           MERGE_METHOD: "squash"
