@@ -85,7 +85,7 @@ RECEIPT / EVIDENCE
 
 ## Usage
 
-1. **Delegating work to an agent**: confirm the task is execution, adversarial, or reconstruction. If it touches architecture, authorization, a frozen spec, or a state transition, route to a human.
+1. **Delegating work to an agent**: confirm the task is execution, adversarial testing, or reconstruction. If it touches architecture, authorization, a frozen spec, or a state transition, route to a human.
 2. **Reviewing a verification result**: treat VERIFIED as evidence only; require an explicit AUTHORIZED act before any state transition.
 3. **Amending a frozen contract**: only via human/governance decision; agents operate within the frozen spec as-is.
 
@@ -103,7 +103,7 @@ RECEIPT / EVIDENCE
 
 ## References
 
-- Related artifact: [FOUND-001](./examples/foundational-example.md)
+- Related example artifact: [FOUND-001 foundational example](./examples/foundational-example.md)
 - Canon roles and approval requirements: [canon/README.md](./README.md)
 
 ## Metadata
