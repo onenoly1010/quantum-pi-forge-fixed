@@ -1,8 +1,74 @@
 {
-  "generated_at": "2025-12-13T01:29:39.016778+00:00",
-  "total_artifacts": 2,
+  "generated_at": "2026-09-09T02:14:41.690942+00:00",
+  "total_artifacts": 3,
   "version": "1.0",
   "artifacts": [
+    {
+      "path": "canon/ai-manual-trust-boundary.md",
+      "filename": "ai-manual-trust-boundary.md",
+      "id": "FOUND-002",
+      "title": "AI/Manual Trust Boundary",
+      "type": "foundational",
+      "created_at": "2026-09-07 00:00:00+00:00",
+      "updated_at": "2026-09-07 00:00:00+00:00",
+      "author": "onenoly1010",
+      "parent": null,
+      "trace_id": "A22-002",
+      "status": "draft",
+      "word_count": 688,
+      "frontmatter": {
+        "id": "FOUND-002",
+        "title": "AI/Manual Trust Boundary",
+        "type": "foundational",
+        "created_at": "2026-09-07T00:00:00+00:00",
+        "updated_at": "2026-09-07T00:00:00+00:00",
+        "author": "onenoly1010",
+        "trace_id": "A22-002",
+        "status": "draft",
+        "tags": [
+          "trust-boundary",
+          "ai-governance",
+          "authorization",
+          "verification",
+          "canon-alignment"
+        ],
+        "related": [
+          "FOUND-001"
+        ]
+      },
+      "body_preview": "# AI/Manual Trust Boundary\n\nThis artifact defines the deliberate boundary between AI-carried execution and human-held authority in Quantum Pi Forge (QPF). It establishes that AI is most powerful when ..."
+    },
+    {
+      "path": "examples/foundational-example.md",
+      "filename": "foundational-example.md",
+      "id": "FOUND-001",
+      "title": "Example Foundational Artifact",
+      "type": "foundational",
+      "created_at": "2024-01-01 00:00:00+00:00",
+      "updated_at": "2024-01-01 00:00:00+00:00",
+      "author": "example-user",
+      "parent": null,
+      "trace_id": "A22-001",
+      "status": "draft",
+      "word_count": 248,
+      "frontmatter": {
+        "id": "FOUND-001",
+        "title": "Example Foundational Artifact",
+        "type": "foundational",
+        "created_at": "2024-01-01T00:00:00+00:00",
+        "updated_at": "2024-01-01T00:00:00+00:00",
+        "author": "example-user",
+        "trace_id": "A22-001",
+        "status": "draft",
+        "tags": [
+          "example",
+          "template",
+          "foundational"
+        ],
+        "related": []
+      },
+      "body_preview": "# Example Foundational Artifact\n\nThis is a template for creating foundational Canon artifacts. Foundational artifacts establish core principles, patterns, and frameworks that guide the project.\n\n## Pu..."
+    },
     {
       "path": "examples/closure-example.md",
       "filename": "closure-example.md",
@@ -37,37 +103,6 @@
         ]
       },
       "body_preview": "# Example Issue Closure Documentation\n\nThis template demonstrates how to document issue resolution in the Canon of Closure.\n\n## Issue Summary\n\n**Issue Number**: #123  \n**Issue Title**: Example Issue T..."
-    },
-    {
-      "path": "examples/foundational-example.md",
-      "filename": "foundational-example.md",
-      "id": "FOUND-001",
-      "title": "Example Foundational Artifact",
-      "type": "foundational",
-      "created_at": "2024-01-01 00:00:00+00:00",
-      "updated_at": "2024-01-01 00:00:00+00:00",
-      "author": "example-user",
-      "parent": null,
-      "trace_id": "A22-001",
-      "status": "draft",
-      "word_count": 248,
-      "frontmatter": {
-        "id": "FOUND-001",
-        "title": "Example Foundational Artifact",
-        "type": "foundational",
-        "created_at": "2024-01-01T00:00:00+00:00",
-        "updated_at": "2024-01-01T00:00:00+00:00",
-        "author": "example-user",
-        "trace_id": "A22-001",
-        "status": "draft",
-        "tags": [
-          "example",
-          "template",
-          "foundational"
-        ],
-        "related": []
-      },
-      "body_preview": "# Example Foundational Artifact\n\nThis is a template for creating foundational Canon artifacts. Foundational artifacts establish core principles, patterns, and frameworks that guide the project.\n\n## Pu..."
     }
   ]
 }
