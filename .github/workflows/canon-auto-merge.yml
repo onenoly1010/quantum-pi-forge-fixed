@@ -26,10 +26,10 @@ jobs:
   gate1-classification:
     name: "Gate 1: PR Classification"
     runs-on: ubuntu-latest
-    # Skip if check_suite event without associated PRs (e.g., on main branch after merge)
-    if: github.event_name != 'check_suite' || (github.event.check_suite.pull_requests && github.event.check_suite.pull_requests.length > 0)
+    # Always run. Missing PR context is a skip, not a failure.
+    if: always()
     outputs:
-      is_canon_pr: ${{ steps.classify.outputs.is_canon_pr }}
+      is_canon_pr: ${{ steps.classify.outputs.is_canon_pr || steps.noncanon.outputs.is_canon_pr }}
       artifact_type: ${{ steps.classify.outputs.artifact_type }}
       artifact_path: ${{ steps.classify.outputs.artifact_path }}
     steps:
@@ -55,7 +55,9 @@ jobs:
             }
             
             if (!pr_number) {
-              core.setFailed(`Could not determine PR number from event payload. Event: ${context.eventName}, Payload keys: ${Object.keys(context.payload).join(', ')}`);
+              core.notice(`No PR number on event ${context.eventName}. Skipping Gate 1. Payload keys: ${Object.keys(context.payload).join(', ')}`);
+              core.setOutput('number', '');
+              core.setOutput('skip', 'true');
               return;
             }
             
@@ -73,6 +75,7 @@ jobs:
 
       - name: Get changed files
         id: files
+        if: steps.pr.outputs.skip != 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -90,6 +93,13 @@ jobs:
             core.setOutput('canon_files', JSON.stringify(canonFiles.map(f => f.filename)));
             
             return { isCanonPR, files: canonFiles };
+
+      - name: Mark non-canon PR as skip
+        id: noncanon
+        if: steps.pr.outputs.skip == 'true' || steps.files.outputs.is_canon_pr != 'true'
+        run: |
+          echo "is_canon_pr=false" >> $GITHUB_OUTPUT
+          echo "Non-canon or no-PR event. Gate 1 success, later gates skipped."
 
       - name: Classify Canon PR
         id: classify
