@@ -1,0 +1,29 @@
+name: Static preview without Vercel
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-export:
+    name: Build static export
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Require local static output
+        run: |
+          test -f out/index.html
+          echo "Static export present. No Vercel account, project, or token used."
